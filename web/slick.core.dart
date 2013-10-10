@@ -1,6 +1,6 @@
 library slick.core;
 import 'dart:html';
-import 'dart:json';
+import 'dart:convert';
 import 'dart:math' as math;
 
 EditorLock GlobalEditorLock = new EditorLock();
@@ -371,8 +371,8 @@ class EditorLock {
    * @param editController {EditController}
    * @return {Boolean}
    */
-  bool isActive(editController) {
-    return (editController ? activeEditController == editController : activeEditController != null);
+  bool isActive([editController]) {
+    return (editController!=null ? activeEditController == editController : activeEditController != null);
   }
 
   /***
