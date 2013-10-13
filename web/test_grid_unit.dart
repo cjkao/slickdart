@@ -21,7 +21,7 @@ grid.SlickGrid init(){
       'effortDriven': (i % 5 == 0)
     });
   }
-  Map opt = {'explicitInitialization': true};
+  Map opt = {'explicitInitialization': false};
   return new grid.SlickGrid(el,data,column,opt);
 
 }
@@ -31,7 +31,7 @@ void main() {
         }
   );
   test('measureScrollBar',(){
-    var g=init();
+     grid.SlickGrid g=init();
     g.measureScrollbar();
   });
 
@@ -40,10 +40,7 @@ void main() {
     g.disableSelection(query('#grid2'));
   });
 
-  test('createColumnHeader',(){
-    var g=init();
-    g.init();
-  });
+
   test('stylesheet',(){
     List<CssStyleSheet> sheets = document.styleSheets;
     List<CssStyleRule> styles=sheets.first.cssRules;
@@ -57,7 +54,10 @@ void main() {
     expect (m,null);
   });
 
-
+  test('init',(){
+    grid.SlickGrid sg = init();
+    sg.init();
+  });
 
   test('regex',(){
     var x = {'1': 'a'};
@@ -68,6 +68,15 @@ void main() {
     var g=init();
     g.clearTextSelection();
 
+  });
+
+  test('multi class match',(){
+    Element e=new DivElement();
+    e.classes.add('a');
+    e.classes.add('c');
+
+    e.classes.add('b');
+    expect(e.classes.contains('a'),true);
   });
 
   });
