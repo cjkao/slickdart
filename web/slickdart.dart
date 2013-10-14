@@ -1,16 +1,34 @@
 import 'dart:html';
+import 'slick.grid.dart' as grid;
+import 'dart:html';
+import 'dart:math' as math;
 
 void main() {
-  query("#sample_text_id")
-    ..text = "Click me!"
-    ..onClick.listen(reverseText);
+  var g=init();
+  g.init();
+  print (g.$headerScroller.queryAll('.slick-header-column').length);
 }
 
-void reverseText(MouseEvent event) {
-  var text = query("#sample_text_id").text;
-  var buffer = new StringBuffer();
-  for (int i = text.length - 1; i >= 0; i--) {
-    buffer.write(text[i]);
+grid.SlickGrid init(){
+  Element el =query('#grid');
+  List column = [
+                 new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "title"}),
+                 new grid.Column.fromMap ({'id': "duration", 'name': "percentComplete", 'field': "percentComplete"}),
+                 new grid.Column.fromMap ({'id': "%", 'name': "start", 'field': "start"}),
+                 new grid.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"})
+                 ];
+  List data=[];
+  for (var i = 0; i < 500; i++) {
+    data.add( {
+      'title': "Task $i" ,
+      'duration': "5 days",
+      'percentComplete': new math.Random().nextInt(10) * 100,
+      'start': "01/01/2009",
+      'finish': "01/05/2009",
+      'effortDriven': (i % 5 == 0)
+    });
   }
-  query("#sample_text_id").text = buffer.toString();
+  Map opt = {'explicitInitialization': false};
+  return new grid.SlickGrid(el,data,column,opt);
+
 }

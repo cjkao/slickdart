@@ -348,7 +348,8 @@ class SlickGrid {
     updateColumnCaches();
   }
   void applyColumnWidths() {
-    var x = 0, w, rule;
+    int x = 0, w;
+    Map<String,CssStyleRule> rule;
     for (int i = 0; i < columns.length; i++) {
       w = columns[i].width;
 
@@ -521,7 +522,7 @@ class SlickGrid {
 
     numVisibleRows = (viewportH / options['rowHeight']).ceil();
     viewportW =  int.parse(container.getComputedStyle().width.replaceAll("px", '')) ;//parseFloat($.css($container[0], "width", true));
-    if (options['autoHeight']==true) {
+    if (options['autoHeight']==false) {
       $viewport.style.height = '$viewportH' + 'px';
     }
 
@@ -670,16 +671,19 @@ class SlickGrid {
       window.onResize.listen(resizeCanvas);
 //      $container
 //          .bind("resize.slickgrid", resizeCanvas);
-      $viewport..onClick.listen(handleClick)
-      ..onScroll.listen(handleScroll);
+      $viewport.onClick.listen(handleClick);
+      $viewport.onScroll.matches('*').listen(handleScroll);
 
 //      $viewport
 //          .bind("click", handleClick)
 //          .bind("scroll", handleScroll);
       $headerScroller..onContextMenu.listen(handleHeaderContextMenu)
       ..onClick.listen(handleHeaderClick);
-      $headerScroller.onMouseEnter.matches('.slick-header-column').listen(handleHeaderMouseEnter);
-      $headerScroller.onMouseLeave.matches('.slick-header-column').listen(handleHeaderMouseLeave);
+      $headerScroller.queryAll('.slick-header-column').onMouseEnter.listen(handleHeaderMouseEnter);
+      $headerScroller.queryAll('.slick-header-column').onMouseLeave.listen(handleHeaderMouseLeave);
+//      $headerScroller.onMouseEnter.matches('.slick-header-column').listen(handleHeaderMouseEnter);
+//      $headerScroller.onMouseEnter.matches('.slick-header-column').listen((e) => print("mouse enter"));
+//      $headerScroller.onMouseLeave.matches('.slick-header-column').listen(handleHeaderMouseLeave);
 //
 //      $headerScroller
 //          .bind("contextmenu", handleHeaderContextMenu)
@@ -758,7 +762,7 @@ class SlickGrid {
     }
 
     Map<String,int> measureScrollbar() {
-      var $c =  container.createFragment("<div style='position:absolute; top:-10000px; left:-10000px; width:100px; height:100px; overflow:scroll;'></div>"
+      var $c =  query('body').createFragment("<div style='position:absolute; top:-10000px; left:-10000px; width:100px; height:100px; overflow:scroll;'></div>"
           ,treeSanitizer : _treeSanitizer).children.first;
 
       query('body').append($c);
@@ -842,7 +846,7 @@ class SlickGrid {
       int supportedHeight = 1000000;
       // FF reports the height back but still renders blank after ~6M px
       int testUpTo = 6000000; // : 1000000000;
-      Element div =  container.createFragment("<div style='display:none' />",treeSanitizer: _treeSanitizer).children.first;
+      Element div =  query('body').createFragment("<div style='display:none' />",treeSanitizer: _treeSanitizer).children.first;
 
       while (true) {
         var test = supportedHeight * 2;
@@ -1391,16 +1395,17 @@ class SlickGrid {
       if (currentEditor!=null) {
         makeActiveCellNormal();
       }
-      for (var row in rowsCache.keys) {
-        removeRowFromCache(row);
-      }
+      rowsCache.clear();
+//      for (var row in rowsCache.keys) {
+//        removeRowFromCache(row);
+//      }
     }
 
     void removeRowFromCache(int row) {
       var cacheEntry = rowsCache[row];
-      if (!cacheEntry) {
-        return;
-      }
+//      if (!cacheEntry) {
+//        return;
+//      }
       $canvas.children.remove(cacheEntry.rowNode);
       rowsCache.remove(row);
 //      delete rowsCache[row];
@@ -1567,7 +1572,7 @@ class SlickGrid {
       }
     }
     void cleanupRows(Map<String,int> rangeToKeep) {
-      for (int i in rowsCache.keys) {
+      for (int i in new List.from(rowsCache.keys)) {
         if ((i != activeRow) && (i < rangeToKeep['top'] || i > rangeToKeep['bottom'])) {
           removeRowFromCache(i);
         }
@@ -1656,13 +1661,14 @@ class SlickGrid {
     }
 
     int getDataLengthIncludingAddNew() {
-      return getDataLength() + (options['enableAddRow'] !=null ? 1 : 0);
+      return getDataLength() + (options['enableAddRow']  ? 1 : 0);
     }
     List getData() {
       return data;
     }
 
     getDataItem(int i) {
+        if(i>=data.length) return null;
         return data[i];
     }
 
@@ -2413,11 +2419,12 @@ class SlickGrid {
       // remove the rows that are now outside of the data range
       // this helps avoid redundant calls to .removeRow() when the size of the data decreased by thousands of rows
       int l = dataLengthIncludingAddNew - 1;
-      for (var i in rowsCache.keys) {
-        if (i >= l) {
-          removeRowFromCache(i);
-        }
-      }
+      new List.from(rowsCache.keys.where((e)=> e >= l )).forEach((e) => removeRowFromCache(e));
+//      for (var i in rowsCache.keys) {
+//        if (i >= l) {
+//          removeRowFromCache(i);
+//        }
+//      }
 
       if (activeCellNode!=null && activeRow > l) {
         resetActiveCell();
@@ -2578,7 +2585,8 @@ class SlickGrid {
        trigger(onHeaderContextMenu, {'column': c}, e);
      }
 
-     handleHeaderClick(Event e) {
+     void handleHeaderClick(Event e) {
+       print('header clicked');
        Element $header = findClosestAncestor(e.target,'slick-header-column',".slick-header-columns");
        Column c;
        if( $header !=null) {

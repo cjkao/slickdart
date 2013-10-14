@@ -5,7 +5,7 @@ import 'dart:math' as math;
 
 EditorLock GlobalEditorLock = new EditorLock();
 
-class EventData {
+class EventData extends Event{
   bool _isPropagationStopped = false;
   bool _isImmediatePropagationStopped = false;
 
@@ -46,7 +46,7 @@ class EventData {
 }
 
 
-class Event{
+class Event {
   var handlers = [];
 
   /***
@@ -87,7 +87,7 @@ class Event{
    *      The scope ("this") within which the handler will be executed.
    *      If not specified, the scope will be set to the <code>Event</code> instance.
    */
-  notify(args, [EventData e, scope]) {
+  notify(args, [dynamic e, scope]) {
     if(e==null) e = new EventData();
    // scope = scope || this;
 
