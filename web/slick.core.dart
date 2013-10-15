@@ -5,7 +5,7 @@ import 'dart:math' as math;
 
 EditorLock GlobalEditorLock = new EditorLock();
 
-class EventData extends Event{
+class EventData {
   bool _isPropagationStopped = false;
   bool _isImmediatePropagationStopped = false;
 

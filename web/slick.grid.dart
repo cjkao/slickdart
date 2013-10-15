@@ -978,7 +978,7 @@ class SlickGrid {
         header.style.width = (m['width'] - headerColumnWidthDiff).toString() + 'px';
         header.attributes['id']= uid + m.id;
         if(m.toolTip!=null) header.attributes['title']=m.toolTip;
-        header.dataset['column']=m.toString();
+        header.dataset['column']=JSON.encode(m._src);
         if (m['headerCssClass'] !=null) header.classes.add(m['headerCssClass']);
         header.classes.add(m['headerCssClass'] == null ? '': m['headerCssClass'] );
         $headers.append(header);
@@ -1010,7 +1010,7 @@ class SlickGrid {
         if (options['showHeaderRow']) {
           Element headerRowCell =  container.createFragment("<div class='ui-state-default slick-headerrow-column l" + i.toString() + " r" + i.toString() + "'></div>"
               ,treeSanitizer:_treeSanitizer).children.first;
-          headerRowCell.dataset['column']=m.toString();
+          headerRowCell.dataset['column']=JSON.encode(m);
           $headerRow.append(headerRowCell);
 //              .data("column", m)
 //              .appendTo($headerRow);
@@ -1828,8 +1828,8 @@ class SlickGrid {
 
 
 
-    void  handleClick(e) {
-       if (currentEditor!=null) {
+    void  handleClick(MouseEvent e) {
+       if (currentEditor==null) {
          // if this click resulted in some cell child node getting focus,
          // don't steal it back - keyboard events will still bubble up
          // IE9+ seems to default DIVs to tabIndex=0 instead of -1, so check for cell clicks directly.
@@ -1839,14 +1839,15 @@ class SlickGrid {
        }
 
        Map<String,int> cell = getCellFromEvent(e);
-       if (cell!=null || (currentEditor != null && activeRow == cell['row'] && activeCell == cell['cell'])) {
+       if (cell==null || (currentEditor != null && activeRow == cell['row'] && activeCell == cell['cell'])) {
          return;
        }
 
        trigger(this.onClick, {'row': cell['row'], 'cell': cell['cell']}, e);
-       if (e.isImmediatePropagationStopped()) {
-         return;
-       }
+       //TODO not available
+//       if (e.isImmediatePropagationStopped()) {
+//         return;
+//       }
 
        if ((activeCell != cell['cell'] || activeRow != cell['row']) && canCellBeActive(cell['row'], cell['cell'])) {
          if (!getEditorLock().isActive() || getEditorLock().commitCurrentEdit()) {
@@ -1888,7 +1889,10 @@ class SlickGrid {
      */
     Element findClosestAncestor(Element element, String ancestorClzName,[String scope]) {
       if (element == null ) return null;
-      if (scope!=null && element.classes.contains(scope)) return element.query(ancestorClzName);
+
+//      if (scope!=null && element.classes.contains(scope)) return element.query(ancestorClzName);
+      //TODO no matched function to check current node
+      if( element.classes.contains(ancestorClzName.toString().substring(1)) ) return element;
       Element elem =element.query(ancestorClzName);
       if(elem !=null) {
         return elem;
@@ -2115,14 +2119,14 @@ class SlickGrid {
 //      return colspan;
     }
     Map<String, int >getActiveCell() {
-      if (!activeCellNode) {
+      if (activeCellNode==null) {
         return null;
       } else {
         return {'row': activeRow, 'cell': activeCell};
       }
     }
     void makeActiveCellNormal() {
-      if (!currentEditor) {
+      if (currentEditor==null) {
         return;
       }
       trigger(onBeforeCellEditorDestroy, {'editor': currentEditor});
@@ -2587,10 +2591,10 @@ class SlickGrid {
 
      void handleHeaderClick(Event e) {
        print('header clicked');
-       Element $header = findClosestAncestor(e.target,'slick-header-column',".slick-header-columns");
+       Element header = findClosestAncestor(e.target,'.slick-header-column',".slick-header-columns");
        Column c;
-       if( $header !=null) {
-         c = new Column.fromJSON($header.dataset["column"]);
+       if( header !=null) {
+         c = new Column.fromJSON(header.dataset["column"]);
        }
        if (c!=null) { //TODO fix me
          trigger(onHeaderClick, {'column': c}, e);
@@ -3017,7 +3021,7 @@ class SlickGrid {
       isCellPotentiallyEditable(int row,int  cell) {
         int dataLength = getDataLength();
         // is the data for this row loaded?
-        if (row < dataLength && !getDataItem(row)) {
+        if (row < dataLength && getDataItem(row)==null) {
           return false;
         }
 
@@ -3027,7 +3031,7 @@ class SlickGrid {
         }
 
         // does this cell have an editor?
-        if (!getEditor(row, cell)) {
+        if (getEditor(row, cell)==null) {
           return false;
         }
 
