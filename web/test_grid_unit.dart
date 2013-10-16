@@ -70,6 +70,26 @@ void main() {
 
   });
 
+
+  test('apply function',(){
+    foo(a,[b]) => print(a+b);
+    Function.apply(foo,[1,2]);
+
+    foo2({a ,b}) => print(a+b);
+    Map m={};
+    m[const Symbol('a')] = 6;
+    m[const Symbol('b')] = 61;
+    Function.apply(foo2, [], m);
+
+    foo3({a ,b}) => print(a+b);
+    Map m3={};
+    m3['a'] = 6;
+    m3['b'] = 61;
+    Map m3p ={};
+    m3.forEach((k,v)=> m3p[new Symbol(k)]=v);
+    Function.apply(foo3, [], m3p);
+  });
+
   test('multi class match',(){
     Element e=new DivElement();
     e.classes.add('a');

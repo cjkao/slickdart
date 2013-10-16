@@ -56,7 +56,7 @@ class Event {
    * @method subscribe
    * @param fn {Function} Event handler.
    */
-  subscribe (fn) {
+  subscribe (Function fn) {
     handlers.add(fn);
   }
 
@@ -92,9 +92,8 @@ class Event {
    // scope = scope || this;
 
     var returnValue;
-    for (int i = 0; i < handlers.length && !(e.isPropagationStopped() || e.isImmediatePropagationStopped()); i++) {
-//      returnValue = handlers[i].call(scope, e, args);
-      returnValue = Function.apply(handlers[i], args);
+    for (int i = 0; i < handlers.length && !(e is Event && (e.isPropagationStopped() || e.isImmediatePropagationStopped())); i++) {
+      returnValue = Function.apply(handlers[i],[e,args]);
     }
 
     return returnValue;
@@ -419,7 +418,7 @@ class EditorLock {
    * @return {Boolean}
    */
   bool commitCurrentEdit () {
-    return (activeEditController ? activeEditController.commitCurrentEdit() : true);
+    return (activeEditController!=null ? activeEditController.commitCurrentEdit() : true);
   }
 
   /***

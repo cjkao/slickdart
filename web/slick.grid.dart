@@ -653,13 +653,13 @@ class SlickGrid {
       if (options['enableTextSelectionOnCells']==false) {
         // disable text selection in grid cells except in input and textarea elements
         // (this is IE-specific, because selectstart event will only fire in IE)
-        $viewport.onSelectStart.matches('.ui').listen((event){
-            if( event.target is InputElement || event.target is TextAreaElement){
-              return true;
-            } else {
-              return false;
-            }
-        });
+//        $viewport.onSelectStart.matches('.ui').listen((event){
+//            if( event.target is InputElement || event.target is TextAreaElement){
+//              return true;
+//            } else {
+//              return false;
+//            }
+//        });
       }
       updateColumnCaches();
       createColumnHeaders();
@@ -2074,13 +2074,13 @@ class SlickGrid {
         activeCell = activePosX = getCellFromNode(activeCellNode);
         //TODO unclear
         if (opt_editMode == null) {
-          opt_editMode = (activeRow == getDataLength()) || options['autoEdit']!=null;
+          opt_editMode = (activeRow == getDataLength()) || options['autoEdit']==true;
         }
 
         activeCellNode.classes.add("active");
         rowsCache[activeRow].rowNode.classes.add("active");
 
-        if (options['editable']!=null && opt_editMode && isCellPotentiallyEditable(activeRow, activeCell)) {
+        if (options['editable']==true && opt_editMode && isCellPotentiallyEditable(activeRow, activeCell)) {
           h_editorLoader.cancel();
 //          clearTimeout(h_editorLoader);
 
@@ -2382,7 +2382,7 @@ class SlickGrid {
               sortColumns = [];
             }
 
-            if (!sortOpts) {
+            if (sortOpts==null) {
               sortOpts = { 'columnId': column.id, 'sortAsc': column.defaultSortAsc };
               sortColumns.add(sortOpts);
             } else if (sortColumns.length == 0) {
@@ -2400,9 +2400,9 @@ class SlickGrid {
           } else {
             trigger(onSort, {
               'multiColumnSort': true,
-              'sortCols':sortColumns.map(
+              'sortCols': new List.from(sortColumns.map(
                   (item) =>{'sortCol': columns[getColumnIndex(item['columnId'])],
-                             'sortAsc': item['sortAsc']} )}, e);
+                             'sortAsc': item['sortAsc']} ))}, e);
           }
         }
       });
