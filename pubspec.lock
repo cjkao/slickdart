@@ -4,20 +4,20 @@ packages:
   browser:
     description: browser
     source: hosted
-    version: "0.7.6+4"
+    version: "0.8.1"
   meta:
     description: meta
     source: hosted
-    version: "0.7.6+4"
+    version: "0.8.1"
   path:
     description: path
     source: hosted
-    version: "0.7.6+4"
+    version: "0.8.1"
   stack_trace:
     description: stack_trace
     source: hosted
-    version: "0.7.6+4"
+    version: "0.8.1"
   unittest:
     description: unittest
     source: hosted
-    version: "0.7.6+4"
+    version: "0.8.1"

@@ -1395,10 +1395,10 @@ class SlickGrid {
       if (currentEditor!=null) {
         makeActiveCellNormal();
       }
-      rowsCache.clear();
-//      for (var row in rowsCache.keys) {
-//        removeRowFromCache(row);
-//      }
+//      rowsCache.clear();
+      for (var row in rowsCache.keys.toList(growable: false)) {
+        removeRowFromCache(row);
+      }
     }
 
     void removeRowFromCache(int row) {
@@ -1515,12 +1515,13 @@ class SlickGrid {
       sortColumns = cols;
 
       List<Element> headerColumnEls = $headers.children;
-      headerColumnEls.forEach((item){
+      headerColumnEls.forEach((Element item){
         item.classes.remove("slick-header-column-sorted");
-        if (item.classes.contains('.slick-sort-indicator')){
-          item.classes.removeAll(["slick-sort-indicator-asc", "slick-sort-indicator-desc"]);
-        }
-
+        Element chlidIndicator =item.query('.slick-sort-indicator');
+            if(  chlidIndicator!=null ){
+              item.query('.slick-sort-indicator').classes.
+                removeAll(["slick-sort-indicator-asc", "slick-sort-indicator-desc"]);
+            }
       });
 //          .removeClass("slick-header-column-sorted")
 //          .find(".slick-sort-indicator")
@@ -2365,9 +2366,9 @@ class SlickGrid {
           var sortOpts = null;
           var i = 0;
           for (; i < sortColumns.length; i++) {
-            if (sortColumns[i].columnId == column.id) {
+            if (sortColumns[i]['columnId'] == column.id) {
               sortOpts = sortColumns[i];
-              sortOpts.sortAsc = !sortOpts.sortAsc;
+              sortOpts['sortAsc'] = !sortOpts['sortAsc'];
               break;
             }
           }
