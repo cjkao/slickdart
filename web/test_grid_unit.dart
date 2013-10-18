@@ -2,6 +2,7 @@
 import 'slick.grid.dart' as grid;
 import 'dart:html';
 import 'dart:math' as math;
+import 'dart:async';
 grid.SlickGrid init(){
   Element el =query('#grid');
   List column = [
@@ -97,6 +98,17 @@ void main() {
 
     e.classes.add('b');
     expect(e.classes.contains('a'),true);
+  });
+
+  test ('stream', (){
+    var data = [1,2,3,4,5];
+    var future = new Future(() {
+      return 1;
+    });
+    var stream = new Stream.fromFuture(future);
+    stream.listen((value) => print("stream.listen: $value"));
+
+
   });
 
   });

@@ -13,7 +13,7 @@ grid.SlickGrid init(){
   Element el =query('#grid');
   List column = [
                  new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "title", 'sortable': true }),
-                 new grid.Column.fromMap ({'id': "duration", 'name': "percentComplete", 'field': "percentComplete", 'sortable': true }),
+                 new grid.Column.fromMap ({'width':120,'id': "duration", 'name': "percentComplete", 'field': "percentComplete", 'sortable': true }),
                  new grid.Column.fromMap ({'id': "%", 'name': "start", 'field': "start", 'sortable': true }),
                  new grid.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"})
                  ];

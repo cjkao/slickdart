@@ -2374,12 +2374,12 @@ class SlickGrid {
           }
 
           if (isMetaKey && options['multiColumnSort']) {
-            if (sortOpts) {
+            if (sortOpts!=null) {
               sortColumns.removeAt(i);
             }
           }
           else {
-            if ((!e.shiftKey && !e.metaKey) || options['multiColumnSort']!=null) {
+            if ((!e.shiftKey && !e.metaKey) || options['multiColumnSort']!=true) {
               sortColumns = [];
             }
 
@@ -2393,7 +2393,7 @@ class SlickGrid {
 
           setSortColumns(sortColumns);
 
-          if (options['multiColumnSort']==null) {
+          if (options['multiColumnSort']==false) {
             trigger(onSort, {
               'multiColumnSort': false,
               'sortCol': column,
