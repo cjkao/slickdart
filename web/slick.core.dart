@@ -8,7 +8,9 @@ EditorLock GlobalEditorLock = new EditorLock();
 class EventData {
   bool _isPropagationStopped = false;
   bool _isImmediatePropagationStopped = false;
-
+  String toString(){
+    return 'evd pg:' + (_isPropagationStopped ? 'T' : 'F' )+ ' imStp ' + ( _isImmediatePropagationStopped ? 'T' : 'F');
+  }
   /***
    * Stops event from propagating up the DOM tree.
    * @method stopPropagation
@@ -47,7 +49,7 @@ class EventData {
 
 
 class Event {
-  var handlers = [];
+  List<Function> handlers = [];
 
   /***
    * Adds an event handler to be called when the event is fired.
@@ -65,7 +67,7 @@ class Event {
    * @method unsubscribe
    * @param fn {Function} Event handler to be removed.
    */
-  void unsubscribe (Function fn) => handlers.remove(fn);
+  bool unsubscribe (Function fn) => handlers.remove(fn);
 //  {
 //    for (var i = handlers.length - 1; i >= 0; i--) {
 //      if (handlers[i] == fn) {
@@ -90,9 +92,10 @@ class Event {
   notify(args, [dynamic e, scope]) {
     if(e==null) e = new EventData();
    // scope = scope || this;
-
     var returnValue;
-    for (int i = 0; i < handlers.length && !(e is Event && (e.isPropagationStopped() || e.isImmediatePropagationStopped())); i++) {
+    print('evt:' + e.toString() + ' arg:' + args.toString());
+    for (int i = 0; i < handlers.length && !(e is EventData && (e.isPropagationStopped() || e.isImmediatePropagationStopped())); i++) {
+      print('hand:' + handlers[i].toString());
       returnValue = Function.apply(handlers[i],[e,args]);
     }
 
@@ -387,10 +390,10 @@ class EditorLock {
     if (activeEditController != null) {
       throw "SlickGrid.EditorLock.activate: an editController is still active, can't activate another editController";
     }
-    if (!editController.commitCurrentEdit) {
+    if (editController['commitCurrentEdit']==null) {
       throw "SlickGrid.EditorLock.activate: editController must implement .commitCurrentEdit()";
     }
-    if (!editController.cancelCurrentEdit) {
+    if (editController['cancelCurrentEdit']==null) {
       throw "SlickGrid.EditorLock.activate: editController must implement .cancelCurrentEdit()";
     }
     activeEditController = editController;
@@ -418,7 +421,7 @@ class EditorLock {
    * @return {Boolean}
    */
   bool commitCurrentEdit () {
-    return (activeEditController!=null ? activeEditController.commitCurrentEdit() : true);
+    return (activeEditController!=null ? activeEditController['commitCurrentEdit']() : true);
   }
 
   /***
@@ -429,6 +432,6 @@ class EditorLock {
    * @return {Boolean}
    */
   bool cancelCurrentEdit() {
-    return (activeEditController ? activeEditController.cancelCurrentEdit() : true);
+    return (activeEditController!=null ? activeEditController['cancelCurrentEdit']() : true);
   }
 }

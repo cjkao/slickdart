@@ -1,11 +1,13 @@
 library slick.grid;
 import 'slick.core.dart' as core;
 import 'slick.editor.dart' as editor;
+import 'slick.selectionmodel.dart';
 import 'dart:html';
 import 'dart:math' as math;
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:mirrors';
 Map<String,int> scrollbarDimensions;  //width and height
 int maxSupportedCssHeight;  // browser's breaking point
 
@@ -16,7 +18,7 @@ var _treeSanitizer = new NullTreeSanitizer();
  */
 class NullTreeSanitizer implements NodeTreeSanitizer {
   void sanitizeTree(Node node) {
-    print(node);
+  //  print(node);
   }
 }
 class RowCache{
@@ -261,7 +263,15 @@ class SlickGrid {
   List selectedRows = [];
 
   List plugins = [];
-  Map cellCssClasses = {};
+  /**
+   * css name =>
+   * { row id :
+   *    { column Id: string name  }
+   * }
+   *
+   *
+   */
+  Map<String,Map<int,Map<String,String>>> cellCssClasses = {};
 
   Map columnsById = {};
   List sortColumns = [];
@@ -289,6 +299,83 @@ class SlickGrid {
     return columnsById[id];
   }
   List getSortColumns() => sortColumns;
+
+  handleSelectedRangesChanged(core.EventData e, List<core.Range> ranges) {
+    selectedRows = [];
+    var hash = {};
+    for (var i = 0; i < ranges.length; i++) {
+      for (var j = ranges[i].fromRow; j <= ranges[i].toRow; j++) {
+        if (!hash.containsKey(j)) {  // prevent duplicates
+          selectedRows.add(j);
+          hash[j] = {};
+        }
+        for (var k = ranges[i].fromCell; k <= ranges[i].toCell; k++) {
+          if (canCellBeSelected(j, k)) {
+            hash[j][columns[k].id] = options['selectedCellCssClass'];
+          }
+        }
+      }
+    }
+
+    setCellCssStyles(options['selectedCellCssClass'], hash);
+
+    trigger(onSelectedRowsChanged, {'rows': getSelectedRows()}, e);
+  }
+  getSelectedRows() {
+    if (selectionModel==null) {
+      throw "Selection model is not set";
+    }
+    return selectedRows;
+  }
+  /**
+   * hash
+   * {
+   *   11: {columnName : css_class_name }
+   *   12: {... }
+   *   13: {... }
+   * }
+   *
+   *
+   */
+  setCellCssStyles(String key, Map<int,Map<String,String>> hash) {
+    var prevHash = cellCssClasses[key];
+
+    cellCssClasses[key] = hash;
+    updateCellCssStylesOnRenderedRows(hash, prevHash);
+
+    trigger(onCellCssStylesChanged, { "key": key, "hash": hash });
+  }
+  updateCellCssStylesOnRenderedRows(Map<int,Map<String,String>> addedHash,Map<int,Map<String,String>> removedHash) {
+    Element node;
+    String columnId;
+    Map<String,String> addedRowHash, removedRowHash;
+    for (int row in rowsCache.keys) {
+      removedRowHash = removedHash ==null ? null : removedHash[row];
+      addedRowHash = addedHash ==null ? null : addedHash[row];
+
+      if (removedRowHash!=null) {
+        for (columnId in removedRowHash.keys) {
+          if (addedRowHash ==null || removedRowHash[columnId] != addedRowHash[columnId]) {
+            node = getCellNode(row, getColumnIndex(columnId));
+            if (node!=null) {
+              node.classes.remove(removedRowHash[columnId]);
+            }
+          }
+        }
+      }
+
+      if (addedRowHash!=null) {
+        for (columnId in addedRowHash.keys) {
+          if (removedRowHash==null || removedRowHash[columnId] != addedRowHash[columnId]) {
+            node = getCellNode(row, getColumnIndex(columnId));
+            if (node!=null) {
+              node.classes.add(addedRowHash[columnId]);
+            }
+          }
+        }
+      }
+    }
+  }
 
   Map<String,CssStyleRule> getColumnCssRules(idx) {
     if (stylesheet==null) {
@@ -735,8 +822,21 @@ class SlickGrid {
       plugins.remove(plugin);
       plugin.destroy();
     }
+    void setSelectionModel(SelectionModel model) {
+      if (selectionModel!=null ) {
+        selectionModel.onSelectedRangesChanged.unsubscribe(handleSelectedRangesChanged);
+        if (selectionModel.destroy) {
+          selectionModel.destroy();
+        }
+      }
 
-    void setSelectionModel( model) {
+      selectionModel = model;
+      if (selectionModel!=null) {
+        selectionModel.init(this);
+        selectionModel.onSelectedRangesChanged.subscribe(handleSelectedRangesChanged);
+      }
+    }
+//    void setSelectionModel( model) {
       //TODO model : selection model
 //      if (selectionModel) {
 //        selectionModel.onSelectedRangesChanged.unsubscribe(handleSelectedRangesChanged);
@@ -750,7 +850,7 @@ class SlickGrid {
 //        selectionModel.init(this);
 //        selectionModel.onSelectedRangesChanged.subscribe(handleSelectedRangesChanged);
 //      }
-    }
+//    }
 
 
     getSelectionModel() {
@@ -979,6 +1079,7 @@ class SlickGrid {
         header.attributes['id']= uid + m.id;
         if(m.toolTip!=null) header.attributes['title']=m.toolTip;
         header.dataset['column']=JSON.encode(m._src);
+
         if (m['headerCssClass'] !=null) header.classes.add(m['headerCssClass']);
         header.classes.add(m['headerCssClass'] == null ? '': m['headerCssClass'] );
         $headers.append(header);
@@ -1600,7 +1701,7 @@ class SlickGrid {
                 'serializedValue': currentEditor.serializeValue(),
                 'prevSerializedValue': serializedEditorValue,
                 'execute':  () {
-//                  this.editor.applyValue(item, this.serializedValue);
+                  currentEditor.applyValue(item, currentEditor.serializeValue());
 //                  updateRow(this.row);
                 },
                 'undo':  () {
@@ -1867,7 +1968,8 @@ class SlickGrid {
      }
 
     Map<String,int> getCellFromEvent(Event e) {
-
+      Element elem=e.target;
+//      var $expcell = elem.matchesWithAncestors('.slick-cell');
       var $cell = findClosestAncestor(e.target,'.slick-cell');
       if ($cell==null) {
         return null;
@@ -1886,6 +1988,30 @@ class SlickGrid {
       }
     }
     /**
+     * use for cell range selector
+     */
+    Map getCellNodeBox(row, cell) {
+      if (!cellExists(row, cell)) {
+        return null;
+      }
+
+      var y1 = getRowTop(row);
+      var y2 = y1 + options['rowHeight']- 1;
+      var x1 = 0;
+      for (var i = 0; i < cell; i++) {
+        x1 += columns[i].width;
+      }
+      var x2 = x1 + columns[cell].width;
+
+      return {
+        ['top']: y1,
+        ['left']: x1,
+       ['bottom']: y2,
+       ['right']: x2
+      };
+    }
+
+    /** TODO add scope
      * ancestorClzName : query condition
      */
     Element findClosestAncestor(Element element, String ancestorClzName,[String scope]) {
@@ -1893,22 +2019,26 @@ class SlickGrid {
 
 //      if (scope!=null && element.classes.contains(scope)) return element.query(ancestorClzName);
       //TODO no matched function to check current node
-      if( element.classes.contains(ancestorClzName.toString().substring(1)) ) return element;
-      Element elem =element.query(ancestorClzName);
-      if(elem !=null) {
-        return elem;
-      } else {
-        return findClosestAncestor(element.parent,ancestorClzName);
-      }
-//      Element parent = element.parent;
-//      while (!parent.classes.contains(ancestorClzName)) {
-//        parent = parent.parent;
-//        if (parent == null || parent == container) {
-//          // Throw, or find some other way to handle the tagName not being found.
-//          return null;
-//        }
+
+      do {
+        if (element.matches(ancestorClzName)) return element;
+        element = element.parent;
+      } while(element != null );
+      return null;
+
+
+
+
+
+//      if( element.classes.contains(ancestorClzName.toString().substring(1)) ) return element;
+//      Element elem =element.query(ancestorClzName);
+//      if(elem !=null) {
+//        return elem;
+//      } else {
+//        return findClosestAncestor(element.parent,ancestorClzName);
 //      }
-//      return parent;
+
+
     }
 
 
@@ -1958,7 +2088,7 @@ class SlickGrid {
     }
 
 
-    scrollRowIntoView(int row, doPaging) {
+    scrollRowIntoView(int row, [doPaging]) {
       var rowAtTop = row * options['rowHeight'];
       var rowAtBottom = (row + 1) * options['rowHeight'] - viewportH + (viewportHasHScroll ? scrollbarDimensions['height'] : 0);
 
@@ -2082,7 +2212,10 @@ class SlickGrid {
         rowsCache[activeRow].rowNode.classes.add("active");
 
         if (options['editable']==true && opt_editMode && isCellPotentiallyEditable(activeRow, activeCell)) {
-          h_editorLoader.cancel();
+          if(h_editorLoader!=null){
+            h_editorLoader.cancel();
+            h_editorLoader=null;
+          }
 //          clearTimeout(h_editorLoader);
 
           if (options['asyncEditorLoading']) {
@@ -2136,7 +2269,7 @@ class SlickGrid {
 
       if (activeCellNode!=null) {
         var d = getDataItem(activeRow);
-        activeCellNode.classes.remove("editable invalid");
+        activeCellNode.classes.removeAll(['editable','invalid']);
         if (d!=null) {
           var column = columns[activeCell];
           var formatter = getFormatter(activeRow, column);
@@ -2308,7 +2441,7 @@ class SlickGrid {
 
       // TODO:  merge them together in the setter
       for (var key in cellCssClasses.keys) {
-        if (cellCssClasses[key][row] && cellCssClasses[key][row][m.id]) {
+        if (cellCssClasses[key].containsKey(row) && cellCssClasses[key][row].containsKey(m.id)) {
           cellCss += (" " + cellCssClasses[key][row][m.id]);
         }
       }
@@ -2603,16 +2736,17 @@ class SlickGrid {
      }
 
 
-     makeActiveCellEditable([editor.Editor editor]) {
-       if (!activeCellNode) {
+     makeActiveCellEditable([editor.Editor ed]) {
+       if (activeCellNode==null) {
          return;
        }
-       if (options['editable']!=null) {
+       if (options['editable']==false) {
          throw "Grid : makeActiveCellEditable : should never get called when options.editable is false";
        }
 
        // cancel pending async call if there is one
-       h_editorLoader.cancel();
+       if(h_editorLoader!=null)
+          h_editorLoader.cancel();
 
        if (!isCellPotentiallyEditable(activeRow, activeCell)) {
          return;
@@ -2630,22 +2764,23 @@ class SlickGrid {
        activeCellNode.classes.add("editable");
 
        // don't clear the cell if a custom editor is passed through
-       if (editor!=null) {
+       if (ed==null) {
          activeCellNode.setInnerHtml('');
        }
 
-       currentEditor = editor==null ?   getEditor(activeRow, activeCell) : editor;
 
-       currentEditor.editorParm ={
+       var editorParm =new editor.EditorParm({
          'grid': this,
          'gridPosition': absBox(container),
          'position': absBox(activeCellNode),
-         'container': activeCellNode,
-         'column': columnDef,
+         'activeCellNode': activeCellNode,
+         'columnDef': columnDef,
          'item': item == null ?{} : item,
          'commitChanges': commitEditAndSetFocus,
          'cancelChanges': cancelEditAndSetFocus
-       };
+       });
+       currentEditor= getEditorInstance(activeRow,activeCell,editorParm);
+       //currentEditor = editor==null ?   getEditor(activeRow, activeCell) : editor;
 
        if (item!=null) {
          currentEditor.loadValue(item);
@@ -2770,11 +2905,11 @@ class SlickGrid {
      }
 
      navigate(String dir) {
-       if (options['enableCellNavigation']!=null) {
+       if (options['enableCellNavigation']==false) {
          return false;
        }
 
-       if (activeCellNode !=null && dir != "prev" && dir != "next") {
+       if (activeCellNode ==null && dir != "prev" && dir != "next") {
          return false;
        }
 
@@ -2803,11 +2938,11 @@ class SlickGrid {
        };
        var stepFn = stepFunctions[dir];
        var pos = stepFn(activeRow, activeCell, activePosX);
-       if (pos) {
-         var isAddNewRow = (pos.row == getDataLength());
-         scrollCellIntoView(pos.row, pos.cell, !isAddNewRow);
-         setActiveCellInternal(getCellNode(pos.row, pos.cell));
-         activePosX = pos.posX;
+       if (pos!=null) {
+         var isAddNewRow = (pos['row'] == getDataLength());
+         scrollCellIntoView(pos['row'], pos['cell'], !isAddNewRow);
+         setActiveCellInternal(getCellNode(pos['row'], pos['cell']));
+         activePosX = pos['posX'];
          return true;
        } else {
          setActiveCellInternal(getCellNode(activeRow, activeCell));
@@ -3002,7 +3137,7 @@ class SlickGrid {
       }
 
 
-      Function getEditor(row, cell) {
+      String getEditor(row, cell) {
         Column column = columns[cell];
 //        var rowMetadata = data.getItemMetadata && data.getItemMetadata(row);
 //        var columnMetadata = rowMetadata && rowMetadata.columns;
@@ -3018,6 +3153,17 @@ class SlickGrid {
           options['editorFactory'].getEditor(column);
         }
       }
+
+      editor.Editor getEditorInstance(row, cell, editor.EditorParm editorParm) {
+        Column column = columns[cell]; //column['editor']
+        String editor=column['editor'];
+        LibraryMirror lib = currentMirrorSystem().
+            findLibrary(const Symbol('slick.editor')).first;
+        ClassMirror c = lib.classes[new Symbol(editor)];
+        var o = c.newInstance(const Symbol(''),[editorParm]).reflectee;
+        return o;
+      }
+
 
       isCellPotentiallyEditable(int row,int  cell) {
         int dataLength = getDataLength();
@@ -3051,7 +3197,22 @@ class SlickGrid {
         return !(row < 0 || row >= getDataLength() || cell < 0 || cell >= columns.length);
       }
 
+      Map getCellFromPoint(x, y) {
+        int row = getRowFromPosition(y);
+        int cell = 0;
 
+        int w = 0;
+        for (int i = 0; i < columns.length && w < x; i++) {
+          w += columns[i].width;
+          cell++;
+        }
+
+        if (cell < 0) {
+          cell = 0;
+        }
+
+        return {'row': row, 'cell': cell - 1};
+      }
 
       handleDragStart(Event e) {
         Map<String,int> cell = getCellFromEvent(e);
@@ -3093,13 +3254,15 @@ class SlickGrid {
         trigger(onDragEnd, dd, e);
       }
 
-
-      void handleKeyDown(KeyboardEvent e) {
+      /**
+       * e : keyboard event or EventData
+       */
+      void handleKeyDown(var e, [args]) {
         trigger(onKeyDown, {'row': activeRow, 'cell': activeCell}, e);
-           bool handled = false;
-//        var handled = e.isImmediatePropagationStopped();
 
-//        if (!handled) {
+        bool handled = e is core.EventData ? e.isImmediatePropagationStopped() : false;
+
+        if (!handled) {
           if (!e.shiftKey && !e.altKey && !e.ctrlKey) {
             if (e.which == 27) {
               if (!getEditorLock().isActive()) {
@@ -3142,7 +3305,7 @@ class SlickGrid {
           } else if (e.which == 9 && e.shiftKey && !e.ctrlKey && !e.altKey) {
             handled = navigatePrev();
           }
-//        }
+        }
 
         if (handled) {
           // the event has been handled so don't let parent element (bubbling/propagation) or browser (default) handle it

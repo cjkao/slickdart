@@ -1,6 +1,7 @@
 library slick.editor;
 import 'dart:html';
 import 'slick.grid.dart' as grid;
+
 abstract class Editor{
   Element $input;
   var defaultValue;
@@ -54,20 +55,22 @@ class TextEditor extends Editor{
     var defaultValue;
 //    var scope = this;
     EditorParm _ep;
-    set editorParm (Map m) => _ep = new EditorParm(m);
-    TextEditor(this._ep) {
 
-      $input = new InputElement(type:'text');
-      $input.classes.add('editor-text');
-      _ep.activeCellNode.append($input);
-      $input..onKeyDown.matches(".nav").
+    set editorParm (Map m) => _ep = new EditorParm(m);
+    TextEditor([this._ep]) {
+      if(_ep!=null){
+        $input = new InputElement(type:'text');
+        $input.classes.add('editor-text');
+        _ep.activeCellNode.append($input);
+        $input..onKeyDown.matches(".nav").
         listen((KeyboardEvent e){
-            if(e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT){
-              e.stopImmediatePropagation();
-            }
+          if(e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT){
+            e.stopImmediatePropagation();
+          }
         })
-      ..focus()
-      ..select();
+        ..focus()
+        ..select();
+      }
     }
 
     void destroy  () {
