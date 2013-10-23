@@ -1,6 +1,6 @@
 library slick.editor;
 import 'dart:html';
-import 'slick.grid.dart' as grid;
+import 'slick_grid.dart' as grid;
 
 abstract class Editor{
   Element $input;

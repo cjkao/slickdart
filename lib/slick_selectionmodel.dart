@@ -1,7 +1,7 @@
 library slick.selection;
 import 'dart:html';
-import 'slick.core.dart';
-import 'slick.grid.dart';
+import 'slick_core.dart' as core;
+import 'slick_grid.dart';
 import 'dart:collection';
 class CellRangeDecorator{
   Element _elem;
@@ -19,7 +19,7 @@ class CellRangeDecorator{
     options = new Map.from(_defaults);
     options.addAll(sg.options);
   }
-  Element show(Range range) {
+  Element show(core.Range range) {
     if (!_elem) {
       _elem = new DivElement();
       _elem.style.zIndex= options['selectionCss']['zIndex'];
@@ -46,8 +46,8 @@ class CellRangeDecorator{
 
 
 class CellRangeSelector{
-  Event onBeforeCellRangeSelected = new Event();
-  Event onCellRangeSelected = new Event();
+  core.Event onBeforeCellRangeSelected = new core.Event();
+  core.Event onCellRangeSelected = new core.Event();
   CellRangeSelector(options){
 
   }
@@ -57,7 +57,7 @@ class CellRangeSelector{
   var _dragging;
   var _decorator;
 //  v/ar _self = this;
-  var _handler = new EventHandler();
+  var _handler = new core.EventHandler();
   var _defaults = {
                    'selectionCss': {
                      "border": "2px dashed blue"
@@ -104,7 +104,7 @@ class CellRangeSelector{
 
       dd.range = {'start': start, 'end': {}};
 
-      return _decorator.show(new Range(start['row'], start['cell']));
+      return _decorator.show(new core.Range(start['row'], start['cell']));
     }
 
     handleDrag(e, dd) {
@@ -122,7 +122,7 @@ class CellRangeSelector{
       }
 
       dd.range.end = end;
-      _decorator.show(new Range(dd.range.start.row, dd.range.start.cell, end['row'], end['cell']));
+      _decorator.show(new core.Range(dd.range.start.row, dd.range.start.cell, end['row'], end['cell']));
     }
     handleDragEnd(e, dd) {
       if (!_dragging) {
@@ -134,7 +134,7 @@ class CellRangeSelector{
 
       _decorator.hide();
       onCellRangeSelected.notify({
-        'range': new Range(
+        'range': new core.Range(
             dd.range.start.row,
             dd.range.start.cell,
             dd.range.end.row,
@@ -151,7 +151,7 @@ abstract class SelectionModel{
   List getSelectedRanges();
 }
 class CellSelectionModel extends SelectionModel{
-   Event onSelectedRangesChanged = new Event();
+   core.Event onSelectedRangesChanged = new core.Event();
 
      CellSelectionModel(Map options){
        _options = new Map.from(options);
@@ -227,9 +227,9 @@ class CellSelectionModel extends SelectionModel{
         grid: SlickGrid
        row: 6
    */
-    _handleActiveCellChange(EventData e, Map<String,dynamic>args) {
+    _handleActiveCellChange(core.EventData e, Map<String,dynamic>args) {
       if (_options['selectActiveCell'] && args['row'] != null && args['cell'] != null) {
-         setSelectedRanges([new Range(args['row'], args['cell'])]);
+         setSelectedRanges([new core.Range(args['row'], args['cell'])]);
       }
     }
 
@@ -250,14 +250,14 @@ class CellSelectionModel extends SelectionModel{
 
         ranges = getSelectedRanges();
         if (ranges.length>0)
-         ranges.add(new Range(active['row'], active['cell']));
+         ranges.add(new core.Range(active['row'], active['cell']));
 
         // keyboard can work with last range only
         last = ranges.removeLast();
 
         // can't handle selection out of active cell
         if (!last.contains(active['row'], active['cell']))
-          last = new Range(active['row'], active['cell']);
+          last = new core.Range(active['row'], active['cell']);
 
         var dRow = last.toRow - last.fromRow,
             dCell = last.toCell - last.fromCell,
@@ -276,7 +276,7 @@ class CellSelectionModel extends SelectionModel{
         }
 
         // define new selection range
-        var new_last = new Range(active['row'], active['cell'], active['row'] + dirRow*dRow, active['cell'] + dirCell*dCell);
+        var new_last = new core.Range(active['row'], active['cell'], active['row'] + dirRow*dRow, active['cell'] + dirCell*dCell);
         if (_removeInvalidRanges([new_last]).length>0) {
           ranges.add(new_last);
           int viewRow = dirRow > 0 ? new_last.toRow : new_last.fromRow;

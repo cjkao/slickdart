@@ -1,7 +1,7 @@
 library slick.grid;
-import 'slick.core.dart' as core;
-import 'slick.editor.dart' as editor;
-import 'slick.selectionmodel.dart';
+import 'slick_core.dart' as core;
+import 'slick_editor.dart' as editor;
+import 'slick_selectionmodel.dart';
 import 'dart:html';
 import 'dart:math' as math;
 import 'dart:async';
@@ -10,6 +10,8 @@ import 'dart:convert';
 import 'dart:mirrors';
 Map<String,int> scrollbarDimensions;  //width and height
 int maxSupportedCssHeight;  // browser's breaking point
+
+
 
 //tailer for html style
 var _treeSanitizer = new NullTreeSanitizer();
@@ -127,6 +129,9 @@ class Column{
  }
 }
 class SlickGrid {
+  //attach column to header element
+  Expando<Column> _headExt= new Expando<Column>();
+
   Element container;
   List data;
   List<Column> columns;
@@ -1078,7 +1083,8 @@ class SlickGrid {
         header.style.width = (m['width'] - headerColumnWidthDiff).toString() + 'px';
         header.attributes['id']= uid + m.id;
         if(m.toolTip!=null) header.attributes['title']=m.toolTip;
-        header.dataset['column']=JSON.encode(m._src);
+        //header.dataset['column']=JSON.encode(m._src);
+        _headExt[header] = m;
 
         if (m['headerCssClass'] !=null) header.classes.add(m['headerCssClass']);
         header.classes.add(m['headerCssClass'] == null ? '': m['headerCssClass'] );
@@ -2014,14 +2020,14 @@ class SlickGrid {
     /** TODO add scope
      * ancestorClzName : query condition
      */
-    Element findClosestAncestor(Element element, String ancestorClzName,[String scope]) {
+    Element findClosestAncestor(Element element, String cssSelector,[String scope]) {
       if (element == null ) return null;
 
 //      if (scope!=null && element.classes.contains(scope)) return element.query(ancestorClzName);
       //TODO no matched function to check current node
 
       do {
-        if (element.matches(ancestorClzName)) return element;
+        if (element.matches(cssSelector)) return element;
         element = element.parent;
       } while(element != null );
       return null;
@@ -2484,13 +2490,10 @@ class SlickGrid {
         }
 
         Element $col = this.findClosestAncestor(e.target, ".slick-header-column");
+        if($col ==null ) return; //when click to columns element
 
-            //$(e.target).closest(".slick-header-column");
-//        if ($col.length) {
-//          return;
-//        }
-
-        Column column = new Column.fromMap(JSON.decode($col.dataset["column"]));
+        //Column column = new Column.fromMap(JSON.decode($col.dataset["column"]));
+        Column column = this._headExt[$col];
         if (column.sortable) {
           if (!getEditorLock().commitCurrentEdit()) {
             return;
@@ -2704,13 +2707,15 @@ class SlickGrid {
 
     void handleHeaderMouseEnter(MouseEvent e) {
       trigger(onHeaderMouseEnter, {
-        "column": (e.target as Element).dataset["column"]
+        //"column": (e.target as Element).dataset["column"]
+        "column": _headExt[e.target as Element] //.dataset["column"]
       }, e);
     }
 
     void handleHeaderMouseLeave(e) {
       trigger(onHeaderMouseLeave, {
-        "column": (e.target as Element).dataset["column"]
+        //"column": (e.target as Element).dataset["column"]
+        "column": _headExt[e.target as Element]
       }, e);
     }
 
@@ -2718,7 +2723,8 @@ class SlickGrid {
        Element $header = findClosestAncestor(e.target,'slick-header-column',".slick-header-columns");
        Column c;
        if( $header !=null) {
-         c = new Column.fromJSON($header.dataset["column"]);
+         //c = new Column.fromJSON($header.dataset["column"]);
+         c= this._headExt[$header];
        }
        trigger(onHeaderContextMenu, {'column': c}, e);
      }
@@ -2728,7 +2734,8 @@ class SlickGrid {
        Element header = findClosestAncestor(e.target,'.slick-header-column',".slick-header-columns");
        Column c;
        if( header !=null) {
-         c = new Column.fromJSON(header.dataset["column"]);
+         //c = new Column.fromJSON(header.dataset["column"]);
+         c= this._headExt[header];
        }
        if (c!=null) { //TODO fix me
          trigger(onHeaderClick, {'column': c}, e);
