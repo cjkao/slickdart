@@ -2392,7 +2392,7 @@ class SlickGrid {
     }
     appendRowHtml(List<String> stringArray, int row, Map<String,int> range,int dataLength) {
       var d = getDataItem(row);
-      var dataLoading = row < dataLength && d!=null;
+      var dataLoading = row < dataLength && d==null;
       String rowCss = "slick-row" +
           (dataLoading ? " loading" : "") +
           (row == activeRow ? " active" : "") +
