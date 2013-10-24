@@ -946,17 +946,19 @@ class SlickGrid {
       }
     }
 
-
+    /**
+     * when height not enought, keyboard scroll up/down may cause data high > suporttedHeight and cause exception
+     */
     getMaxSupportedCssHeight() {
       int supportedHeight = 1000000;
       // FF reports the height back but still renders blank after ~6M px
-      int testUpTo = 6000000; // : 1000000000;
-      Element div =  query('body').createFragment("<div style='display:none' />",treeSanitizer: _treeSanitizer).children.first;
-
+      int testUpTo = 1000000000; // : 1000000000;
+      Element div =  querySelector('body').createFragment("<div style='display:none' />",treeSanitizer: _treeSanitizer).children.first;
+      document.body.append(div);
       while (true) {
         var test = supportedHeight * 2;
         div.style.height = "$test" +'px';
-        if (test > testUpTo || div.getComputedStyle().height != test) {
+        if (test > testUpTo || int.parse( div.getComputedStyle().height.replaceFirst('px', '')) != test) {
           break;
         } else {
           supportedHeight = test;
@@ -1784,7 +1786,7 @@ class SlickGrid {
       return $topPanel;
     }
     void updateRowPositions() {
-      for (var row in rowsCache) {
+      for (var row in rowsCache.keys) {
         rowsCache[row].rowNode.style.top = getRowTop(row).toString() + "px";
       }
     }
