@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:mirrors';
 EditorLock GlobalEditorLock = new EditorLock();
-
+/**
+ * wrap browser event and append propogation status
+ */
 class EventData{
   html.Event domEvent;
   factory EventData.fromDom(html.Event e){
@@ -69,7 +71,9 @@ class EventData{
 
 }
 
-
+/** TODO
+ * consider refactor this to stream
+ */
 class Event {
   List<Function> handlers = [];
 

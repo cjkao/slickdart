@@ -1,5 +1,9 @@
 name: slickdart
-description: A sample web application
+version: 0.0.1
+author: CJKAO <kaopeter@gmail.com>
+description: "basic grid component port from SlickGrid.
+homepage: https://github.com/cjkao/slickdart
+documentation: https://github.com/mleibman/SlickGrid
 dependencies:
-  browser: any
-  unittest: any
+  browser: '>=0.8.1'
+  unittest: '>=0.8.1'
