@@ -1,9 +1,8 @@
 import 'dart:html';
-import '../slick.grid.dart' as grid;
-import 'dart:html';
+import 'package:slickdart/slick_grid.dart' as grid;
 import 'dart:math' as math;
-import '../slick.editor.dart';
-import '../slick.selectionmodel.dart';
+import 'package:slickdart/slick_editor.dart';
+import 'package:slickdart/slick_selectionmodel.dart';
 void main() {
   grid.SlickGrid  g=init();
   g.init();

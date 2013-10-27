@@ -1,16 +1,15 @@
 import 'dart:html';
-import '../slick.grid.dart' as grid;
-import 'dart:html';
+import 'package:slickdart/slick_grid.dart' as grid;
 import 'dart:math' as math;
 
 void main() {
   var g=init();
   g.init();
-  print (g.$headerScroller.queryAll('.slick-header-column').length);
+  print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
 }
 
 grid.SlickGrid init(){
-  Element el =query('#grid');
+  Element el =querySelector('#grid');
   List column = [
                  new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "title", 'sortable': true }),
                  new grid.Column.fromMap ({'width':120,'id': "duration", 'name': "percentComplete", 'field': "percentComplete", 'sortable': true }),
