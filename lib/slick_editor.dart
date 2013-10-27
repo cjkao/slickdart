@@ -3,23 +3,39 @@ import 'dart:html';
 import 'slick_grid.dart' as grid;
 
 abstract class Editor{
+  EditorParm _ep;
   Element $input;
+
+  set editorParm (Map m) => _ep = new EditorParm(m);
+
   var defaultValue;
-//  var scope = this;
-//  void init();
+
+//  String getValue();
+//  void setValue(String  value);
+  void loadValue(item){
+    defaultValue = item[_ep.columnDef.field]!=null ?  item[_ep.columnDef.field] :   "";
+  }
+  /**
+   * return value from current editor
+   */
+  String serializeValue();
+  /**
+   * update value to target attribute of row object
+   */
+  void applyValue(item, state){
+    item[_ep.columnDef.field] = state;
+  }
+  bool isValueChanged();
+
+  Map validate();
+  bool show(){
+    this.$input.style.visibility='visible';
+  }
+  bool hide(){
+    this.$input.style.visibility='hidden';
+  }
   void destroy();
   void focus();
-  String getValue();
-  void setValue(String  value);
-  void loadValue(item);
-  String serializeValue();
-  void applyValue(item, state);
-  bool isValueChanged();
-  Map validate();
-  void hide();
-  void show();
-  set editorParm(Map m);
-
 }
 
 class EditorParm{
@@ -41,23 +57,35 @@ class EditorParm{
     cancelChanges = ep['cancelChanges'];
   }
 }
-//grid: self,
-//gridPosition: absBox($container[0]),
-//position: absBox(activeCellNode),
-//container: activeCellNode,
-//column: columnDef,
-//item: item || {},
-//commitChanges: commitEditAndSetFocus,
-//cancelChanges: cancelEditAndSetFocus
 
-class TextEditor extends Editor{
-    InputElement $input;
-    var defaultValue;
-//    var scope = this;
-    EditorParm _ep;
+abstract class InputEditor extends Editor{
+  InputEditor([_ep]){
+    super._ep=_ep;
+  }
+  InputElement $input;
+  Map validate() {
+    if (_ep.columnDef.validator !=null) {
+      var validationResults = _ep.columnDef.validator($input.value);
+      if (!validationResults.valid) {
+        return validationResults;
+      }
+    }
 
-    set editorParm (Map m) => _ep = new EditorParm(m);
-    TextEditor([this._ep]) {
+    return {
+      'valid': true,
+      'msg': null
+    };
+  }
+  void destroy(){
+    $input.remove();
+  }
+  void focus(){
+    $input.focus();
+  }
+}
+
+class TextEditor extends InputEditor{
+    TextEditor([_ep]) :super(_ep){
       if(_ep!=null){
         $input = new InputElement(type:'text');
         $input.classes.add('editor-text');
@@ -84,15 +112,15 @@ class TextEditor extends Editor{
     String getValue() {
       return $input.value;
     }
-
-    void setValue(String val) {
-      $input.value=val;
-    }
+//
+//    void setValue(String val) {
+//      $input.value=val;
+//    }
     /**
      * item: a row of data
      */
     void loadValue(item) {
-      defaultValue = item[_ep.columnDef.field]!=null ?  item[_ep.columnDef.field] :   "";
+      super.loadValue(item);
       $input.value =defaultValue;
       $input.defaultValue = defaultValue;
       $input.select();
@@ -110,23 +138,41 @@ class TextEditor extends Editor{
       return (!($input.value == "" && defaultValue == null)) && ($input.value != defaultValue);
     }
 
-    Map validate() {
-      if (_ep.columnDef.validator !=null) {
-        var validationResults = _ep.columnDef.validator($input.value);
-        if (!validationResults.valid) {
-          return validationResults;
-        }
-      }
 
-      return {
-        'valid': true,
-        'msg': null
-      };
-    }
-    bool show(){
-      this.$input.style.visibility='visible';
-    }
-    bool hide(){
-      this.$input.style.visibility='hidden';
-    }
+
   }
+
+class CheckboxEditor extends InputEditor {
+
+  set editorParm (Map m) => _ep = new EditorParm(m);
+  CheckboxEditor([_ep]) :super(_ep){
+    $input = new InputElement(type: 'checkbox');
+    $input.classes.add('editor-checkbox');
+    _ep.activeCellNode.append($input);
+    $input..attributes['value'] = 'true'
+           ..attributes['hidefocus'] = 'true';
+    $input.focus();
+  }
+
+  loadValue(item) {
+    super.loadValue(item);
+    $input.value =defaultValue;
+    $input.defaultValue = defaultValue;
+
+//    if (defaultValue) {
+//      $input.attributes['checked']= 'true';
+//    } else {
+//      $input.attributes['checked']= 'false';
+//    }
+  }
+
+  String serializeValue() {
+    return $input.attributes['checked'];
+  }
+
+
+  isValueChanged() {
+    return (!($input.value == "" && defaultValue == null)) && ($input.value != defaultValue);
+  }
+
+}

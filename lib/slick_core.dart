@@ -1,11 +1,31 @@
 library slick.core;
-import 'dart:html';
+import 'dart:html' as html;
 import 'dart:convert';
 import 'dart:math' as math;
-
+import 'dart:mirrors';
 EditorLock GlobalEditorLock = new EditorLock();
 
-class EventData {
+class EventData{
+  html.Event domEvent;
+  factory EventData.fromDom(html.Event e){
+    EventData ed=new EventData();
+    ed.domEvent=e;
+    return ed;
+  }
+  EventData(){
+  }
+  get target => domEvent.target;
+  noSuchMethod(Invocation msg) {
+    var im = reflect(domEvent);
+    if (msg.isGetter){
+      return im.getField(msg.memberName);
+    }
+    reflect(domEvent).delegate(msg);
+  }
+
+  preventDefault(){
+    domEvent.preventDefault();
+  }
   bool _isPropagationStopped = false;
   bool _isImmediatePropagationStopped = false;
   String toString(){
@@ -16,6 +36,7 @@ class EventData {
    * @method stopPropagation
    */
   stopPropagation(){
+    this.domEvent.stopPropagation();
     _isPropagationStopped = true;
   }
 
@@ -33,6 +54,7 @@ class EventData {
    * @method stopImmediatePropagation
    */
   stopImmediatePropagation(){
+    this.domEvent.stopImmediatePropagation();
     _isImmediatePropagationStopped = true;
   }
 
@@ -93,9 +115,9 @@ class Event {
     if(e==null) e = new EventData();
    // scope = scope || this;
     var returnValue;
-    print('evt:' + e.toString() + ' arg:' + args.toString());
+    //print('evt:' + e.toString() + ' arg:' + args.toString());
     for (int i = 0; i < handlers.length && !(e is EventData && (e.isPropagationStopped() || e.isImmediatePropagationStopped())); i++) {
-      print('hand:' + handlers[i].toString());
+      //print('hand:' + handlers[i].toString());
       returnValue = Function.apply(handlers[i],[e,args]);
     }
 
