@@ -608,7 +608,7 @@ class SlickGrid {
     }
 
     numVisibleRows = (viewportH / options['rowHeight']).ceil();
-    viewportW =  int.parse(container.getComputedStyle().width.replaceAll("px", '')) ;//parseFloat($.css($container[0], "width", true));
+    viewportW =  double.parse(container.getComputedStyle().width.replaceAll("px", '')).ceil() ;//parseFloat($.css($container[0], "width", true));
     if (options['autoHeight']==false) {
       $viewport.style.height = '$viewportH' + 'px';
     }
@@ -966,7 +966,7 @@ class SlickGrid {
 // TODO:  this is static.  need to handle page mutation.
     bindAncestorScrollEvents() {
       Element elem = $canvas;
-      while ((elem = elem.parentNode) != document.body && elem != null) {
+      while (!(elem.parent is ShadowRoot) && (elem = elem.parentNode) != document.body && elem != null) {
         // bind to scroll containers only
         if (elem == $viewport || elem.scrollWidth != elem.clientWidth || elem.scrollHeight != elem.clientHeight) {
 //          var $elem = $(elem);
@@ -2056,29 +2056,11 @@ class SlickGrid {
      */
     Element findClosestAncestor(Element element, String cssSelector,[String scope]) {
       if (element == null ) return null;
-
-//      if (scope!=null && element.classes.contains(scope)) return element.query(ancestorClzName);
-      //TODO no matched function to check current node
-
       do {
         if (element.matches(cssSelector)) return element;
         element = element.parent;
       } while(element != null );
       return null;
-
-
-
-
-
-//      if( element.classes.contains(ancestorClzName.toString().substring(1)) ) return element;
-//      Element elem =element.query(ancestorClzName);
-//      if(elem !=null) {
-//        return elem;
-//      } else {
-//        return findClosestAncestor(element.parent,ancestorClzName);
-//      }
-
-
     }
 
 
@@ -2865,7 +2847,7 @@ class SlickGrid {
 
        // walk up the tree
        var offsetParent = elem.offsetParent;
-       while ((elem = elem.parentNode) != document.body) {
+       while (!(elem.parent is ShadowRoot) && (elem = elem.parentNode) != document.body) {
          if (box['visible'] !=null && elem.scrollHeight != elem.offsetHeight && elem.style.overflowY != "visible") {
            box['visible'] = box['bottom'] > elem.scrollTop && box['top'] < elem.scrollTop + elem.clientHeight;
          }

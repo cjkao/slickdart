@@ -17,3 +17,13 @@ Example
 
 * CheckBox.html
   > check box column and sortable
+
+
+TODO
+========================
+
+
+* Frozen column
+* multiple column row
+* Resize column
+* Column reorder
