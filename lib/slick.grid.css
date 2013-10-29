@@ -34,9 +34,10 @@ classes should alter those!
   border-bottom: 0px;
   float: left;
 }
-.slick-header-column{
-  box-sizing: content-box;
+.slick-header-column, .slick-row, .slick-cell,.slick-cell:after{
+  box-sizing: content-box;    /* fix bootstrap*/
 }
+
 
 .slick-headerrow-column.ui-state-default {
   padding: 4px;
