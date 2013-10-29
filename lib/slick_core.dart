@@ -5,6 +5,17 @@ import 'dart:math' as math;
 import 'dart:mirrors';
 EditorLock GlobalEditorLock = new EditorLock();
 /**
+ * utility to get dom width / height
+ */
+class Dimension{
+  static int getCalcWidth(html.Element elem){
+    return (elem.getBoundingClientRect().width as double).floor();
+  }
+  static int getCalcHeight(html.Element elem){
+    return (elem.getBoundingClientRect().height as double).floor();
+  }
+}
+/**
  * wrap browser event and append propogation status
  */
 class EventData{

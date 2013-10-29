@@ -1,12 +1,10 @@
 import 'dart:html';
-import 'package:slickdart/slick_grid.dart' as grid;
+import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
-import 'package:slickdart/slick_selectionmodel.dart';
-import 'package:slickdart/slick_column.dart';
 void main() {
   grid.SlickGrid  g=init();
   g.init();
-  print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
+  print(g.$canvas.getBoundingClientRect());
   querySelector
   ('#reset').onClick.listen((e){
     List _data=[];
@@ -21,7 +19,7 @@ void main() {
     g.data.addAll(_data);
     g.invalidate();
     g.render();
-
+    print(g.$canvas.getBoundingClientRect());
     //print(g.data);
   });
 //  query('#reset').onClick.listen((e){
@@ -38,7 +36,7 @@ grid.SlickGrid init(){
                  new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
                 // new grid.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"})
                  ];
-  CheckboxSelectColumn checkboxCol=new CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
+  grid.CheckboxSelectColumn checkboxCol=new grid.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   column.insert(0,checkboxCol.getColumnDefinition());
   List data=[];
   for (var i = 0; i < 5; i++) {
@@ -57,7 +55,7 @@ grid.SlickGrid init(){
              'autoEdit': false
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
-  sg.setSelectionModel(new RowSelectionModel({'selectActiveRow': false}));
+  sg.setSelectionModel(new grid.RowSelectionModel({'selectActiveRow': false}));
   sg.registerPlugin(checkboxCol);
 
   //sg.setSelectionModel(new CellSelectionModel(sg.options));

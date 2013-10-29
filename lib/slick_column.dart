@@ -1,4 +1,4 @@
-library slick;
+library slick.column;
 
 import 'dart:html';
 import 'slick_grid.dart';

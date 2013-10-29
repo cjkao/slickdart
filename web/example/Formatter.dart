@@ -1,9 +1,7 @@
 import 'dart:html';
-import 'package:slickdart/slick_grid.dart' as grid;
+import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
-import 'package:slickdart/slick_editor.dart';
-import 'package:slickdart/slick_selectionmodel.dart';
-import 'package:slickdart/slick_formatters.dart' as format;
+
 void main() {
   grid.SlickGrid  g=init();
   g.init();
@@ -35,9 +33,9 @@ grid.SlickGrid init(){
   List column = [
                  new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
                  new grid.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true }),
-                 new grid.Column.fromMap ({'id': "%", 'name': "percentComplete", 'field': "pc", 'sortable': true, 'formatter': format.PercentCompleteBarFormatter }),
+                 new grid.Column.fromMap ({'id': "%", 'name': "percentComplete", 'field': "pc", 'sortable': true, 'formatter': grid.PercentCompleteBarFormatter }),
                  new grid.Column.fromMap ({'id': "effort-driven", 'name': "Effort Driven", 'sortable': false, 'width': 80, 'minWidth': 20, 'maxWidth': 80,
-                   'cssClass': "cell-effort-driven", 'field': "effortDriven", 'formatter': format.CheckmarkFormatter})
+                   'cssClass': "cell-effort-driven", 'field': "effortDriven", 'formatter': grid.CheckmarkFormatter})
 
                 // new grid.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"})
                  ];
@@ -58,7 +56,7 @@ grid.SlickGrid init(){
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
 
-  sg.setSelectionModel(new CellSelectionModel(sg.options));
+  sg.setSelectionModel(new grid.CellSelectionModel(sg.options));
 
 
   sg.onSort.subscribe( (e, args) {
