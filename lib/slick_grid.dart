@@ -430,6 +430,7 @@ class SlickGrid {
       int hWidth = core.Dimension.getCalcWidth(h);
       if (hWidth != columns[i].width - headerColumnWidthDiff) {
         h.style.width= (columns[i].width - headerColumnWidthDiff).toString() + 'px';
+        //if(i==1) print('app$hWidth ${columns[i].width}');
       }
     }
 
@@ -767,6 +768,7 @@ class SlickGrid {
 //      $viewport
 //          .bind("click", handleClick)
 //          .bind("scroll", handleScroll);
+      //TODO tets
       $headerScroller..onContextMenu.listen(handleHeaderContextMenu)
       ..onClick.listen(handleHeaderClick);
       $headerScroller.querySelectorAll('.slick-header-column').onMouseEnter.listen(handleHeaderMouseEnter);
@@ -1243,7 +1245,7 @@ class SlickGrid {
         return;
       }
 
-      for(i=0;i<columnElements.length;i++){
+      for(i=0;i<columnElements.length;++i){
         Element item =columnElements[i];
         if (i < firstResizable || (options['forceFitColumns'] && i >= lastResizable)) {
           continue;
@@ -1252,12 +1254,15 @@ class SlickGrid {
         Element resizeItem = new DivElement();
         resizeItem.classes.add('slick-resizable-handle');
         item.append(resizeItem);
+
         resizeItem.onDragStart.listen((MouseEvent e){
+          int i=columnElements.indexOf((e.target as Element).parent);
           print('drag begin');
           if (!getEditorLock().commitCurrentEdit()) {
             return false;
           }
           pageX = e.page.x;
+          print('pageX $pageX');
           resizeItem.parent.classes.add("slick-header-column-active");
           var shrinkLeewayOnRight = null, stretchLeewayOnRight = null;
           // lock each column's width option to current width
@@ -1314,17 +1319,23 @@ class SlickGrid {
           minPageX = pageX - math.min(shrinkLeewayOnLeft, stretchLeewayOnRight);
 
         });
-//            .bind("dragstart",  (e, dd) {
-//                       })
+
         resizeItem.onDrag.listen((MouseEvent e){
+          //print('dragging ${e.page.x}');
+          if(e.page.x==0) {  //TODO found onDrag end still trigger onDrag and with page.x=0, is it bug?
+            e.preventDefault();
+            return;
+          }
+          int i=columnElements.indexOf((e.target as Element).parent);
           int actualMinWidth, d = math.min(maxPageX, math.max(minPageX, e.page.x)) - pageX, x;
           if (d < 0) { // shrink column
             x = d;
             for (j = i; j >= 0; j--) {
+
               c = columns[j];
               if (c.resizable) {
                 actualMinWidth = math.max(c.minWidth !=null ? c.minWidth: 0, absoluteColumnMinWidth);
-                if (x && c.previousWidth + x < actualMinWidth) {
+                if (x!=0 && c.previousWidth + x < actualMinWidth) {
                   x += c.previousWidth - actualMinWidth;
                   c.width = actualMinWidth;
                 } else {
@@ -1332,14 +1343,16 @@ class SlickGrid {
                   x = 0;
                 }
               }
+              //print('apply5 ${c.width} ${maxPageX} ${minPageX} ${d} ${c.previousWidth} ${actualMinWidth}');
             }
 
             if (options['forceFitColumns']) {
+              print('apply4');
               x = -d;
               for (j = i + 1; j < columnElements.length; j++) {
                 c = columns[j];
                 if (c.resizable) {
-                  if (x >0 && c.maxWidth!=null  && (c.maxWidth - c.previousWidth < x)) {
+                  if (x !=0 && c.maxWidth!=null  && (c.maxWidth - c.previousWidth < x)) {
                     x -= c.maxWidth - c.previousWidth;
                     c.width = c.maxWidth;
                   } else {
@@ -1350,11 +1363,12 @@ class SlickGrid {
               }
             }
           } else { // stretch column
+            //print('apply3');
             x = d;
             for (j = i; j >= 0; j--) {
               c = columns[j];
               if (c.resizable) {
-                if (x !=null && c.maxWidth && (c.maxWidth - c.previousWidth < x)) {
+                if (x !=0 && c.maxWidth!=null && (c.maxWidth - c.previousWidth < x)) {
                   x -= c.maxWidth - c.previousWidth;
                   c.width = c.maxWidth;
                 } else {
@@ -1365,12 +1379,13 @@ class SlickGrid {
             }
 
             if (options['forceFitColumns']) {
+             // print('apply1');
               x = -d;
               for (j = i + 1; j < columnElements.length; j++) {
                 c = columns[j];
                 if (c.resizable) {
                   actualMinWidth = math.max(c.minWidth !=null ? c.minWidth: 0, absoluteColumnMinWidth);
-                  if (x && c.previousWidth + x < actualMinWidth) {
+                  if (x !=0 && c.previousWidth + x < actualMinWidth) {
                     x += c.previousWidth - actualMinWidth;
                     c.width = actualMinWidth;
                   } else {
@@ -1382,14 +1397,15 @@ class SlickGrid {
             }
           }
           applyColumnHeaderWidths();
-          if (options['syncColumnCellResize']) {
+          if (options['syncColumnCellResize']!=null && options['syncColumnCellResize']==true) {
+            //print('apply');
             applyColumnWidths();
           }
-
+         // print('onDraging leave' + columnElements[i].borderEdge.width.toString());
         });
-//            .bind("drag",  (e, dd) {
-//                      })
-        resizeItem.onDragEnd.listen((e){
+        resizeItem.onDragEnd.listen((MouseEvent e){
+          print('drag End ${e.page.x}' );
+          int i=columnElements.indexOf((e.target as Element).parent);
           var newWidth;
           item.parent.classes.remove("slick-header-column-active");
           for (j = 0; j < columnElements.length; j++) {
@@ -1404,10 +1420,7 @@ class SlickGrid {
           trigger(onColumnsResized, {});
         } );
       }
-//      columnElements.forEach( (Element item) {
-//
-//
-//      });
+
     }
 
     /////////////////////////////////////// general
