@@ -6,8 +6,8 @@ import 'package:slickdart/slick_selectionmodel.dart';
 void main() {
   grid.SlickGrid  g=init();
   g.init();
-  print (g.$headerScroller.queryAll('.slick-header-column').length);
-  query('#reset').onClick.listen((e){
+  print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
+  querySelector('#reset').onClick.listen((e){
     List _data=[];
     for (var i = 0; i < 50000; i++) {
       _data.add( {
@@ -29,7 +29,7 @@ void main() {
 }
 
 grid.SlickGrid init(){
-  Element el =query('#grid');
+  Element el =querySelector('#grid');
   List column = [
                  new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
                  new grid.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true }),

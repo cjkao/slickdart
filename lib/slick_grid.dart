@@ -931,20 +931,22 @@ class SlickGrid {
         applyColumnWidths();
       }
     }
-
-//TODO not really work
+    /**
+     * disable header teselection
+     */
     void disableSelection(Element $target) {
       if ($target !=null) {
-        $target.attributes.putIfAbsent('unselectable',() =>'on');
+        $target.attributes['unselectable'] = 'on';
+        $target.style.userSelect = 'none';
+//for IE, not tested
         ElementStream<Event> stream =$target.onSelectStart;
-        stream.matches('.ui').listen(
+        stream.matches('span').listen(
             (Event e){
+              print('nonselect');
               e.preventDefault();
               e.stopImmediatePropagation();
             }, onDone : ()=> print('done'));
 
-//        Element el =new Element.html("<div class='ui'>zzzzzzzz</div>");
-//        $target.append(el);
       }
     }
 
@@ -3199,8 +3201,8 @@ class SlickGrid {
         Column column = columns[cell]; //column['editor']
         String editor=column['editor'];
         LibraryMirror lib = currentMirrorSystem().
-            findLibrary(const Symbol('slick.editor')).first;
-        ClassMirror c = lib.classes[new Symbol(editor)];
+            findLibrary(const Symbol('slick.editor'));
+        ClassMirror c = lib.declarations[new Symbol(editor)];
         var o = c.newInstance(const Symbol(''),[editorParm]).reflectee;
         return o;
       }

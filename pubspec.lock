@@ -25,6 +25,10 @@ packages:
     description: custom_element
     source: hosted
     version: "0.8.7"
+  html5_dnd:
+    description: html5_dnd
+    source: hosted
+    version: "0.3.4"
   html5lib:
     description: html5lib
     source: hosted

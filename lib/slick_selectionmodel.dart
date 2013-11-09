@@ -4,6 +4,18 @@ import 'slick_core.dart' as core;
 import 'slick_grid.dart';
 import 'dart:collection';
 import 'dart:math' as math;
+
+
+void clearTextSelections() {
+  window.getSelection().removeAllRanges();
+  var activeElement = document.activeElement;
+  if (activeElement is TextAreaElement) {
+    activeElement.setSelectionRange(0, 0);
+  } else if (activeElement is InputElement) {
+    activeElement.setSelectionRange(0, 0);
+  }
+}
+
 class CellRangeDecorator{
   Element _elem;
   Map options;
@@ -21,7 +33,7 @@ class CellRangeDecorator{
     options.addAll(sg.options);
   }
   Element show(core.Range range) {
-    if (!_elem) {
+    if (_elem!=null) {
       _elem = new DivElement();
       _elem.style.zIndex= options['selectionCss']['zIndex'];
       _elem.style.zIndex= options['selectionCss']['border'];

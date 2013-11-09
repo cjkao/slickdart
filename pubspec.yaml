@@ -7,5 +7,6 @@ documentation: https://github.com/mleibman/SlickGrid
 dependencies:
   browser: '>=0.8.5'
   unittest: '>=0.8.5'
+  html5_dnd: any
 dev_dependencies:
   polymer: '>=0.8.5'
