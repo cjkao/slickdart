@@ -74,13 +74,14 @@ class CheckboxSelectColumn extends Column{
      * args: {row: 3, cell: 4, grid: SlickGrid}
      */
    handleClick(var e, Map args) {
+
      core.EventData evt;
      if(e is core.EventData){
        evt=e;
      }else{
        evt=new core.EventData.fromDom(e);
      }
-     print(evt.target);
+     print('handle from:' + this.runtimeType.toString() +' ' + evt.target.toString());
 //     var target= e.target ;
     // clicking on a row select checkbox
     if (_grid.columns[args['cell']].id == _options['columnId'] && evt.target  is CheckboxInputElement ) { //Checkbox

@@ -1569,7 +1569,7 @@ class SlickGrid {
 
     void updateCell(row, cell) {
       Element cellNode = getCellNode(row, cell);
-      if (!cellNode) {
+      if (cellNode==null) {
         return;
       }
 
@@ -1585,7 +1585,7 @@ class SlickGrid {
 
     void updateRow(row) {
       RowCache cacheEntry = rowsCache[row];
-      if (!cacheEntry) {
+      if (cacheEntry==null) {
         return;
       }
 
@@ -2231,7 +2231,7 @@ class SlickGrid {
         render();
       }
     }
-    setActiveCellInternal(Element newCell,[ opt_editMode]) {
+    setActiveCellInternal(Element newCell,[bool opt_editMode]) {
       if (activeCellNode != null) {
         makeActiveCellNormal();
         activeCellNode.classes.remove("active");
@@ -2240,7 +2240,7 @@ class SlickGrid {
         }
       }
 
-      var activeCellChanged = (activeCellNode != newCell);
+      bool activeCellChanged = (activeCellNode != newCell);
       activeCellNode = newCell;
 
       if (activeCellNode != null) {
@@ -2902,7 +2902,7 @@ class SlickGrid {
      }
 
      void handleActiveCellPositionChange(Event e) {
-       if (!activeCellNode) {
+       if (activeCellNode==null) {
          return;
        }
 

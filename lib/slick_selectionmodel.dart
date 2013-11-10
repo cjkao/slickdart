@@ -161,7 +161,7 @@ abstract class SelectionModel{
   init(SlickGrid grid);
   destroy();
   void setSelectedRanges(List ranges);
-  List getSelectedRanges();
+  List<core.Range> getSelectedRanges();
   core.Event onSelectedRangesChanged = new core.Event();
 }
 class CellSelectionModel extends SelectionModel{
@@ -171,7 +171,7 @@ class CellSelectionModel extends SelectionModel{
      }
     SlickGrid _grid;
     Element _canvas;
-    List _ranges = [];
+    List<core.Range> _ranges = [];
     var _selector = new CellRangeSelector({
       "selectionCss": {
         "border": "2px solid black"
@@ -200,11 +200,11 @@ class CellSelectionModel extends SelectionModel{
       _grid.unregisterPlugin(_selector);
     }
 
-    List _removeInvalidRanges(List ranges) {
-      var result = [];
+    List<core.Range> _removeInvalidRanges(List<core.Range> ranges) {
+      List<core.Range> result = [];
 
       for (var i = 0; i < ranges.length; i++) {
-        var r = ranges[i];
+        core.Range r = ranges[i];
         if (_grid.canCellBeSelected(r.fromRow, r.fromCell) && _grid.canCellBeSelected(r.toRow, r.toCell)) {
           result.add(r);
         }
@@ -213,12 +213,12 @@ class CellSelectionModel extends SelectionModel{
       return result;
     }
 
-    void setSelectedRanges(List ranges) {
+    void setSelectedRanges(List<core.Range> ranges) {
       _ranges = _removeInvalidRanges(ranges);
       onSelectedRangesChanged.notify(_ranges);
     }
 
-    List getSelectedRanges() {
+    List<core.Range> getSelectedRanges() {
       return _ranges;
     }
 
@@ -252,15 +252,15 @@ class CellSelectionModel extends SelectionModel{
        * 39 right
        * 40 down
        */
-      List ranges;
-      var last;
+      List<core.Range> ranges;
+      core.Range last;
       Map<String,int> active = _grid.getActiveCell();
 
       if ( active !=null && e.shiftKey && !e.ctrlKey && !e.altKey &&
           (e.which == 37 || e.which == 39 || e.which == 38 || e.which == 40) ) {
 
         ranges = getSelectedRanges();
-        if (ranges.length>0)
+        if (ranges.length==0)
          ranges.add(new core.Range(active['row'], active['cell']));
 
         // keyboard can work with last range only
@@ -440,6 +440,7 @@ class RowSelectionModel extends SelectionModel{
     }else{
       evt=e;
     }
+    print('handle from:' + this.runtimeType.toString() +' ' + evt.target.toString());
     MouseEvent domEvt=evt.domEvent;
 
     Map<String,int> cell = _grid.getCellFromEvent(evt);
