@@ -406,7 +406,7 @@ class RowSelectionModel extends SelectionModel{
         return x - y;
       });
 
-      if (selectedRows.length>0) {
+      if (selectedRows.length==0) {
         selectedRows = [activeRow['row']];
       }
 

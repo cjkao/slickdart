@@ -2137,12 +2137,12 @@ class SlickGrid {
 
       // need to page down?
       if ((row + 1) * options['rowHeight'] > scrollTop + viewportH + offset) {
-        scrollTo(doPaging ? rowAtTop : rowAtBottom);
+        scrollTo(doPaging !=null ? rowAtTop : rowAtBottom);
         render();
       }
       // or page up?
       else if (row * options['rowHeight'] < scrollTop + offset) {
-        scrollTo(doPaging ? rowAtBottom : rowAtTop);
+        scrollTo(doPaging!=null ? rowAtBottom : rowAtTop);
         render();
       }
     }
