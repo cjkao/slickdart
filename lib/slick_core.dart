@@ -201,25 +201,33 @@ class Range{
      * @property fromRow
      * @type {Integer}
      */
-    fromRow = math.min(fromRow, toRow);
-
+//    fromRow = math.min(fromRow, toRow);
+    if (fromRow > toRow) {
+      var tmp =toRow;
+      toRow=fromRow;
+      fromRow=tmp;
+    }
     /***
      * @property fromCell
      * @type {Integer}
      */
-    this.fromCell = math.min(fromCell, toCell);
-
+//    this.fromCell = math.min(fromCell, toCell);
+    if (fromCell > toCell) {
+      var tmp =toCell;
+      toCell=fromCell;
+      fromCell=tmp;
+    }
     /***
      * @property toRow
      * @type {Integer}
      */
-    this.toRow = math.max(fromRow, toRow);
+//    this.toRow = math.max(fromRow, toRow);
 
     /***
      * @property toCell
      * @type {Integer}
      */
-    this.toCell = math.max(fromCell, toCell);
+//    this.toCell = math.max(fromCell, toCell);
   }
 
 
