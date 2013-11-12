@@ -1256,7 +1256,7 @@ class SlickGrid {
         Element resizeItem = new DivElement();
         resizeItem.classes.add('slick-resizable-handle');
         item.append(resizeItem);
-
+        resizeItem.draggable=true;
         resizeItem.onDragStart.listen((MouseEvent e){
           int i=columnElements.indexOf((e.target as Element).parent);
           print('drag begin');
