@@ -24,11 +24,17 @@ class NullTreeSanitizer implements NodeTreeSanitizer {
   }
 }
 class RowCache{
-  RowCache (this.rowNode);
+  int columnCount;
+  RowCache (this.rowNode,columnCount){
+//     cellColSpans= [];
+    cellColSpans=new List.filled(columnCount,1);
+//        <int>(columnCount);
+//    cellColSpans.fillRange(start, end)
+  }
   Element rowNode;
   // ColSpans of rendered cells (by column idx).
   // Can also be used for checking whether a cell has been rendered.
-  List<int> cellColSpans = [];
+  List<int> cellColSpans;
 
   // Cell nodes (by column idx).  Lazy-populated by ensureCellNodesInRowsCache().
   //not dense array, use map to replae
@@ -762,7 +768,7 @@ class SlickGrid {
       window.onResize.listen(resizeCanvas);
 //      $container
 //          .bind("resize.slickgrid", resizeCanvas);
-      $viewport.onClick.listen(handleClick);
+      //$viewport.onClick.listen(handleClick);
       $viewport.onScroll.matches('*').listen(handleScroll);
 
 //      $viewport
@@ -1535,7 +1541,7 @@ class SlickGrid {
     }
 
     void removeRowFromCache(int row) {
-      var cacheEntry = rowsCache[row];
+      RowCache cacheEntry = rowsCache[row];
 //      if (!cacheEntry) {
 //        return;
 //      }
@@ -1845,7 +1851,7 @@ class SlickGrid {
 
 
     cleanUpAndRenderCells(Map<String,int> range) {
-      var cacheEntry;
+      RowCache cacheEntry;
       List<String> stringArray = [];
       Queue processedRows = new Queue();
       var cellsAdded;
@@ -1883,7 +1889,8 @@ class SlickGrid {
           }
 
           // Already rendered.
-          if(cacheEntry.cellColSpans.contains(i)){
+//          if(cacheEntry.cellColSpans.contains(i)){
+          if(cacheEntry.cellNodesByColumnIdx.keys.contains(i)){
             colspan = cacheEntry.cellColSpans[i];
             i += (colspan > 1 ? colspan - 1 : 0);
             continue;
@@ -1937,7 +1944,7 @@ class SlickGrid {
 
     void ensureCellNodesInRowsCache(row) {
       RowCache cacheEntry = rowsCache[row];
-      if (cacheEntry!=null) {
+      if (cacheEntry!=null && cacheEntry.rowNode !=null) {
         if (cacheEntry.cellRenderQueue.length>0) {
           Element lastChild = cacheEntry.rowNode.lastChild;
           while (cacheEntry.cellRenderQueue.length>0) {
@@ -1977,7 +1984,8 @@ class SlickGrid {
 
      cellsToRemove.forEach((item){
        cacheEntry.rowNode.children.remove(cacheEntry.cellNodesByColumnIdx[item]);
-       cacheEntry.cellColSpans.removeAt(item);
+//       cacheEntry.cellColSpans.removeAt(item);
+       cacheEntry.cellColSpans[item]=1;
        cacheEntry.cellNodesByColumnIdx.remove(item);
        if (postProcessedRows[row]!=null) {
           postProcessedRows[row].removeAt(cellToRemove);
@@ -2405,7 +2413,7 @@ class SlickGrid {
 
         // Create an entry right away so that appendRowHtml() can
         // start populatating it.
-        rowsCache[i] = new RowCache(null);
+        rowsCache[i] = new RowCache(null,this.columns.length);
         appendRowHtml(stringArray, i, range, dataLength);
         if (activeCellNode !=null && activeRow == i) {
           needToReselectCell = true;
@@ -2476,7 +2484,7 @@ class SlickGrid {
 
     appendCellHtml(List<String> stringArray,int row,int cell,int colspan, item) {
       Column m = columns[cell];
-      String cellCss = "slick-cell l" + cell.toString() + " r" + math.min(columns.length - 1, cell + colspan - 1).toString() +
+      String cellCss = "slick-cell l$cell r" + math.min(columns.length - 1, cell + colspan - 1).toString() +
           (m.cssClass!=null ? " " + m.cssClass : "");
       if (row == activeRow && cell == activeCell) {
         cellCss += (" active");
@@ -2500,7 +2508,8 @@ class SlickGrid {
       stringArray.add("</div>");
 
       rowsCache[row].cellRenderQueue.addLast(cell);
-      rowsCache[row].cellColSpans.insert(cell,colspan);
+//      rowsCache[row].cellColSpans.insert(cell,colspan);
+      rowsCache[row].cellColSpans[cell]=colspan;
     }
     void clearTextSelection() {
       window.getSelection().removeAllRanges();
@@ -2570,7 +2579,7 @@ class SlickGrid {
             trigger(onSort, {
               'multiColumnSort': false,
               'sortCol': column,
-              'sortAsc': sortOpts.sortAsc}, e);
+              'sortAsc': sortOpts['sortAsc']}, e);
           } else {
             trigger(onSort, {
               'multiColumnSort': true,
@@ -2701,7 +2710,7 @@ class SlickGrid {
 
         if ((lastRenderedScrollTop - scrollTop).abs() > 20 ||
             (lastRenderedScrollLeft - scrollLeft).abs() > 20) {
-          if (options['forceSyncScrolling']!=null || (
+          if (options['forceSyncScrolling']==true || (
               (lastRenderedScrollTop - scrollTop).abs() < viewportH &&
               (lastRenderedScrollLeft - scrollLeft).abs() < viewportW)) {
             render();
@@ -3063,7 +3072,7 @@ class SlickGrid {
 
        Map pos;
        int lastSelectableCell;
-       while (!pos) {
+       while (pos==null) {
          pos = gotoLeft(row, cell, posX);
          if (pos!=null) {
            break;

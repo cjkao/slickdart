@@ -2,7 +2,7 @@ library slick.selection;
 import 'dart:html';
 import 'slick_core.dart' as core;
 import 'slick_grid.dart';
-import 'dart:collection';
+//import 'dart:collection';
 import 'dart:math' as math;
 
 
