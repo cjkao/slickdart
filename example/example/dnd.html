@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>Drag and Drop: Basics</title>
+<link rel="stylesheet" href="basics.css">
+</head>
+<body>
+  <div id="columns">
+    <div class="slick-resizable-handle" draggable="true">
+      
+    </div>
+    <div class="column" draggable="true">
+      <div class="slick-resizable-handle" >B</div>
+    </div>
+    <div class="column" draggable="true">
+      <div class="slick-resizable-handle" >C</div>
+    </div>
+  </div>
+
+
+  <div class="slick-header ui-state-default"
+    style="overflow: hidden; position: relative;">
+    <div class="slick-header-columns"
+      style="left: -1000px; width: 1602px; -webkit-user-select: none;"
+      unselectable="on">
+      <div
+        class="ui-state-default slick-header-column slick-header-sortable"
+        id="slickgrid_1908571title" style="width: 71px;" >
+        <span class="slick-column-name">Title1</span><span
+          class="slick-sort-indicator"></span>
+        <div class="slick-resizable-handle" draggable="true">___</div>
+      </div>
+      <div
+        class="ui-state-default slick-header-column slick-header-sortable"
+        id="slickgrid_1908571duration" style="width: 111px;">
+        <span class="slick-column-name">duration</span><span
+          class="slick-sort-indicator"></span>
+        <div class="slick-resizable-handle">ZZZZZ</div>
+      </div>
+      <div
+        class="ui-state-default slick-header-column slick-header-sortable"
+        id="slickgrid_1908571%" style="width: 71px;">
+        <span class="slick-column-name">percent</span><span
+          class="slick-sort-indicator"></span>
+        <div class="slick-resizable-handle"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/dart" src="dnd.dart"></script>
+  <script src="packages/browser/dart.js"></script>
+</body>
+</html>
