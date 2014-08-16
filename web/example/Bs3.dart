@@ -1,65 +1,72 @@
 import 'dart:html';
-import 'package:slickdart/slick.dart' as grid;
+import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
+import 'package:slickdart/slick_core.dart' as core;
 void main() {
-  grid.SlickGrid  g=init();
-  g.init();
+  cj.SlickGrid  grid=init();
+  grid.init();
   //print(g.$canvas.getBoundingClientRect());
-  querySelector
-  ('#reset').onClick.listen((e){
+  querySelector('#reset').onClick.listen((e){
     List _data=[];
     for (var i = 0; i < 50000; i++) {
       _data.add( {
-        'dtitle':  new math.Random().nextInt(1000).toString(),
-        'duration': new math.Random().nextInt(1000).toString(),
-        'pc': i
+        'dtitle':  new math.Random().nextInt(100).toString(),
+         'duration': new math.Random().nextInt(100).toString(),
+         'pc2': new math.Random().nextInt(10) * 100,
+         'pc': (new math.Random().nextInt(10) * 100).toString(),
+         'start': "01/01/2009",
+         'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
+         'effortDriven': (i % 5 == 0)
       });
     }
-    g.data.clear();
-    g.data.addAll(_data);
-    g.invalidate();
-    g.render();
-    //print(g.$canvas.getBoundingClientRect());
-    //print(g.data);
+    grid.data.clear();
+    grid.data.addAll(_data);
+    grid.invalidate();
+    grid.render();
+
   });
-//  query('#reset').onClick.listen((e){
-//    print(g.data);
-//  });
 }
 
-grid.SlickGrid init(){
+cj.SlickGrid init(){
   Element el =querySelector('#grid');
   List column = [
 
-                 new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
-                 new grid.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true }),
-                 new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
-                // new grid.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"})
+                 new cj.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
+                 new cj.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true }),
+                 new cj.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc2", 'sortable': true }),
+                 new cj.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"}),
+                 new cj.Column.fromMap ({'id': "%_2", 'name': "PC2", 'field': "pc", 'editor':'TextEditor'}),
+                 new cj.Column.fromMap ({'id': "effort", 'name': "effort", 'field': "effortDriven", 'width':300})
                  ];
-  grid.CheckboxSelectColumn checkboxCol=new grid.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
+  cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   column.insert(0,checkboxCol.getColumnDefinition());
   List data=[];
   for (var i = 0; i < 5; i++) {
     data.add( {
       'dtitle':  new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100).toString(),
-      'pc': new math.Random().nextInt(10) * 100,
-//      'start': "01/01/2009",
-//      'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
-//      'effortDriven': (i % 5 == 0)
+      'pc2': new math.Random().nextInt(10) * 100,
+      'pc': (new math.Random().nextInt(10) * 100).toString(),
+      'start': "01/01/2009",
+      'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
+      'effortDriven': (i % 5 == 0)
     });
   }
   Map opt = {'explicitInitialization': false,
              'multiColumnSort': true,
              'editable': true,
-             'autoEdit': false
+             'autoEdit': true,
+             'frozenColumn':1
   };
-  grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
-  sg.setSelectionModel(new grid.RowSelectionModel({'selectActiveRow': false}));
+  cj.SlickGrid sg= new cj.SlickGrid(el,data,column,opt);
+  sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
   sg.registerPlugin(checkboxCol);
 
   //sg.setSelectionModel(new CellSelectionModel(sg.options));
-
+  //args: {rows:[...], grid: SlickGrid }
+  sg.onSelectedRowsChanged.subscribe((cj.EventData e,Map args){
+          querySelector('.right-pane')..children.clear()..appendText((args['rows'] as List).join(' '));
+  });
 
   sg.onSort.subscribe( (e, args) {
     var cols = args['sortCols'];

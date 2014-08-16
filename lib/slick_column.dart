@@ -3,10 +3,11 @@ library slick.column;
 import 'dart:html';
 import 'slick_grid.dart';
 import 'slick_core.dart' as core;
+
 /**
  * Virtual column that add to first column, including header
  */
-class CheckboxSelectColumn extends Column{
+class CheckboxSelectColumn extends Column with IPlugin{
   Map _options;
   Map _defaults = {
                    'columnId': "_checkbox_selector",

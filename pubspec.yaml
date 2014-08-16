@@ -1,9 +1,9 @@
 name: slickdart
-version: 0.0.3
+version: 0.0.4
 author: CJKAO <kaopeter@gmail.com>
 description: Basic grid component port from SlickGrid
-homepage: https://github.com/cjkao/slickdart
-documentation: https://github.com/mleibman/SlickGrid
+homepage: https://cjkao.github.io/slickdart
+documentation: https://github.io/mleibman/SlickGrid
 dependencies:
   browser: any
 dev_dependencies:

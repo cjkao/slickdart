@@ -114,12 +114,16 @@ simple.html
       </body>
     </html>
 
-
+Known constraint
+========================
+* col-span (not tested) 
+* using keyboard navigation on non-editable cell and goes out of viewport will not
+  immediate update screen until it on editable area 
 TODO
 ========================
 
 
-* [x] Frozen column
+* [x] Frozen column, also editable
 * [] multiple column row
 * [x] Resize column
 * [] Column reorder

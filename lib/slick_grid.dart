@@ -10,6 +10,17 @@ import 'dart:collection';
 import 'dart:convert';
 //import 'dart:mirrors';
 import 'slick_dnd.dart';
+
+
+
+/**
+ * plug-in interface
+ */
+abstract class IPlugin{
+  init(SlickGrid grid);
+  void destroy();
+}
+
 Map<String,int> scrollbarDimensions;  //width and height
 int maxSupportedCssHeight;  // browser's breaking point
 
@@ -180,6 +191,11 @@ class SlickGrid {
   core.Event onDragStart = new core.Event();
   core.Event onDrag = new core.Event();
   core.Event onDragEnd = new core.Event();
+  /**
+   *
+   * param e:  EventData
+   * param args: {rows:[...], grid: SlickGrid }
+   */
   core.Event onSelectedRowsChanged = new core.Event();
   core.Event onCellCssStylesChanged = new core.Event();
 
@@ -299,7 +315,7 @@ class SlickGrid {
   SelectionModel selectionModel;
   List selectedRows = [];
 
-  List plugins = [];
+  List<IPlugin> plugins = [];
   /**
    * css name =>
    * { row id :
@@ -1075,12 +1091,12 @@ class SlickGrid {
     }
   }  //end of initialize
 
-    void registerPlugin(plugin) {
+    void registerPlugin(IPlugin plugin) {
       plugins.add(plugin);
       plugin.init(this);
     }
 
-    void unregisterPlugin(plugin) {
+    void unregisterPlugin(IPlugin plugin) {
       plugins.remove(plugin);
       plugin.destroy();
     }
@@ -1323,19 +1339,20 @@ class SlickGrid {
 // TODO:  this is static.  need to handle page mutation.
     bindAncestorScrollEvents() {
       Element elem = (hasFrozenRows && !options['frozenBottom']) ? $canvasBottomL : $canvasTopL;
-      //Element elem = $canvas;
-      while (!(elem.parent is ShadowRoot) && (elem = elem.parentNode) != document.body && elem != null) {
-        // bind to scroll containers only
-        if (elem == $viewport || elem.scrollWidth != elem.clientWidth || elem.scrollHeight != elem.clientHeight) {
-          if ($boundAncestors==null) {
-            $boundAncestors = [elem];
-          } else {
-            $boundAncestors.add(elem);  //TODO
-          }
-          _ancestorScrollSubscribe = elem.onScroll.matches('scroll.$uid' ).listen(handleActiveCellPositionChange);
-
-        }
-      }
+//      while (!(elem.parent is ShadowRoot) && (elem = elem.parentNode) != document.body && elem != null) {
+//        // bind to scroll containers only
+//        if (elem == $viewportTopL || elem.scrollWidth != elem.clientWidth || elem.scrollHeight != elem.clientHeight) {
+//          if ($boundAncestors==null) {
+//            $boundAncestors = [elem];
+//          } else {
+//            $boundAncestors.add(elem);  //TODO
+//          }
+//          _ancestorScrollSubscribe = elem.onScroll.matches('.$uid' ).listen(handleActiveCellPositionChange);
+//
+//        }
+//      }
+ //     _ancestorScrollSubscribe = container.querySelectorAll('.slick-pane').onScroll.listen(handleActiveCellPositionChange);
+   //   _ancestorScrollSubscribe = this.$viewportBottomL.onScroll.listen(handleActiveCellPositionChange);
     }
 
     unbindAncestorScrollEvents() {
@@ -2601,6 +2618,12 @@ class SlickGrid {
         if (rowsCache[row].rowNode[0] == rowNode) {
           return row;
         }
+        if(options['frozenColumn']>=0){
+          if (rowsCache[row].rowNode[1] == rowNode) {
+            return row;
+          }
+        }
+      //  if(this.has)
       }
 
       return null;
@@ -3338,9 +3361,9 @@ class SlickGrid {
             if (h_render!=null) {
                 h_render.cancel();
             }
-
-            if ((lastRenderedScrollTop - scrollTop).abs() > 20 ||
-                (lastRenderedScrollLeft - scrollLeft).abs() > 20) {
+            //how many distance is enought to scroll?
+            if ((lastRenderedScrollTop - scrollTop).abs() > 120 ||
+                (lastRenderedScrollLeft - scrollLeft).abs() > 120) {
                 if (options['forceSyncScrolling'] || (
                     (lastRenderedScrollTop - scrollTop).abs() < viewportH &&
                         (lastRenderedScrollLeft - scrollLeft).abs() < viewportW)) {
@@ -3801,12 +3824,28 @@ class SlickGrid {
            "cell": cell,
            "posX": cell
          };
+       }else{
+         //accept navigate to next row's first col
+         if(row<this.data.length){
+           return {
+             "row": row+1,
+             "cell": 0,
+             "posX": 0
+           };
+         }
        }
        return null;
      }
 
       Map gotoLeft(int row,int  cell,int  posX) {
        if (cell <= 0) {
+         if(row>=1 && cell==0){
+           return {
+                        "row": row-1,
+                        "cell": this.columns.length-1,
+                        "posX":  this.columns.length-1
+            };
+         }
          return null;
        }
 

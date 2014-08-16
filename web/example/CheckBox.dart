@@ -58,7 +58,14 @@ grid.SlickGrid init(){
              'frozenColumn': 1
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
-  sg.setSelectionModel(new RowSelectionModel({'selectActiveRow': false}));
+  RowSelectionModel rsm=new RowSelectionModel({'selectActiveRow':false});
+  sg.onSelectedRowsChanged.subscribe((var e, args){
+    print(rsm.getSelectedRows().length);
+  });
+  sg.setSelectionModel(rsm);
+//  sg.onClick.subscribe((var e,data){
+//
+//  });
   sg.registerPlugin(checkboxCol);
 
   //sg.setSelectionModel(new CellSelectionModel(sg.options));
