@@ -66,11 +66,19 @@ class CellRangeSelector{
   }
   Map options;
   SlickGrid _grid;
-  Element _canvas;
-  var _dragging;
+  Element $activeCanvas;
+  bool _dragging;
   var _decorator;
 //  v/ar _self = this;
   var _handler = new core.EventHandler();
+
+  // Frozen row & column variables
+   int _rowOffset;
+   int _columnOffset;
+   bool _isRightCanvas;
+   bool _isBottomCanvas;
+
+
   var _defaults = {
                    'selectionCss': {
                      "border": "2px dashed blue"
@@ -82,7 +90,8 @@ class CellRangeSelector{
     options.addAll(grid.options);
     _decorator = new CellRangeDecorator(grid);
     _grid = grid;
-    _canvas = _grid.getCanvasNode();
+
+   // _canvas = _grid.getCanvasNode();
     _handler
     .subscribe(_grid.onDragInit, handleDragInit)
       .subscribe(_grid.onDragStart, handleDragStart)
@@ -94,6 +103,27 @@ class CellRangeSelector{
       _handler.unsubscribeAll();
     }
     handleDragInit(e, dd) {
+      $activeCanvas = _grid.getActiveCanvasNode( e );
+
+       //var c = $activeCanvas.offset();
+
+       _rowOffset = 0;
+       _columnOffset = 0;
+       _isBottomCanvas = $activeCanvas.classes.contains( 'grid-canvas-bottom' );
+
+       if ( options['frozenRow'] > -1 && _isBottomCanvas ) {
+           _rowOffset = ( options['frozenBottom'] )
+               ? $activeCanvas.contentEdge.height
+               : _grid.$canvas.firstWhere((e)=> e.classes.contains('grid-canvas-top')).contentEdge.height;
+       }
+
+       _isRightCanvas = $activeCanvas.classes.contains( 'grid-canvas-right' );
+
+       if ( options['frozenColumn'] > -1 && _isRightCanvas ) {
+           _columnOffset =
+               _grid.$canvas.firstWhere((e)=> e.classes.contains('grid-canvas-left')).contentEdge.width;
+//               $('.grid-canvas-left').width();
+       }
       // prevent the grid from cancelling drag'n'drop by default
       e.stopImmediatePropagation();
     }
@@ -111,13 +141,13 @@ class CellRangeSelector{
 
       _grid.setFocus(); //no _grid.focus, may from drag plugin
 
-      var start = _grid.getCellFromPoint(
-          dd.startX - _canvas.offset.left,
-          dd.startY - _canvas.offset.top);
+//      var start = _grid.getCellFromPoint(
+//          dd.startX - _canvas.offset.left,
+//          dd.startY - _canvas.offset.top);
 
-      dd.range = {'start': start, 'end': {}};
+      dd.range = {'start': cell, 'end': {}};
 
-      return _decorator.show(new core.Range(start['row'], start['cell']));
+      return _decorator.show(new core.Range(cell['row'], cell['cell']));
     }
 
     handleDrag(e, dd) {
@@ -127,8 +157,8 @@ class CellRangeSelector{
       e.stopImmediatePropagation();
 
       var end = _grid.getCellFromPoint(
-          e.pageX - _canvas.offset.left,
-          e.pageY - _canvas.offset.top);
+          e.pageX - $activeCanvas.offset.left,
+          e.pageY - $activeCanvas.offset.top);
 
       if (!_grid.canCellBeSelected(end['row'], end['cell'])) {
         return;
@@ -184,7 +214,7 @@ class CellSelectionModel extends SelectionModel{
     init(SlickGrid grid) {
 
       _grid = grid;
-      _canvas = _grid.getCanvasNode();
+      _canvas = _grid.getActiveCanvasNode();
       _grid.onActiveCellChanged.subscribe(_handleActiveCellChange);
       _grid.onKeyDown.subscribe(_handleKeyDown);
       grid.registerPlugin(_selector);

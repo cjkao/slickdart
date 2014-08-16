@@ -1,12 +1,12 @@
 import 'dart:html';
 import 'package:slickdart/slick_grid.dart' as grid;
 import 'dart:math' as math;
-import 'package:slickdart/slick_editor.dart';
+//import 'package:slickdart/slick_editor.dart';
 import 'package:slickdart/slick_selectionmodel.dart';
 void main() {
   grid.SlickGrid  g=init();
   g.init();
-  print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
+  //print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
   querySelector('#reset').onClick.listen((e){
     List _data=[];
     for (var i = 0; i < 50000; i++) {

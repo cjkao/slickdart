@@ -6,13 +6,13 @@ import 'package:slickdart/slick_column.dart';
 void main() {
   grid.SlickGrid  g=init();
   g.init();
-  print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
+ // print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
   querySelector
   ('#reset').onClick.listen((e){
     List _data=[];
     for (var i = 0; i < 50000; i++) {
       _data.add( {
-        'dtitle':  new math.Random().nextInt(1000).toString(),
+        'title':  new math.Random().nextInt(1000).toString(),
         'duration': new math.Random().nextInt(1000).toString(),
         'pc': i
       });
@@ -33,7 +33,7 @@ grid.SlickGrid init(){
   Element el =querySelector('#grid');
   List column = [
 
-                 new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
+                 new grid.Column.fromMap ({'width':30,'id': "title", 'name': "Title1", 'field': "title", 'sortable': true,'editor': 'TextEditor' }),
                  new grid.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true }),
                  new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
                 // new grid.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"})
@@ -43,7 +43,7 @@ grid.SlickGrid init(){
   List data=[];
   for (var i = 0; i < 5; i++) {
     data.add( {
-      'dtitle':  new math.Random().nextInt(100).toString(),
+      'title':  new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100).toString(),
       'pc': new math.Random().nextInt(10) * 100,
 //      'start': "01/01/2009",

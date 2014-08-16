@@ -5,7 +5,7 @@ import 'dart:math' as math;
 void main() {
   grid.SlickGrid  g=init();
   g.init();
-  print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
+//  print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
   querySelector('#reset').onClick.listen((e){
     List _data=[];
     for (var i = 0; i < 50000; i++) {

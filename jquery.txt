@@ -1,0 +1,18 @@
+
+jQuery function                       Dart-y way
+- css()                         style.backgroundColor
+- height()                      contentEdge.height
+- width()                       contentEdge.width
+- toggleClass()                 classes.toggle/toggleAll
+- scrollLeft()                  scrollLeft
+- scrollTop()                   scrollTop
+- innerHeight()                 paddingEdge.height
+- innerWidth()                  paddingEdge.width
+- outerHeight()                 borderEdge.height, marginEdge.height
+- outerWidth()                  borderEdge.width, marginEdge.width
+- hasClass()                    classes.contains
+- addClass()                    classes.add/addAll
+- removeClass()                 classes.remove/removeAll
+- position()                    offsetTo(Element anyOffsetParent)
+- offset()                      documentOffset
+- offsetParent()                offsetParent

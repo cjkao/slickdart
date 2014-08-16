@@ -6,3 +6,4 @@ export 'slick_editor.dart';
 export 'slick_formatters.dart';
 export 'slick_grid.dart';
 export 'slick_selectionmodel.dart';
+export 'slick_dnd.dart';

@@ -153,14 +153,14 @@ class EventHandler{
     return this;  // allow chaining
   }
 
-  unsubscribe  (Event event,Function handler) {
+  EventHandler unsubscribe  (Event event,Function handler) {
     var i = handlers.length;
     while (i-- > 0) {
       if (handlers[i]['event'] == event &&
           handlers[i]['handler'] == handler) {
         handlers.removeAt(i);
         event.unsubscribe(handler);
-        return;
+        return this;
       }
     }
 

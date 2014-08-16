@@ -30,9 +30,11 @@ abstract class Editor{
   Map validate();
   bool show(){
     this.$input.style.visibility='visible';
+    return true;
   }
   bool hide(){
     this.$input.style.visibility='hidden';
+    return true;
   }
   void destroy();
   void focus();

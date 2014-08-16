@@ -4,7 +4,7 @@ import 'dart:math' as math;
 void main() {
   grid.SlickGrid  g=init();
   g.init();
-  print(g.$canvas.getBoundingClientRect());
+  //print(g.$canvas.getBoundingClientRect());
   querySelector
   ('#reset').onClick.listen((e){
     List _data=[];
@@ -19,7 +19,7 @@ void main() {
     g.data.addAll(_data);
     g.invalidate();
     g.render();
-    print(g.$canvas.getBoundingClientRect());
+    //print(g.$canvas.getBoundingClientRect());
     //print(g.data);
   });
 //  query('#reset').onClick.listen((e){

@@ -9,11 +9,11 @@ void main() {
 }
 
 grid.SlickGrid init(){
-  Element el =querySelector('#grid');
+  Element el =querySelector('#myGrid');
   List column = [
      new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "duration", 'width':120,'name': "percentComplete2", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%", 'name': "start3", 'field': "start", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "duration", 'name': "percentComplete2", 'field': "percentComplete", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "%", 'name': "start3", 'field': "duration", 'sortable': true }),
      new grid.Column.fromMap ({'id': "start", 'name': "4finish", 'field': "finish"}),
      new grid.Column.fromMap ({'id': "title2", 'name': "5Title1", 'field': "title", 'sortable': true }),
      new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "6pppppppplete", 'field': "percentComplete", 'sortable': true }),
@@ -33,9 +33,9 @@ grid.SlickGrid init(){
      new grid.Column.fromMap ({'id': "start2", 'name': "20 finish", 'field': "finish4"})
   ];
   List data=[];
-  for (var i = 0; i < 5000; i++) {
+  for (var i = 0; i < 300; i++) {
     data.add( {
-      'title':  new math.Random().nextInt(100).toString(),
+      'title':  'aa nnn aaa' + new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100).toString(),
       'percentComplete': new math.Random().nextInt(10) * 100,
       'start': "01/01/2009",
@@ -48,7 +48,10 @@ grid.SlickGrid init(){
     });
   }
   Map opt = {'explicitInitialization': false,
-             'multiColumnSort': false
+             'multiColumnSort': false,
+             'topPanelHeight': 25,
+             'frozenColumn': 0,
+                 'frozenRow': 1,
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
   sg.onSort.subscribe( (e, args) {
