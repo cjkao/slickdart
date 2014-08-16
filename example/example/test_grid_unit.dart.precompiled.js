@@ -9026,7 +9026,9 @@ u=this.Hk
 t=this.aC
 if(u==null?t!=null:u!==t)this.MJ(y)
 this.qX(y)
-this.Ea=z.t(0,"top")
+if(this.CT){y.u(0,"top",0)
+y.u(0,"bottom",x.t(0,"frozenRow"))
+this.qX(y)}this.Ea=z.t(0,"top")
 v=v.length
 x=x.t(0,"enableAddRow")===!0?1:0
 this.f0=P.J(v+x-1,z.t(0,"bottom"))
@@ -9938,7 +9940,7 @@ J.ND(z,v)}J.ND(this.Rv,v)
 this.VI(this.RV,P.Fl(null,null))}},
 pi:function(a){var z,y,x,w,v
 for(z=P.F(this.aS.gvc(),!0,null),z=H.VM(new H.a7(z,z.length,0,null),[H.Kp(z,0)]),y=this.bG;z.G();){x=z.Ff
-if(this.CT)if(!(y.t(0,"frozenBottom")===!0&&J.J5(x,this.GV)===!0))w=y.t(0,"frozenBottom")!==!0&&J.Hb(x,this.GV)===!0
+if(this.CT)if(!(y.t(0,"frozenBottom")===!0&&J.xZ(x,this.GV)===!0))w=y.t(0,"frozenBottom")!==!0&&J.u6(x,this.GV)===!0
 else w=!0
 else w=!1
 v=!w||!1

@@ -159,7 +159,7 @@ y=J.Vg(document.querySelector("#reset"))
 H.VM(new W.xC(0,y.J6,y.fA,W.VF(new Z.em(z)),y.el),[H.Kp(y,0)]).DN()},"$0","Da",0,0,0],
 V3:function(){var z,y,x,w,v,u,t,s,r,q,p,o,n,m,l
 z=document.querySelector("#grid")
-y=[R.ED(P.EF(["width",30,"id","title","name","Title1","field","title","sortable",!0,"editor","TextEditor"],null,null)),R.ED(P.EF(["width",120,"id","duration","name","duration","field","duration","sortable",!0],null,null)),R.ED(P.EF(["id","%","name","percent","field","pc","sortable",!0],null,null))]
+y=[R.ED(P.EF(["width",130,"id","title","name","Title1","field","title","sortable",!0,"editor","TextEditor"],null,null)),R.ED(P.EF(["width",120,"id","duration","name","duration","field","duration","sortable",!0],null,null)),R.ED(P.EF(["id","%","name","percent","field","pc","sortable",!0],null,null)),R.ED(P.EF(["width",400,"id","start","name","finish","field","finish"],null,null))]
 x=P.EF(["cssClass","slick-cell-checkboxsel"],null,null)
 w=P.EF(["columnId","_checkbox_selector","cssClass",null,"toolTip","Select/Deselect All","width",30],null,null)
 v=P.Fl(null,null)
@@ -170,9 +170,10 @@ u.FV(0,t)
 s.fu(x)
 C.Nm.aP(y,0,R.ED(P.EF(["id",s.GS.t(0,"columnId"),"name","<input type='checkbox'>","toolTip",s.GS.t(0,"toolTip"),"field","sel","width",s.GS.t(0,"width"),"resizable",!1,"sortable",!1,"cssClass",s.GS.t(0,"cssClass"),"formatter",s.gkP()],null,null)))
 r=[]
-for(q=0;q<5;++q){x=C.jn.bu(C.pr.j1(100))
+for(q=0;q<50;++q){x=C.jn.bu(C.pr.j1(100))
 w=C.jn.bu(C.pr.j1(100))
-r.push(P.EF(["title",x,"duration",w,"pc",C.pr.j1(10)*100],null,null))}p=P.EF(["explicitInitialization",!1,"multiColumnSort",!0,"editable",!0,"autoEdit",!1],null,null)
+v=C.pr.j1(10)
+r.push(P.EF(["title",x,"duration",w,"pc",v*100,"finish",C.jn.bu(C.pr.j1(10)+10)+"/05/2013"],null,null))}p=P.EF(["explicitInitialization",!1,"multiColumnSort",!0,"editable",!0,"autoEdit",!1,"frozenColumn",1],null,null)
 x=H.VM(new P.kM(null),[R.Hn])
 w=new B.ea([])
 v=new B.ea([])
@@ -6393,7 +6394,9 @@ u=this.Hk
 t=this.aC
 if(u==null?t!=null:u!==t)this.MJ(y)
 this.qX(y)
-this.Ea=z.t(0,"top")
+if(this.CT){y.u(0,"top",0)
+y.u(0,"bottom",x.t(0,"frozenRow"))
+this.qX(y)}this.Ea=z.t(0,"top")
 v=v.length
 x=x.t(0,"enableAddRow")===!0?1:0
 this.f0=P.J(v+x-1,z.t(0,"bottom"))
@@ -7334,7 +7337,7 @@ J.ND(z,v)}J.ND(this.aB,v)
 this.VI(this.RV,P.Fl(null,null))}},
 pi:function(a){var z,y,x,w,v
 for(z=P.F(this.aS.gvc(),!0,null),z=H.VM(new H.a7(z,z.length,0,null),[H.Kp(z,0)]),y=this.bG;z.G();){x=z.Ff
-if(this.CT)if(!(y.t(0,"frozenBottom")===!0&&J.J5(x,this.GV)===!0))w=y.t(0,"frozenBottom")!==!0&&J.Bl(x,this.GV)===!0
+if(this.CT)if(!(y.t(0,"frozenBottom")===!0&&J.xZ(x,this.GV)===!0))w=y.t(0,"frozenBottom")!==!0&&J.u6(x,this.GV)===!0
 else w=!0
 else w=!1
 v=!w||!1
