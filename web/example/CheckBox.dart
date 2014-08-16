@@ -33,28 +33,29 @@ grid.SlickGrid init(){
   Element el =querySelector('#grid');
   List column = [
 
-                 new grid.Column.fromMap ({'width':30,'id': "title", 'name': "Title1", 'field': "title", 'sortable': true,'editor': 'TextEditor' }),
+                 new grid.Column.fromMap ({'width':130,'id': "title", 'name': "Title1", 'field': "title", 'sortable': true,'editor': 'TextEditor' }),
                  new grid.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true }),
                  new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
-                // new grid.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"})
+                 new grid.Column.fromMap ({'width':400,'id': "start", 'name': "finish", 'field': "finish"})
                  ];
   CheckboxSelectColumn checkboxCol=new CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   column.insert(0,checkboxCol.getColumnDefinition());
   List data=[];
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 50; i++) {
     data.add( {
       'title':  new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100).toString(),
       'pc': new math.Random().nextInt(10) * 100,
 //      'start': "01/01/2009",
-//      'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
+      'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
 //      'effortDriven': (i % 5 == 0)
     });
   }
   Map opt = {'explicitInitialization': false,
              'multiColumnSort': true,
              'editable': true,
-             'autoEdit': false
+             'autoEdit': false,
+             'frozenColumn': 1
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
   sg.setSelectionModel(new RowSelectionModel({'selectActiveRow': false}));
