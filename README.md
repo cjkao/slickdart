@@ -67,7 +67,9 @@ simple.dart
         });
       }
       Map opt = {'explicitInitialization': false,
-                 'multiColumnSort': false
+                 'multiColumnSort': false,
+                 'frozenColumn': 0,
+                 'frozenRow': 1,
       };
       grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
       sg.onSort.subscribe( (e, args) {
@@ -117,7 +119,7 @@ TODO
 ========================
 
 
-* [] Frozen column
+* [x] Frozen column
 * [] multiple column row
 * [x] Resize column
 * [] Column reorder
