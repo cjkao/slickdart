@@ -599,6 +599,12 @@ class SlickGrid {
 
     // render missing rows
     renderRows(rendered);
+    //render missing frozenCol
+    if(this.hasFrozenRows){
+      rendered['top']=0;
+      rendered['bottom']=options['frozenRow'];
+      renderRows(rendered);
+    }
 
     postProcessFromRow = visible['top'];
     postProcessToRow = math.min(getDataLengthIncludingAddNew() - 1, visible['bottom']);
@@ -2170,8 +2176,8 @@ class SlickGrid {
         var removeFrozenRow = true;
 
         if (hasFrozenRows
-            && ( ( options['frozenBottom'] && i >= actualFrozenRow ) // Frozen bottom rows
-            || ( !options['frozenBottom'] && i <= actualFrozenRow ) // Frozen top rows
+            && ( ( options['frozenBottom'] && i > actualFrozenRow ) // Frozen bottom rows
+            || ( !options['frozenBottom'] && i < actualFrozenRow ) // Frozen top rows
             )
             ) {
             removeFrozenRow = false;
@@ -2969,8 +2975,6 @@ class SlickGrid {
     xRight.setInnerHtml(stringArrayR.join(""), treeSanitizer: _treeSanitizer )  ;
 
     for (var i = 0, ii = rows.length; i < ii; i++) {
-//      rowsCache[rows[i]].rowNode = x.firstChild;
-//      parentNode.children.add(x.firstChild);
         if ( hasFrozenRows  &&  rows[i] >= actualFrozenRow ) {
             if (options['frozenColumn'] > -1) {
                 rowsCache[rows[i]].rowNode = [x.firstChild,xRight.firstChild];
@@ -2984,12 +2988,9 @@ class SlickGrid {
             rowsCache[rows[i]].rowNode = [x.firstChild,xRight.firstChild];
             $canvasTopL.children.add(x.firstChild);
             $canvasTopR.children.add(xRight.firstChild);
-//                .add($(x.firstChild).appendTo($canvasTopL))
-//                .add($(xRight.firstChild).appendTo($canvasTopR));
         } else {
             rowsCache[rows[i]].rowNode = [x.firstChild];
             $canvasTopL.children.add(x.firstChild);
-//                .add($(x.firstChild).appendTo($canvasTopL));
         }
     }
 

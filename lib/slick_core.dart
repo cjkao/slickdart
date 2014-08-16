@@ -2,7 +2,7 @@ library slick.core;
 import 'dart:html' as html;
 //import 'dart:convert';
 //import 'dart:math' as math;
-import 'dart:mirrors';
+//import 'dart:mirrors';
 EditorLock GlobalEditorLock = new EditorLock();
 /**
  * utility to get dom width / height
@@ -29,11 +29,11 @@ class EventData{
   }
   get target => domEvent.target;
   noSuchMethod(Invocation msg) {
-    var im = reflect(domEvent);
-    if (msg.isGetter){
-      return im.getField(msg.memberName);
-    }
-    reflect(domEvent).delegate(msg);
+//    var im = reflect(domEvent);
+//    if (msg.isGetter){
+//      return im.getField(msg.memberName);
+//    }
+//    reflect(domEvent).delegate(msg);
   }
 
   preventDefault(){
