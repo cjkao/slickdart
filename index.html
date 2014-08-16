@@ -1,50 +1,179 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Slickdart : dart - slickgrid port" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Slickdart by cjkao</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Slickdart</title>
   </head>
-
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/cjkao/slickdart">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/cjkao/slickdart/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/cjkao/slickdart/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/cjkao/slickdart">View on GitHub</a>
+    <div class="wrapper">
 
-          <h1 id="project_title">Slickdart</h1>
-          <h2 id="project_tagline">dart - slickgrid port</h2>
+      <section>
+        <div id="title">
+          <h1>Slickdart</h1>
+          <p>dart - slickgrid port</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/cjkao">cjkao</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/cjkao/slickdart/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/cjkao/slickdart/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+        <h1>
+<a name="slickdart" class="anchor" href="#slickdart"><span class="octicon octicon-link"></span></a>slickdart</h1>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <a href='example/example/example-frozen-columns-and-rows.html'>forzen column</a>
+<p>slick grid port, not for mobile device</p>
 
+<p>Sort performance is not expected in javascript version</p>
+
+<h1>
+<a name="parameter-description" class="anchor" href="#parameter-description"><span class="octicon octicon-link"></span></a>Parameter Description</h1>
+
+<ul>
+<li>When enable 'selectActiveRow' on row selection model and with CheckboxSelectColumn in first row
+click on first column out side of check box will uncheck other rows if multiple row selected</li>
+</ul><h1>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h1>
+
+<ul>
+<li>examples in web/example folder</li>
+</ul><p>simple.dart
+    import 'dart:html';
+    import 'package:slickdart/slick_grid.dart' as grid;
+    import 'dart:math' as math;</p>
+
+<pre><code>void main() {
+  var g=init();
+  g.init();
+  print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
+}
+
+grid.SlickGrid init(){
+  Element el =querySelector('#grid');
+  List column = [
+     new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "title", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "duration", 'width':120,'name': "percentComplete2", 'field': "percentComplete", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "%", 'name': "start3", 'field': "start", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "start", 'name': "4finish", 'field': "finish"}),
+     new grid.Column.fromMap ({'id': "title2", 'name': "5Title1", 'field': "title", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "6pppppppplete", 'field': "percentComplete", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "%2", 'name': "7start", 'field': "start", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "start2", 'name': "8finish", 'field': "finish"}),
+     new grid.Column.fromMap ({'id': "start2", 'name': "9finish", 'field': "finish"}),
+     new grid.Column.fromMap ({'id': "title2", 'name': "10 Title1", 'field': "title", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "11 percentComplete", 'field': "percentComplete", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "%2", 'name': "12 start", 'field': "start", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "start2", 'name': "13 finish", 'field': "finish"}),
+     new grid.Column.fromMap ({'id': "title2", 'name': "14 Title1", 'field': "title", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "15 percentComplete", 'field': "percentComplete", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "%2", 'name': "16 start", 'field': "start", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "start2", 'name': "17 finish", 'field': "finish1"}),
+     new grid.Column.fromMap ({'id': "start2", 'name': "18 finish", 'field': "finish2"}),
+     new grid.Column.fromMap ({'id': "start2", 'name': "19 finish", 'field': "finish3"}),
+     new grid.Column.fromMap ({'id': "start2", 'name': "20 finish", 'field': "finish4"})
+  ];
+  List data=[];
+  for (var i = 0; i &lt; 50000; i++) {
+    data.add( {
+      'title':  new math.Random().nextInt(100).toString(),
+      'duration': new math.Random().nextInt(100).toString(),
+      'percentComplete': new math.Random().nextInt(10) * 100,
+      'start': "01/01/2009",
+      'finish': "01/05/2009",
+      'finish1': "01/05/2009 $i",
+      'finish2': "01/05/20$i",
+      'finish3': "01/05/201$i",
+      'finish4': "01/05/202$i",
+      'effortDriven': (i % 5 == 0)
+    });
+  }
+  Map opt = {'explicitInitialization': false,
+             'multiColumnSort': false,
+             'frozenColumn': 0,
+             'frozenRow': 1,
+  };
+  grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
+  sg.onSort.subscribe( (e, args) {
+    grid.Column col = args['sortCol'];
+    data.sort( (dataRow1, dataRow2) {
+        var field = col.field;
+        var sign = args['sortAsc'] ? 1 : -1;
+        dynamic value1 = dataRow1[field], value2 = dataRow2[field];
+        var result = (value1 == value2 ? 0 : (value1.compareTo(value2)&gt;0 ? 1 : -1)) * sign;
+        if (result != 0) {
+          return result;
+        }
+      return 0;
+    });
+    sg.invalidate();
+    sg.render();
+  });
+  return sg;
+}
+</code></pre>
+
+<p>simple.html</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;    
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Slickdart&lt;/title&gt;
+    &lt;link rel="stylesheet" href="slickdart.css"&gt;
+     &lt;link rel="stylesheet" href="packages/slickdart/slick.grid.css" type="text/css"/&gt;
+     &lt;link rel="stylesheet" href="packages/slickdart/slick_default_theme.css" type="text/css"/&gt;
+     &lt;link rel="stylesheet" href="simple.css" type="text/css"/&gt;
+  &lt;/head&gt;
+  &lt;body&gt;    
+      &lt;div style="width:600px;"&gt;
+        &lt;div class="grid-header" style="width:100%"&gt;
+            &lt;label&gt;Santa's TODO list:&lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div id="grid" style="width:100%;height:500px;"&gt;&lt;/div&gt;
+      &lt;/div&gt;   
+    &lt;script type="application/dart" src="simple.dart"&gt;&lt;/script&gt;
+    &lt;script src="packages/browser/dart.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+<section>
+<h1>example</h1>
+<a href='example/example/example-frozen-columns-and-rows.html'>forzen column</a>
+</section>
+<h1>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h1>
+
+<ul>
+<li>[x] Frozen column</li>
+<li>[] multiple column row</li>
+<li>[x] Resize column</li>
+<li>[] Column reorder</li>
+</ul>
       </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Slickdart maintained by <a href="https://github.com/cjkao">cjkao</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
-
   </body>
 </html>
