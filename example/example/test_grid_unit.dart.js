@@ -3497,7 +3497,7 @@ cZ:function(){var z=this.lI
 if(z!=null){this.lI=null
 z.Gv()}return},
 yi:[function(a){this.HQ.FC(a,this)},"$1","gwU",2,0,function(){return H.IG(function(a,b){return{func:"kA",void:true,args:[a]}},this.$receiver,"fB")},68],
-zX:[function(a,b){this.MR(a,b)},"$2","gFa",4,0,75,17,18],
+SW:[function(a,b){this.MR(a,b)},"$2","gFa",4,0,75,17,18],
 oZ:[function(){this.EC()},"$0","gos",0,0,12],
 JC:function(a,b,c,d,e,f,g){var z,y
 z=this.gwU()
@@ -6705,7 +6705,6 @@ sbM:function(a,b){this.hV(a,"position",b,"")},
 sT8:function(a,b){this.hV(a,"right",b,"")},
 sG6:function(a,b){this.hV(a,"top",b,"")},
 sl3:function(a,b){this.hV(a,H.d(P.O2())+"user-select",b,"")},
-sSW:function(a,b){this.hV(a,"visibility",b,"")},
 gR:function(a){return this.T2(a,"width")},
 sR:function(a,b){this.hV(a,"width",b,"")}},
 VG:{
@@ -7895,6 +7894,7 @@ if(1>=y.length)return H.e(y,1)
 x=J.JA(y[1],"<anonymous closure>","<fn>")
 if(2>=y.length)return H.e(y,2)
 w=P.hK(y[2])
+if($.FY().tg(0,w))w=P.hK("dart:io/"+H.d(w.Aj))
 if(3>=y.length)return H.e(y,3)
 v=H.BU(y[3],null,null)
 if(4>=y.length)return H.e(y,4)
@@ -9364,8 +9364,7 @@ this.ad()
 this.Hg()
 this.ZK()
 this.um()
-this.qs()
-z=H.VM(new W.RO(window,C.IU.fA,!1),[null])
+if(this.CT&&z.t(0,"frozenBottom")!==!0);z=H.VM(new W.RO(window,C.IU.fA,!1),[null])
 H.VM(new W.Ov(0,z.uv,z.fA,W.aF(this.gqe()),z.el),[H.Kp(z,0)]).DN()
 H.bQ(this.Sa,new R.Gn(this))
 z=this.FY
@@ -9556,37 +9555,6 @@ v.toString
 v=!J.xC(H.BU(H.bR(v,"px",""),null,null),w)}else v=!0
 if(v)break}y.wg(z)
 return x},
-qs:function(){var z,y,x,w,v,u,t
-z=this.CT&&this.bG.t(0,"frozenBottom")!==!0?this.l5:this.pS
-y=this.Sa
-x=this.Sl
-while(!0){w=J.RE(z)
-if(!J.x(w.geT(z)).$isKG){z=w.gKV(z)
-w=document.body
-w=(z==null?w!=null:z!==w)&&z!=null}else w=!1
-if(!w)break
-w=J.x(z)
-if(!w.n(z,y)){v=w.gEt(z)
-u=w.gz3(z)
-if(v==null?u==null:v===u){v=w.geP(z)
-u=w.gIt(z)
-u=v==null?u!=null:v!==u
-v=u}else v=!0}else v=!0
-if(v){v=this.fR
-if(v==null)this.fR=[z]
-else v.push(z)
-w=w.gKc(z).WO(0,"scroll."+x)
-v=this.gpb()
-u=$.X3
-t=new P.fB(w,null,null,null,null,u,0,null,null)
-t.$builtinTypeInfo=[H.W8(w,"YR",0),H.W8(w,"YR",1)]
-t.H2=u.cR(v)
-t.Tv=P.VH(P.bx(),u)
-t.EU=u.Al(P.v3())
-v=t.gwU()
-u=t.gFa()
-t.lI=w.Sb.zC(v,t.gos(),u)
-this.i4=t}}},
 ad:function(){var z,y,x,w,v,u,t,s,r,q,p,o,n,m,l,k,j,i,h,g
 z=new R.xO()
 y=new R.Sm()
@@ -10083,11 +10051,14 @@ y=J.RE(a)
 x=y.gDD(a).DG().Qk(0,new R.MP(new H.VR("l\\d+",z,null,null)),null)
 if(x==null)throw H.b(C.xB.g("getCellFromNode: cannot get cell - ",y.gxr(a)))
 return H.BU(J.ZZ(x,1),null,null)},
-Rp:function(a){var z,y,x,w
-for(z=this.aS,y=z.gvc(),y=y.gA(y);y.G();){x=y.gl()
-w=z.t(0,x).gkB()
-if(0>=w.length)return H.e(w,0)
-if(J.xC(w[0],a))return x}return},
+Rp:function(a){var z,y,x,w,v
+for(z=this.aS,y=z.gvc(),y=y.gA(y),x=this.bG;y.G();){w=y.gl()
+v=z.t(0,w).gkB()
+if(0>=v.length)return H.e(v,0)
+if(J.xC(v[0],a))return w
+if(J.J5(x.t(0,"frozenColumn"),0)===!0){v=z.t(0,w).gkB()
+if(1>=v.length)return H.e(v,1)
+if(J.xC(v[1],a))return w}}return},
 V3:function(a,b){var z,y,x
 z=this.bG
 if(z.t(0,"enableCellNavigation")===!0){y=this.nU.length
@@ -10492,11 +10463,11 @@ z=this.xA
 y=this.vR
 if(typeof z!=="number")return z.W()
 if(typeof y!=="number")return H.s(y)
-if(!(Math.abs(z-y)>20)){z=this.Hk
+if(!(Math.abs(z-y)>120)){z=this.Hk
 y=this.aC
 if(typeof z!=="number")return z.W()
 if(typeof y!=="number")return H.s(y)
-y=Math.abs(z-y)>20
+y=Math.abs(z-y)>120
 z=y}else z=!0
 if(z){if(this.bG.t(0,"forceSyncScrolling")!==!0){z=this.xA
 y=this.vR
@@ -10604,13 +10575,6 @@ if(z.n(a,x)){y.u(0,"left",J.WB(y.t(0,"left"),z.gNa(a)))
 y.u(0,"top",J.WB(y.t(0,"top"),z.gzI(a)))
 x=z.gAN(a)}y.u(0,"bottom",J.WB(y.t(0,"top"),y.t(0,"height")))
 y.u(0,"right",J.WB(y.t(0,"left"),y.t(0,"width")))}return y},
-jv:[function(a){var z,y
-if(this.KU==null)return
-this.VI(this.N3,P.Fl(null,null))
-if(this.bi!=null){z=this.zA(this.KU).t(0,"visible")
-y=this.bi
-if(z!==!0)J.yy(y.zW.style,"hidden")
-else J.yy(y.zW.style,"visible")}},"$1","gpb",2,0,111,2],
 li:function(a){var z,y,x
 z=this.bG
 if(J.xC(z.t(0,"enableCellNavigation"),!1))return!1
@@ -10661,17 +10625,21 @@ if(J.J5(b,z.length)===!0)return
 do{b=J.WB(b,1)
 y=J.Wx(b)}while(y.C(b,z.length)&&this.V3(a,b)!==!0)
 if(y.C(b,z.length))return P.EF(["row",a,"cell",b,"posX",b],null,null)
-return},"$3","gYR",6,0,113],
-bm:[function(a,b,c){var z,y,x,w
-if(J.Hb(b,0)===!0)return
-z=this.JT(a)
-if(z!=null){if(typeof b!=="number")return H.s(b)
-y=z>=b}else y=!0
-if(y)return
-x=P.EF(["row",a,"cell",z,"posX",z],null,null)
-for(;!0;x=w){w=this.M1(x.t(0,"row"),x.t(0,"cell"),x.t(0,"posX"))
-if(w==null)return
-if(J.J5(w.t(0,"cell"),b)===!0)return x}},"$3","grF",6,0,113],
+else{z=J.Wx(a)
+if(z.C(a,this.nU.length)===!0)return P.EF(["row",z.g(a,1),"cell",0,"posX",0],null,null)}return},"$3","gYR",6,0,113],
+bm:[function(a,b,c){var z,y,x,w,v
+z=J.Wx(b)
+if(z.E(b,0)===!0){y=J.Wx(a)
+if(y.F(a,1)===!0&&z.n(b,0)){z=y.W(a,1)
+y=this.Ne.length-1
+return P.EF(["row",z,"cell",y,"posX",y],null,null)}return}x=this.JT(a)
+if(x!=null){if(typeof b!=="number")return H.s(b)
+z=x>=b}else z=!0
+if(z)return
+w=P.EF(["row",a,"cell",x,"posX",x],null,null)
+for(;!0;w=v){v=this.M1(w.t(0,"row"),w.t(0,"cell"),w.t(0,"posX"))
+if(v==null)return
+if(J.J5(v.t(0,"cell"),b)===!0)return w}},"$3","grF",6,0,113],
 w0:[function(a,b,c){var z,y,x,w
 z=this.nU.length
 y=z+(this.bG.t(0,"enableAddRow")===!0?1:0)
@@ -12334,7 +12302,6 @@ return J.Wx(a).D(a,b)}
 J.xq=function(a){return J.RE(a).gBt(a)}
 J.xt=function(a){return J.RE(a).goV(a)}
 J.yj=function(a){return J.RE(a).gG1(a)}
-J.yy=function(a,b){return J.RE(a).sSW(a,b)}
 J.zZ=function(a,b){return J.RE(a).Yv(a,b)}
 C.rd=W.oJ.prototype
 C.Nm=J.Q.prototype
@@ -12544,12 +12511,12 @@ C.yw=H.Kx('KN')
 C.iN=H.Kx('yc')
 C.lk=H.Kx('mJ')
 C.jV=H.Kx('rF')
-C.rP=H.Kx('ve')
 C.xg=H.Kx('X6')
 C.nG=H.Kx('zt')
 C.Db=H.Kx('qU')
 C.kt2=H.Kx('uE')
 C.HL=H.Kx('a2')
+C.f5=H.Kx('yy')
 C.CS=H.Kx('vm')
 C.GX=H.Kx('c8')
 C.hN=H.Kx('oI')
@@ -12648,6 +12615,13 @@ I.$lazy($,"_safariFrame","EA","nj",function(){return new H.VR("^(?:([0-9A-Za-z_$
 I.$lazy($,"_firefoxFrame","id","G4",function(){return new H.VR("^([^@(/]*)(?:\\(.*\\))?((?:/[^/]*)*)(?:\\(.*\\))?@(.*):(\\d+)$",H.v4("^([^@(/]*)(?:\\(.*\\))?((?:/[^/]*)*)(?:\\(.*\\))?@(.*):(\\d+)$",!1,!0,!1),null,null)})
 I.$lazy($,"_friendlyFrame","mC","ng",function(){return new H.VR("^(\\S+)(?: (\\d+)(?::(\\d+))?)?\\s+([^\\d]\\S*)$",H.v4("^(\\S+)(?: (\\d+)(?::(\\d+))?)?\\s+([^\\d]\\S*)$",!1,!0,!1),null,null)})
 I.$lazy($,"_initialDot","FO","NY",function(){return new H.VR("^\\.",H.v4("^\\.",!1,!0,!1),null,null)})
+I.$lazy($,"_ioLibraries","D2","FY",function(){var z,y,x,w
+z=P.iV(null,null,"timer_impl.dart",null,null,null,null,"","")
+y=P.iV(null,null,"http_impl.dart",null,null,null,null,"","")
+x=P.iV(null,null,"http_parser.dart",null,null,null,null,"","")
+w=P.Ls(null,null,null,null)
+w.FV(0,[z,y,x])
+return w})
 I.$lazy($,"_uriRegExp","M8","Mo",function(){return new H.VR("^[a-zA-Z][-+.a-zA-Z\\d]*://",H.v4("^[a-zA-Z][-+.a-zA-Z\\d]*://",!1,!0,!1),null,null)})
 I.$lazy($,"_windowsRegExp","If","Xh",function(){return new H.VR("^([a-zA-Z]:[\\\\/]|\\\\\\\\)",H.v4("^([a-zA-Z]:[\\\\/]|\\\\\\\\)",!1,!0,!1),null,null)})
 I.$lazy($,"wrapAsync","Pg","Wl",function(){return new Y.W6()})

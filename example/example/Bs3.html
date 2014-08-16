@@ -5,40 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="bootstrap.css" rel="stylesheet" media="screen">
-    
+
     <title>Slickdart</title>
-    <link rel="stylesheet" href="slickdart.css">
+    <link rel="stylesheet" href="Bs3.css">
+    <!--
+  <link rel="stylesheet" href="simple.css" type="text/css"/>
+    -->
      <link rel="stylesheet" href="packages/slickdart/slick.grid.css" type="text/css"/>
      <link rel="stylesheet" href="packages/slickdart/slick_default_theme.css" type="text/css"/>
-     <link rel="stylesheet" href="simple.css" type="text/css"/>
+
      <style type="text/css">
-     #grid{
-     height:400.1px;
-     }
-/*     body{
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-} */
-     
+
      </style>
- 
+
   </head>
   <body>
 <div class='container'>
+        <div class='row'>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              Basic bootstrap example, double click to select row @ first column
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-md-8">
             <div id="grid" ></div>
           </div>
-          <div class="col-md-4">.col-md-4</div>
+          <div class="col-md-4"><span>selected row:</span><span class='right-pane'></span></div>
         </div>
-      
-        <button id='reset'>reset</button>
+        <div class='row'>
+          <div class='col-md-2'>
+            <button id='reset' class='btn btn-default'>reset</button>
+          </div>
+
+        </div>
 </div>
-    
+
     <script type="application/dart" src="Bs3.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
