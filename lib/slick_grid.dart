@@ -1039,14 +1039,16 @@ class SlickGrid {
 
       if (options['enableTextSelectionOnCells']==false) {
         // disable text selection in grid cells except in input and textarea elements
-        // (this is IE-specific, because selectstart event will only fire in IE)
-//        $viewport.onSelectStart.matches('.ui').listen((event){
-//            if( event.target is InputElement || event.target is TextAreaElement){
-//              return true;
-//            } else {
-//              return false;
-//            }
-//        });
+        $viewport.forEach((item){
+          item.onSelectStart.listen((event){
+            if(event.target is InputElement || event.target is TextAreaElement){
+
+            }else{
+              event.preventDefault();
+            }
+          });
+
+        });
       }
       setFrozenOptions();
       setPaneVisibility();
