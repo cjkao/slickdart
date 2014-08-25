@@ -122,9 +122,9 @@ Known constraint
 TODO
 ========================
 
-[] dynamic row height
-[x] Frozen column, also editable
-[] multiple column row
-[x] Resize column
-[] Column reorder
-[x] auto tooltip
+- [] dynamic row height
+- [x] Frozen column, also editable
+- [] multiple column row
+- [x] Resize column
+- [] Column reorder
+- [x] auto tooltip
