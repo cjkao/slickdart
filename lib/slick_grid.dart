@@ -1087,7 +1087,18 @@ class SlickGrid {
       ..onDragStart.listen(handleDragStart)
       ..onDrag.listen(handleDrag)
       ..onDragEnd.listen(handleDragEnd));
-      $canvas.forEach((_)=> _.onMouseEnter.matches('.slick-cell').listen(handleMouseEnter));
+      //$canvas.forEach((_)=> _.onMouseEnter.matches('.slick-cell').listen(handleMouseEnter));
+//      $canvas.forEach((_){
+//
+//        _.querySelectorAll('.slick-cell').onMouseEnter.listen((evt){
+//          //if(evt.fromElement.matches('.slick-cell'))
+//           // handleMouseEnter(evt);
+//            print("from ->" + evt.fromElement.classes.toString());
+//          print('target ->' + evt.target.classes.toString());
+//        });
+//
+//      });
+   //   $canvas.forEach((_)=> _.onMouseEnter.where((e) => (e.target as Element).matchesWithAncestors(".slick-cell")).listen(handleMouseEnter));
       $canvas.forEach((_)=> _.onMouseLeave.matches('.slick-cell').listen(handleMouseLeave));
 
     }
@@ -1541,6 +1552,7 @@ class SlickGrid {
           ,treeSanitizer: _treeSanitizer).children.first;
       r.append(el);
 
+
       cellWidthDiff = cellHeightDiff = 0;
       if (el.style.boxSizing != "border-box") {
         cellWidthDiff += int.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),onError:(src)=>0);
@@ -1796,7 +1808,7 @@ class SlickGrid {
 
     /////////////////////////////////////// general
     // event could be event data or dom event
-    trigger(core.Event evt,[ Map<String,dynamic> args, dynamic e]) {   //[core.EventData e]
+    trigger(core.Event evt,[ Map<String,dynamic> args, var e]) {   //[core.EventData e]
       if (e ==null) e =  new core.EventData();
       if(args ==null) args = {};
       args['grid']=this;
@@ -2556,6 +2568,7 @@ class SlickGrid {
     Map<String,int> getCellFromEvent(core.EventData e) {
       Element elem=e.target;
 //      var $expcell = elem.matchesWithAncestors('.slick-cell');
+
       var $cell = findClosestAncestor(e.target,'.slick-cell');
       if ($cell==null) {
         return null;
@@ -2996,8 +3009,10 @@ class SlickGrid {
     //generate tags for new rows
     Element x = new Element.div();
     x.setInnerHtml(stringArrayL.join(""), treeSanitizer: _treeSanitizer )  ;
+    x.querySelectorAll(".slick-cell").onMouseEnter.listen(handleMouseEnter);
     Element xRight = new Element.div();
     xRight.setInnerHtml(stringArrayR.join(""), treeSanitizer: _treeSanitizer )  ;
+    xRight.querySelectorAll(".slick-cell").onMouseEnter.listen(handleMouseEnter);
 
     for (var i = 0, ii = rows.length; i < ii; i++) {
         if ( hasFrozenRows  &&  rows[i] >= actualFrozenRow ) {
@@ -3172,18 +3187,18 @@ class SlickGrid {
           }
 
           setSortColumns(sortColumns);
-
+          core.EventData evt = new core.EventData.fromDom(e);
           if (options['multiColumnSort']==false) {
             trigger(onSort, {
               'multiColumnSort': false,
               'sortCol': column,
-              'sortAsc': sortOpts['sortAsc']}, e);
+              'sortAsc': sortOpts['sortAsc']}, evt);
           } else {
             trigger(onSort, {
               'multiColumnSort': true,
               'sortCols': new List.from(sortColumns.map(
                   (item) =>{'sortCol': columns[getColumnIndex(item['columnId'])],
-                             'sortAsc': item['sortAsc']} ))}, e);
+                             'sortAsc': item['sortAsc']} ))}, evt);
           }
         }
       }));
@@ -3468,39 +3483,43 @@ class SlickGrid {
 
 
     void handleHeaderMouseEnter(MouseEvent e) {
+      core.EventData evt = new core.EventData.fromDom(e);
       trigger(onHeaderMouseEnter, {
         //"column": (e.target as Element).dataset["column"]
         "column": _headExt[e.target as Element] //.dataset["column"]
-      }, e);
+      }, evt);
     }
 
     void handleHeaderMouseLeave(e) {
+      core.EventData evt = new core.EventData.fromDom(e);
       trigger(onHeaderMouseLeave, {
         //"column": (e.target as Element).dataset["column"]
         "column": _headExt[e.target as Element]
-      }, e);
+      }, evt);
     }
 
      handleHeaderContextMenu(Event e) {
        Element $header = findClosestAncestor(e.target,'slick-header-column',".slick-header-columns");
+       core.EventData evt = new core.EventData.fromDom(e);
        Column c;
        if( $header !=null) {
          //c = new Column.fromJSON($header.dataset["column"]);
          c= this._headExt[$header];
        }
-       trigger(onHeaderContextMenu, {'column': c}, e);
+       trigger(onHeaderContextMenu, {'column': c}, evt);
      }
 
      void handleHeaderClick(Event e) {
        print('header clicked');
        Element header = findClosestAncestor(e.target,'.slick-header-column',".slick-header-columns");
+       core.EventData evt = new core.EventData.fromDom(e);
        Column c;
        if( header !=null) {
          //c = new Column.fromJSON(header.dataset["column"]);
          c= this._headExt[header];
        }
        if (c!=null) { //TODO fix me
-         trigger(onHeaderClick, {'column': c}, e);
+         trigger(onHeaderClick, {'column': c}, evt);
        }
      }
 
@@ -3975,12 +3994,15 @@ class SlickGrid {
       }
 
 
-      void handleMouseEnter(e) {
-        trigger(onMouseEnter, {}, e);
+      void handleMouseEnter(MouseEvent e) {
+        //print('handle');
+        core.EventData evt = new core.EventData.fromDom(e);
+        trigger(onMouseEnter, {}, evt);
       }
 
-      void handleMouseLeave(e) {
-        trigger(onMouseLeave, {}, e);
+      void handleMouseLeave(MouseEvent e) {
+        core.EventData evt = new core.EventData.fromDom(e);
+        trigger(onMouseLeave, {}, evt);
       }
       bool cellExists(int row,int  cell) {
         return !(row < 0 || row >= getDataLength() || cell < 0 || cell >= columns.length);

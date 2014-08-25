@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'package:slickdart/slick_grid.dart' as grid;
 import 'dart:math' as math;
-
+import 'package:slickdart/plugin/autotooltip.dart';
 void main() {
   var g=init();
   g.init();
@@ -54,6 +54,7 @@ grid.SlickGrid init(){
                  'frozenRow': 1,
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
+  sg.registerPlugin(new AutoTooltips());
   sg.onSort.subscribe( (e, args) {
     grid.Column col = args['sortCol'];
     data.sort( (dataRow1, dataRow2) {

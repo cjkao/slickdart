@@ -58,7 +58,7 @@ class CellRangeDecorator{
 }
 
 
-class CellRangeSelector{
+class CellRangeSelector extends IPlugin{
   core.Event onBeforeCellRangeSelected = new core.Event();
   core.Event onCellRangeSelected = new core.Event();
   CellRangeSelector(options){

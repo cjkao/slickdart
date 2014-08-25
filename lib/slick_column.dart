@@ -112,7 +112,8 @@ class CheckboxSelectColumn extends Column with IPlugin{
    * change all row to selected state
    * args: {column: Column, grid: slickgrid}
    */
-   handleHeaderClick(Event e, Map args) {
+   handleHeaderClick(core.EventData evt, Map args) {
+     MouseEvent e=evt.domEvent;
     if ( (args['column'] as Column).id == _options['columnId'] && e.target is CheckboxInputElement) {
       // if editing, try to commit
       if (_grid.getEditorLock().isActive() && !_grid.getEditorLock().commitCurrentEdit()) {
