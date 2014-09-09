@@ -164,7 +164,9 @@ class Leaf extends Node{
 class Root extends Leaf{
   List rows;
   int defaultHeight;
-  //row id to position
+  //TOOD fixme, restrict cache size
+  //row id to position, use LFU
+  // {rowid, {pos, accCnt}}
   Map<int,int> cache ={};
 
   static final int THRESHOLD = 100;
