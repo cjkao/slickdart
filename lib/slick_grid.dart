@@ -10,7 +10,7 @@ import 'dart:collection';
 import 'dart:convert';
 //import 'dart:mirrors';
 import 'slick_dnd.dart';
-
+import 'row_height.dart' as heightIdx;
 
 
 /**
@@ -33,16 +33,12 @@ var _treeSanitizer = new NullTreeSanitizer();
  */
 class NullTreeSanitizer implements NodeTreeSanitizer {
   void sanitizeTree(Node node) {
-  //  print(node);
   }
 }
 class RowCache{
   int columnCount;
   RowCache (this.rowNode,columnCount){
-//     cellColSpans= [];
     cellColSpans=new List.filled(columnCount,1);
-//        <int>(columnCount);
-//    cellColSpans.fillRange(start, end)
   }
   //rowNode[0] => frozend column
   //rowNode[1] => main view
@@ -154,6 +150,7 @@ class SlickGrid {
   Expando<Column> _headExt= new Expando<Column>();
 
   Element container;
+  //each item will render as row
   List data;
   List<Column> columns;
   Map options;
@@ -199,7 +196,12 @@ class SlickGrid {
   core.Event onSelectedRowsChanged = new core.Event();
   core.Event onCellCssStylesChanged = new core.Event();
 
-
+  /**
+   * constructure
+   * @param container target html node
+   * @param data List of object
+   * @param columns column definition
+   */
   SlickGrid(this.container, this.data, this.columns, this.options){
     defaults = {
                 'explicitInitialization': false,
@@ -235,11 +237,13 @@ class SlickGrid {
                 'forceSyncScrolling': false,
                 'frozenColumn': -1,   //frozen index
                 'frozenRow' : -1,
-                'frozenBottom':false
+                'frozenBottom':false,
+                'dynamicHeight':false  //enable or disable yPos lookup for rendering
     };
   }
   Map<String,dynamic> defaults ;
   Column columnDefaults= new Column();
+  heightIdx.Node yLookup=null;
 // scroller
   int th;   // virtual height
   int h;    // real scrollable height
@@ -253,7 +257,6 @@ class SlickGrid {
 
   // private
   bool initialized = false;
-//  var $container;
   var uid = "slickgrid_" + new math.Random().nextInt(10000000).toString();
 
   DivElement $focusSink, $focusSink2;
@@ -304,6 +307,7 @@ class SlickGrid {
 
   Map<int,RowCache> rowsCache = {};
   int renderedRows = 0;
+  //minimal rows need to render
   int numVisibleRows;
   int prevScrollTop = 0;
   int scrollTop = 0;
@@ -387,7 +391,13 @@ class SlickGrid {
  Element $headerScrollContainer;
  Element $headerRowScrollContainer;
 
-
+ //  {}
+ //   1~N => block
+ //   N+1 ~ 2N => block
+ //  2N+1 ~ 3N => block
+ // sort => re calculat every row
+ // insert => increase height of block and shift of each block
+ //
 
 
   /////////////////////////////one line accessoe
@@ -569,6 +579,7 @@ class SlickGrid {
   }
     /**
      * calculate render areas
+     * when dyn height, if we keep min height of row = option[rowHeight], the only waste is over renedered block
      */
    Map<String,int> getRenderedRange([int viewportTop, int viewportLeft]) {
     Map<String,int> range = getVisibleRange(viewportTop, viewportLeft);
@@ -721,7 +732,7 @@ class SlickGrid {
     viewportTopH = 0;
     viewportBottomH = 0;
     getViewportWidth();
-    getViewportHeight();
+    _getViewportHeight();
 
 
 //    if (options['autoHeight']==true) {
@@ -836,6 +847,9 @@ class SlickGrid {
     parentNode.append(elem);
     return elem;
   }
+  /**
+   * main entry point to init the element to grid
+   */
   void init() {
 
     // calculate these only once and share between grid instances
@@ -1026,9 +1040,14 @@ class SlickGrid {
       initialized = true;
 //      print(container.getBoundingClientRect().width);
       viewportW = core.Dimension.getCalcWidth(container);
-      getViewportHeight();
+      _getViewportHeight();
 //      viewportW = int.parse(container.getComputedStyle().width.replaceAll('px', ''));
       measureCellPaddingAndBorder();
+
+      if(options['dynamicHeight']==true){
+        this.yLookup = new heightIdx.Root(data,options['rowHeight'] );
+      }
+
 
       // for usability reasons, all text selection in SlickGrid is disabled
       // with the exception of input and textarea elements (selection must
@@ -1047,7 +1066,6 @@ class SlickGrid {
               event.preventDefault();
             }
           });
-
         });
       }
       setFrozenOptions();
@@ -1087,19 +1105,6 @@ class SlickGrid {
       ..onDragStart.listen(handleDragStart)
       ..onDrag.listen(handleDrag)
       ..onDragEnd.listen(handleDragEnd));
-      //$canvas.forEach((_)=> _.onMouseEnter.matches('.slick-cell').listen(handleMouseEnter));
-//      $canvas.forEach((_){
-//
-//        _.querySelectorAll('.slick-cell').onMouseEnter.listen((evt){
-//          //if(evt.fromElement.matches('.slick-cell'))
-//           // handleMouseEnter(evt);
-//            print("from ->" + evt.fromElement.classes.toString());
-//          print('target ->' + evt.target.classes.toString());
-//        });
-//
-//      });
-   //   $canvas.forEach((_)=> _.onMouseEnter.where((e) => (e.target as Element).matchesWithAncestors(".slick-cell")).listen(handleMouseEnter));
-      $canvas.forEach((_)=> _.onMouseLeave.matches('.slick-cell').listen(handleMouseLeave));
 
     }
   }  //end of initialize
@@ -1909,7 +1914,11 @@ class SlickGrid {
 
       if (options['frozenRow'] > -1) {
           hasFrozenRows = true;
-          frozenRowsHeight = ( options['frozenRow'] ) * options['rowHeight'];
+          if(options['dynamicHeight']){
+            frozenRowsHeight = this.yLookup.getPosition(options['frozenRow']+1);
+          }else{
+            frozenRowsHeight = ( options['frozenRow'] ) * options['rowHeight'];
+          }
 
           actualFrozenRow = ( options['frozenBottom'] ==true)
               ? ( data.length - options['frozenRow'] )
@@ -2054,7 +2063,8 @@ class SlickGrid {
         return;
       }
 
-      Column m = columns[cell], d = getDataItem(row);
+      Column m = columns[cell];
+      var d = getDataItem(row);
       if (currentEditor !=null && activeRow == row && activeCell == cell) {
         currentEditor.loadValue(d);
       } else {
@@ -2078,7 +2088,7 @@ class SlickGrid {
         Element    node = cacheEntry.cellNodesByColumnIdx[columnIdx];
         if (row == activeRow && columnIdx == activeCell && currentEditor !=null) {
           currentEditor.loadValue(d);
-        } else if (d) {
+        } else if (d!=null) {
           node.setInnerHtml(
               getFormatter(row, m)(row, columnIdx, getDataItemValueForColumn(d, m), m, d) ,
               treeSanitizer: _treeSanitizer);
@@ -2097,8 +2107,10 @@ class SlickGrid {
 
       invalidatePostProcessingResults(row);
     }
-
-    getViewportHeight() {
+    /**
+     * calculate view port height and determine number of row need to render
+     */
+    _getViewportHeight() {
 
         if (options['autoHeight']!=null && options['autoHeight']) {
             viewportH = options['rowHeight']  * getDataLengthIncludingAddNew()
@@ -2158,13 +2170,25 @@ class SlickGrid {
     }
 //////////////////////////////////////////////////////////////////////////////////////////////
     // Rendering / Scrolling
-
+    /**
+     * @return position of row relative to container
+     */
     int getRowTop(int row) {
-      return options['rowHeight'] * row - offset;
+      if(options['dynamicHeight']==true){
+        int pos=yLookup.getPosition(row);
+        return pos;
+      }else{
+        return options['rowHeight'] * row - offset;
+      }
     }
 
     int getRowFromPosition(y) {
-      return ((y + offset) / options['rowHeight']).floor();
+      if(options['dynamicHeight']==true){
+        int rowIdx=yLookup.getRowId(y);
+        return rowIdx;
+      }else{
+        return ((y + offset) / options['rowHeight']).floor();
+      }
     }
 
     void scrollTo(int y) {
@@ -2339,7 +2363,10 @@ class SlickGrid {
       return data;
     }
 
-
+    /**
+     * @return object
+     * @TODO return list
+     */
     getDataItem(int i) {
         if(i>=data.length) return null;
         return data[i];
@@ -2598,6 +2625,9 @@ class SlickGrid {
 
       var y1 = getRowTop(row) -frozenRowOffset;
       var y2 = y1 + options['rowHeight']- 1;
+      if(options['dynamicHeight'] && data[row]['_height']!=null){
+        y2= y1+data[row]['_height'];
+      }
       var x1 = 0;
       for (var i = 0; i < cell; i++) {
         x1 += columns[i].width;
@@ -2646,12 +2676,16 @@ class SlickGrid {
 
 
     int getFrozenRowOffset(row) {
+      int distY = options['dynamicHeight']
+                    ? this.yLookup.getPosition(actualFrozenRow +1)
+                    : actualFrozenRow * options['rowHeight'] ;
+
        int offset =
            ( hasFrozenRows )
                ? ( options['frozenBottom'] )
                ? ( row >= actualFrozenRow )
                ? ( h < viewportTopH )
-               ? ( actualFrozenRow * options['rowHeight'] )
+               ? ( distY)
                : h
                : 0
                : ( row >= actualFrozenRow )
@@ -2715,23 +2749,27 @@ class SlickGrid {
 
 
     scrollRowIntoView(int row, [doPaging]) {
-      var rowAtTop = row * options['rowHeight'];
-      var rowAtBottom = (row + 1) * options['rowHeight'] - viewportH + (viewportHasHScroll ? scrollbarDimensions['height'] : 0);
+      int rowTopDist = options['dynamicHeight'] ? this.yLookup.getPosition(row+1) : row * options['rowHeight'];
+      int rowBottomDist = options['dynamicHeight'] ? this.yLookup.getPosition(row+2) : (row + 1) * options['rowHeight'];
+
+      var rowAtTop = rowTopDist;
+      var rowAtBottom = rowTopDist - viewportH + (viewportHasHScroll ? scrollbarDimensions['height'] : 0);
 
       // need to page down?
-      if ((row + 1) * options['rowHeight'] > scrollTop + viewportH + offset) {
+      if (rowTopDist > scrollTop + viewportH + offset) {
         scrollTo(doPaging !=null ? rowAtTop : rowAtBottom);
         render();
       }
       // or page up?
-      else if (row * options['rowHeight'] < scrollTop + offset) {
+      else if (rowTopDist < scrollTop + offset) {
         scrollTo(doPaging!=null ? rowAtBottom : rowAtTop);
         render();
       }
     }
 
      void scrollRowToTop(int row) {
-      scrollTo(row * options['rowHeight']);
+       int distToMove = options['dynamicHeight'] ? this.yLookup.getPosition(row+1) : row * options['rowHeight'];
+      scrollTo(distToMove);
       render();
     }
 
@@ -3010,10 +3048,11 @@ class SlickGrid {
     Element x = new Element.div();
     x.setInnerHtml(stringArrayL.join(""), treeSanitizer: _treeSanitizer )  ;
     x.querySelectorAll(".slick-cell").onMouseEnter.listen(handleMouseEnter);
+    x.querySelectorAll(".slick-cell").onMouseLeave.listen(handleMouseLeave);
     Element xRight = new Element.div();
     xRight.setInnerHtml(stringArrayR.join(""), treeSanitizer: _treeSanitizer )  ;
     xRight.querySelectorAll(".slick-cell").onMouseEnter.listen(handleMouseEnter);
-
+    xRight.querySelectorAll(".slick-cell").onMouseLeave.listen(handleMouseLeave);
     for (var i = 0, ii = rows.length; i < ii; i++) {
         if ( hasFrozenRows  &&  rows[i] >= actualFrozenRow ) {
             if (options['frozenColumn'] > -1) {
@@ -3039,6 +3078,9 @@ class SlickGrid {
     }
 
     }
+    /**
+     * row render loop
+     */
     appendRowHtml(List<String> stringArrayL,List<String> stringArrayR, int row, Map<String,int> range,int dataLength) {
       var d = getDataItem(row);
       var dataLoading = row < dataLength && d==null;
@@ -3047,14 +3089,10 @@ class SlickGrid {
           (row == activeRow ? " active" : "") +
           (row % 2 == 1 ? " odd" : " even");
 
-//      var metadata = data.getItemMetadata && data.getItemMetadata(row);
-//
-//      if (metadata && metadata.cssClasses) {
-//        rowCss += " " + metadata.cssClasses;
-//      }
 
       var frozenRowOffset = getFrozenRowOffset(row);
-      String rowHtml = "<div class='ui-widget-content ${rowCss}' style='top: ${getRowTop(row) - frozenRowOffset}px'>";
+      var rHeight=data[row]['_height']!=null ?  "height:${data[row]['_height']}px" : '';
+      String rowHtml = """<div class='ui-widget-content ${rowCss}' style='top: ${getRowTop(row) - frozenRowOffset}px;  ${rHeight }'>""";
       stringArrayL.add(rowHtml);
       if (options['frozenColumn'] > -1) {
           stringArrayR.add(rowHtml);
@@ -3091,7 +3129,7 @@ class SlickGrid {
       }
     }
     /**
-     * generate cell html tag
+     * cell render loop, generate cell html tag
      * stringArray: output value
      * item : data item
      */
@@ -3109,8 +3147,11 @@ class SlickGrid {
           cellCss += (" " + cellCssClasses[key][row][m.id]);
         }
       }
-
-      stringArray.add("<div class='" + cellCss + "'>");
+      String style='';
+      if(data[row]['_height']!=null){
+        style="style='height:${data[row]['_height']-this.cellHeightDiff}px'";
+      }
+      stringArray.add("<div class='${cellCss}' ${style}>");
 
       // if there is a corresponding row (if not, this is the Add New row or this data hasn't been loaded yet)
       if (item!=null) {
@@ -3126,17 +3167,6 @@ class SlickGrid {
     }
     void clearTextSelection() {
       window.getSelection().removeAllRanges();
-//      if (document.selection!=null && document.selection.empty) {
-//        try {
-//          //IE fails here if selected element is not in dom
-//          document.selection.empty();
-//        } catch (e) { }
-//      } else if (window.getSelection) {
-//        var sel = window.getSelection();
-//        if (sel && sel.removeAllRanges) {
-//          sel.removeAllRanges();
-//        }
-//      }
     }
 
     void setupColumnSort() {
@@ -3219,11 +3249,6 @@ class SlickGrid {
       // remove the rows that are now outside of the data range
       int l = dataLengthIncludingAddNew - 1;
       new List.from(rowsCache.keys.where((e)=> e >= l )).forEach((e) => removeRowFromCache(e));
-//      for (var i in rowsCache.keys) {
-//        if (i >= l) {
-//          removeRowFromCache(i);
-//        }
-//      }
 
       if (activeCellNode!=null && activeRow > l) {
         resetActiveCell();
@@ -3255,11 +3280,7 @@ class SlickGrid {
             $canvasTopL.style.height ='${h}px';
             $canvasTopR.style.height = '${h}px';
         }
-
         scrollTop = $viewportScrollContainerY.scrollTop;
-
-//        $canvas.style.height= h.toString()+ 'px';
-//        scrollTop = $viewport.scrollTop;
       }
 
       bool oldScrollTopInRange = (scrollTop + offset <= th - viewportH);
@@ -3397,65 +3418,6 @@ class SlickGrid {
         trigger(onScroll, {'scrollLeft': scrollLeft, 'scrollTop': scrollTop});
     }
 
-
-
-
-//    void __handleScroll([Event e]) {
-//      scrollTop = $viewport.scrollTop;
-//      scrollLeft = $viewport.scrollLeft;
-//      int vScrollDist = (scrollTop - prevScrollTop).abs();
-//      int hScrollDist = (scrollLeft - prevScrollLeft).abs();
-//
-//      if (hScrollDist>0) {
-//        prevScrollLeft = scrollLeft;
-//        $headerScroller.scrollLeft = scrollLeft;
-//        $topPanelScroller.scrollLeft = scrollLeft;
-//        $headerRowScroller.scrollLeft = scrollLeft;
-//      }
-//
-//      if (vScrollDist>0) {
-//        vScrollDir = prevScrollTop < scrollTop ? 1 : -1;
-//        prevScrollTop = scrollTop;
-//
-//        // switch virtual pages if needed
-//        if (vScrollDist < viewportH) {
-//          scrollTo(scrollTop + offset);
-//        } else {
-//          var oldOffset = offset;
-//          if (h == viewportH) {
-//            page = 0;
-//          } else {
-//            page = math.min(n - 1, (scrollTop * ((th - viewportH) / (h - viewportH)) * (1 / ph)).floor());
-//          }
-//          offset = (page * cj).round();
-//          if (oldOffset != offset) {
-//            invalidateAllRows();
-//          }
-//        }
-//      }
-//
-//      if (hScrollDist>0 || vScrollDist>0) {
-//        if (h_render!=null) {
-//          h_render.cancel();
-//        }
-//
-//        if ((lastRenderedScrollTop - scrollTop).abs() > 20 ||
-//            (lastRenderedScrollLeft - scrollLeft).abs() > 20) {
-//          if (options['forceSyncScrolling']==true || (
-//              (lastRenderedScrollTop - scrollTop).abs() < viewportH &&
-//              (lastRenderedScrollLeft - scrollLeft).abs() < viewportW)) {
-//            render();
-//          } else {
-//
-//            h_render = new Timer.periodic(new Duration(milliseconds:50),render);
-//          }
-//
-//          trigger(onViewportChanged, {});
-//        }
-//      }
-//
-//      trigger(onScroll, {'scrollLeft': scrollLeft, 'scrollTop': scrollTop});
-//    }
     // todo shaodw fix
     void createCssRules() {
       $style =  container.createFragment("<style type='text/css' rel='stylesheet' />", treeSanitizer : _treeSanitizer).children.first;

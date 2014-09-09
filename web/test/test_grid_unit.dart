@@ -4,7 +4,7 @@ import 'dart:html';
 import 'dart:math' as math;
 import 'dart:async';
 grid.SlickGrid init(){
-  Element el =query('#grid');
+  Element el =querySelector('#grid');
   List column = [
                  new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "title"}),
                  new grid.Column.fromMap ({'id': "duration", 'name': "percentComplete", 'field': "percentComplete"}),
@@ -38,7 +38,7 @@ void main() {
 
   test('disableSelection', (){
     var g=init();
-    g.disableSelection(query('#grid2'));
+    g.disableSelection(querySelector('#grid2'));
   });
 
 

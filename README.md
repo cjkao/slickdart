@@ -122,9 +122,16 @@ Known constraint
 TODO
 ========================
 
-- [] dynamic row height
+- [] efficent dynamic row height
 - [x] Frozen column, also editable
 - [] multiple column row
 - [x] Resize column
 - [] Column reorder
 - [x] auto tooltip
+
+
+dynamic height
+===============================
+limitation: visible row:
+when calculate numVisibleRows, when we apply dynamic row height, minimal dynamic row height must >= single row hight
+
