@@ -105,7 +105,7 @@ Known constraint
 TODO
 ========================
 
-- [] efficent dynamic row height
+- [-] efficent dynamic row height on frozen column
 - [x] Frozen column, also editable
 - [] multiple column row
 - [x] Resize column
@@ -117,5 +117,6 @@ dynamic height
 ===============================
 limitation: visible row:
 when calculate numVisibleRows, when we apply dynamic row height, minimal dynamic row height must >= single row hight
-
-
+Current design: 
+- put '_height' on row object to specify pixel height  
+- add {'dynamicHeight': true} option to turn on it  
