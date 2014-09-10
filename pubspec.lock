@@ -4,15 +4,15 @@ packages:
   analyzer:
     description: analyzer
     source: hosted
-    version: "0.15.7"
+    version: "0.22.4"
   args:
     description: args
     source: hosted
-    version: "0.11.0+1"
+    version: "0.12.0+2"
   barback:
     description: barback
     source: hosted
-    version: "0.14.0+3"
+    version: "0.15.0+1"
   browser:
     description: browser
     source: hosted
@@ -20,11 +20,11 @@ packages:
   code_transformers:
     description: code_transformers
     source: hosted
-    version: "0.1.6"
+    version: "0.2.3"
   collection:
     description: collection
     source: hosted
-    version: "0.9.4"
+    version: "1.0.0"
   csslib:
     description: csslib
     source: hosted
@@ -36,7 +36,7 @@ packages:
   html5lib:
     description: html5lib
     source: hosted
-    version: "0.11.0+2"
+    version: "0.12.0"
   logging:
     description: logging
     source: hosted
@@ -48,7 +48,7 @@ packages:
   observe:
     description: observe
     source: hosted
-    version: "0.11.0"
+    version: "0.12.1+1"
   path:
     description: path
     source: hosted
@@ -56,11 +56,15 @@ packages:
   polymer:
     description: polymer
     source: hosted
-    version: "0.12.0"
+    version: "0.13.1"
   polymer_expressions:
     description: polymer_expressions
     source: hosted
     version: "0.12.0+1"
+  pool:
+    description: pool
+    source: hosted
+    version: "1.0.1"
   smoke:
     description: smoke
     source: hosted
@@ -68,7 +72,7 @@ packages:
   source_maps:
     description: source_maps
     source: hosted
-    version: "0.9.4"
+    version: "0.10.0"
   source_span:
     description: source_span
     source: hosted
@@ -76,7 +80,7 @@ packages:
   stack_trace:
     description: stack_trace
     source: hosted
-    version: "0.9.3+2"
+    version: "1.0.2"
   string_scanner:
     description: string_scanner
     source: hosted
@@ -93,11 +97,15 @@ packages:
     description: utf
     source: hosted
     version: "0.9.0+1"
+  watcher:
+    description: watcher
+    source: hosted
+    version: "0.9.3"
   web_components:
     description: web_components
     source: hosted
-    version: "0.5.0+1"
+    version: "0.6.0+1"
   yaml:
     description: yaml
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1+1"

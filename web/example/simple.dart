@@ -5,7 +5,6 @@ import 'dart:math' as math;
 void main() {
   var g=init();
   g.init();
- // print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
 }
 
 grid.SlickGrid init(){
@@ -45,34 +44,26 @@ grid.SlickGrid init(){
       'finish3': "01/05/201$i",
       'finish4': "01/05/202$i",
       'effortDriven': (i % 5 == 0)
-//      '_height': 30
     });
-    if(i%2==0){
-      data[i]['_height']=20 + new math.Random().nextInt(30);
-    }else{
-     // data[i]['_height']=20;
-    }
   }
-//  for(var i=0;i<50;i__)
   Map opt = {'explicitInitialization': false,
-             'multiColumnSort': false,
-             'dynamicHeight': true
+             'multiColumnSort': false
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
-  sg.onSort.subscribe( (e, args) {
-    grid.Column col = args['sortCol'];
-    data.sort( (dataRow1, dataRow2) {
-        var field = col.field;
-        var sign = args['sortAsc'] ? 1 : -1;
-        dynamic value1 = dataRow1[field], value2 = dataRow2[field];
-        var result = (value1 == value2 ? 0 : (value1.compareTo(value2)>0 ? 1 : -1)) * sign;
-        if (result != 0) {
-          return result;
-        }
-      return 0;
-    });
-    sg.invalidate();
-    sg.render();
-  });
+//  sg.onSort.subscribe( (e, args) {
+//    grid.Column col = args['sortCol'];
+//    data.sort( (dataRow1, dataRow2) {
+//        var field = col.field;
+//        var sign = args['sortAsc'] ? 1 : -1;
+//        dynamic value1 = dataRow1[field], value2 = dataRow2[field];
+//        var result = (value1 == value2 ? 0 : (value1.compareTo(value2)>0 ? 1 : -1)) * sign;
+//        if (result != 0) {
+//          return result;
+//        }
+//      return 0;
+//    });
+//    sg.invalidate();
+//    sg.render();
+//  });
   return sg;
 }

@@ -1342,8 +1342,8 @@ class SlickGrid {
       while (true) {
         var test = supportedHeight * 2;
         div.style.height = "$test" +'px';
-
-        if (test > testUpTo || int.parse( div.getComputedStyle().height.replaceFirst('px', '')) != test) {
+        //parseInt from getComputedStyle cause dart2js exception on firefox and IE
+        if (test > testUpTo ||  div.getComputedStyle().height != '${test}px') {
           break;
         } else {
           supportedHeight = test;

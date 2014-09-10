@@ -28,13 +28,6 @@ class EventData{
   EventData(){
   }
   get target => domEvent.target;
-  noSuchMethod(Invocation msg) {
-//    var im = reflect(domEvent);
-//    if (msg.isGetter){
-//      return im.getField(msg.memberName);
-//    }
-//    reflect(domEvent).delegate(msg);
-  }
 
   preventDefault(){
     domEvent.preventDefault();
