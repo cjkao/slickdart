@@ -106,8 +106,10 @@ TODO
 ========================
 
 - [-] efficent dynamic row height on frozen column
+  - sort column should re-calcule height
+  - how about insert row or delete row?
+  - low performance on horzontal scrolling
 - [x] Frozen column, also editable
-- [] multiple column row
 - [x] Resize column
 - [] Column reorder
 - [x] auto tooltip

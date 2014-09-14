@@ -203,6 +203,8 @@ class SlickGrid {
    */
   SlickGrid(this.container, this.data, this.columns, this.options){
     defaults = {
+                '_renderLatency': 150,   //mobile device should put larger lantency
+                '_scrollerDistToRender':200,
                 'explicitInitialization': false,
                 'rowHeight': 25,
                 'defaultColumnWidth': 80,
@@ -560,7 +562,10 @@ class SlickGrid {
       }
     }
   }
-
+  /**
+   * @input top,left of view
+   * @return top row id ~ buttom row id, left to right pixel for current view
+   */
   Map<String,int> getVisibleRange([int viewportTop, int viewportLeft]) {
     if (viewportTop == null) {
       viewportTop = scrollTop;
@@ -579,33 +584,42 @@ class SlickGrid {
     /**
      * calculate render areas
      * when dyn height, if we keep min height of row = option[rowHeight], the only waste is over renedered block
+     * @return num of rows from top to bottom , pixels from left to right
      */
    Map<String,int> getRenderedRange([int viewportTop, int viewportLeft]) {
-    Map<String,int> range = getVisibleRange(viewportTop, viewportLeft);
-    int buffer = (viewportH / options['rowHeight']).round();
-    int minBuffer = 3;
+    Map<String,int> vrange = getVisibleRange(viewportTop, viewportLeft);
+    Map<String,int> outRange = {}..addAll(vrange);
+    print('vis range:${vrange}');
+    int buffer= (vrange['bottom'] - vrange['top']) *2;
+    outRange['top'] -= buffer;
+    outRange['bottom'] += buffer;
+    if(outRange['top'] <0) outRange['top'] = 0;
+    int maxRow=getDataLengthIncludingAddNew() - 1;
+    if(outRange['bottom'] > maxRow) outRange['bottom'] = maxRow;
+//    int buffer = (viewportH / options['rowHeight']).round();
+//    int minBuffer = 100;
+//
+//    if (vScrollDir == -1) {
+//      outRange['top'] -= buffer;
+//      outRange['bottom'] += minBuffer;
+//    } else if (vScrollDir == 1) {
+//      outRange['top']  -= minBuffer;
+//      outRange['bottom'] += buffer*3;
+//    } else {
+//      outRange['top']  -= minBuffer;
+//      outRange['bottom'] += minBuffer;
+//    }
+//
+//    outRange['top'] = math.max(0, outRange['top']);
+//    outRange['bottom'] = math.min(getDataLengthIncludingAddNew() - 1, outRange['bottom']);
 
-    if (vScrollDir == -1) {
-      range['top'] -= buffer;
-      range['bottom'] += minBuffer;
-    } else if (vScrollDir == 1) {
-      range['top']  -= minBuffer;
-      range['bottom'] += buffer;
-    } else {
-      range['top']  -= minBuffer;
-      range['bottom'] += minBuffer;
-    }
+    outRange['leftPx'] -= viewportW;
+    outRange['rightPx'] += viewportW;
 
-    range['top'] = math.max(0, range['top']);
-    range['bottom'] = math.min(getDataLengthIncludingAddNew() - 1, range['bottom']);
-
-    range['leftPx'] -= viewportW;
-    range['rightPx'] += viewportW;
-
-    range['leftPx'] = math.max(0, range['leftPx']);
-    range['rightPx'] = math.min(canvasWidth, range['rightPx']);
-
-    return range;
+    outRange['leftPx'] = math.max(0, outRange['leftPx']);
+    outRange['rightPx'] = math.min(canvasWidth, outRange['rightPx']);
+    print('adjust range:${outRange}');
+    return outRange;
   }
 
 
@@ -1343,6 +1357,7 @@ class SlickGrid {
         var test = supportedHeight * 2;
         div.style.height = "$test" +'px';
         //parseInt from getComputedStyle cause dart2js exception on firefox and IE
+        // parseInt reply float
         if (test > testUpTo ||  div.getComputedStyle().height != '${test}px') {
           break;
         } else {
@@ -2191,16 +2206,18 @@ class SlickGrid {
     }
 
     void scrollTo(int y) {
+     // print('scroll to ${y}');
       y = math.max(y, 0);
       y = math.min(y, th - viewportH + (viewportHasHScroll ? scrollbarDimensions['height'] : 0));
 
       int oldOffset = offset;
 
-      page = math.min(n - 1, (y / ph).floor());
-      offset = (page * cj).round();
+     // page = math.min(n - 1, (y / ph).floor());
+     // offset = (page * cj).round();
       int newScrollTop = y - offset;
 
-      if (offset != oldOffset) {
+      if (offset != oldOffset) {//not possible here
+        print('clean');
         var range = getVisibleRange(newScrollTop);
         cleanupRows(range);
         updateRowPositions();
@@ -2222,6 +2239,7 @@ class SlickGrid {
 //        $viewport.scrollTop = (lastRenderedScrollTop = scrollTop = prevScrollTop = newScrollTop);
         //$viewportL.scrollTop=$viewport.scrollTop;
         trigger(this.onViewportChanged, {});
+        print('viewChange');
       }
     }
     void cleanupRows(Map<String,int> rangeToKeep) {
@@ -3015,7 +3033,12 @@ class SlickGrid {
         return;
       }
     }
-
+    /**
+     * @input {top: 24, bottom: 50, leftPx: 0, rightPx: 1204}
+     * top >=0
+     * bottom  <=max row count , when equal to row count,....
+     * @TODO add new row handling
+     */
     renderRows(Map range) {
       //Element parentNode = $canvas;
 
@@ -3233,7 +3256,9 @@ class SlickGrid {
       }));
     }
 
-
+    /**
+     * setup large canvas height that enable native scroll
+     */
     void updateRowCount() {
       if (!initialized) { return; }
 
@@ -3254,7 +3279,12 @@ class SlickGrid {
       }
 
       int oldH = h;
-      th = math.max(options['rowHeight'] * numberOfRows, viewportH - scrollbarDimensions['height']);
+      if(options['dynamicHeight']==true){ //total length must match, or we may not able to scroll to last row
+        th = yLookup.height;
+      }else{
+        th = math.max(options['rowHeight'] * numberOfRows, viewportH - scrollbarDimensions['height']);
+      }
+
       if (th < maxSupportedCssHeight) {
         // just one page
         h = ph = th;
@@ -3321,10 +3351,15 @@ class SlickGrid {
 //        $viewport.scrollLeft = scrollLeft;
 //      }
     }
-
+    int scount=0;
+    /**
+     * 1 second emit 15 events
+     */
     void handleScroll([Event e]) {
       scrollTop = $viewportScrollContainerY.scrollTop;
       scrollLeft = $viewportScrollContainerX.scrollLeft;
+      //scount++;
+      //print('s event ${scount}' + new DateTime.now().toString() );
       _handleScroll(false);
     }
     _handleScroll(bool isMouseWheel) {
@@ -3338,11 +3373,11 @@ class SlickGrid {
         if (scrollLeft > maxScrollDistanceX) {
             scrollLeft = maxScrollDistanceX;
         }
-
+      //  print('pre scroll top: ${prevScrollTop}');
         int vScrollDist = (scrollTop - prevScrollTop).abs();
         int hScrollDist = (scrollLeft - prevScrollLeft).abs();
 
-        if (hScrollDist>0) {
+        if (hScrollDist>0) { //create scroll linkage between upperleft, upperRight, lowerLeft view
             prevScrollLeft = scrollLeft;
 
             $viewportScrollContainerX.scrollLeft = scrollLeft;
@@ -3379,28 +3414,32 @@ class SlickGrid {
 
             // switch virtual pages if needed
             if (vScrollDist < viewportH) {
+               // print('v scr dist: ${vScrollDist} ${viewportH}');
                 scrollTo(scrollTop + offset);
-            } else {
-                var oldOffset = offset;
-                if (h == viewportH) {
-                    page = 0;
-                } else {
-                    page = math.min(n - 1, (scrollTop * ((th - viewportH) / (h - viewportH)) * (1 / ph)).floor());
-                }
-                offset = (page * cj).round();
-                if (oldOffset != offset) {
-                    invalidateAllRows();
-                }
             }
+            //no chance to use page
+//            else {
+//                var oldOffset = offset;
+//                if (h == viewportH) {
+//                    page = 0;
+//                } else {
+//                    page = math.min(n - 1, (scrollTop * ((th - viewportH) / (h - viewportH)) * (1 / ph)).floor());
+//                }
+//                offset = (page * cj).round();
+//                if (oldOffset != offset) {
+//                    invalidateAllRows();
+//                }
+//            }
         }
 
         if (hScrollDist>0 || vScrollDist >0) {
             if (h_render!=null) {
                 h_render.cancel();
+                h_render=null;
             }
             //how many distance is enought to scroll?
-            if ((lastRenderedScrollTop - scrollTop).abs() > 120 ||
-                (lastRenderedScrollLeft - scrollLeft).abs() > 120) {
+            if ((lastRenderedScrollTop - scrollTop).abs() > 420 ||
+                (lastRenderedScrollLeft - scrollLeft).abs() > 420) {
                 if (options['forceSyncScrolling'] || (
                     (lastRenderedScrollTop - scrollTop).abs() < viewportH &&
                         (lastRenderedScrollLeft - scrollLeft).abs() < viewportW)) {
@@ -3409,12 +3448,14 @@ class SlickGrid {
                     h_render=new Timer.periodic(new Duration(milliseconds:50),render);
                    // h_render = setTimeout(render, 50);
                 }
-
-                trigger(onViewportChanged, {});
+                if(onViewportChanged.handlers.length>0){
+                  trigger(onViewportChanged, {});
+                }
             }
         }
-
-        trigger(onScroll, {'scrollLeft': scrollLeft, 'scrollTop': scrollTop});
+        if(onScroll.handlers.length>0){//may i avoid high scroller event cost
+          trigger(onScroll, {'scrollLeft': scrollLeft, 'scrollTop': scrollTop});
+        }
     }
 
     // todo shaodw fix

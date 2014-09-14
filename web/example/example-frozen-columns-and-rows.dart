@@ -11,7 +11,7 @@ void main() {
 grid.SlickGrid init(){
   Element el =querySelector('#myGrid');
   List column = [
-     new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "title", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "title", 'name': "Seq", 'field': "seq", 'sortable': true , 'width':50}),
      new grid.Column.fromMap ({'id': "duration", 'name': "percentComplete2", 'field': "percentComplete", 'sortable': true }),
      new grid.Column.fromMap ({'id': "%", 'name': "start3", 'field': "duration", 'sortable': true }),
      new grid.Column.fromMap ({'id': "start", 'name': "4finish", 'field': "finish"}),
@@ -35,6 +35,7 @@ grid.SlickGrid init(){
   List data=[];
   for (var i = 0; i < 300; i++) {
     data.add( {
+      'seq':  i,
       'title':  'aa nnn aaa' + new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100).toString(),
       'percentComplete': new math.Random().nextInt(10) * 100,

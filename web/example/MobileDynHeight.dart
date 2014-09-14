@@ -8,11 +8,34 @@ void main() {
  // print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
 }
 
+AlertFormatter(int row,int cell,int value,grid.Column columnDef,Map dataRow) {
+  if(dataRow['_height']!=null && dataRow['_height']>70){
+    return '''
+        <p style=' white-space: normal;'>CSS word-wrapping in div</p>       
+        <div class="btn-group btn-group-xs">
+         <button type="button" class="btn btn-default">Left</button>
+        <button type="button" class="btn btn-default">Middle</button>
+        </div>
+        <div>
+          <span class="label label-warning">Check:${value}</span>
+        </div>
+        ''';
+  }else{
+    if(value>5){
+      return '<span class="label label-success">Success</span>';
+
+    }else{
+
+      return '<span class="label label-default">Default</span>';
+    }
+  }
+}
+
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
   List column = [
-     new grid.Column.fromMap ({'id': "title", 'name': "id", 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "duration", 'width':120,'name': "percentComplete2", 'field': "percentComplete", 'sortable': true }),
+     new grid.Column.fromMap ({'id': "title", 'name': "id", 'field': "title", 'sortable': true, 'width':20 }),
+     new grid.Column.fromMap ({'id': "duration", 'width':120,'name': "Alert", 'field': "percentComplete", 'formatter': AlertFormatter }),
      new grid.Column.fromMap ({'id': "%", 'name': "start3", 'field': "start", 'sortable': true }),
      new grid.Column.fromMap ({'id': "start", 'name': "4finish", 'field': "finish"}),
      new grid.Column.fromMap ({'id': "title2", 'name': "5Title1", 'field': "title", 'sortable': true }),
@@ -26,18 +49,14 @@ grid.SlickGrid init(){
      new grid.Column.fromMap ({'id': "start2", 'name': "13 finish", 'field': "finish"}),
      new grid.Column.fromMap ({'id': "title2", 'name': "14 Title1", 'field': "title", 'sortable': true }),
      new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "15 percentComplete", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%2", 'name': "16 start", 'field': "start", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "start2", 'name': "17 finish", 'field': "finish1"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "18 finish", 'field': "finish2"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "19 finish", 'field': "finish3"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "20 finish", 'field': "finish4"})
+     new grid.Column.fromMap ({'id': "%2", 'name': "16 start", 'field': "start", 'sortable': true })
   ];
   List data=[];
   for (var i = 0; i < 5000; i++) {
     data.add( {
       'title':  i+1,
       'duration': 'd ${i*100}',
-      'percentComplete': new math.Random().nextInt(10) * 100,
+      'percentComplete': new math.Random().nextInt(10) ,
       'start': "01/01/20${i}",
       'finish': "01/05/2009",
       'finish1': "01/05/2009 $i",
