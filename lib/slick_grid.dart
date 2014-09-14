@@ -203,7 +203,7 @@ class SlickGrid {
    */
   SlickGrid(this.container, this.data, this.columns, this.options){
     defaults = {
-                '_renderLatency': 150,   //mobile device should put larger lantency
+             //   '_renderLatency': 150,   //mobile device should put larger lantency
                 '_scrollerDistToRender':200,
                 'explicitInitialization': false,
                 'rowHeight': 25,

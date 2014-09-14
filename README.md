@@ -113,6 +113,7 @@ TODO
 - [x] Resize column
 - [] Column reorder
 - [x] auto tooltip
+- fase scroll will cause last n record not display
 
 
 dynamic height
