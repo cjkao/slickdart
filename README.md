@@ -109,6 +109,7 @@ TODO
   - sort column should re-calcule height
   - how about insert row or delete row?
   - low performance on horzontal scrolling
+  - missing last n records (~420px)
 - [x] Frozen column, also editable
 - [x] Resize column
 - [] Column reorder
