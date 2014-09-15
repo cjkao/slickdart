@@ -33,6 +33,7 @@ TODO
 - [x] Resize column
 - [] Column reorder
 - [x] auto tooltip
+- [ ] adjust row height via mouse
 
 
 
