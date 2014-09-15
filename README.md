@@ -17,11 +17,12 @@ Example
 * [Live Sample](https://cjkao.github.io/slickdart)
 * examples in web/example folder
 
-Known constraint
+Known Constraint
 ========================
 * col-span (not tested) 
 * using keyboard navigation on non-editable cell and goes out of viewport will not
-  immediate update screen until it on editable area 
+  immediate update screen until it on editable area
+   
 TODO
 ========================
 
@@ -37,7 +38,7 @@ TODO
 
 
 
-dynamic height
+Dynamic Row Height
 ===============================
 limitation: visible row:
 when calculate numVisibleRows, when we apply dynamic row height, minimal dynamic row height must >= single row hight
