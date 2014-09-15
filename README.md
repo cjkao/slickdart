@@ -1,7 +1,7 @@
 slickdart
 =========
 
-slick grid port, not for mobile device
+slick grid port, for mobile,desktop devices
 
 Sort performance is not expected in javascript version
 

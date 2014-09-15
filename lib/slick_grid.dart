@@ -382,6 +382,8 @@ class SlickGrid {
  Element $viewportBottomL;
  Element $viewportBottomR;
 
+ // canvas,
+ // very long and wide area that hold real row elements
  Element $canvasTopL;
  Element $canvasTopR;
  Element $canvasBottomL;
@@ -826,7 +828,9 @@ class SlickGrid {
              }
          }
      } else {
-         $viewportTopR.style.height = '${viewportTopH}px'; //(viewportTopH);
+       if (options['frozenColumn'] > -1) {//no frozen row, but frozen column
+                        $viewportTopR.style.height = '${viewportTopH}px'; //(viewportTopH);
+       }
      }
 
      if (options['forceFitColumns']==true) {
@@ -3307,7 +3311,9 @@ class SlickGrid {
             }
         } else {
             $canvasTopL.style.height ='${h}px';
-            $canvasTopR.style.height = '${h}px';
+           if (options['frozenColumn'] > -1) {
+                $canvasTopR.style.height = '${h}px';
+           }
         }
         scrollTop = $viewportScrollContainerY.scrollTop;
       }
