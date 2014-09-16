@@ -29,7 +29,7 @@ TODO
 - [ ] efficent dynamic row height on frozen column
   - sort column should re-calcule height
   - how about insert row or delete row?
-  - low performance on horzontal scrolling
+  [x] low performance on horzontal scrolling, fixed by extend buffer to 4block
 - [x] Frozen column, also editable
 - [x] Resize column
 - [ ] Column reorder
@@ -45,3 +45,10 @@ when calculate numVisibleRows, when we apply dynamic row height, minimal dynamic
 Current design: 
 - put '_height' on row object to specify pixel height  
 - add {'dynamicHeight': true} option to turn on it  
+
+Mobile Device
+==============================
+Lumia 925  -> very fast scrolling on vertical 
+HTC One (M7) Chrome => sluggish
+HTC One (M7) Firefox => smooth but slower than Lumia 925
+HTC One (M7) Content Shell => very fast,on par with Lumia 925

@@ -52,7 +52,7 @@ grid.SlickGrid init(){
      new grid.Column.fromMap ({'id': "%2", 'name': "16 start", 'field': "start", 'sortable': true })
   ];
   List data=[];
-  for (var i = 0; i < 5000; i++) {
+  for (var i = 0; i < 1500; i++) {
     data.add( {
       'title':  i+1,
       'duration': 'd ${i*100}',
@@ -72,7 +72,9 @@ grid.SlickGrid init(){
   }
   Map opt = {'explicitInitialization': false,
              'multiColumnSort': false,
-             'dynamicHeight': true
+             'dynamicHeight': true,
+//             'frozenColumn': 0,
+//                             'frozenRow':0,
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
   sg.onSort.subscribe( (e, args) {

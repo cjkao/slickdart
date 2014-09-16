@@ -11,7 +11,6 @@ import 'dart:convert';
 import 'slick_dnd.dart';
 import 'row_height.dart' as heightIdx;
 
-
 /**
  * plug-in interface
  */
@@ -615,8 +614,8 @@ class SlickGrid {
 //    outRange['top'] = math.max(0, outRange['top']);
 //    outRange['bottom'] = math.min(getDataLengthIncludingAddNew() - 1, outRange['bottom']);
 
-    outRange['leftPx'] -= viewportW;
-    outRange['rightPx'] += viewportW;
+    outRange['leftPx'] -= viewportW*2;
+    outRange['rightPx'] += viewportW*2;
 
     outRange['leftPx'] = math.max(0, outRange['leftPx']);
     outRange['rightPx'] = math.min(canvasWidth, outRange['rightPx']);
@@ -1099,9 +1098,10 @@ class SlickGrid {
       bindAncestorScrollEvents();
 
       window.onResize.listen(resizeCanvas);
-//      $container
-//          .bind("resize.slickgrid", resizeCanvas);
-      $viewport.forEach((_)=> _.onScroll.matches('*').listen(handleScroll));
+      //TODO benchmark me
+   //   $viewport.forEach((_)=> _.onScroll.matches('*').listen(handleScroll));
+      var throttler = new Throttler(new Duration(milliseconds:250), handleScroll,false);
+      $viewport.forEach((_)=> _.onScroll.matches('*').listen( (e)=> throttler.throttle(e) ));
 
       //TODO tets
       $headerScroller.forEach((_)=> _..onContextMenu.listen(handleHeaderContextMenu)
@@ -3071,6 +3071,7 @@ class SlickGrid {
     }
     if (rows.length==0) { return; }
     //generate tags for new rows
+    //TODO disable for mobile device
     Element x = new Element.div();
     x.setInnerHtml(stringArrayL.join(""), treeSanitizer: _treeSanitizer )  ;
     x.querySelectorAll(".slick-cell").onMouseEnter.listen(handleMouseEnter);
@@ -3444,14 +3445,14 @@ class SlickGrid {
                 h_render=null;
             }
             //how many distance is enought to scroll?
-            if ((lastRenderedScrollTop - scrollTop).abs() > 420 ||
-                (lastRenderedScrollLeft - scrollLeft).abs() > 420) {
+            if ((lastRenderedScrollTop - scrollTop).abs() > 220 ||
+                (lastRenderedScrollLeft - scrollLeft).abs() > 220) {
                 if (options['forceSyncScrolling'] || (
                     (lastRenderedScrollTop - scrollTop).abs() < viewportH &&
                         (lastRenderedScrollLeft - scrollLeft).abs() < viewportW)) {
                     render();
                 } else {
-                    h_render=new Timer.periodic(new Duration(milliseconds:50),render);
+                    h_render=new Timer(new Duration(milliseconds:50),render);
                    // h_render = setTimeout(render, 50);
                 }
                 if(onViewportChanged.handlers.length>0){
