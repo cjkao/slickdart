@@ -3,7 +3,7 @@ slickdart
 
 slick grid port, for mobile,desktop devices
 
-Sort performance is not expected in javascript version
+** Sort performance is not expected in javascript version
 
 Parameter Description
 =======================
@@ -48,7 +48,8 @@ Current design:
 
 Mobile Device
 ==============================
-Lumia 925  -> very fast scrolling on vertical 
-HTC One (M7) Chrome => sluggish
+Lumia 925  -> very fast scrolling on vertical and horizontal 
+HTC One (M7) Chrome => fast scrolling on both vertical and horizontal
 HTC One (M7) Firefox => smooth but slower than Lumia 925
 HTC One (M7) Content Shell => very fast,on par with Lumia 925
+IPAD2 => sluggish

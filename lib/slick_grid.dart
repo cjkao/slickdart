@@ -1098,10 +1098,10 @@ class SlickGrid {
       bindAncestorScrollEvents();
 
       window.onResize.listen(resizeCanvas);
-      //TODO benchmark me
-   //   $viewport.forEach((_)=> _.onScroll.matches('*').listen(handleScroll));
-      var throttler = new Throttler(new Duration(milliseconds:250), handleScroll,false);
-      $viewport.forEach((_)=> _.onScroll.matches('*').listen( (e)=> throttler.throttle(e) ));
+      $viewport.forEach((_)=> _.onScroll.matches('*').listen(handleScroll));
+// throttler impact smoothness of desktop header
+//      var throttler = new Throttler(new Duration(milliseconds:250), handleScroll,false);
+//      $viewport.forEach((_)=> _.onScroll.matches('*').listen( (e)=> throttler.throttle(e) ));
 
       //TODO tets
       $headerScroller.forEach((_)=> _..onContextMenu.listen(handleHeaderContextMenu)
@@ -2208,7 +2208,9 @@ class SlickGrid {
         return ((y + offset) / options['rowHeight']).floor();
       }
     }
-
+    /**
+     * scroll viewport to target y axis
+     */
     void scrollTo(int y) {
      // print('scroll to ${y}');
       y = math.max(y, 0);
@@ -3361,13 +3363,14 @@ class SlickGrid {
     int scount=0;
     /**
      * 1 second emit 15 events
+     * performance killer
      */
     void handleScroll([Event e]) {
       scrollTop = $viewportScrollContainerY.scrollTop;
       scrollLeft = $viewportScrollContainerX.scrollLeft;
       //scount++;
       //print('s event ${scount}' + new DateTime.now().toString() );
-      _handleScroll(false);
+       _handleScroll(false);
     }
     _handleScroll(bool isMouseWheel) {
         var maxScrollDistanceY = $viewportScrollContainerY.scrollHeight - $viewportScrollContainerY.clientHeight;
@@ -3387,7 +3390,7 @@ class SlickGrid {
         if (hScrollDist>0) { //create scroll linkage between upperleft, upperRight, lowerLeft view
             prevScrollLeft = scrollLeft;
 
-            $viewportScrollContainerX.scrollLeft = scrollLeft;
+            //$viewportScrollContainerX.scrollLeft = scrollLeft;
             $headerScrollContainer.scrollLeft = scrollLeft;
             $topPanelScroller..first.scrollLeft = scrollLeft..last.scrollLeft=scrollLeft;
             $headerRowScrollContainer.scrollLeft = scrollLeft;
