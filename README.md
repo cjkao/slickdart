@@ -48,8 +48,8 @@ Current design:
 
 Mobile Device
 ==============================
-Lumia 925  -> very fast scrolling on vertical and horizontal 
-HTC One (M7) Chrome => fast scrolling on both vertical and horizontal
-HTC One (M7) Firefox => smooth but slower than Lumia 925
-HTC One (M7) Content Shell => very fast,on par with Lumia 925
-IPAD2 => sluggish
+- Lumia 925  -> very fast scrolling on vertical and horizontal 
+- HTC One (M7) Chrome => fast scrolling on both vertical and horizontal
+- HTC One (M7) Firefox => smooth but slower than Lumia 925
+- HTC One (M7) Content Shell => very fast,on par with Lumia 925
+- IPAD2 => sluggish
