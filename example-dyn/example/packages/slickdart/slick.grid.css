@@ -195,6 +195,8 @@ classes should alter those!
 	position: relative;
 	outline: 0;
 	width: 100%;
+	/* -webkit-transform: translateZ(0); */
+	 -webkit-overflow-scrolling: touch;
 }
 .slick-header-column, .slick-row, .slick-cell,.slick-cell:after{
     box-sizing: content-box;    /* fix bootstrap*/
