@@ -992,57 +992,6 @@ class SlickGrid {
 
 
 
-//      $headerRowScroller = container.createFragment("<div class='slick-headerrow ui-state-default' style='overflow:hidden;position:relative;' />"
-//          ,treeSanitizer :_treeSanitizer).children.first;
-//      container.append($headerRowScroller);
-//
-//      $headerRow = container.createFragment("<div class='slick-headerrow-columns' />"
-//          ,treeSanitizer :_treeSanitizer).children.first;
-//
-//      $headerRowScroller.append($headerRow);
-//
-//      $headerRowSpacerL = container.createFragment("<div style='display:block;height:1px;position:absolute;top:0;left:0;'></div>"
-//          ,treeSanitizer :_treeSanitizer).children.first;
-//      $headerRowSpacerL.style.width= (getCanvasWidth() + scrollbarDimensions['width']).toString() + "px";
-//      $headerRowScroller.append( $headerRowSpacerL);
-
-//      $topPanelScroller = container.createFragment("<div class='slick-top-panel-scroller ui-state-default' style='overflow:hidden;position:relative;' />"
-//          ,treeSanitizer :_treeSanitizer).children.first;
-//      container.append($topPanelScroller);
-//      $topPanel = container.createFragment("<div class='slick-top-panel' style='width:10000px' />"
-//          ,treeSanitizer :_treeSanitizer).children.first;
-//
-//      $topPanelScroller.append($topPanel);
-
-//      if (!options['showTopPanel']) {
-//        $topPanelScroller.style.display='none';
-//      }
-//
-//      if (!options['showHeaderRow']) {
-//        $headerRowScroller.style.display='none';
-//      }
-
-//      $viewport = container.createFragment("<div class='slick-viewport' style='width:100%;overflow:auto;outline:0;position:relative;'>"
-//          ,treeSanitizer :_treeSanitizer).children.first;
-//      container.append($viewport);
-//
-//      $viewport.style.overflowY =  options['autoHeight'] ? "hidden" : "auto";
-//
-//      $canvas = container.createFragment("<div class='grid-canvas' />" ,treeSanitizer :_treeSanitizer).children.first;
-//      $viewport.append($canvas);
-
-
-      //Add viewport L
-//      $viewportL = container.createFragment("<div class='slick-viewport pane-left' style='width:100%;overflow:auto;outline:0;position:relative;'>"
-//                ,treeSanitizer :_treeSanitizer).children.first;
-//      container.append($viewportL);
-//
-//      $viewportL.style.overflowY =  options['autoHeight'] ? "hidden" : "auto";
-//
-//      $canvasL = container.createFragment("<div class='grid-canvas' />" ,treeSanitizer :_treeSanitizer).children.first;
-//      $viewportL.append($canvasL);
-
-
       $focusSink2 = $focusSink.clone(true);
       container.append($focusSink2);
 
@@ -3469,6 +3418,7 @@ class SlickGrid {
     }
 
     // todo shaodw fix
+    // todo dynmic height , remove height
     void createCssRules() {
       $style =  container.createFragment("<style type='text/css' rel='stylesheet' />", treeSanitizer : _treeSanitizer).children.first;
       querySelector('head').append($style);
@@ -3481,6 +3431,10 @@ class SlickGrid {
         "." + uid + " .slick-row { height:" + options['rowHeight'].toString() + "px; }"
       ];
 
+      if(window.navigator.userAgent.contains("Android") && window.navigator.userAgent.contains("Chrome")  ){
+        rules.add( '.${uid} .slick-viewport { -webkit-transform: translateZ(0);}' );
+      }
+
       for (int i = 0; i < columns.length; i++) {
         rules.add("." + uid + " .l" + i.toString() + " { }");
         rules.add("." + uid + " .r" + i.toString() + " { }");
@@ -3491,6 +3445,8 @@ class SlickGrid {
 //      } else {
         $style.appendText(rules.join(' '));
 //      }
+
+
     }
 
 
