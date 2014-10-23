@@ -202,3 +202,11 @@ classes should alter those!
     box-sizing: content-box;    /* fix bootstrap*/
 }
 [hidden] { display: none; } /* polyfill ie10*/
+
+.slick-pane-left{
+  box-shadow: 2px 0 2px rgba(28, 28, 28, 0.45);
+  z-index: 3;
+}
+.slick-pane.slick-pane-top.slick-pane-right{
+  z-index: 1;
+}

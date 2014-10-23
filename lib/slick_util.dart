@@ -14,7 +14,17 @@ Element findClosestAncestor(Element element, String cssSelector,[String scope]) 
   } while(element != null );
   return null;
 }
+/**
+ * adapt csv format and provide [] operator
+ * convert csv to map
+ */
+class CsvAdapter{
+  Map m;
+  CsvAdapter(String csv){
 
+  }
+
+}
 
 class Throttler{
 

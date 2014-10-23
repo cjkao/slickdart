@@ -203,7 +203,7 @@ class SlickGrid {
   SlickGrid(this.container, this.data, this.columns, this.options){
     defaults = {
              //   '_renderLatency': 150,   //mobile device should put larger lantency
-                '_scrollerDistToRender':200,
+//                '_scrollerDistToRender':200,
                 'explicitInitialization': false,
                 'rowHeight': 25,
                 'defaultColumnWidth': 80,
@@ -1048,6 +1048,7 @@ class SlickGrid {
 
       window.onResize.listen(resizeCanvas);
       $viewport.forEach((_)=> _.onScroll.matches('*').listen(handleScroll));
+//      $viewport.forEach((_) => _.onTouchMove.matches('*').listen(handleScroll));
 // throttler impact smoothness of desktop header
 //      var throttler = new Throttler(new Duration(milliseconds:250), handleScroll,false);
 //      $viewport.forEach((_)=> _.onScroll.matches('*').listen( (e)=> throttler.throttle(e) ));

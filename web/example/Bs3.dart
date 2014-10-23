@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
-import 'package:slickdart/slick_core.dart' as core;
 import 'package:slickdart/plugin/autotooltip.dart';
 void main() {
   cj.SlickGrid  grid=init();

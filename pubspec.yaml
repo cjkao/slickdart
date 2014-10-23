@@ -9,3 +9,5 @@ dev_dependencies:
   polymer: any
   unittest: any
   html5_dnd: any
+  angular: any
+  csvparser: any

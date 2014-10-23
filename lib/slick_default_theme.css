@@ -3,12 +3,15 @@ IMPORTANT:
 In order to preserve the uniform grid appearance, all cell styles need to have padding, margin and border sizes.
 No built-in (selected, editable, highlight, flashing, invalid, loading, :focus) or user-specified CSS
 classes should alter those!
-*/
 
-.slick-header-columns {
+.1slick-header-columns {
   background: url('images/header-columns-bg.gif') repeat-x center bottom;
   border-bottom: 1px solid silver;
 }
+
+
+*/
+
 
 .slick-header-column {
   background: url('images/header-columns-bg.gif') repeat-x center bottom;
@@ -104,7 +107,7 @@ classes should alter those!
   -moz-animation-duration: 0.2s;
   -webkit-animation-duration: 0.2s;
   -moz-animation-name: slickgrid-invalid-hilite;
-  -webkit-animation-name: slickgrid-invalid-hilite;  
+  -webkit-animation-name: slickgrid-invalid-hilite;
 }
 
 @-moz-keyframes slickgrid-invalid-hilite {
