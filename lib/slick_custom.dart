@@ -50,7 +50,8 @@ class GridWrap extends HtmlElement {
     grid.init();
     grid.data.clear();
     grid.data.addAll(data);
-    Timer t = new Timer(new Duration(milliseconds: 50), () => grid.finishInitialization());
+    //this is big trouble
+    Timer t = new Timer(new Duration(milliseconds: 150), () => grid.finishInitialization());
   }
   void attached() {
     //   Timer t=new Timer(new Duration(milliseconds:10),()=> grid.finishInitialization());
@@ -58,7 +59,7 @@ class GridWrap extends HtmlElement {
   void detached() {
     //todo: remove window bind events
   }
-  factory GridWrap(text) => new Element.tag('slick-grid');
+  factory GridWrap(text) => new Element.tag(GRID_TAG);
 }
 
 SlickGrid _prepareGrid(Element el, List<Column> colDefs, {Map opt}) {
