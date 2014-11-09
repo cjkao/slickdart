@@ -1,6 +1,6 @@
 library slick.editor;
 import 'dart:html';
-import 'slick_grid.dart' as grid;
+import 'slick.dart' as grid;
 
 abstract class Editor{
   EditorParm _ep;

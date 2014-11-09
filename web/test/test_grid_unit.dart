@@ -1,5 +1,5 @@
  import 'package:unittest/unittest.dart';
-import 'package:slickdart/slick_grid.dart' as grid;
+import 'package:slickdart/slick.dart' as grid;
 import 'dart:html';
 import 'dart:math' as math;
 import 'dart:async';

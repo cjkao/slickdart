@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="bootstrap.css" rel="stylesheet" media="screen">
+    <style>
+    cj-grid{
+      height:200px;
+      border:1px solid black;
+      margin:4px;
+    }
+    cj-grid.first, cj-grid.third{
+      display: inline-block;
+    }
+    </style>
+  </head>
+  <body>
+    <script type="application/dart" src="cust.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+    <script src="packages/web_components/platform.js"></script>
+    <script src="packages/web_components/dart_support.js"></script>
+    <div class='container'>
+      <div class='row'>
+        <div class='col-md-3'>
+          <div class="panel panel-default">
+            <div class="panel-heading">Panel 1, bind surface</div>
+            <div class="panel-body">
+              <cj-grid style='width:200px;' class='second'></cj-grid>
+            </div>
+          </div>
+
+
+        </div>
+        <div class='col-md-9'>
+         <div class="panel panel-default">
+            <div class="panel-heading">Panel 2</div>
+            <div class="panel-body">
+              <cj-grid style='width:300px;' class='first'></cj-grid>
+              <cj-grid style='width:400px;' class='third'></cj-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-6'>  <cj-grid style='width:600px;' class='forth'></cj-grid></div>
+        <div class='col-md-6'> <div class='right-pane'></div></div>
+      </div>
+    </div>
+
+
+
+
+
+
+    <script src="ga.js"></script>
+
+  </body>
+</html>

@@ -1,9 +1,98 @@
 library slick.column;
 
 import 'dart:html';
-import 'slick_grid.dart';
+import 'dart:convert';
+import 'slick.dart';
 import 'slick_core.dart' as core;
+class Column{
+  Column(){
+    _src.addAll(_columnDefaults);
+  }
+  Map<String,dynamic > _src={};
+  Function get asyncPostRender => _src['asyncPostRender'];
+  bool get  defaultSortAsc => _src['defaultSortAsc'];
+  Function get editor => _src['editor'];
+  bool get focusable => _src['focusable'];
+  Function get formatter => _src['formatter'];
+  String get headerCssClass => _src['headerCssClass'];
+  String get cssClass => _src['cssClass'];
+  int get previousWidth => _src['previousWidth'];
 
+  String get toolTip => _src['toolTip'];
+  String get id => _src['id'];// "range"
+  int get minWidth => _src['minWidth'];//: 30
+  String get name => _src['name']; //: "Range"
+  bool get rerenderOnResize => _src['rerenderOnResize'];
+  bool get resizable => _src['resizable'];
+  bool get selectable => _src['selectable'];
+  bool get sortable => _src['sortable'];
+  int  get width => _src['width'];
+  int get maxWidth => _src['maxWidth'];
+  String get field => _src['field'];
+        get validator => _src['validator'];
+
+
+  bool get cannotTriggerInsert => _src['cannotTriggerInsert'];
+  void set asyncPostRender(item) { _src['asyncPostRender'] = item;}
+  void set toolTip(item) {_src['toolTip']=item;}
+  void set cannotTriggerInsert(item){ _src['cannotTriggerInsert']= item;}
+  void set defaultSortAsc(item) {_src['defaultSortAsc']=item;}
+  void set editor(Function item) {_src['editor']=item;}
+  void set focusable(bool item) {_src['focusable']=item;}
+  void set formatter(Function item) { _src['formatter']=item;}
+  void set headerCssClass(String item) { _src['headerCssClass']=item;}
+  void set cssClass(String item) { _src['cssClass']=item;}
+  void set id(String item) { _src['id']=item;}// "range"
+  void set previousWidth(int item) { _src['previousWidth']=item;}// "range"
+  void set minWidth(int item) { _src['minWidth']=item;}//: 30
+  void set name (String item) { _src['name']=item;} //: "Range"
+  void set rerenderOnResize(bool item) { _src['rerenderOnResize']=item;}
+  void set resizable(bool item) { _src['resizable']=item;}
+  void set selectable(bool item) { _src['selectable']=item;}
+  void set sortable(bool item) { _src['sortable']=item;}
+  void  set width(int item) { _src['width']=item;}
+  void set maxWidth(int item){_src['maxWidth']=item;}
+  void set field(String item){_src['field']=item;}
+
+  factory Column.fromMap(Map<String,dynamic> src){
+    Column c = new Column();
+    c._src..addAll(src) ;
+    return c;
+  }
+
+  factory Column.fromJSON(String src){
+    Map m=JSON.decode(src);
+    return new Column.fromMap(m) ; //c._src..addAll(src) ;
+  }
+
+  factory Column.fromColumn(Column old){
+    Column c = new Column();
+    c._src..addAll(old._src);
+    return c;
+  }
+  dynamic operator[](String crit){
+      return _src[crit];
+  }
+  Column merge(Column newCol){
+     this._src.addAll(newCol._src);
+     return this;
+  }
+  Map _columnDefaults = {
+                    'name': "",
+                    'resizable': true,
+                    'sortable': false,
+                    'minWidth': 30,
+                    'rerenderOnResize': false,
+                    'headerCssClass': null,
+                    'defaultSortAsc': true,
+                    'focusable': true,
+                    'selectable': true,
+                    'cannotTriggerInsert': false
+  };
+ String toString(){
+   return _src.toString();
+ }
+}
 /**
  * Virtual column that add to first column, including header
  */
@@ -18,6 +107,18 @@ class CheckboxSelectColumn extends Column with IPlugin{
   SlickGrid _grid;
   var _handler = new core.EventHandler();
   Map<int,bool> _selectedRowsLookup = {};
+  /**
+   * change for shadow dom element initialize
+   */
+//  dynamic operator[](String crit){
+//     if(crit=='name'){
+//       var el= new InputElement();
+//           el.type='checkbox';
+//           return el;
+//     }
+//     return _src[crit];
+//  }
+
   init(SlickGrid grid){
     _grid = grid;
     _handler.subscribe(_grid.onSelectedRowsChanged, handleSelectedRowsChanged)
@@ -137,17 +238,21 @@ class CheckboxSelectColumn extends Column with IPlugin{
   }
 
    getColumnDefinition() {
-    return new Column.fromMap({
-      'id': _options['columnId'],
-      'name': "<input type='checkbox'>",
-      'toolTip': _options['toolTip'],
-      'field': "sel",
-      'width': _options['width'],
-      'resizable': false,
-      'sortable': false,
-      'cssClass': _options['cssClass'],
-      'formatter': checkboxSelectionFormatter
-    });
+     InputElement elem=new InputElement();
+     elem.type='checkbox';
+     this._src.addAll({
+       'id': _options['columnId'],
+       'name': elem, //"<input type='checkbox'>",
+       'toolTip': _options['toolTip'],
+       'field': "sel",
+       'width': _options['width'],
+       'resizable': false,
+       'sortable': false,
+       'cssClass': _options['cssClass'],
+       'formatter': checkboxSelectionFormatter
+     });
+     return this;
+    //return new Column.fromMap();
   }
 
    checkboxSelectionFormatter(row, cell, value, columnDef, dataContext) {

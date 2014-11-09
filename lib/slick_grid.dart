@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'slick_dnd.dart';
+import 'slick_column.dart';
 import 'row_height.dart' as heightIdx;
 
 /**
@@ -54,95 +55,7 @@ class RowCache{
   // end of the row.
   Queue<int> cellRenderQueue =new Queue<int>();
 }
-class Column{
-  Column(){
-    _src.addAll(_columnDefaults);
-  }
-  Map<String,dynamic > _src={};
-  Function get asyncPostRender => _src['asyncPostRender'];
-  bool get  defaultSortAsc => _src['defaultSortAsc'];
-  Function get editor => _src['editor'];
-  bool get focusable => _src['focusable'];
-  Function get formatter => _src['formatter'];
-  String get headerCssClass => _src['headerCssClass'];
-  String get cssClass => _src['cssClass'];
-  int get previousWidth => _src['previousWidth'];
 
-  String get toolTip => _src['toolTip'];
-  String get id => _src['id'];// "range"
-  int get minWidth => _src['minWidth'];//: 30
-  String get name => _src['name']; //: "Range"
-  bool get rerenderOnResize => _src['rerenderOnResize'];
-  bool get resizable => _src['resizable'];
-  bool get selectable => _src['selectable'];
-  bool get sortable => _src['sortable'];
-  int  get width => _src['width'];
-  int get maxWidth => _src['maxWidth'];
-  String get field => _src['field'];
-        get validator => _src['validator'];
-
-
-  bool get cannotTriggerInsert => _src['cannotTriggerInsert'];
-  void set asyncPostRender(item) { _src['asyncPostRender'] = item;}
-  void set toolTip(item) {_src['toolTip']=item;}
-  void set cannotTriggerInsert(item){ _src['cannotTriggerInsert']= item;}
-  void set defaultSortAsc(item) {_src['defaultSortAsc']=item;}
-  void set editor(Function item) {_src['editor']=item;}
-  void set focusable(bool item) {_src['focusable']=item;}
-  void set formatter(Function item) { _src['formatter']=item;}
-  void set headerCssClass(String item) { _src['headerCssClass']=item;}
-  void set cssClass(String item) { _src['cssClass']=item;}
-  void set id(String item) { _src['id']=item;}// "range"
-  void set previousWidth(int item) { _src['previousWidth']=item;}// "range"
-  void set minWidth(int item) { _src['minWidth']=item;}//: 30
-  void set name (String item) { _src['name']=item;} //: "Range"
-  void set rerenderOnResize(bool item) { _src['rerenderOnResize']=item;}
-  void set resizable(bool item) { _src['resizable']=item;}
-  void set selectable(bool item) { _src['selectable']=item;}
-  void set sortable(bool item) { _src['sortable']=item;}
-  void  set width(int item) { _src['width']=item;}
-  void set maxWidth(int item){_src['maxWidth']=item;}
-  void set field(String item){_src['field']=item;}
-
-  factory Column.fromMap(Map<String,dynamic> src){
-    Column c = new Column();
-    c._src..addAll(src) ;
-    return c;
-  }
-
-  factory Column.fromJSON(String src){
-    Map m=JSON.decode(src);
-    return new Column.fromMap(m) ; //c._src..addAll(src) ;
-  }
-
-  factory Column.fromColumn(Column old){
-    Column c = new Column();
-    c._src..addAll(old._src);
-    return c;
-  }
-  dynamic operator[](String crit){
-      return _src[crit];
-  }
-  Column merge(Column newCol){
-     this._src.addAll(newCol._src);
-     return this;
-  }
-  Map _columnDefaults = {
-                    'name': "",
-                    'resizable': true,
-                    'sortable': false,
-                    'minWidth': 30,
-                    'rerenderOnResize': false,
-                    'headerCssClass': null,
-                    'defaultSortAsc': true,
-                    'focusable': true,
-                    'selectable': true,
-                    'cannotTriggerInsert': false
-  };
- String toString(){
-   return _src.toString();
- }
-}
 class SlickGrid {
   //attach column to header element
   Expando<Column> _headExt= new Expando<Column>();
@@ -271,7 +184,7 @@ class SlickGrid {
   DivElement $viewportL;
   List<Element> $canvas =[];  //all columns
   DivElement $canvasL; //left frozen columns
-  Element $style;
+  StyleElement $style;
   List<Element> $boundAncestors;
   CssStyleSheet stylesheet;
   List<CssStyleRule> columnCssRulesL, columnCssRulesR;
@@ -486,14 +399,22 @@ class SlickGrid {
 
   Map<String,CssStyleRule> getColumnCssRules(idx) {
     if (stylesheet==null) {
+     //print( container.style);
       List<CssStyleSheet> sheets = document.styleSheets;
-
-      for (int i = 0; i < sheets.length; i++) {
-        if (sheets[i].ownerNode !=null && sheets[i].ownerNode == $style) {   //|| sheets[i].owningElement for IE8
-          stylesheet = sheets[i];
-          break;
+      if(container.parent==null){ //shadowRoot
+        stylesheet=((container.parentNode as ShadowRoot).firstChild as StyleElement).sheet;
+       // stylesheet = container.parentNode.firstChild as CssStyleSheet;
+      }else{
+        for (int i = 0; i < sheets.length; i++) {
+          if (sheets[i].ownerNode !=null && sheets[i].ownerNode == $style) {   //|| sheets[i].owningElement for IE8
+            stylesheet = sheets[i];
+            break;
+          }
         }
       }
+
+
+      //    stylesheet=$style;
 
       if (stylesheet==null) {
         throw new ArgumentError("Cannot find stylesheet.");
@@ -783,6 +704,7 @@ class SlickGrid {
          }
          $paneTopL.style.position= 'relative';
      }
+     print($paneHeaderL.getComputedStyle().height);
      $paneTopL.style.top= '${$paneHeaderL.contentEdge.height}px';
      $paneTopL.style.height= '${paneTopH}px';
      int paneBottomTop = ($paneTopL.offsetTo($paneTopL.parent).y + paneTopH).round();
@@ -857,11 +779,17 @@ class SlickGrid {
    * append templat to parent Node
    * return created element
    */
-  Element _createElem(Element parentNode,String templateStr){
-    Element elem = container.createFragment(templateStr
-            ,treeSanitizer :_treeSanitizer).children.first;
-    parentNode.append(elem);
-    return elem;
+  Element _createElem(Element parentNode,{String templateStr, String clz:'', int tabIndex:0,Map style,bool hideFocus:false}){
+    DivElement div=new DivElement();
+    if(style!=null)
+      style.forEach((key,value)=> div.style.setProperty(key, value));
+    div.classes.addAll(clz.split(' '));
+    div.tabIndex=tabIndex;
+    if(hideFocus) div.attributes['hideFocus']='true';
+    if(parentNode!=null){
+      parentNode.append(div);
+    }
+    return div;
   }
   /**
    * main entry point to init the element to grid
@@ -907,53 +835,59 @@ class SlickGrid {
     if (! new RegExp(r'relative|absolute|fixed').hasMatch(container.style.position )){
       container.style.position= "relative";
     }
-    $focusSink = container.createFragment("<div tabIndex='0' hideFocus style='position:fixed;width:0;height:0;top:0;left:0;outline:0;'></div>", treeSanitizer: _treeSanitizer)
-                         .children.first;
+    $focusSink = new DivElement();
+    $focusSink.attributes['hideFocus']='true';
+    $focusSink.style..position='fixed'
+        ..width='0'
+        ..height='0'
+        ..top='0'
+        ..left='0'
+        ..outline='0';
     container.append($focusSink);
 
-    $paneHeaderL = _createElem(container,"<div class='slick-pane slick-pane-header slick-pane-left' tabIndex='0' />");
-    $paneHeaderR = _createElem(container,"<div class='slick-pane slick-pane-header slick-pane-right' tabIndex='0' />");
-    $paneTopL = _createElem(container,"<div class='slick-pane slick-pane-top slick-pane-left' tabIndex='0' />");
-    $paneTopR = _createElem(container,"<div class='slick-pane slick-pane-top slick-pane-right' tabIndex='0' />");
-    $paneBottomL = _createElem(container,"<div class='slick-pane slick-pane-bottom slick-pane-left' tabIndex='0' />");
-    $paneBottomR= _createElem(container,"<div class='slick-pane slick-pane-bottom slick-pane-right' tabIndex='0' />");
+    $paneHeaderL = _createElem(container,clz:'slick-pane slick-pane-header slick-pane-left', tabIndex:0);
+    $paneHeaderR = _createElem(container,clz:'slick-pane slick-pane-header slick-pane-right', tabIndex:0);
+    $paneTopL = _createElem(container,clz:'slick-pane slick-pane-top slick-pane-left', tabIndex:0);
+    $paneTopR = _createElem(container,clz:'slick-pane slick-pane-top slick-pane-right',tabIndex:0);
+    $paneBottomL = _createElem(container,clz:'slick-pane slick-pane-bottom slick-pane-left',tabIndex:0);
+    $paneBottomR= _createElem(container,clz:'slick-pane slick-pane-bottom slick-pane-right',tabIndex:0);
 
-    $headerScrollerL = _createElem($paneHeaderL,"<div class='ui-state-default slick-header slick-header-left' />");
-    $headerScrollerR = _createElem($paneHeaderR,"<div class='ui-state-default slick-header slick-header-right' />");
+    $headerScrollerL = _createElem($paneHeaderL,clz:'ui-state-default slick-header slick-header-left');
+    $headerScrollerR = _createElem($paneHeaderR,clz:'ui-state-default slick-header slick-header-right');
 
     //container.append($headerScroller);
     $headerScroller..add($headerScrollerL)..add($headerScrollerR);
      // Append the header scroller containers
 
      // Append the columnn containers to the headers
-     $headerL = _createElem($headerScrollerL,"<div class='slick-header-columns slick-header-columns-left' style='left:-1000px' />");
-     $headerR = _createElem($headerScrollerR,"<div class='slick-header-columns slick-header-columns-right' style='left:-1000px' />");
+     $headerL = _createElem($headerScrollerL,clz:'slick-header-columns slick-header-columns-left', style:{'left':'-1000px'});
+     $headerR = _createElem($headerScrollerR,clz:'slick-header-columns slick-header-columns-right', style:{'left':'-1000px'});
      $headers..add($headerL)..add($headerR);
-      $headerRowScrollerL = _createElem($paneTopL,"<div class='ui-state-default slick-headerrow' />");
-      $headerRowScrollerR = _createElem($paneTopR,"<div class='ui-state-default slick-headerrow' />");
+      $headerRowScrollerL = _createElem($paneTopL,clz:'ui-state-default slick-headerrow' );
+      $headerRowScrollerR = _createElem($paneTopR,clz:'ui-state-default slick-headerrow' );
 
       $headerRowScroller..add($headerRowScrollerL)..add($headerRowScrollerR);
 
-      $headerRowSpacerL = _createElem($headerRowScrollerL,"<div style='display:block;height:1px;position:absolute;top:0;left:0;'></div>")
+      $headerRowSpacerL = _createElem($headerRowScrollerL,style:{'display':'block','height':'1px','position':'absolute','top':'0','left':'0'})
                            ..style.width = "${getCanvasWidth() + scrollbarDimensions['width']}px";
 
-      $headerRowSpacerR = _createElem($headerRowScrollerR,"<div style='display:block;height:1px;position:absolute;top:0;left:0;'></div>")
+      $headerRowSpacerR = _createElem($headerRowScrollerR,style:{'display':'block','height':'1px','position':'absolute','top':'0','left':'0'})
           ..style.width = "${getCanvasWidth() + scrollbarDimensions['width']}px";
 
-      $headerRowL = _createElem($headerRowScrollerL,"<div class='slick-headerrow-columns slick-headerrow-columns-left' />");
-      $headerRowR = _createElem($headerRowScrollerR,"<div class='slick-headerrow-columns slick-headerrow-columns-right' />");
+      $headerRowL = _createElem($headerRowScrollerL,clz:'slick-headerrow-columns slick-headerrow-columns-left' );
+      $headerRowR = _createElem($headerRowScrollerR,clz:'slick-headerrow-columns slick-headerrow-columns-right');
 
       $headerRow..add($headerRowL)..add($headerRowR);
 
       // Append the top panel scroller
-      $topPanelScrollerL = _createElem($paneTopL,"<div class='ui-state-default slick-top-panel-scroller' />");
-      $topPanelScrollerR = _createElem($paneTopR,"<div class='ui-state-default slick-top-panel-scroller' />");
+      $topPanelScrollerL = _createElem($paneTopL,clz:'ui-state-default slick-top-panel-scroller');
+      $topPanelScrollerR = _createElem($paneTopR,clz:'ui-state-default slick-top-panel-scroller');
 
       $topPanelScroller..add($topPanelScrollerL)..add($topPanelScrollerR);
 
       // Append the top panel
-      $topPanelL = _createElem($topPanelScrollerL,"<div class='slick-top-panel' style='width:10000px' />");
-      $topPanelR = _createElem($topPanelScrollerR,"<div class='slick-top-panel' style='width:10000px' />");
+      $topPanelL = _createElem($topPanelScrollerL,clz:'slick-top-panel', style:{'width':'10000px'});
+      $topPanelR = _createElem($topPanelScrollerR,clz:'slick-top-panel', style:{'width':'10000px'});
 
       $topPanel..add($topPanelL)..add($topPanelR);
 
@@ -966,10 +900,10 @@ class SlickGrid {
       }
 
       // Append the viewport containers
-      $viewportTopL = _createElem($paneTopL,"<div class='slick-viewport slick-viewport-top slick-viewport-left' tabIndex='0' hideFocus />");
-      $viewportTopR = _createElem($paneTopR,"<div class='slick-viewport slick-viewport-top slick-viewport-right' tabIndex='0' hideFocus />");
-      $viewportBottomL = _createElem($paneBottomL,"<div class='slick-viewport slick-viewport-bottom slick-viewport-left' tabIndex='0' hideFocus />");
-      $viewportBottomR = _createElem($paneBottomR,"<div class='slick-viewport slick-viewport-bottom slick-viewport-right' tabIndex='0' hideFocus />");
+      $viewportTopL = _createElem($paneTopL,clz:'slick-viewport slick-viewport-top slick-viewport-left', tabIndex:0, hideFocus:true);
+      $viewportTopR = _createElem($paneTopR,clz:'slick-viewport slick-viewport-top slick-viewport-right', tabIndex:0, hideFocus:true);
+      $viewportBottomL = _createElem($paneBottomL,clz:'slick-viewport slick-viewport-bottom slick-viewport-left', tabIndex:0, hideFocus:true);
+      $viewportBottomR = _createElem($paneBottomR,clz:'slick-viewport slick-viewport-bottom slick-viewport-right', tabIndex:0,hideFocus:true);
 
       // Cache the viewports
       $viewport..add($viewportTopL)..add($viewportTopR)..add($viewportBottomL)..add($viewportBottomR);
@@ -978,10 +912,10 @@ class SlickGrid {
       $activeViewportNode = $viewportTopL;
 
       // Append the canvas containers
-      $canvasTopL = _createElem($viewportTopL,"<div class='grid-canvas grid-canvas-top grid-canvas-left' tabIndex='0' hideFocus />");
-      $canvasTopR = _createElem($viewportTopR,"<div class='grid-canvas grid-canvas-top grid-canvas-right' tabIndex='0' hideFocus />");
-      $canvasBottomL = _createElem($viewportBottomL,"<div class='grid-canvas grid-canvas-bottom grid-canvas-left' tabIndex='0' hideFocus />");
-      $canvasBottomR = _createElem($viewportBottomR,"<div class='grid-canvas grid-canvas-bottom grid-canvas-right' tabIndex='0' hideFocus />");
+      $canvasTopL = _createElem($viewportTopL,clz:'grid-canvas grid-canvas-top grid-canvas-left', tabIndex:0, hideFocus:true);
+      $canvasTopR = _createElem($viewportTopR,clz:'grid-canvas grid-canvas-top grid-canvas-right', tabIndex:0, hideFocus:true);
+      $canvasBottomL = _createElem($viewportBottomL,clz:'grid-canvas grid-canvas-bottom grid-canvas-left', tabIndex:0, hideFocus:true);
+      $canvasBottomR = _createElem($viewportBottomR,clz:'grid-canvas grid-canvas-bottom grid-canvas-right', tabIndex:0 ,hideFocus:true);
 
       // Cache the canvases
       $canvas..add($canvasTopL)..add($canvasTopR)..add($canvasBottomL)..add($canvasBottomR);
@@ -1048,6 +982,8 @@ class SlickGrid {
 
       window.onResize.listen(resizeCanvas);
       $viewport.forEach((_)=> _.onScroll.matches('*').listen(handleScroll));
+//      $viewport.forEach((_)=> _.onTouchMove.listen(handleTouch));
+//      $viewport.forEach((_)=> _.onTouchStart.listen(handleTouch));
 //      $viewport.forEach((_) => _.onTouchMove.matches('*').listen(handleScroll));
 // throttler impact smoothness of desktop header
 //      var throttler = new Throttler(new Duration(milliseconds:250), handleScroll,false);
@@ -1088,9 +1024,7 @@ class SlickGrid {
     void setSelectionModel(SelectionModel model) {
       if (selectionModel!=null ) {
         selectionModel.onSelectedRangesChanged.unsubscribe(handleSelectedRangesChanged);
-        //if (selectionModel.destroy) {
-          selectionModel.destroy();
-        //}
+        selectionModel.destroy();
       }
 
       selectionModel = model;
@@ -1160,8 +1094,6 @@ class SlickGrid {
       Map dim = {
         'width': core.Dimension.getCalcWidth($c) - $c.clientWidth,
         'height': core.Dimension.getCalcHeight($c) - $c.clientHeight
-        //'width': int.parse(style.width.replaceAll('px','')) -  $c.clientWidth, // $c[0].clientWidth,
-        //'height': int.parse(style.height.replaceAll('px','')) - $c.clientHeight
       };
       $c.remove();
       return dim;
@@ -1448,9 +1380,17 @@ class SlickGrid {
         var $headerTarget = (options['frozenColumn'] > -1) ? ((i <= options['frozenColumn']) ? $headerL : $headerR) : $headerL;
         var $headerRowTarget = (options['frozenColumn'] > -1) ? ((i <= options['frozenColumn']) ? $headerRowL : $headerRowR) : $headerRowL;
 
-        Element header =  container.createFragment("<div class='ui-state-default slick-header-column' />").children.first;
+        Element header =  _createElem(null,clz:'ui-state-default slick-header-column');
+        SpanElement spanEl=new SpanElement();
+        spanEl..classes.add('slick-column-name');
+        if(m['name'] is Element){
+          spanEl.children.add(m['name']);
+        }else{
+          spanEl.text=m['name'];
+        }
 
-        header.append( container.createFragment("<span class='slick-column-name'>" + m['name'] + "</span>").children.first);
+
+        header.append(spanEl);
         header.style.width = (m['width'] - headerColumnWidthDiff).toString() + 'px';
         header.attributes['id']= uid + m.id;
         if(m.toolTip!=null) header.attributes['title']=m.toolTip;
@@ -1467,7 +1407,9 @@ class SlickGrid {
 
         if (m['sortable']) {
           header.classes.add("slick-header-sortable");
-          header.append( container.createFragment("<span class='slick-sort-indicator' />").children.first);
+          var spanEl=new SpanElement()..classes.add('slick-sort-indicator');
+          header.append(spanEl);
+          //header.append( container.createFragment("<span class='slick-sort-indicator' />").children.first);
         }
 
         trigger(onHeaderCellRendered, {
@@ -1476,10 +1418,9 @@ class SlickGrid {
         });
 
         if (options['showHeaderRow']) {
-          Element headerRowCell =  container.createFragment("<div class='ui-state-default slick-headerrow-column l" + i.toString() + " r" + i.toString() + "'></div>"
-              ,treeSanitizer:_treeSanitizer).children.first;
+          Element headerRowCell =  this._createElem($headerRowTarget,clz:'ui-state-default slick-headerrow-column l$i r$i');
           headerRowCell.dataset['column']=JSON.encode(m);
-          $headerRowTarget.append(headerRowCell);
+          //$headerRowTarget.append(headerRowCell);
 
           trigger(onHeaderRowCellRendered, {
             "node": headerRowCell,
@@ -1498,45 +1439,36 @@ class SlickGrid {
 
     measureCellPaddingAndBorder() {
       Element el;
-      //List h = ["borderLeftWidth", "borderRightWidth", "paddingLeft", "paddingRight"];
-      //List v = ["borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"];
-
-      el = container.createFragment("<div class='ui-state-default slick-header-column' style='visibility:hidden'>-</div>"
-          ,treeSanitizer: _treeSanitizer ).children.first;
-      $headers.first.append(el);
+      el = _createElem($headers.first, clz:'ui-state-default slick-header-column', style:{'visibility':'hidden'});
+      el.text='-';
       headerColumnWidthDiff = headerColumnHeightDiff = 0;
       if (el.style.boxSizing != "border-box"  ) {
-          headerColumnWidthDiff += int.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),onError:(src)=>0);
-          headerColumnWidthDiff += int.parse(el.getComputedStyle().borderRightWidth.replaceAll('px',''),onError:(src)=>0);
-          headerColumnWidthDiff += int.parse(el.getComputedStyle().paddingLeft.replaceAll('px',''),onError:(src)=>0);
-          headerColumnWidthDiff += int.parse(el.getComputedStyle().paddingRight.replaceAll('px',''),onError:(src)=>0);
+          headerColumnWidthDiff += num.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),(src)=>0);
+          headerColumnWidthDiff += num.parse(el.getComputedStyle().borderRightWidth.replaceAll('px',''),(src)=>0);
+          headerColumnWidthDiff += num.parse(el.getComputedStyle().paddingLeft.replaceAll('px',''),(src)=>0);
+          headerColumnWidthDiff += num.parse(el.getComputedStyle().paddingRight.replaceAll('px',''),(src)=>0);
 
-          headerColumnHeightDiff += int.parse(el.getComputedStyle().borderTopWidth.replaceAll('px',''),onError:(src)=>0);
-          headerColumnHeightDiff += int.parse(el.getComputedStyle().borderBottomWidth.replaceAll('px',''),onError:(src)=>0);
-          headerColumnHeightDiff += int.parse(el.getComputedStyle().paddingTop.replaceAll('px',''),onError:(src)=>0);
-          headerColumnHeightDiff += int.parse(el.getComputedStyle().paddingBottom.replaceAll('px',''),onError:(src)=>0);
+          headerColumnHeightDiff += num.parse(el.getComputedStyle().borderTopWidth.replaceAll('px',''),(src)=>0);
+          headerColumnHeightDiff += num.parse(el.getComputedStyle().borderBottomWidth.replaceAll('px',''),(src)=>0);
+          headerColumnHeightDiff += num.parse(el.getComputedStyle().paddingTop.replaceAll('px',''),(src)=>0);
+          headerColumnHeightDiff += num.parse(el.getComputedStyle().paddingBottom.replaceAll('px',''),(src)=>0);
       }
       el.remove();
-
-      var r = container.createFragment("<div class='slick-row' />",treeSanitizer: _treeSanitizer ).children.first;
-      $canvas.first.append(r); //appendTo($canvas);
-
-      el =  container.createFragment("<div class='slick-cell' id='' style='visibility:hidden'>-</div>"
-          ,treeSanitizer: _treeSanitizer).children.first;
-      r.append(el);
-
+      var r=_createElem($canvas.first, clz:'slick-row');
+      el=_createElem(r, clz:'slick-cell', style: {'visibility':'hidden'});
+      el.text='-';
 
       cellWidthDiff = cellHeightDiff = 0;
       if (el.style.boxSizing != "border-box") {
-        cellWidthDiff += int.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),onError:(src)=>0);
-        cellWidthDiff += int.parse(el.getComputedStyle().borderRightWidth.replaceAll('px',''),onError:(src)=>0);
-        cellWidthDiff += int.parse(el.getComputedStyle().paddingLeft.replaceAll('px',''),onError:(src)=>0);
-        cellWidthDiff += int.parse(el.getComputedStyle().paddingRight.replaceAll('px',''),onError:(src)=>0);
+        cellWidthDiff += num.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),(src)=>0);
+        cellWidthDiff += num.parse(el.getComputedStyle().borderRightWidth.replaceAll('px',''),(src)=>0);
+        cellWidthDiff += num.parse(el.getComputedStyle().paddingLeft.replaceAll('px',''),(src)=>0);
+        cellWidthDiff += num.parse(el.getComputedStyle().paddingRight.replaceAll('px',''),(src)=>0);
 
-        cellHeightDiff += int.parse(el.getComputedStyle().borderTopWidth.replaceAll('px',''),onError:(src)=>0);
-        cellHeightDiff += int.parse(el.getComputedStyle().borderBottomWidth.replaceAll('px',''),onError:(src)=>0);
-        cellHeightDiff += int.parse(el.getComputedStyle().paddingTop.replaceAll('px',''),onError:(src)=>0);
-        cellHeightDiff += int.parse(el.getComputedStyle().paddingBottom.replaceAll('px',''),onError:(src)=>0);
+        cellHeightDiff += num.parse(el.getComputedStyle().borderTopWidth.replaceAll('px',''),(src)=>0);
+        cellHeightDiff += num.parse(el.getComputedStyle().borderBottomWidth.replaceAll('px',''),(src)=>0);
+        cellHeightDiff += num.parse(el.getComputedStyle().paddingTop.replaceAll('px',''),(src)=>0);
+        cellHeightDiff += num.parse(el.getComputedStyle().paddingBottom.replaceAll('px',''),(src)=>0);
       }
       r.remove();
 
@@ -1586,7 +1518,7 @@ class SlickGrid {
       Column c;
       var $col, j, pageX,  minPageX, maxPageX, firstResizable, lastResizable;
       $headers.forEach((_) => columnElements.addAll(_.children));
-      columnElements.forEach((item)=> querySelectorAll(".slick-resizable-handle").forEach((Element itemB) => itemB.remove()));
+      columnElements.forEach((item)=> container.querySelectorAll(".slick-resizable-handle").forEach((Element itemB) => itemB.remove()));
       int i=0;
       columnElements.forEach( (item) {
         if (columns[i].resizable) {
@@ -2969,11 +2901,6 @@ class SlickGrid {
 
         ensureCellNodesInRowsCache(row);
         for (var columnIdx in cacheEntry.cellNodesByColumnIdx) {
-//          if (!cacheEntry.cellNodesByColumnIdx.hasOwnProperty(columnIdx)) {
-//            continue;
-//          }
-
-//          columnIdx = columnIdx | 0;
 
           Column m = columns[columnIdx];
           if (m.asyncPostRender!=null && !postProcessedRows[row][columnIdx]) {
@@ -3311,6 +3238,17 @@ class SlickGrid {
 //      }
     }
     int scount=0;
+//    void handleTouch(e){
+//      if (options['frozenColumn'] > -1) {
+//           if (hasFrozenRows) {
+//                   $viewportTopR.scrollLeft = scrollLeft;
+//             }
+//     } else {
+//           if (hasFrozenRows) {
+//               $viewportTopL.scrollLeft = scrollLeft;
+//             }
+//     }
+//    }
     /**
      * 1 second emit 15 events
      * performance killer
@@ -3318,6 +3256,8 @@ class SlickGrid {
     void handleScroll([Event e]) {
       scrollTop = $viewportScrollContainerY.scrollTop;
       scrollLeft = $viewportScrollContainerX.scrollLeft;
+
+
       //scount++;
       //print('s event ${scount}' + new DateTime.now().toString() );
        _handleScroll(false);
@@ -3421,8 +3361,15 @@ class SlickGrid {
     // todo shaodw fix
     // todo dynmic height , remove height
     void createCssRules() {
-      $style =  container.createFragment("<style type='text/css' rel='stylesheet' />", treeSanitizer : _treeSanitizer).children.first;
-      querySelector('head').append($style);
+       $style=new StyleElement();
+
+//      $style =  container.createFragment("<style type='text/css' rel='stylesheet' />", treeSanitizer : _treeSanitizer).children.first;
+      if(container.parent ==null){
+        print('it is shadow');
+        (container.parentNode as ShadowRoot).children.insert(0,$style);
+      }else{
+        querySelector('head').append($style);
+      }
       int rowHeight = (options['rowHeight'] - cellHeightDiff);
       List rules = [
         "." + uid + " .slick-header-column { left: 1000px; }",
@@ -3440,14 +3387,7 @@ class SlickGrid {
         rules.add("." + uid + " .l" + i.toString() + " { }");
         rules.add("." + uid + " .r" + i.toString() + " { }");
       }
-
-//      if ($style.style!=null) { // IE
-//        $style.style.cssText = rules.join(" ");
-//      } else {
         $style.appendText(rules.join(' '));
-//      }
-
-
     }
 
 
