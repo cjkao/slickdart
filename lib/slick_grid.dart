@@ -2778,7 +2778,7 @@ class SlickGrid {
       if (activeCellNode != null) {
         activeRow = getRowFromNode(activeCellNode.parentNode);
         activeCell = activePosX = getCellFromNode(activeCellNode);
-        //TODO unclear
+        //last row or current row
         if (opt_editMode == null) {
           opt_editMode = (activeRow == getDataLength()) || options['autoEdit']==true;
         }
@@ -3522,7 +3522,9 @@ class SlickGrid {
 
        // walk up the tree
        var offsetParent = elem.offsetParent;
-       while (!(elem.parent is ShadowRoot) && (elem = elem.parentNode) != document.body) {
+       while ( (elem.parent is Element && elem.parent != document.body) ||
+               (elem.parentNode is Element  )) {
+         elem=elem.parent!=null ? elem.parent : elem.parentNode ;
          if (box['visible'] !=null && elem.scrollHeight != elem.offsetHeight && elem.style.overflowY != "visible") {
            box['visible'] = box['bottom'] > elem.scrollTop && box['top'] < elem.scrollTop + elem.clientHeight;
          }
@@ -3801,7 +3803,7 @@ class SlickGrid {
          prev = pos;
        }
      }
-
+      /** keyboard navigation down **/
       Map gotoDown(int row,int  cell,int posX) {
         int prevCell;
        int dataLengthIncludingAddNew = getDataLengthIncludingAddNew();
@@ -3850,7 +3852,7 @@ class SlickGrid {
       }
 
 
-      String getEditor(row, cell) {
+      getEditor(row, cell) {
         Column column = columns[cell];
         if(column['editor']!=null) return column['editor'] ;
         if(options['editorFactory']!=null){
@@ -3861,15 +3863,21 @@ class SlickGrid {
 
       editor.Editor getEditorInstance(row, cell, editor.EditorParm editorParm) {
         Column column = columns[cell]; //column['editor']
-        String editorStr=column['editor'];
-        switch(editorStr){
-          case 'TextEditor':
-            return new editor.TextEditor(editorParm);
-          case 'CheckboxEditor':
-            return new editor.CheckboxEditor(editorParm);
+        var editorStr=column['editor'];
+        if(editorStr is String){
+          switch(editorStr){
+            case 'TextEditor':
+              return new editor.TextEditor(editorParm);
+            case 'CheckboxEditor':
+              return new editor.CheckboxEditor(editorParm);
 
-          default:
-            return null;
+            default:
+              return null;
+          }
+        }else{
+          editor.Editor item=column['editor'];
+          item.ep=editorParm;
+          return item;
         }
 
 

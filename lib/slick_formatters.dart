@@ -35,3 +35,6 @@ YesNoFormatter(row, cell, value, columnDef, dataContext) {
 CheckmarkFormatter(row, cell, value, columnDef, dataContext) {
   return value ? "<img src='packages/slickdart/images/tick.png'>" : "";
 }
+//CheckboxFormatter(row, cell, value, columnDef, dataContext) {
+//  return value ? "<input checked type='checkbox' disabled>" : "<input type='checkbox' disabled>";
+//}

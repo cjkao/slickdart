@@ -3,17 +3,17 @@ import 'dart:html';
 import 'slick.dart' as grid;
 
 abstract class Editor{
-  EditorParm _ep;
+  EditorParm ep;
   Element $input;
 
-  set editorParm (Map m) => _ep = new EditorParm(m);
+  set editorParm (Map m) => ep = new EditorParm(m);
 
   var defaultValue;
 
 //  String getValue();
 //  void setValue(String  value);
   void loadValue(item){
-    defaultValue = item[_ep.columnDef.field]!=null ?  item[_ep.columnDef.field] :   "";
+    defaultValue = item[ep.columnDef.field]!=null ?  item[ep.columnDef.field] :   "";
   }
   /**
    * return value from current editor
@@ -23,7 +23,7 @@ abstract class Editor{
    * update value to target attribute of row object
    */
   void applyValue(item, state){
-    item[_ep.columnDef.field] = state;
+    item[ep.columnDef.field] = state;
   }
   bool isValueChanged();
 
@@ -62,12 +62,12 @@ class EditorParm{
 
 abstract class InputEditor extends Editor{
   InputEditor([_ep]){
-    super._ep=_ep;
+    super.ep=_ep;
   }
   InputElement $input;
   Map validate() {
-    if (_ep.columnDef.validator !=null) {
-      var validationResults = _ep.columnDef.validator($input.value);
+    if (ep.columnDef.validator !=null) {
+      var validationResults = ep.columnDef.validator($input.value);
       if (!validationResults.valid) {
         return validationResults;
       }
@@ -123,8 +123,8 @@ class TextEditor extends InputEditor{
      */
     void loadValue(item) {
       super.loadValue(item);
-      $input.value =defaultValue;
-      $input.defaultValue = defaultValue;
+      $input.value ='$defaultValue';
+      $input.defaultValue = '$defaultValue';
       $input.select();
     }
 
@@ -133,7 +133,7 @@ class TextEditor extends InputEditor{
     }
 
     void applyValue(item, state) {
-      item[_ep.columnDef.field] = state;
+      item[ep.columnDef.field] = state;
     }
 
     bool isValueChanged() {
@@ -146,35 +146,38 @@ class TextEditor extends InputEditor{
 
 class CheckboxEditor extends InputEditor {
 
-  set editorParm (Map m) => _ep = new EditorParm(m);
+  set editorParm (Map m) => ep = new EditorParm(m);
   CheckboxEditor([_ep]) :super(_ep){
     $input = new InputElement(type: 'checkbox');
     $input.classes.add('editor-checkbox');
     _ep.activeCellNode.append($input);
-    $input..attributes['value'] = 'true'
+    $input  //..attributes['value'] = 'true'
            ..attributes['hidefocus'] = 'true';
     $input.focus();
   }
 
   loadValue(item) {
     super.loadValue(item);
-    $input.value =defaultValue;
-    $input.defaultValue = defaultValue;
-
-//    if (defaultValue) {
-//      $input.attributes['checked']= 'true';
-//    } else {
-//      $input.attributes['checked']= 'false';
-//    }
+    //$input.value ='$defaultValue';
+    $input.defaultValue = '$defaultValue';
+    if ( ( defaultValue is String && defaultValue.toLowerCase() == 'true') || (defaultValue is bool && defaultValue) ) {
+      $input.attributes['checked']= 'checked';
+    } else {
+      $input.attributes.remove('checked');
+    }
   }
 
   String serializeValue() {
-    return $input.attributes['checked'];
+    if($input.checked) return 'true';
+    return'false';
+  }
+  void applyValue(item, state){
+      item[ep.columnDef.field] = state == 'true' ? true : false;
   }
 
-
   isValueChanged() {
-    return (!($input.value == "" && defaultValue == null)) && ($input.value != defaultValue);
+    return $input.checked.toString() != $input.defaultValue.toLowerCase();
+//    return (!($input.value == "" && defaultValue == null)) && ($input.value != defaultValue);
   }
 
 }

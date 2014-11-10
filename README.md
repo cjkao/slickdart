@@ -22,19 +22,19 @@ Known Constraint
 * col-span (not tested) 
 * using keyboard navigation on non-editable cell and goes out of viewport will not
   immediate update screen until it on editable area
-   
+* Let forzen column editable cause display unsync in un-frozen area   
 TODO
 ========================
 
-- [ ] efficent dynamic row height on frozen column
+[x] efficent dynamic row height on frozen column
   - sort column should re-calcule height
   - how about insert row or delete row?
   [x] low performance on horzontal scrolling, fixed by extend buffer to 4block
-- [x] Frozen column, also editable
-- [x] Resize column
-- [ ] Column reorder
-- [x] auto tooltip
-- [ ] adjust row height via mouse
+[x] Frozen column, also editable
+[x] Resize column
+[ ] Column reorder
+[x] auto tooltip
+[ ] adjust row height via mouse
 
 
 
@@ -53,3 +53,7 @@ Mobile Device
 - HTC One (M7) Firefox => smooth but slower than chrome
 - HTC One (M7) Content Shell => very fast
 - IPAD2 => very fast
+
+Customer Element
+==============================
+Initial support customer element, see example: cust.dart

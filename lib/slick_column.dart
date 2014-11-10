@@ -1,9 +1,47 @@
 library slick.column;
-
+import 'dart:collection';
 import 'dart:html';
 import 'dart:convert';
 import 'slick.dart';
 import 'slick_core.dart' as core;
+class ColumnList  extends ListBase<Column>{
+    ColumnList(){
+
+    }
+    /**
+     * must attribute: 'field'
+     */
+    factory ColumnList.fromMap(List<Map> mList){
+      ColumnList cols=new ColumnList();
+      mList.forEach((Map k){
+        if(!k.containsKey('id')){
+          k['id']= k['field'];
+        }
+        if(!k.containsKey('name')){
+          k['name']= k['field'];
+        }
+        cols.add(new Column.fromMap(k));
+      });
+      return cols;
+    }
+    List innerList = new List();
+    int get length => innerList.length;
+
+    void set length(int length) {
+      innerList.length = length;
+    }
+    void operator[]=(int index, Column value) {
+      innerList[index] = value;
+    }
+    Column operator [](int index) => innerList[index];
+
+    // Though not strictly necessary, for performance reasons
+    // you should implement add and addAll.
+
+    void add(Column value) => innerList.add(value);
+
+    void addAll(Iterable<Column> all) => innerList.addAll(all);
+}
 class Column{
   Column(){
     _src.addAll(_columnDefaults);

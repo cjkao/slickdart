@@ -31,9 +31,9 @@ cj.SlickGrid init(){
   Element el =querySelector('#grid');
   List column = [
 
-                 new cj.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
-                 new cj.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true }),
-                 new cj.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc2", 'sortable': true }),
+                 new cj.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true }),
+                 new cj.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true ,'editor': 'TextEditor'}),
+                 new cj.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc2", 'sortable': true,'editor': 'TextEditor' }),
                  new cj.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"}),
                  new cj.Column.fromMap ({'id': "%_2", 'name': "PC2", 'field': "pc", 'editor':'TextEditor'}),
                  new cj.Column.fromMap ({'id': "effort", 'name': "effort", 'field': "effortDriven", 'width':300})
