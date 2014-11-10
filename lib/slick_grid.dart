@@ -3876,7 +3876,7 @@ class SlickGrid {
           }
         }else{
           editor.Editor item=column['editor'];
-          item.ep=editorParm;
+          item.editorParm=editorParm;
           return item;
         }
 

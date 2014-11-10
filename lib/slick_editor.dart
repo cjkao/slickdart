@@ -3,17 +3,19 @@ import 'dart:html';
 import 'slick.dart' as grid;
 
 abstract class Editor{
-  EditorParm ep;
+  EditorParm _ep;
   Element $input;
+  get editorParm => _ep;
+  void set editorParm (EditorParm m) {
+    _ep = m;
 
-  set editorParm (Map m) => ep = new EditorParm(m);
-
+  }
   var defaultValue;
 
 //  String getValue();
 //  void setValue(String  value);
   void loadValue(item){
-    defaultValue = item[ep.columnDef.field]!=null ?  item[ep.columnDef.field] :   "";
+    defaultValue = item[_ep.columnDef.field]!=null ?  item[_ep.columnDef.field] :   "";
   }
   /**
    * return value from current editor
@@ -23,7 +25,7 @@ abstract class Editor{
    * update value to target attribute of row object
    */
   void applyValue(item, state){
-    item[ep.columnDef.field] = state;
+    item[_ep.columnDef.field] = state;
   }
   bool isValueChanged();
 
@@ -62,12 +64,12 @@ class EditorParm{
 
 abstract class InputEditor extends Editor{
   InputEditor([_ep]){
-    super.ep=_ep;
+    super._ep=_ep;
   }
   InputElement $input;
   Map validate() {
-    if (ep.columnDef.validator !=null) {
-      var validationResults = ep.columnDef.validator($input.value);
+    if (_ep.columnDef.validator !=null) {
+      var validationResults = _ep.columnDef.validator($input.value);
       if (!validationResults.valid) {
         return validationResults;
       }
@@ -133,7 +135,7 @@ class TextEditor extends InputEditor{
     }
 
     void applyValue(item, state) {
-      item[ep.columnDef.field] = state;
+      item[_ep.columnDef.field] = state;
     }
 
     bool isValueChanged() {
@@ -146,7 +148,7 @@ class TextEditor extends InputEditor{
 
 class CheckboxEditor extends InputEditor {
 
-  set editorParm (Map m) => ep = new EditorParm(m);
+ // set editorParm (m) => _ep = new EditorParm(m);
   CheckboxEditor([_ep]) :super(_ep){
     $input = new InputElement(type: 'checkbox');
     $input.classes.add('editor-checkbox');
@@ -172,7 +174,7 @@ class CheckboxEditor extends InputEditor {
     return'false';
   }
   void applyValue(item, state){
-      item[ep.columnDef.field] = state == 'true' ? true : false;
+      item[_ep.columnDef.field] = state == 'true' ? true : false;
   }
 
   isValueChanged() {

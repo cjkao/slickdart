@@ -101,9 +101,14 @@ class SelectListEditor extends Editor {
    void focus(){
      $input.focus();
    }
-  set editorParm (Map m) => super.ep = new EditorParm(m);
+  set editorParm (EditorParm m) {
+    super.editorParm=m;
+    editorParm.activeCellNode.append($input);
+
+//    this._ep = _ep;
+
+  }
   SelectListEditor([_ep]) :super(){
-    this.ep = _ep;
     $input = new SelectElement();
     keys.forEach((_){
       var option = new OptionElement();
@@ -113,7 +118,6 @@ class SelectListEditor extends Editor {
 
     });
     $input.classes.add('editor-select');
-    _ep.activeCellNode.append($input);
     $input..attributes['hidefocus'] = 'true';
     $input.focus();
   }
@@ -121,7 +125,7 @@ class SelectListEditor extends Editor {
   loadValue(item) {
     super.loadValue(item);
     defaultValue=item;
-    OptionElement ope=$input.children.firstWhere((_)=> _.value==item);
+    OptionElement ope=$input.children.firstWhere((_)=> int.parse(_.value)== item['Three']);
     ope.selected=true;
   }
 
@@ -130,7 +134,7 @@ class SelectListEditor extends Editor {
     return keys[selectIdx];
   }
   void applyValue(item, state){
-      item[ep.columnDef.field] = state;
+      item[editorParm.columnDef.field] = state;
   }
 
   isValueChanged() {
