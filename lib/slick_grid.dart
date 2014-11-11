@@ -3867,7 +3867,7 @@ class SlickGrid {
         if(editorStr is String){
           switch(editorStr){
             case 'TextEditor':
-              return new editor.TextEditor(editorParm);
+              return new editor.TextEditor(editorParm)..editorParm=editorParm;
             case 'CheckboxEditor':
               return new editor.CheckboxEditor(editorParm);
 

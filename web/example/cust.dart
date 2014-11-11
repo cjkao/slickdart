@@ -13,7 +13,8 @@ main(){
        'pc2': new math.Random().nextInt(10) * 100,
        'pc': (new math.Random().nextInt(10) * 100).toString(),
        'YesNo': new math.Random().nextInt(10)>5 ? true: false,
-       'Three': new math.Random().nextInt(10)>5 ? 11: 12,
+       'Querter': new math.Random().nextInt(3)+1,
+       'Querter2': '${new math.Random().nextInt(3)+1}',
        'finish': (new math.Random().nextInt(10) + 10).toString() + "/05/2013",
        'effortDriven': (i % 5 == 0)
      });
@@ -40,7 +41,7 @@ List<Column> getColDefs(){
   var cols= new ColumnList.fromMap([{
         'name': "Title1",
         'field': "dtitle",
-        'sortable': true,
+        'sortable': true
 
       },{
         'width': 80,
@@ -54,10 +55,11 @@ List<Column> getColDefs(){
       },{
         'field': "finish"
       },{
-        'field': "Three",
-
-        'editor': new SelectListEditor()
-
+        'field': "Querter",
+        'editor': new SelectListEditor({1:'1',2:'2',3:'3',4:'4'})
+      },{
+        'field': "Querter2",
+        'editor': new SelectListEditor({'1':'1','2':'2','3':'3','4':'4'})
       },{
         'field': "YesNo",
         'editor': 'CheckboxEditor',
@@ -77,70 +79,4 @@ List<Column> getColDefs(){
 
   cols.insert(0, checkboxCol.getColumnDefinition());
   return cols;
-}
-//
-class SelectListEditor extends Editor {
-  List keys= [12,14,15,16];
-  var defaultValue;
-  Map validate() {
-//      if (ep.columnDef.validator !=null) {
-//        var validationResults = ep.columnDef.validator($input.value);
-//        if (!validationResults.valid) {
-//          return validationResults;
-//        }
-//      }
-
-      return {
-        'valid': true,
-        'msg': null
-      };
-    }
-  void destroy(){
-     $input.remove();
-   }
-   void focus(){
-     $input.focus();
-   }
-  set editorParm (EditorParm m) {
-    super.editorParm=m;
-    editorParm.activeCellNode.append($input);
-
-//    this._ep = _ep;
-
-  }
-  SelectListEditor([_ep]) :super(){
-    $input = new SelectElement();
-    keys.forEach((_){
-      var option = new OptionElement();
-      option.value = '$_';
-      option.text= '$_';
-      $input.append(option);
-
-    });
-    $input.classes.add('editor-select');
-    $input..attributes['hidefocus'] = 'true';
-    $input.focus();
-  }
-
-  loadValue(item) {
-    super.loadValue(item);
-    defaultValue=item;
-    OptionElement ope=$input.children.firstWhere((_)=> int.parse(_.value)== item['Three']);
-    ope.selected=true;
-  }
-
-  String serializeValue() {
-    int selectIdx=($input as SelectElement).selectedIndex;
-    return keys[selectIdx];
-  }
-  void applyValue(item, state){
-      item[editorParm.columnDef.field] = state;
-  }
-
-  isValueChanged() {
-    int selectIdx=($input as SelectElement).selectedIndex;
-//    return keys[selectIdx];
-    return defaultValue != keys[selectIdx];
-  }
-
 }
