@@ -44,20 +44,31 @@ class GridWrap extends HtmlElement {
 </style>
 <div id='grid'></div>""";
   }
-
+  Timer t;
   void init(List data, List<Column> colDefs) {
     grid = _prepareGrid(shadowRoot.lastChild, colDefs);
     grid.init();
     grid.data.clear();
     grid.data.addAll(data);
-    //this is big trouble
-    Timer t = new Timer(new Duration(milliseconds: 150), () => grid.finishInitialization());
+    t=new Timer.periodic(new Duration(milliseconds:100), (e){
+      print(shadowRoot.host.clientWidth);
+      if(shadowRoot.host.clientWidth>0){
+        t.cancel();
+        grid.finishInitialization();
+      }
+
+    });
+
+//    //this is big trouble
+//    Timer t = new Timer(new Duration(milliseconds: 150), () => );
   }
   void attached() {
+    print('attached');
+    print(shadowRoot.host.clientWidth);
     //   Timer t=new Timer(new Duration(milliseconds:10),()=> grid.finishInitialization());
   }
   void detached() {
-    //todo: remove window bind events
+    grid.unSubscribe();
   }
   factory GridWrap(text) => new Element.tag(GRID_TAG);
 }
@@ -70,13 +81,13 @@ SlickGrid _prepareGrid(Element el, List<Column> colDefs, {Map opt}) {
   List data = [];
   if (opt == null) {
     opt = {
-      'explicitInitialization': true,
       'multiColumnSort': true,
       'editable': true,
       'autoEdit': true,
       'frozenColumn': 1
     };
   }
+  opt['explicitInitialization']=true;
   SlickGrid sg = new SlickGrid(el, data, column, opt);
 
   column.forEach((item) {

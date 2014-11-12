@@ -36,7 +36,23 @@ main(){
            ..appendText((args['rows'] as List).join(' '));
      });
 }
-
+List getData(){
+  List _data = [];
+     for (var i = 0; i < 500; i++) {
+       _data.add({
+         'dtitle': new math.Random().nextInt(100).toString(),
+         'duration': new math.Random().nextInt(100).toString(),
+         'pc2': new math.Random().nextInt(10) * 100,
+         'pc': (new math.Random().nextInt(10) * 100).toString(),
+         'YesNo': new math.Random().nextInt(10)>5 ? true: false,
+         'Querter': new math.Random().nextInt(3)+1,
+         'Querter2': '${new math.Random().nextInt(3)+1}',
+         'finish': (new math.Random().nextInt(10) + 10).toString() + "/05/2013",
+         'effortDriven': (i % 5 == 0)
+       });
+     }
+     return _data;
+}
 List<Column> getColDefs(){
   var cols= new ColumnList.fromMap([{
         'name': "Title1",
@@ -47,7 +63,7 @@ List<Column> getColDefs(){
         'width': 80,
         'field': "duration",
         'sortable': true,
-        'editor': 'TextEditor'
+        'formatter': LinkFormatter
       },{
         'field': "pc2",
         'sortable': true,
@@ -79,4 +95,7 @@ List<Column> getColDefs(){
 
   cols.insert(0, checkboxCol.getColumnDefinition());
   return cols;
+}
+LinkFormatter(row, cell, value, columnDef, dataContext) {
+  return value!=null ? "<a  href='#'>z</a>" : "";
 }

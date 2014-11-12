@@ -66,7 +66,7 @@ class SlickGrid {
   List<Column> columns;
   Map options;
   StreamSubscription<Event> _ancestorScrollSubscribe;
-
+  List _subscriptionList=[];
 
   core.Event onScroll = new core.Event();
   core.Event onSort = new core.Event();
@@ -316,13 +316,8 @@ class SlickGrid {
 
 
   /////////////////////////////one line accessoe
-  int getDataLength(){
-    return  data.length;
-  }
-
-  int getColumnIndex(id) {
-    return columnsById[id];
-  }
+  int getDataLength()=>data.length;
+  int getColumnIndex(id) =>columnsById[id];
   List getSortColumns() => sortColumns;
 
   handleSelectedRangesChanged(core.EventData e, List<core.Range> ranges) {
@@ -704,7 +699,7 @@ class SlickGrid {
          }
          $paneTopL.style.position= 'relative';
      }
-     print($paneHeaderL.getComputedStyle().height);
+     //print($paneHeaderL.getComputedStyle().height);
      $paneTopL.style.top= '${$paneHeaderL.contentEdge.height}px';
      $paneTopL.style.height= '${paneTopH}px';
      int paneBottomTop = ($paneTopL.offsetTo($paneTopL.parent).y + paneTopH).round();
@@ -980,7 +975,7 @@ class SlickGrid {
       resizeCanvas();
       bindAncestorScrollEvents();
 
-      window.onResize.listen(resizeCanvas);
+      _subscriptionList.add(window.onResize.listen(resizeCanvas));
       $viewport.forEach((_)=> _.onScroll.matches('*').listen(handleScroll));
 //      $viewport.forEach((_)=> _.onTouchMove.listen(handleTouch));
 //      $viewport.forEach((_)=> _.onTouchStart.listen(handleTouch));
@@ -3879,14 +3874,6 @@ class SlickGrid {
           item.editorParm=editorParm;
           return item;
         }
-
-
-//
-//        LibraryMirror lib = currentMirrorSystem().
-//            findLibrary(const Symbol('slick.editor'));
-//        ClassMirror c = lib.declarations[new Symbol(editor)];
-//        var o = c.newInstance(const Symbol(''),[editorParm]).reflectee;
-//        return o;
       }
 
 
@@ -4055,7 +4042,12 @@ class SlickGrid {
         $style.remove();
         stylesheet = null;
       }
-
+      /**
+       * clean listeners
+       */
+      unSubscribe(){
+        this._subscriptionList.forEach((_)=> _.cancel());
+      }
 
 }
 

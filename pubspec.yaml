@@ -8,8 +8,4 @@ dependencies:
 dev_dependencies:
   unittest: any
   html5_dnd: any
-  web_components: any  #angular: '1.0.0'
-  #di: any
-
-#transformers:
-#- angular
+  web_components: any
