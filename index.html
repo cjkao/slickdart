@@ -70,28 +70,28 @@ click on first column out side of check box will uncheck other rows if multiple 
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
-     new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "duration", 'width':120,'name': "percentComplete2", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%", 'name': "start3", 'field': "start", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "start", 'name': "4finish", 'field': "finish"}),
-     new grid.Column.fromMap ({'id': "title2", 'name': "5Title1", 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "6pppppppplete", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%2", 'name': "7start", 'field': "start", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "start2", 'name': "8finish", 'field': "finish"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "9finish", 'field': "finish"}),
-     new grid.Column.fromMap ({'id': "title2", 'name': "10 Title1", 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "11 percentComplete", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%2", 'name': "12 start", 'field': "start", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "start2", 'name': "13 finish", 'field': "finish"}),
-     new grid.Column.fromMap ({'id': "title2", 'name': "14 Title1", 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "15 percentComplete", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%2", 'name': "16 start", 'field': "start", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "start2", 'name': "17 finish", 'field': "finish1"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "18 finish", 'field': "finish2"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "19 finish", 'field': "finish3"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "20 finish", 'field': "finish4"})
-  ];
+  List column = new grid.ColumnList.fromMap([
+     {'field': "seq",      'name': "Seq",  'sortable': true , 'width':50},
+     {'field': "percentComplete", 'sortable': true },
+     {'field': "duration", 'name': "start3", 'sortable': true },
+     {'field': "finish",   'name': "4finish"},
+     {'field': "title", 'sortable': true },
+     {'field': "percentComplete", 'width':120,  'sortable': true },
+     {'field': "start",     'name': "7start", 'sortable': true },
+     {'field': "finish"},
+     {'field': "finish",    'name': "9finish"},
+     {'field': "title",     'name': "10 Title1",  'sortable': true },
+     {'field': "percentComplete",'width':120, 'name': "11 percentComplete",  'sortable': true },
+     {'field': "start",     'name': "12 start", 'sortable': true },
+     {'field': "finish",    'name': "13 finish"},
+     {'field': "title",     'name': "14 Title1", 'sortable': true },
+     {'field': "percentComplete", 'width':120, 'name': "15 percentComplete",  'sortable': true },
+     {'field': "start",     'name': "16 start",  'sortable': true },
+     {'field': "finish1",   'name': "17 finish"},
+     {'field': "finish2",   'name': "18 finish" },
+     {'field': "finish3",   'name': "19 finish"},
+     {'field': "finish4",   'name': "20 finish" }
+  ]);
   List data=[];
   for (var i = 0; i &lt; 50000; i++) {
     data.add( {
