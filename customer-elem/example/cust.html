@@ -14,6 +14,19 @@
     cj-grid.first, cj-grid.third{
       display: inline-block;
     }
+
+ /* Slick.Editors.Text, Slick.Editors.Date */
+    cj-grid /deep/ input.editor-text {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      margin: 0;
+      background: transparent;
+      outline: 0;
+      padding: 0;
+
+
+    }
     </style>
   </head>
   <body>
@@ -22,6 +35,17 @@
     <script src="packages/web_components/platform.js"></script>
     <script src="packages/web_components/dart_support.js"></script>
     <div class='container'>
+      <div class='row'>To inspect dart object, open console, select cj-grid,
+            we can find dart object is export to javascript and inspectable in javascript console
+        <pre>
+          var grid= document.querySelector('cj-grid').grid; //this is SlickGrid object
+          var column = grid.columns.$index(0,0);  // this is dart Column Object
+          column.toString$0()  // call toString function in dart object that produce json string...
+          //"{name: input, resizable: false, sortable: false, minWidth: 30, rere....}"
+
+        </pre>
+
+      </div>
       <div class='row'>
         <div class='col-md-3'>
           <div class="panel panel-default">
@@ -48,11 +72,6 @@
         <div class='col-md-6'> <div class='right-pane'></div></div>
       </div>
     </div>
-
-
-
-
-
 
     <script src="ga.js"></script>
 
