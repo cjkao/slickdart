@@ -35,6 +35,17 @@
     <script src="packages/web_components/platform.js"></script>
     <script src="packages/web_components/dart_support.js"></script>
     <div class='container'>
+      <div class='row'>To inspect dart object, open console, select cj-grid,
+            we can find dart object is export to javascript and inspectable in javascript console
+        <pre>
+          var grid= document.querySelector('cj-grid').grid; //this is SlickGrid object
+          var column = grid.columns.$index(0,0);  // this is dart Column Object
+          column.toString$0()  // call toString function in dart object that produce json string...
+          //"{name: input, resizable: false, sortable: false, minWidth: 30, rere....}"
+
+        </pre>
+
+      </div>
       <div class='row'>
         <div class='col-md-3'>
           <div class="panel panel-default">

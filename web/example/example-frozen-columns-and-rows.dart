@@ -5,33 +5,32 @@ import 'package:slickdart/plugin/autotooltip.dart';
 void main() {
   var g=init();
   g.init();
- // print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
 }
 
 grid.SlickGrid init(){
   Element el =querySelector('#myGrid');
-  List column = [
-     new grid.Column.fromMap ({'id': "title", 'name': "Seq", 'field': "seq", 'sortable': true , 'width':50}),
-     new grid.Column.fromMap ({'id': "duration", 'name': "percentComplete2", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%", 'name': "start3", 'field': "duration", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "start", 'name': "4finish", 'field': "finish"}),
-     new grid.Column.fromMap ({'id': "title2", 'name': "5Title1", 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "6pppppppplete", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%2", 'name': "7start", 'field': "start", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "start2", 'name': "8finish", 'field': "finish"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "9finish", 'field': "finish"}),
-     new grid.Column.fromMap ({'id': "title2", 'name': "10 Title1", 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "11 percentComplete", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%2", 'name': "12 start", 'field': "start", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "start2", 'name': "13 finish", 'field': "finish"}),
-     new grid.Column.fromMap ({'id': "title2", 'name': "14 Title1", 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "duration2",'width':120, 'name': "15 percentComplete", 'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "%2", 'name': "16 start", 'field': "start", 'sortable': true }),
-     new grid.Column.fromMap ({'id': "start2", 'name': "17 finish", 'field': "finish1"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "18 finish", 'field': "finish2"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "19 finish", 'field': "finish3"}),
-     new grid.Column.fromMap ({'id': "start2", 'name': "20 finish", 'field': "finish4"})
-  ];
+  List column = new grid.ColumnList.fromMap([
+     {'field': "seq",      'name': "Seq",  'sortable': true , 'width':50},
+     {'field': "percentComplete", 'sortable': true },
+     {'field': "duration", 'name': "start3", 'sortable': true },
+     {'field': "finish",   'name': "4finish"},
+     {'field': "title", 'sortable': true },
+     {'field': "percentComplete", 'width':120,  'sortable': true },
+     {'field': "start",     'name': "7start", 'sortable': true },
+     {'field': "finish"},
+     {'field': "finish",    'name': "9finish"},
+     {'field': "title",     'name': "10 Title1",  'sortable': true },
+     {'field': "percentComplete",'width':120, 'name': "11 percentComplete",  'sortable': true },
+     {'field': "start",     'name': "12 start", 'sortable': true },
+     {'field': "finish",    'name': "13 finish"},
+     {'field': "title",     'name': "14 Title1", 'sortable': true },
+     {'field': "percentComplete", 'width':120, 'name': "15 percentComplete",  'sortable': true },
+     {'field': "start",     'name': "16 start",  'sortable': true },
+     {'field': "finish1",   'name': "17 finish"},
+     {'field': "finish2",   'name': "18 finish" },
+     {'field': "finish3",   'name': "19 finish"},
+     {'field': "finish4",   'name': "20 finish" }
+  ]);
   List data=[];
   for (var i = 0; i < 300; i++) {
     data.add( {
@@ -52,7 +51,7 @@ grid.SlickGrid init(){
              'multiColumnSort': false,
              'topPanelHeight': 25,
              'frozenColumn': 0,
-                 'frozenRow': 1,
+             'frozenRow': 1,
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
   sg.registerPlugin(new AutoTooltips());

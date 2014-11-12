@@ -54,41 +54,17 @@ List getData(){
      return _data;
 }
 List<Column> getColDefs(){
-  var cols= new ColumnList.fromMap([{
-        'name': "Title1",
-        'field': "dtitle",
-        'sortable': true
-
-      },{
-        'width': 80,
-        'field': "duration",
-        'sortable': true,
-        'formatter': LinkFormatter
-      },{
-        'field': "pc2",
-        'sortable': true,
-        'editor': 'TextEditor'
-      },{
-        'field': "finish"
-      },{
-        'field': "Querter",
-        'editor': new SelectListEditor({1:'1',2:'2',3:'3',4:'4'})
-      },{
-        'field': "Querter2",
-        'editor': new SelectListEditor({'1':'1','2':'2','3':'3','4':'4'})
-      },{
-        'field': "YesNo",
-        'editor': 'CheckboxEditor',
-        'formatter': CheckmarkFormatter
-      },{
-        'id': "%_2",
-        'field': "pc",
-        'editor': 'TextEditor'
-
-      },{
-        'field': "effortDriven",
-        'width': 300
-      }]);
+  var cols= new ColumnList.fromMap(
+      [ { 'field': "dtitle",    'name': "Title1",       'sortable': true                          },
+        { 'field': "duration",  'sortable': true,'width': 80, 'formatter': LinkFormatter          },
+        { 'field': "pc2",       'editor': 'TextEditor', 'sortable': true                          },
+        { 'field': "finish"                                                                       },
+        { 'field': "Querter",   'editor': new SelectListEditor({1:'1',2:'2',3:'3',4:'4'})         },
+        { 'field': "Querter2",  'editor': new SelectListEditor({'1':'1','2':'2','3':'3','4':'4'}) },
+        { 'field': "YesNo",     'editor': 'CheckboxEditor',    'formatter': CheckmarkFormatter    },
+        { 'field': "pc",        'editor': 'TextEditor',   'id': "%_2"                             },
+        { 'field': "effortDriven",  'width': 300  }
+      ]);
   CheckboxSelectColumn checkboxCol = new CheckboxSelectColumn({
       'cssClass': "slick-cell-checkboxsel"
     });

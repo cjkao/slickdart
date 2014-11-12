@@ -57,6 +57,7 @@ class Column{
   int get previousWidth => _src['previousWidth'];
 
   String get toolTip => _src['toolTip'];
+  //unique id for differeicent from same field name
   String get id => _src['id'];// "range"
   int get minWidth => _src['minWidth'];//: 30
   String get name => _src['name']; //: "Range"

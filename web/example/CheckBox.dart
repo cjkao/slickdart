@@ -32,13 +32,12 @@ void main() {
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
-
-                 new grid.Column.fromMap ({'width':130,'id': "idi", 'name': "HEAD1", 'field': "idi", 'sortable': true,'editor': 'TextEditor' }),
-                 new grid.Column.fromMap ({'width':120,'id': "duration", 'name': "HEAD2", 'field': "duration", 'sortable': true }),
-                 new grid.Column.fromMap ({'id': "%", 'name': "HEAD3", 'field': "pc", 'sortable': true }),
-                 new grid.Column.fromMap ({'width':400,'id': "start", 'name': "HEAD4", 'field': "finish"})
-                 ];
+  List column = new ColumnList.fromMap([
+                 {'width':130, 'field': "idi", 'sortable': true,'editor': 'TextEditor' },
+                 {'width':120, 'field': "duration", 'sortable': true },
+                 {'field': "pc", 'sortable': true },
+                 {'width':400,  'field': "finish"}
+                 ]);
   CheckboxSelectColumn checkboxCol=new CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   column.insert(0,checkboxCol.getColumnDefinition());
   List data=[];
@@ -49,7 +48,6 @@ grid.SlickGrid init(){
       'pc': new math.Random().nextInt(10) * 100,
       'idi':i+1,
       'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
-//      'effortDriven': (i % 5 == 0)
     });
   }
   Map opt = {'explicitInitialization': false,

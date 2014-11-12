@@ -44,16 +44,16 @@ class GridWrap extends HtmlElement {
 </style>
 <div id='grid'></div>""";
   }
-  Timer t;
+  Timer _t;
   void init(List data, List<Column> colDefs) {
     grid = _prepareGrid(shadowRoot.lastChild, colDefs);
     grid.init();
     grid.data.clear();
     grid.data.addAll(data);
-    t=new Timer.periodic(new Duration(milliseconds:100), (e){
+    _t=new Timer.periodic(new Duration(milliseconds:100), (e){
       print(shadowRoot.host.clientWidth);
       if(shadowRoot.host.clientWidth>0){
-        t.cancel();
+        _t.cancel();
         grid.finishInitialization();
       }
 
