@@ -89,7 +89,7 @@ class Column{
   void set resizable(bool item) { _src['resizable']=item;}
   void set selectable(bool item) { _src['selectable']=item;}
   void set sortable(bool item) { _src['sortable']=item;}
-  void  set width(int item) { _src['width']=item;}
+  void set width(int item) { _src['width']=item;}
   void set maxWidth(int item){_src['maxWidth']=item;}
   void set field(String item){_src['field']=item;}
 

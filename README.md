@@ -26,16 +26,16 @@ Known Constraint
 TODO
 ========================
 
-[x] efficent dynamic row height on frozen column
+- [ ] ease of use
+- [ ] Column reorder
+- [ ] adjust row height via mouse
+- [x] efficent dynamic row height on frozen column
   - sort column should re-calcule height
   - how about insert row or delete row?
-  [x] low performance on horzontal scrolling, fixed by extend buffer to 4block
-[x] Frozen column, also editable
-[x] Resize column
-[ ] Column reorder
-[x] auto tooltip
-[ ] adjust row height via mouse
-
+- [x] low performance on horzontal scrolling, fixed by extend buffer to 4block
+- [x] Frozen column, also editable
+- [x] Resize column
+- [x] auto tooltip
 
 
 Dynamic Row Height

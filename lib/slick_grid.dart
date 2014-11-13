@@ -699,11 +699,10 @@ class SlickGrid {
          }
          $paneTopL.style.position= 'relative';
      }
-     //print($paneHeaderL.getComputedStyle().height);
      $paneTopL.style.top= '${$paneHeaderL.contentEdge.height}px';
      $paneTopL.style.height= '${paneTopH}px';
+     //fix me, replase offsetTo to other
      int paneBottomTop = ($paneTopL.offsetTo($paneTopL.parent).y + paneTopH).round();
-
      $viewportTopL.style.height ='${viewportTopH}px';
 
      if (options['frozenColumn'] > -1) {
