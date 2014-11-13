@@ -1,3 +1,4 @@
+import 'slick_column.dart';
 /**
  *
  * convert csv to map,
@@ -8,11 +9,11 @@ class CsvAdapter {
 //  Map m;
   int charWidth = 8;
   int widthBase = 10;
-  List<Map> _cols;
+  List<Column> _cols;
   List<Map> _data;
   List strs;
   List<Map> get data => _data;
-  List<Map> get columns => _cols;
+  List<Column> get columns => _cols;
   /**
    * widthBase: padding space
    * charWidth: width of each char in pixel
@@ -22,12 +23,14 @@ class CsvAdapter {
     strs = csv.split('\r');
     if (strs.length > 1) {
       strs[0].split(',').forEach((item) =>    print(item));
-      _cols = strs[0].split(',').map((String item) => {
+      var list =
+          strs[0].split(',').map((String item) => {
         'field': item.replaceAll('"', ''),
         'width': widthBase + item.length * charWidth,
         'id': item,
         'name': item
       }).toList();
+      _cols=new ColumnList.fromMap(list);
     }
 
     //estimate width from next 10 lines
@@ -38,7 +41,7 @@ class CsvAdapter {
     for (int i = 0, len = fields.length; i < len; i++) {
       int newWidth = fields[i].length * charWidth + widthBase;
       if (_cols[i]['width'] < newWidth) {
-        _cols[i]['width'] = newWidth;
+        _cols[i].width = newWidth;
       }
     }
   }
@@ -50,8 +53,8 @@ class CsvAdapter {
   }
   Map toDataMap(List<String> fields){
     Map m={};
-    for(int i=0,len=fields.length; i<len;i++){
-      m[_cols[i]['field']] = fields[i];
+    for(int i=0,len=_cols.length; i<len;i++){
+      m[_cols[i].field] = fields[i];
     }
     return m;
   }
