@@ -540,7 +540,9 @@ class SlickGrid {
   }
 
 
-
+  /**
+   * drow canvas using current scroll position
+   */
   void render([Timer timer]) {
     if (!initialized) { return; }
     Map<String,int> visible = getVisibleRange();
@@ -702,7 +704,8 @@ class SlickGrid {
      $paneTopL.style.top= '${$paneHeaderL.contentEdge.height}px';
      $paneTopL.style.height= '${paneTopH}px';
      //fix me, replase offsetTo to other
-     int paneBottomTop = ($paneTopL.offsetTo($paneTopL.parent).y + paneTopH).round();
+    // int paneBottomTop = ($paneTopL.offsetTo($paneTopL.parent).y + paneTopH).round();
+     int paneBottomTop = ($paneTopL.offset.top + paneTopH).round();
      $viewportTopL.style.height ='${viewportTopH}px';
 
      if (options['frozenColumn'] > -1) {
@@ -1894,7 +1897,9 @@ class SlickGrid {
       }
   }
 
-
+    /**
+     * clear scroller, cache and current editor
+     */
     void invalidate() {
       updateRowCount();
       invalidateAllRows();

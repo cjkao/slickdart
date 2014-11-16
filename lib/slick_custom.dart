@@ -5,7 +5,7 @@ import 'dart:async';
 const GRID_TAG = 'cj-grid';
 StyleElement _styleElement;
 registerElem() {
-  document.registerElement(GRID_TAG, GridWrap);
+  document.registerElement(GRID_TAG, JGrid);
   _setupBlockElement();
   // print(gw);
 }
@@ -22,10 +22,10 @@ _setupBlockElement() {
  * shadow root does not work well in firefox!
  * consider shadowroot an optional approach
  */
-class GridWrap extends HtmlElement {
+class JGrid extends HtmlElement {
   ShadowRoot shadowRoot;
   SlickGrid grid;
-  GridWrap.created() : super.created() {
+  JGrid.created() : super.created() {
     shadowRoot = this.createShadowRoot();
     shadowRoot.innerHtml = """
 <style>
@@ -44,24 +44,29 @@ class GridWrap extends HtmlElement {
 </style>
 <div id='grid'></div>""";
   }
-  Timer _timer;
+  //Timer _timer;
   void init(List data, List<Column> colDefs) {
     grid = _prepareGrid(shadowRoot.lastChild, colDefs);
     grid.init();
     grid.data.clear();
     grid.data.addAll(data);
     //this still not fix issue
-    _timer=new Timer.periodic(new Duration(milliseconds:150), (e){
-      print(shadowRoot.host.clientWidth);
-      if(shadowRoot.host.clientWidth>0){
-        _timer.cancel();
+//    _timer=new Timer.periodic(new Duration(milliseconds:10), (e){
+//      print(shadowRoot.host.clientWidth);
+//      if(shadowRoot.host.clientWidth>0){
+//        _timer.cancel();
         grid.finishInitialization();
-      }
-
-    });
+//      }
+//    });
 
 //    //this is big trouble
 //    Timer t = new Timer(new Duration(milliseconds: 150), () => );
+  }
+  void setData(List data){
+    grid.data.clear();
+    grid.data.addAll(data);
+    grid.invalidate();
+    grid.render();
   }
   void attached() {
     print('attached');
@@ -72,7 +77,7 @@ class GridWrap extends HtmlElement {
   void detached() {
     grid.unSubscribe();
   }
-  factory GridWrap(text) => new Element.tag(GRID_TAG);
+  factory JGrid(text) => new Element.tag(GRID_TAG);
 
 
   SlickGrid _prepareGrid(Element el, List<Column> colDefs, {Map opt}) {
