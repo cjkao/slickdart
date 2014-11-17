@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Slickdart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="bootstrap.css" rel="stylesheet" media="screen">
+
+
+     <link rel="stylesheet" href="packages/slickdart/slick.grid.css" type="text/css"/>
+     <link rel="stylesheet" href="packages/slickdart/slick_default_theme.css" type="text/css"/>
+     <link rel="stylesheet" href="MobileDynHeight.css" type="text/css"/>
+     <style type="text/css">
+     .not-edit{
+        color:gray;
+     }
+
+     </style>
+  </head>
+  <body>
+
+
+<div class='container'>
+        <div class='row'>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              Dynamic Height
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div id="grid" style="width:100%;height:500px;"></div>
+          </div>
+          <div class='col-md-6'>
+
+<pre>
+Row-level properties
+
+cssClasses (string) - One or more (space-separated) CSS classes to be added to the entire row.
+focusable (boolean) - Whether or not any cells in the row can be set as "active".
+selectable (boolean) - Whether or not a row or any cells in it can be selected.
+Column-level properties
+
+focusable (boolean) - Whether or not a cell can be set as "active".
+selectable (boolean) - Whether or not a cell can be selected.
+formatter (Function) - A custom cell formatter.
+editor (Function) - A custom cell editor.
+colspan (number|string) - Number of columns this cell will span. Can also contain "*" to indicate that the cell should span the rest of the row.
+Order of checks
+
+When looking up a property, the grid checks in the following order:
+
+Row-level item metadata.
+Column-level item metadata by column id.
+Column-level item metadata by column index.
+Column definition.
+Grid options.
+Grid defaults.
+</pre>
+          </div>
+        </div>
+
+</div>
+
+    <script type="application/dart" src="metadata.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+    <script src="ga.js"></script>
+  </body>
+</html>

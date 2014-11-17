@@ -4,7 +4,7 @@ import 'dart:html';
 import 'dart:convert';
 import 'slick.dart';
 import 'slick_core.dart' as core;
-class ColumnList  extends ListBase<Column>{
+class ColumnList  extends ListBase<Column> {
     ColumnList(){
 
     }

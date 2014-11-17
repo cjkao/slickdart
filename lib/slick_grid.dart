@@ -553,7 +553,7 @@ class SlickGrid {
 
     // add new rows & missing cells in existing rows
     if (lastRenderedScrollLeft != scrollLeft) {
-      cleanUpAndRenderCells(rendered);
+      _cleanUpAndRenderCells(rendered);
     }
 
     // render missing rows
@@ -2285,8 +2285,10 @@ class SlickGrid {
       }
     }
 
-
-    cleanUpAndRenderCells(Map<String,int> range) {
+    /**
+     * for unrendered cells
+     */
+    _cleanUpAndRenderCells(Map<String,int> range) {
       RowCache cacheEntry;
       List<String> stringArray = [];
       Queue processedRows = new Queue();
@@ -2646,6 +2648,7 @@ class SlickGrid {
     }
     /**
      * column Column object
+     * @return function object
      */
     Function getFormatter(int row, Column column) {
         return  column.formatter !=null ? column.formatter : options['defaultFormatter'];
@@ -2994,7 +2997,13 @@ class SlickGrid {
           (row == activeRow ? " active" : "") +
           (row % 2 == 1 ? " odd" : " even");
 
-
+      if(data is core.MetaList){
+        //implement metadata interface
+        Map metadata = (data as core.MetaList).getMetaData(row);
+        if(metadata.containsKey("cssClasses")){
+          rowCss += " " + metadata['cssClasses'];
+        }
+      }
       var frozenRowOffset = getFrozenRowOffset(row);
       var rHeight=data[row]['_height']!=null ?  "height:${data[row]['_height']}px" : '';
       String rowHtml = """<div class='ui-widget-content ${rowCss}' style='top: ${getRowTop(row) - frozenRowOffset}px;  ${rHeight }'>""";

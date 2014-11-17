@@ -57,3 +57,8 @@ Mobile Device
 Customer Element
 ==============================
 Initial support customer element, see example: cust.dart
+Compitable with angular.dart
+
+MetaData
+=============================
+Only support row css styles, see example: metadata.dart

@@ -1,5 +1,6 @@
 library slick.core;
 import 'dart:html' as html;
+import 'dart:collection';
 //import 'dart:convert';
 //import 'dart:math' as math;
 //import 'dart:mirrors';
@@ -472,4 +473,44 @@ class EditorLock {
   bool cancelCurrentEdit() {
     return (activeEditController!=null ? activeEditController['cancelCurrentEdit']() : true);
   }
+}
+
+/**
+ * meta data interface for client
+ */
+abstract class IMetaData{
+  Map getMetaData(int rowId);
+  void setMetaData(Function metaFunc);
+}
+class MetaList<T> extends ListBase<T> with IMetaData{
+  Function _func;
+  List<T> innerList;
+  MetaList(this.innerList, [this._func]){
+
+  }
+
+  Map getMetaData(int rowId){
+    return _func(rowId);
+  }
+  void setMetaData(_) => _func = _;
+
+  int get length => innerList.length;
+
+  void set length(int length) {
+        innerList.length = length;
+  }
+  void operator[]=(int index, T value) {
+    innerList[index] = value;
+  }
+  T operator [](int index) => innerList[index];
+
+  // Though not strictly necessary, for performance reasons
+  // you should implement add and addAll.
+
+  void add(T value) => innerList.add(value);
+
+  void addAll(Iterable<T> all) => innerList.addAll(all);
+
+
+
 }
