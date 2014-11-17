@@ -9,6 +9,10 @@ packages:
     description: dnd
     source: hosted
     version: "0.1.4"
+  logging:
+    description: logging
+    source: hosted
+    version: "0.9.2"
   matcher:
     description: matcher
     source: hosted
