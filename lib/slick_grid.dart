@@ -506,7 +506,7 @@ class SlickGrid {
    Map<String,int> getRenderedRange([int viewportTop, int viewportLeft]) {
     Map<String,int> vrange = getVisibleRange(viewportTop, viewportLeft);
     Map<String,int> outRange = {}..addAll(vrange);
-    print('vis range:${vrange}');
+    log.finest('vis range:${vrange}');
     int buffer= (vrange['bottom'] - vrange['top']) *2;
     outRange['top'] -= buffer;
     outRange['bottom'] += buffer;
@@ -535,7 +535,7 @@ class SlickGrid {
 
     outRange['leftPx'] = math.max(0, outRange['leftPx']);
     outRange['rightPx'] = math.min(canvasWidth, outRange['rightPx']);
-    print('adjust range:${outRange}');
+    log.finer('adjust range:${outRange}');
     return outRange;
   }
 
@@ -1218,10 +1218,10 @@ class SlickGrid {
             ElementStream<Event> stream =$target.onSelectStart;
             stream.matches('.ui').listen(
                 (Event e){
-                  print('nonselect');
+                  log.finer('nonselect');
                   e.preventDefault();
                   e.stopImmediatePropagation();
-                }, onDone : ()=> print('done'));
+                }, onDone : ()=> log.finer('done'));
 
           }
       });

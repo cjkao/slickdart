@@ -1,7 +1,7 @@
 library slick.util;
 import 'dart:html';
 import 'package:logging/logging.dart';
-var log = new Logger('JGrid');
+Logger log = new Logger('JGrid');
 /** TODO add scope
  * find element's cloest parent of target css selector rule
  * ancestorClzName : query condition
