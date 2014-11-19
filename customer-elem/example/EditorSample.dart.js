@@ -254,6 +254,155 @@ var $$ = Object.create(null);
     libraries.push([name, uri, classes, functions, metadata, fields, isRoot, globalObject]);
   }
 })([
+["", "EditorSample.dart", , V, {
+  "^": "",
+  main: [function() {
+    var g, t1;
+    g = V.init();
+    g.init$0();
+    t1 = J.get$onClick$x(document.querySelector("#reset"));
+    H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._target, t1._eventType, W._wrapZone(new V.main_closure(g)), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)])._tryResume$0();
+  }, "call$0", "main$closure", 0, 0, 0],
+  init: function() {
+    var el, column, data, i, t1, t2, opt, t3, t4, t5, sg, t6, t7, t8, t9, t10, t11;
+    el = document.querySelector("#grid");
+    column = [Z.Column_Column$fromMap(P.LinkedHashMap_LinkedHashMap$_literal(["id", "title", "name", "Title1", "field", "dtitle", "sortable", true, "editor", "TextEditor"], null, null)), Z.Column_Column$fromMap(P.LinkedHashMap_LinkedHashMap$_literal(["width", 120, "id", "duration", "name", "duration", "field", "duration", "sortable", true], null, null)), Z.Column_Column$fromMap(P.LinkedHashMap_LinkedHashMap$_literal(["id", "%", "name", "percent", "field", "pc", "sortable", true], null, null))];
+    data = [];
+    for (i = 0; i < 5; ++i) {
+      t1 = C.JSInt_methods.toString$0(C.C__JSRandom.nextInt$1(100));
+      t2 = C.JSInt_methods.toString$0(C.C__JSRandom.nextInt$1(100));
+      data.push(P.LinkedHashMap_LinkedHashMap$_literal(["dtitle", t1, "duration", t2, "pc", C.C__JSRandom.nextInt$1(10) * 100], null, null));
+    }
+    opt = P.LinkedHashMap_LinkedHashMap$_literal(["explicitInitialization", false, "multiColumnSort", true, "editable", true], null, null);
+    t1 = new B.Event([]);
+    t2 = new B.Event([]);
+    t3 = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
+    t4 = P.LinkedHashMap_LinkedHashMap$_literal(["name", "", "resizable", true, "sortable", false, "minWidth", 30, "rerenderOnResize", false, "headerCssClass", null, "defaultSortAsc", true, "focusable", true, "selectable", true, "cannotTriggerInsert", false], null, null);
+    t3.addAll$1(0, t4);
+    t5 = [];
+    sg = new R.SlickGrid(new P.Expando(null), el, data, column, opt, null, [], new B.Event([]), t1, new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), t2, new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), null, new Z.Column(t3, t4), null, null, null, null, null, null, 0, 0, 1, false, "slickgrid_" + C.JSInt_methods.toString$0(C.C__JSRandom.nextInt$1(10000000)), null, null, [], [], [], null, null, [], [], [], [], null, [], null, null, null, null, null, null, 0, 0, null, null, null, null, null, null, null, false, false, 0, 0, 0, 0, null, false, 0, -1, 0, 0, 0, 0, 0, 0, 1, null, null, null, null, null, null, null, null, null, P.LinkedHashMap_LinkedHashMap$_empty(null, null), 0, null, 0, 0, 0, 0, 0, 0, null, [], t5, P.LinkedHashMap_LinkedHashMap$_empty(null, null), P.LinkedHashMap_LinkedHashMap$_empty(null, null), [], [], [], null, null, null, P.LinkedHashMap_LinkedHashMap$_empty(null, null), null, null, 0, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0);
+    sg.SlickGrid$4(el, data, column, opt);
+    t4 = sg.options;
+    P.LinkedHashMap_LinkedHashMap$_literal(["selectionCss", P.LinkedHashMap_LinkedHashMap$_literal(["border", "2px solid black"], null, null)], null, null);
+    t3 = new B.Event([]);
+    t6 = new B.Event([]);
+    t7 = new B.EventHandler([]);
+    t8 = P.LinkedHashMap_LinkedHashMap$_literal(["selectionCss", P.LinkedHashMap_LinkedHashMap$_literal(["border", "2px dashed blue"], null, null)], null, null);
+    t9 = new V.CellRangeSelector(t3, t6, null, null, null, null, null, t7, null, null, null, null, t8);
+    t10 = new V.CellSelectionModel(null, null, [], t9, null, P.LinkedHashMap_LinkedHashMap$_literal(["selectActiveCell", true], null, null), new B.Event([]));
+    t10.CellSelectionModel$1(t4);
+    t4 = sg.selectionModel;
+    if (t4 != null) {
+      t4 = t4.onSelectedRangesChanged;
+      t11 = sg.get$handleSelectedRangesChanged();
+      C.JSArray_methods.remove$1(t4.handlers, t11);
+      sg.selectionModel.destroy$0();
+    }
+    sg.selectionModel = t10;
+    t10._grid = sg;
+    sg.setActiveCanvasNode$1(null);
+    t10._canvas = sg.$$activeCanvasNode;
+    t4 = t10._grid.onActiveCellChanged;
+    t11 = t10.get$_handleActiveCellChange();
+    t4.handlers.push(t11);
+    t11 = t10._grid.onKeyDown;
+    t4 = t10.get$_handleKeyDown();
+    t11.handlers.push(t4);
+    t5.push(t9);
+    t5 = P.LinkedHashMap_LinkedHashMap(null, null, null, null, null);
+    t5.addAll$1(0, t8);
+    t9.options = t5;
+    t5.addAll$1(0, sg.options);
+    t5 = new V.CellRangeDecorator(null, null, null, P.LinkedHashMap_LinkedHashMap$_literal(["selectionCssClass", "slick-range-decorator", "selectionCss", P.LinkedHashMap_LinkedHashMap$_literal(["zIndex", "9999", "border", "2px dashed red"], null, null)], null, null));
+    t5.CellRangeDecorator$1(sg);
+    t9._decorator = t5;
+    t9._grid = sg;
+    t7.subscribe$2(t2, t9.get$handleDragInit()).subscribe$2(t9._grid.onDragStart, t9.get$handleDragStart()).subscribe$2(t9._grid.onDrag, t9.get$handleDrag()).subscribe$2(t9._grid.onDragEnd, t9.get$handleDragEnd());
+    t9 = t10.get$_handleCellRangeSelected();
+    t6.handlers.push(t9);
+    t10 = t10.get$_handleBeforeCellRangeSelected();
+    t3.handlers.push(t10);
+    t10 = sg.selectionModel.onSelectedRangesChanged;
+    t3 = sg.get$handleSelectedRangesChanged();
+    t10.handlers.push(t3);
+    t1.handlers.push(new V.init_closure(data, sg));
+    return sg;
+  },
+  main_closure: {
+    "^": "Closure:26;g_0",
+    call$1: [function(e) {
+      var _data, i, t1, t2;
+      _data = [];
+      for (i = 0; i < 50000; ++i) {
+        t1 = C.JSInt_methods.toString$0(C.C__JSRandom.nextInt$1(1000));
+        _data.push(P.LinkedHashMap_LinkedHashMap$_literal(["dtitle", t1, "duration", C.JSInt_methods.toString$0(C.C__JSRandom.nextInt$1(1000)), "pc", i], null, null));
+      }
+      t1 = this.g_0;
+      t2 = t1.data;
+      C.JSArray_methods.set$length(t2, 0);
+      C.JSArray_methods.addAll$1(t2, _data);
+      t1.updateRowCount$0();
+      t1.invalidateAllRows$0();
+      t1.render$0();
+      t1.render$0();
+    }, "call$1", null, 2, 0, null, 3, "call"],
+    $isFunction: true
+  },
+  init_closure: {
+    "^": "Closure:32;data_0,sg_1",
+    call$2: [function(e, args) {
+      var cols, t1;
+      cols = J.$index$asx(args, "sortCols");
+      t1 = this.data_0;
+      C.JSArray_methods.checkMutable$1(t1, "sort");
+      H.IterableMixinWorkaround_sortList(t1, new V.init__closure(cols));
+      t1 = this.sg_1;
+      t1.updateRowCount$0();
+      t1.invalidateAllRows$0();
+      t1.render$0();
+      t1.render$0();
+    }, "call$2", null, 4, 0, null, 3, 31, "call"],
+    $isFunction: true
+  },
+  init__closure: {
+    "^": "Closure:32;cols_2",
+    call$2: function(dataRow1, dataRow2) {
+      var t1, t2, l, t3, t4, i, field, sign, value1, value2, t5, result;
+      t1 = this.cols_2;
+      t2 = J.getInterceptor$asx(t1);
+      l = t2.get$length(t1);
+      if (typeof l !== "number")
+        return H.iae(l);
+      t3 = J.getInterceptor$asx(dataRow1);
+      t4 = J.getInterceptor$asx(dataRow2);
+      i = 0;
+      for (; i < l; ++i) {
+        field = J.$index$asx(J.$index$asx(t2.$index(t1, i), "sortCol"), "field");
+        sign = J.$index$asx(t2.$index(t1, i), "sortAsc") === true ? 1 : -1;
+        value1 = t3.$index(dataRow1, field);
+        value2 = t4.$index(dataRow2, field);
+        if (J.$eq(field, "dtitle")) {
+          if (J.$eq(value1, value2))
+            t1 = 0;
+          else
+            t1 = (J.$gt$n(H.Primitives_parseInt(value1, null, null), H.Primitives_parseInt(value2, null, null)) ? 1 : -1) * sign;
+          return t1;
+        }
+        t5 = J.getInterceptor(value1);
+        if (t5.$eq(value1, value2))
+          t5 = 0;
+        else
+          t5 = t5.compareTo$1(value1, value2) > 0 ? 1 : -1;
+        result = t5 * sign;
+        if (result !== 0)
+          return result;
+      }
+      return 0;
+    },
+    $isFunction: true
+  }
+},
+1],
 ["_foreign_helper", "dart:_foreign_helper", , H, {
   "^": "",
   JS_CONST: {
@@ -297,42 +446,6 @@ var $$ = Object.create(null);
         return C.UnknownJavaScriptObject_methods;
     }
     return interceptor;
-  },
-  findIndexForNativeSubclassType: function(type) {
-    var t1, map, i;
-    t1 = $.mapTypeToInterceptor;
-    if (t1 == null)
-      return;
-    map = t1;
-    for (t1 = map.length, i = 0; i + 1 < t1; i += 3) {
-      if (i >= t1)
-        return H.ioore(map, i);
-      if (type.$eq(0, map[i]))
-        return i;
-    }
-    return;
-  },
-  findInterceptorConstructorForType: function(type) {
-    var index, map, t1;
-    index = J.findIndexForNativeSubclassType(type);
-    if (index == null)
-      return;
-    map = $.mapTypeToInterceptor;
-    t1 = index + 1;
-    if (t1 >= map.length)
-      return H.ioore(map, t1);
-    return map[t1];
-  },
-  findConstructorForNativeSubclassType: function(type, $name) {
-    var index, map, t1;
-    index = J.findIndexForNativeSubclassType(type);
-    if (index == null)
-      return;
-    map = $.mapTypeToInterceptor;
-    t1 = index + 2;
-    if (t1 >= map.length)
-      return H.ioore(map, t1);
-    return map[t1][$name];
   },
   Interceptor: {
     "^": "Object;",
@@ -417,16 +530,10 @@ var $$ = Object.create(null);
         }
       return false;
     },
-    retainWhere$1: function(receiver, test) {
-      H.IterableMixinWorkaround_removeWhereList(receiver, new J.JSArray_retainWhere_closure(receiver, test));
-    },
     addAll$1: function(receiver, collection) {
       var t1;
       for (t1 = J.get$iterator$ax(collection); t1.moveNext$0();)
         this.add$1(receiver, t1.get$current());
-    },
-    clear$0: function(receiver) {
-      this.set$length(receiver, 0);
     },
     forEach$1: function(receiver, f) {
       var t1, $length, i;
@@ -491,6 +598,9 @@ var $$ = Object.create(null);
           return true;
       return false;
     },
+    get$isNotEmpty: function(receiver) {
+      return receiver.length !== 0;
+    },
     toString$0: function(receiver) {
       return P.IterableBase_iterableToFullString(receiver, "[", "]");
     },
@@ -508,7 +618,7 @@ var $$ = Object.create(null);
       return this.toList$1$growable($receiver, true);
     },
     get$iterator: function(receiver) {
-      return H.setRuntimeTypeInfo(new H.ListIterator(receiver, receiver.length, 0, null), [H.getTypeArgumentByIndex(receiver, 0)]);
+      return new H.ListIterator(receiver, receiver.length, 0, null);
     },
     get$hashCode: function(receiver) {
       return H.Primitives_objectHashCode(receiver);
@@ -550,20 +660,8 @@ var $$ = Object.create(null);
         return t1;
       }}
   },
-  JSArray_retainWhere_closure: {
-    "^": "Closure;this_0,test_1",
-    call$1: function(element) {
-      return this.test_1.call$1(element) !== true;
-    },
-    $isFunction: true,
-    $signature: function() {
-      return H.computeSignature(function(E) {
-        return {func: "dynamic__E", args: [E]};
-      }, this.this_0, "JSArray");
-    }
-  },
   JSArray_forEach_getLength: {
-    "^": "Closure:37;this_0",
+    "^": "Closure:33;this_0",
     call$0: function() {
       return this.this_0.length;
     },
@@ -757,6 +855,16 @@ var $$ = Object.create(null);
         throw H.wrapException(P.RangeError$value(index));
       return receiver.charCodeAt(index);
     },
+    allMatches$2: function(receiver, string, start) {
+      H.checkString(string);
+      H.checkInt(start);
+      if (start > string.length)
+        throw H.wrapException(P.RangeError$range(start, 0, string.length));
+      return H.allMatchesInStringUnchecked(receiver, string, start);
+    },
+    allMatches$1: function($receiver, string) {
+      return this.allMatches$2($receiver, string, 0);
+    },
     $add: function(receiver, other) {
       if (typeof other !== "string")
         throw H.wrapException(P.ArgumentError$(other));
@@ -770,13 +878,6 @@ var $$ = Object.create(null);
       if (otherLength > t1)
         return false;
       return other === this.substring$1(receiver, t1 - otherLength);
-    },
-    replaceAll$2: function(receiver, from, to) {
-      H.checkString(to);
-      return H.stringReplaceAllUnchecked(receiver, from, to);
-    },
-    split$1: function(receiver, pattern) {
-      return receiver.split(pattern);
     },
     startsWith$2: function(receiver, pattern, index) {
       var endIndex;
@@ -792,17 +893,17 @@ var $$ = Object.create(null);
       return this.startsWith$2($receiver, pattern, 0);
     },
     substring$2: function(receiver, startIndex, endIndex) {
+      var t1;
       H.checkInt(startIndex);
       if (endIndex == null)
         endIndex = receiver.length;
       H.checkInt(endIndex);
-      if (startIndex < 0)
+      t1 = J.getInterceptor$n(startIndex);
+      if (t1.$lt(startIndex, 0))
         throw H.wrapException(P.RangeError$value(startIndex));
-      if (typeof endIndex !== "number")
-        return H.iae(endIndex);
-      if (startIndex > endIndex)
+      if (t1.$gt(startIndex, endIndex))
         throw H.wrapException(P.RangeError$value(startIndex));
-      if (endIndex > receiver.length)
+      if (J.$gt$n(endIndex, receiver.length))
         throw H.wrapException(P.RangeError$value(endIndex));
       return receiver.substring(startIndex, endIndex);
     },
@@ -854,12 +955,18 @@ var $$ = Object.create(null);
       return result;
     },
     indexOf$2: function(receiver, pattern, start) {
+      if (typeof start !== "number" || Math.floor(start) !== start)
+        throw H.wrapException(P.ArgumentError$(start));
       if (start < 0 || start > receiver.length)
         throw H.wrapException(P.RangeError$range(start, 0, receiver.length));
       return receiver.indexOf(pattern, start);
     },
     contains$2: function(receiver, other, startIndex) {
-      if (startIndex > receiver.length)
+      var t1;
+      if (other == null)
+        H.throwExpression(P.ArgumentError$(null));
+      t1 = J.getInterceptor$n(startIndex);
+      if (t1.$lt(startIndex, 0) || t1.$gt(startIndex, receiver.length))
         throw H.wrapException(P.RangeError$range(startIndex, 0, receiver.length));
       return H.stringContainsUnchecked(receiver, other, startIndex);
     },
@@ -1102,7 +1209,7 @@ var $$ = Object.create(null);
       case "error":
         throw H.wrapException(t1.$index(msg, "msg"));
     }
-  }, "call$2", "IsolateNatives__processWorkerMessage$closure", 4, 0, null, 1, 2],
+  }, "call$2", "IsolateNatives__processWorkerMessage$closure", 4, 0, null, 2, 3],
   IsolateNatives__log: function(msg) {
     var trace, t1, t2, exception;
     if (init.globalState.isWorker === true) {
@@ -1165,14 +1272,14 @@ var $$ = Object.create(null);
     return x == null || typeof x === "string" || typeof x === "number" || typeof x === "boolean";
   },
   startRootIsolate_closure: {
-    "^": "Closure:11;box_0,entry_1",
+    "^": "Closure:34;box_0,entry_1",
     call$0: function() {
       this.entry_1.call$1(this.box_0.args_0);
     },
     $isFunction: true
   },
   startRootIsolate_closure0: {
-    "^": "Closure:11;box_0,entry_2",
+    "^": "Closure:34;box_0,entry_2",
     call$0: function() {
       this.entry_2.call$2(this.box_0.args_0, null);
     },
@@ -1216,7 +1323,7 @@ var $$ = Object.create(null);
     },
     static: {_Manager__serializePrintMessage: [function(object) {
         return H._serializeMessage(P.LinkedHashMap_LinkedHashMap$_literal(["command", "print", "msg", object], null, null));
-      }, "call$1", "_Manager__serializePrintMessage$closure", 2, 0, null, 0]}
+      }, "call$1", "_Manager__serializePrintMessage$closure", 2, 0, null, 1]}
   },
   _IsolateContext: {
     "^": "Object;id>,ports,weakPorts,isolateStatics<,controlPort<,pauseCapability,terminateCapability,initialized?,isPaused<,delayedEvents<,pauseTokens,doneHandlers,_scheduledControlEvents,_isExecutingEvent,errorsAreFatal,errorPorts",
@@ -1233,7 +1340,7 @@ var $$ = Object.create(null);
         return;
       t1 = this.pauseTokens;
       t1.remove$1(0, resume);
-      if (t1._length === 0) {
+      if (t1._collection$_length === 0) {
         for (t1 = this.delayedEvents; t2 = t1.length, t2 !== 0;) {
           if (0 >= t2)
             return H.ioore(t1, 0);
@@ -1326,9 +1433,9 @@ var $$ = Object.create(null);
       t1._add$1(this.get$kill());
     },
     handleUncaughtError$2: function(error, stackTrace) {
-      var t1, message;
+      var t1, message, t2;
       t1 = this.errorPorts;
-      if (t1._length === 0) {
+      if (t1._collection$_length === 0) {
         if (this.errorsAreFatal === true && this === init.globalState.rootContext)
           return;
         if (self.console && self.console.error)
@@ -1344,8 +1451,8 @@ var $$ = Object.create(null);
       message.fixed$length = init;
       message[0] = J.toString$0(error);
       message[1] = stackTrace == null ? null : J.toString$0(stackTrace);
-      for (t1 = H.setRuntimeTypeInfo(new P.LinkedHashSetIterator(t1, t1._modifications, null, null), [null]), t1._cell = t1._set._first; t1.moveNext$0();)
-        J.send$1$x(t1._collection$_current, message);
+      for (t2 = new P.LinkedHashSetIterator(t1, t1._modifications, null, null), t2._cell = t1._first; t2.moveNext$0();)
+        J.send$1$x(t2._collection$_current, message);
     },
     eval$1: function(code) {
       var old, result, e, s, exception, t1;
@@ -1420,7 +1527,7 @@ var $$ = Object.create(null);
       t1.$indexSet(0, portId, port);
     },
     _updateGlobalState$0: function() {
-      if (this.ports._length - this.weakPorts._length > 0 || this.isPaused || !this.initialized)
+      if (this.ports._collection$_length - this.weakPorts._collection$_length > 0 || this.isPaused || !this.initialized)
         init.globalState.isolates.$indexSet(0, this.id, this);
       else
         this.kill$0();
@@ -1431,21 +1538,21 @@ var $$ = Object.create(null);
       if (t1 != null)
         t1.clear$0(0);
       for (t1 = this.ports, t2 = t1.get$values(t1), t3 = t2._iterable, t2 = H.setRuntimeTypeInfo(new H.MappedIterator(null, t3.get$iterator(t3), t2._f), [H.getTypeArgumentByIndex(t2, 0), H.getTypeArgumentByIndex(t2, 1)]); t2.moveNext$0();)
-        t2._current.__isolate_helper$_close$0();
+        t2.__internal$_current.__isolate_helper$_close$0();
       t1.clear$0(0);
       this.weakPorts.clear$0(0);
       init.globalState.isolates.remove$1(0, this.id);
       this.errorPorts.clear$0(0);
       t1 = this.doneHandlers;
       if (t1 != null) {
-        for (t1 = H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]); t1.moveNext$0();)
-          J.send$1$x(t1._current, null);
+        for (t1 = new H.ListIterator(t1, t1.length, 0, null); t1.moveNext$0();)
+          J.send$1$x(t1.__internal$_current, null);
         this.doneHandlers = null;
       }
-    }, "call$0", "get$kill", 0, 0, 13]
+    }, "call$0", "get$kill", 0, 0, 0]
   },
   _IsolateContext_handlePing_respond: {
-    "^": "Closure:13;responsePort_0",
+    "^": "Closure:0;responsePort_0",
     call$0: [function() {
       J.send$1$x(this.responsePort_0, null);
     }, "call$0", null, 0, 0, null, "call"],
@@ -1463,10 +1570,10 @@ var $$ = Object.create(null);
       var $event, t1, t2;
       $event = this.dequeue$0();
       if ($event == null) {
-        if (init.globalState.rootContext != null && init.globalState.isolates.containsKey$1(init.globalState.rootContext.id) && init.globalState.fromCommandLine === true && init.globalState.rootContext.ports._length === 0)
+        if (init.globalState.rootContext != null && init.globalState.isolates.containsKey$1(init.globalState.rootContext.id) && init.globalState.fromCommandLine === true && init.globalState.rootContext.ports._collection$_length === 0)
           H.throwExpression(P.Exception_Exception("Program exited with open ReceivePorts."));
         t1 = init.globalState;
-        if (t1.isWorker === true && t1.isolates._length === 0 && t1.topEventLoop._activeJsAsyncCount === 0) {
+        if (t1.isWorker === true && t1.isolates._collection$_length === 0 && t1.topEventLoop._activeJsAsyncCount === 0) {
           t1 = t1.mainManager;
           t2 = H._serializeMessage(P.LinkedHashMap_LinkedHashMap$_literal(["command", "close"], null, null));
           t1.toString;
@@ -1504,7 +1611,7 @@ var $$ = Object.create(null);
     }
   },
   _EventLoop__runHelper_next: {
-    "^": "Closure:13;this_0",
+    "^": "Closure:0;this_0",
     call$0: function() {
       if (!this.this_0.runIteration$0())
         return;
@@ -1527,14 +1634,14 @@ var $$ = Object.create(null);
     "^": "Object;"
   },
   IsolateNatives__processWorkerMessage_closure: {
-    "^": "Closure:11;entryPoint_0,args_1,message_2,isSpawnUri_3,startPaused_4,replyTo_5",
+    "^": "Closure:34;entryPoint_0,args_1,message_2,isSpawnUri_3,startPaused_4,replyTo_5",
     call$0: [function() {
       H.IsolateNatives__startIsolate(this.entryPoint_0, this.args_1, this.message_2, this.isSpawnUri_3, this.startPaused_4, this.replyTo_5);
     }, "call$0", null, 0, 0, null, "call"],
     $isFunction: true
   },
   IsolateNatives__startIsolate_runStartFunction: {
-    "^": "Closure:13;topLevel_0,args_1,message_2,isSpawnUri_3,context_4",
+    "^": "Closure:0;topLevel_0,args_1,message_2,isSpawnUri_3,context_4",
     call$0: [function() {
       var t1, t2, t3;
       this.context_4.set$initialized(true);
@@ -1599,7 +1706,7 @@ var $$ = Object.create(null);
     $isCapability: true
   },
   _NativeJsSendPort_send_closure: {
-    "^": "Closure:11;box_0,this_1,shouldSerialize_2",
+    "^": "Closure:34;box_0,this_1,shouldSerialize_2",
     call$0: [function() {
       var t1, t2;
       t1 = this.this_1._receivePort;
@@ -1843,7 +1950,7 @@ var $$ = Object.create(null);
     }
   },
   _Copier_visitMap_closure: {
-    "^": "Closure:38;box_0,this_1",
+    "^": "Closure:32;box_0,this_1",
     call$2: function(key, val) {
       var t1 = this.this_1;
       J.$indexSet$ax(this.box_0.copy_0, t1._dispatch$1(key), t1._dispatch$1(val));
@@ -2014,7 +2121,7 @@ var $$ = Object.create(null);
       }}
   },
   TimerImpl_internalCallback: {
-    "^": "Closure:13;this_0,callback_1",
+    "^": "Closure:0;this_0,callback_1",
     call$0: [function() {
       this.this_0._handle = null;
       this.callback_1.call$0();
@@ -2022,7 +2129,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   TimerImpl_internalCallback0: {
-    "^": "Closure:13;this_2,callback_3",
+    "^": "Closure:0;this_2,callback_3",
     call$0: [function() {
       this.this_2._handle = null;
       H.leaveJsAsync();
@@ -2102,7 +2209,7 @@ var $$ = Object.create(null);
   },
   Primitives__throwFormatException: [function(string) {
     throw H.wrapException(P.FormatException$(string, null, null));
-  }, "call$1", "Primitives__throwFormatException$closure", 2, 0, 3],
+  }, "call$1", "Primitives__throwFormatException$closure", 2, 0, 4],
   Primitives_parseInt: function(source, radix, handleError) {
     var match, t1;
     if (handleError == null)
@@ -2391,7 +2498,7 @@ var $$ = Object.create(null);
       return H._callInIsolate(isolate, new H.invokeClosure_closure3(closure, arg1, arg2, arg3, arg4));
     else
       throw H.wrapException(P.Exception_Exception("Unsupported number of arguments for wrapped closure"));
-  }, "call$7", "invokeClosure$closure", 14, 0, null, 4, 5, 6, 7, 8, 9, 10],
+  }, "call$7", "invokeClosure$closure", 14, 0, null, 5, 6, 7, 8, 9, 10, 11],
   convertDartClosureToJS: function(closure, arity) {
     var $function;
     if (closure == null)
@@ -2655,11 +2762,6 @@ var $$ = Object.create(null);
       return value;
     H.propertyTypeCastError(value, property);
   },
-  listTypeCast: function(value) {
-    if (!!J.getInterceptor(value).$isList || value == null)
-      return value;
-    throw H.wrapException(H.CastErrorImplementation$(H.Primitives_objectTypeName(value), "List"));
-  },
   throwCyclicInit: function(staticName) {
     throw H.wrapException(P.CyclicInitializationError$("Cyclic initialization for static " + H.S(staticName)));
   },
@@ -2671,9 +2773,6 @@ var $$ = Object.create(null);
   },
   random64: function() {
     return (Math.random() * 0x100000000 >>> 0) + (Math.random() * 0x100000000 >>> 0) * 4294967296;
-  },
-  createRuntimeType: function($name) {
-    return new H.TypeImpl($name, null);
   },
   setRuntimeTypeInfo: function(target, typeInfo) {
     if (target != null)
@@ -2725,12 +2824,6 @@ var $$ = Object.create(null);
       buffer._contents += typeof str === "string" ? str : H.S(str);
     }
     return allDynamic ? "" : "<" + H.S(buffer) + ">";
-  },
-  getRuntimeTypeString: function(object) {
-    var className = J.getInterceptor(object).constructor.builtin$cls;
-    if (object == null)
-      return className;
-    return className + H.joinArguments(object.$builtinTypeInfo, 0, null);
   },
   substitute: function(substitution, $arguments) {
     if (typeof substitution === "object" && substitution !== null && substitution.constructor === Array)
@@ -3038,8 +3131,36 @@ var $$ = Object.create(null);
   applyHooksTransformer: function(transformer, hooks) {
     return transformer(hooks) || hooks;
   },
+  allMatchesInStringUnchecked: function(needle, haystack, startIndex) {
+    var result, $length, patternLength, position, endIndex;
+    result = H.setRuntimeTypeInfo([], [P.Match]);
+    $length = haystack.length;
+    patternLength = needle.length;
+    for (; true;) {
+      position = C.JSString_methods.indexOf$2(haystack, needle, startIndex);
+      if (position === -1)
+        break;
+      result.push(new H.StringMatch(position, haystack, needle));
+      endIndex = position + patternLength;
+      if (endIndex === $length)
+        break;
+      else
+        startIndex = position === endIndex ? startIndex + 1 : endIndex;
+    }
+    return result;
+  },
   stringContainsUnchecked: function(receiver, other, startIndex) {
-    return C.JSString_methods.indexOf$2(receiver, other, startIndex) !== -1;
+    var t1;
+    if (typeof other === "string")
+      return C.JSString_methods.indexOf$2(receiver, other, startIndex) !== -1;
+    else {
+      t1 = J.getInterceptor(other);
+      if (!!t1.$isJSSyntaxRegExp) {
+        t1 = C.JSString_methods.substring$1(receiver, startIndex);
+        return other._nativeRegExp.test(H.checkString(t1));
+      } else
+        return J.get$isNotEmpty$asx(t1.allMatches$1(other, C.JSString_methods.substring$1(receiver, startIndex)));
+    }
   },
   stringReplaceAllUnchecked: function(receiver, from, to) {
     var result, $length, i, t1;
@@ -3069,9 +3190,9 @@ var $$ = Object.create(null);
     return C.JSString_methods.substring$2(receiver, 0, index) + to + C.JSString_methods.substring$1(receiver, index + from.length);
   },
   JSInvocationMirror: {
-    "^": "Object;_memberName,_internalName,_kind,_arguments,_namedArgumentNames,_namedIndices",
+    "^": "Object;__js_helper$_memberName,_internalName,_kind,_arguments,_namedArgumentNames,_namedIndices",
     get$memberName: function() {
-      return this._memberName;
+      return this.__js_helper$_memberName;
     },
     get$positionalArguments: function() {
       var t1, argumentCount, list, index;
@@ -3181,7 +3302,7 @@ var $$ = Object.create(null);
       }}
   },
   ReflectionInfo_sortedIndex_closure: {
-    "^": "Closure:3;box_0,this_1,positions_2",
+    "^": "Closure:4;box_0,this_1,positions_2",
     call$1: function($name) {
       var t1, t2, t3;
       t1 = this.this_1.cachedSortedIndices;
@@ -3194,7 +3315,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   Primitives_functionNoSuchMethod_closure: {
-    "^": "Closure:39;box_0,arguments_1,namedArgumentList_2",
+    "^": "Closure:35;box_0,arguments_1,namedArgumentList_2",
     call$2: function($name, argument) {
       var t1 = this.box_0;
       t1.names_1 = t1.names_1 + "$" + H.S($name);
@@ -3205,7 +3326,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   Primitives_applyFunction_closure: {
-    "^": "Closure:39;box_0,defaultArguments_1",
+    "^": "Closure:35;box_0,defaultArguments_1",
     call$2: function(parameter, value) {
       var t1 = this.defaultArguments_1;
       if (t1.containsKey$1(parameter))
@@ -3312,7 +3433,7 @@ var $$ = Object.create(null);
     }
   },
   unwrapException_saveStackTrace: {
-    "^": "Closure:27;ex_0",
+    "^": "Closure:26;ex_0",
     call$1: function(error) {
       if (!!J.getInterceptor(error).$isError)
         if (error.$thrownJsError == null)
@@ -3336,35 +3457,35 @@ var $$ = Object.create(null);
     }
   },
   invokeClosure_closure: {
-    "^": "Closure:11;closure_0",
+    "^": "Closure:34;closure_0",
     call$0: function() {
       return this.closure_0.call$0();
     },
     $isFunction: true
   },
   invokeClosure_closure0: {
-    "^": "Closure:11;closure_1,arg1_2",
+    "^": "Closure:34;closure_1,arg1_2",
     call$0: function() {
       return this.closure_1.call$1(this.arg1_2);
     },
     $isFunction: true
   },
   invokeClosure_closure1: {
-    "^": "Closure:11;closure_3,arg1_4,arg2_5",
+    "^": "Closure:34;closure_3,arg1_4,arg2_5",
     call$0: function() {
       return this.closure_3.call$2(this.arg1_4, this.arg2_5);
     },
     $isFunction: true
   },
   invokeClosure_closure2: {
-    "^": "Closure:11;closure_6,arg1_7,arg2_8,arg3_9",
+    "^": "Closure:34;closure_6,arg1_7,arg2_8,arg3_9",
     call$0: function() {
       return this.closure_6.call$3(this.arg1_7, this.arg2_8, this.arg3_9);
     },
     $isFunction: true
   },
   invokeClosure_closure3: {
-    "^": "Closure:11;closure_10,arg1_11,arg2_12,arg3_13,arg4_14",
+    "^": "Closure:34;closure_10,arg1_11,arg2_12,arg3_13,arg4_14",
     call$0: function() {
       return this.closure_10.call$4(this.arg1_11, this.arg2_12, this.arg3_13, this.arg4_14);
     },
@@ -3385,7 +3506,7 @@ var $$ = Object.create(null);
     "^": "Closure;"
   },
   BoundClosure: {
-    "^": "TearOffClosure;_self,_target,_receiver,__js_helper$_name",
+    "^": "TearOffClosure;_self,__js_helper$_target,_receiver,__js_helper$_name",
     $eq: function(_, other) {
       if (other == null)
         return false;
@@ -3393,7 +3514,7 @@ var $$ = Object.create(null);
         return true;
       if (!J.getInterceptor(other).$isBoundClosure)
         return false;
-      return this._self === other._self && this._target === other._target && this._receiver === other._receiver;
+      return this._self === other._self && this.__js_helper$_target === other.__js_helper$_target && this._receiver === other._receiver;
     },
     get$hashCode: function(_) {
       var t1, receiverHashCode;
@@ -3402,7 +3523,7 @@ var $$ = Object.create(null);
         receiverHashCode = H.Primitives_objectHashCode(this._self);
       else
         receiverHashCode = typeof t1 !== "object" ? J.get$hashCode$(t1) : H.Primitives_objectHashCode(t1);
-      return J.$xor$n(receiverHashCode, H.Primitives_objectHashCode(this._target));
+      return J.$xor$n(receiverHashCode, H.Primitives_objectHashCode(this.__js_helper$_target));
     },
     $isBoundClosure: true,
     static: {"^": "BoundClosure_selfFieldNameCache,BoundClosure_receiverFieldNameCache", BoundClosure_selfOf: function(closure) {
@@ -3547,45 +3668,22 @@ var $$ = Object.create(null);
     },
     $isDynamicRuntimeType: true
   },
-  TypeImpl: {
-    "^": "Object;_typeName,_unmangledName",
-    toString$0: function(_) {
-      var t1, unmangledName;
-      t1 = this._unmangledName;
-      if (t1 != null)
-        return t1;
-      unmangledName = this._typeName.replace(/[^<,> ]+/g, function(m) {
-        return init.mangledGlobalNames[m] || m;
-      });
-      this._unmangledName = unmangledName;
-      return unmangledName;
-    },
-    get$hashCode: function(_) {
-      return J.get$hashCode$(this._typeName);
-    },
-    $eq: function(_, other) {
-      if (other == null)
-        return false;
-      return !!J.getInterceptor(other).$isTypeImpl && J.$eq(this._typeName, other._typeName);
-    },
-    $isTypeImpl: true
-  },
   initHooks_closure: {
-    "^": "Closure:27;getTag_0",
+    "^": "Closure:26;getTag_0",
     call$1: function(o) {
       return this.getTag_0(o);
     },
     $isFunction: true
   },
   initHooks_closure0: {
-    "^": "Closure:40;getUnknownTag_1",
+    "^": "Closure:36;getUnknownTag_1",
     call$2: function(o, tag) {
       return this.getUnknownTag_1(o, tag);
     },
     $isFunction: true
   },
   initHooks_closure1: {
-    "^": "Closure:3;prototypeForTag_2",
+    "^": "Closure:4;prototypeForTag_2",
     call$1: function(tag) {
       return this.prototypeForTag_2(tag);
     },
@@ -3593,12 +3691,41 @@ var $$ = Object.create(null);
   },
   JSSyntaxRegExp: {
     "^": "Object;pattern,_nativeRegExp,_nativeGlobalRegExp,_nativeAnchoredRegExp",
+    get$_nativeGlobalVersion: function() {
+      var t1 = this._nativeGlobalRegExp;
+      if (t1 != null)
+        return t1;
+      t1 = this._nativeRegExp;
+      t1 = H.JSSyntaxRegExp_makeNative(this.pattern, t1.multiline, !t1.ignoreCase, true);
+      this._nativeGlobalRegExp = t1;
+      return t1;
+    },
     firstMatch$1: function(string) {
       var m = this._nativeRegExp.exec(H.checkString(string));
       if (m == null)
         return;
       return H._MatchImplementation$(this, m);
     },
+    allMatches$2: function(_, string, start) {
+      H.checkString(string);
+      H.checkInt(start);
+      if (start > string.length)
+        throw H.wrapException(P.RangeError$range(start, 0, string.length));
+      return new H._AllMatchesIterable(this, string, start);
+    },
+    allMatches$1: function($receiver, string) {
+      return this.allMatches$2($receiver, string, 0);
+    },
+    _execGlobal$2: function(string, start) {
+      var regexp, match;
+      regexp = this.get$_nativeGlobalVersion();
+      regexp.lastIndex = start;
+      match = regexp.exec(string);
+      if (match == null)
+        return;
+      return H._MatchImplementation$(this, match);
+    },
+    $isJSSyntaxRegExp: true,
     static: {JSSyntaxRegExp_makeNative: function(source, multiLine, caseSensitive, global) {
         var m, i, g, regexp, errorMessage;
         H.checkString(source);
@@ -3634,123 +3761,80 @@ var $$ = Object.create(null);
         t1._MatchImplementation$2(pattern, _match);
         return t1;
       }}
+  },
+  _AllMatchesIterable: {
+    "^": "IterableBase;_re,_string,_start",
+    get$iterator: function(_) {
+      return new H._AllMatchesIterator(this._re, this._string, this._start, null);
+    },
+    $asIterableBase: function() {
+      return [P.Match];
+    }
+  },
+  _AllMatchesIterator: {
+    "^": "Object;_regExp,_string,_nextIndex,__js_helper$_current",
+    get$current: function() {
+      return this.__js_helper$_current;
+    },
+    moveNext$0: function() {
+      var t1, t2, match, t3, nextIndex;
+      t1 = this._string;
+      if (t1 == null)
+        return false;
+      t2 = this._nextIndex;
+      if (t2 <= t1.length) {
+        match = this._regExp._execGlobal$2(t1, t2);
+        if (match != null) {
+          this.__js_helper$_current = match;
+          t1 = match._match;
+          t2 = t1.index;
+          if (0 >= t1.length)
+            return H.ioore(t1, 0);
+          t3 = J.get$length$asx(t1[0]);
+          if (typeof t3 !== "number")
+            return H.iae(t3);
+          nextIndex = t2 + t3;
+          this._nextIndex = t1.index === nextIndex ? nextIndex + 1 : nextIndex;
+          return true;
+        }
+      }
+      this.__js_helper$_current = null;
+      this._string = null;
+      return false;
+    }
+  },
+  StringMatch: {
+    "^": "Object;start,input,pattern",
+    $index: function(_, g) {
+      if (!J.$eq(g, 0))
+        H.throwExpression(P.RangeError$value(g));
+      return this.pattern;
+    }
   }
 }],
-["", "cust.dart", , A, {
-  "^": "",
-  main: [function() {
-    var t1 = document;
-    W._registerCustomElement(window, t1, "cj-grid", C.Type_chs, null);
-    if ($._styleElement == null) {
-      t1 = document.createElement("style", null);
-      $._styleElement = t1;
-      document.head.appendChild(t1);
-      J.insertRule$2$x(J.get$sheet$x($._styleElement), "cj-grid { display:block; }", 0);
-    }
-    W.HttpRequest_getString("gss1983_Code.csv", null, null).then$1(new A.main_closure());
-  }, "call$0", "main$closure", 0, 0, 11],
-  getColDefs: function(cols) {
-    var newCols, t1, t2, t3, t4, t5, checkboxCol, elem;
-    newCols = cols.map$1(cols, new A.getColDefs_closure()).toList$0(0);
-    t1 = P.LinkedHashMap_LinkedHashMap$_literal(["cssClass", "slick-cell-checkboxsel"], null, null);
-    t2 = P.LinkedHashMap_LinkedHashMap$_literal(["columnId", "_checkbox_selector", "cssClass", null, "toolTip", "Select/Deselect All", "width", 30], null, null);
-    t3 = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
-    t4 = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
-    t5 = P.LinkedHashMap_LinkedHashMap$_literal(["name", "", "resizable", true, "sortable", false, "minWidth", 30, "rerenderOnResize", false, "headerCssClass", null, "defaultSortAsc", true, "focusable", true, "selectable", true, "cannotTriggerInsert", false], null, null);
-    checkboxCol = new Z.CheckboxSelectColumn(null, t2, null, new B.EventHandler([]), t3, t4, t5);
-    t4.addAll$1(0, t5);
-    checkboxCol.CheckboxSelectColumn$1(t1);
-    elem = W.InputElement_InputElement(null);
-    J.set$type$x(elem, "checkbox");
-    t4.addAll$1(0, P.LinkedHashMap_LinkedHashMap$_literal(["id", checkboxCol._column$_options.$index(0, "columnId"), "name", elem, "toolTip", checkboxCol._column$_options.$index(0, "toolTip"), "field", "sel", "width", checkboxCol._column$_options.$index(0, "width"), "resizable", false, "sortable", false, "cssClass", checkboxCol._column$_options.$index(0, "cssClass"), "formatter", checkboxCol.get$checkboxSelectionFormatter()], null, null));
-    C.JSArray_methods.insert$2(newCols, 0, checkboxCol);
-    return newCols;
-  },
-  main_closure: {
-    "^": "Closure:27;",
-    call$1: [function(data) {
-      var csv, cols, t1, t2, gw0;
-      csv = G.CsvAdapter$(data, 8, 10);
-      cols = A.getColDefs(csv._cols);
-      if (1 >= cols.length)
-        return H.ioore(cols, 1);
-      t1 = cols[1];
-      t2 = J.getInterceptor$x(t1);
-      t2.set$width(t1, 20);
-      t2.set$name(t1, "id");
-      t1 = csv._cols.innerList;
-      if (0 >= t1.length)
-        return H.ioore(t1, 0);
-      t1 = t1[0];
-      t2 = J.getInterceptor$x(t1);
-      t2.set$width(t1, 14);
-      t2.set$name(t1, "id");
-      gw0 = document.querySelector("cj-grid.second");
-      t1 = J.getInterceptor$x(gw0);
-      t1.init$2(gw0, J.sublist$2$ax(csv._data, 1, 2000), cols);
-      J.init$2$x(document.querySelector("cj-grid.first"), csv._data, csv._cols);
-      J.init$2$x(H.interceptedTypeCast(document.querySelector("cj-grid.third"), "$isJGrid"), csv._data, csv._cols);
-      J.init$2$x(H.interceptedTypeCast(document.querySelector("cj-grid.forth"), "$isJGrid"), csv._data, csv._cols);
-      t1.get$grid(gw0).setSelectionModel$1(V.RowSelectionModel$(P.LinkedHashMap_LinkedHashMap$_literal(["selectActiveRow", false], null, null)));
-      t1.get$grid(gw0).onSelectedRowsChanged.handlers.push(new A.main__closure());
-    }, "call$1", null, 2, 0, null, 41, "call"],
-    $isFunction: true
-  },
-  main__closure: {
-    "^": "Closure:43;",
-    call$2: [function(e, args) {
-      var t1, t2;
-      t1 = document.querySelector(".right-pane");
-      J.get$children$x(t1).clear$0(0);
-      t2 = J.join$1$ax(H.listTypeCast(J.$index$asx(args, "rows")), " ");
-      t1.appendChild(document.createTextNode(t2));
-    }, "call$2", null, 4, 0, null, 2, 42, "call"],
-    $isFunction: true
-  },
-  getColDefs_closure: {
-    "^": "Closure:27;",
-    call$1: [function(col) {
-      return Z.Column_Column$fromColumn(col);
-    }, "call$1", null, 2, 0, null, 44, "call"],
-    $isFunction: true
-  }
-},
-1],
 ["dart._internal", "dart:_internal", , H, {
   "^": "",
   IterableMixinWorkaround_any: function(iterable, f) {
     var t1;
-    for (t1 = H.setRuntimeTypeInfo(new H.ListIterator(iterable, iterable.length, 0, null), [H.getTypeArgumentByIndex(iterable, 0)]); t1.moveNext$0();)
-      if (f.call$1(t1._current) === true)
+    for (t1 = new H.ListIterator(iterable, iterable.length, 0, null); t1.moveNext$0();)
+      if (f.call$1(t1.__internal$_current) === true)
         return true;
     return false;
   },
   IterableMixinWorkaround_fold: function(iterable, initialValue, combine) {
     var t1;
-    for (t1 = H.setRuntimeTypeInfo(new H.ListIterator(iterable, iterable.length, 0, null), [H.getTypeArgumentByIndex(iterable, 0)]); t1.moveNext$0();)
-      initialValue = combine.call$2(initialValue, t1._current);
+    for (t1 = new H.ListIterator(iterable, iterable.length, 0, null); t1.moveNext$0();)
+      initialValue = combine.call$2(initialValue, t1.__internal$_current);
     return initialValue;
   },
-  IterableMixinWorkaround_removeWhereList: function(list, test) {
-    var retained, $length, t1, i, element;
-    retained = [];
-    $length = list.length;
-    for (t1 = $length, i = 0; i < $length; ++i) {
-      if (i >= t1)
-        return H.ioore(list, i);
-      element = list[i];
-      if (test.call$1(element) !== true)
-        retained.push(element);
-      t1 = list.length;
-      if ($length !== t1)
-        throw H.wrapException(P.ConcurrentModificationError$(list));
+  IterableMixinWorkaround_firstWhere: function(iterable, test, orElse) {
+    var t1, element;
+    for (t1 = new H.ListIterator(iterable, iterable.length, 0, null); t1.moveNext$0();) {
+      element = t1.__internal$_current;
+      if (test.call$1(element) === true)
+        return element;
     }
-    t1 = retained.length;
-    if (t1 === $length)
-      return;
-    C.JSArray_methods.set$length(list, t1);
-    for (i = 0; i < retained.length; ++i)
-      C.JSArray_methods.$indexSet(list, i, retained[i]);
+    throw H.wrapException(H.IterableElementError_noElement());
   },
   IterableMixinWorkaround_sortList: function(list, compare) {
     if (compare == null)
@@ -4024,7 +4108,7 @@ var $$ = Object.create(null);
   ListIterable: {
     "^": "IterableBase;",
     get$iterator: function(_) {
-      return H.setRuntimeTypeInfo(new H.ListIterator(this, this.get$length(this), 0, null), [H.getRuntimeTypeArgument(this, "ListIterable", 0)]);
+      return new H.ListIterator(this, this.get$length(this), 0, null);
     },
     forEach$1: function(_, action) {
       var $length, i;
@@ -4034,6 +4118,9 @@ var $$ = Object.create(null);
         if ($length !== this.get$length(this))
           throw H.wrapException(P.ConcurrentModificationError$(this));
       }
+    },
+    get$isEmpty: function(_) {
+      return this.get$length(this) === 0;
     },
     get$first: function(_) {
       if (this.get$length(this) === 0)
@@ -4050,33 +4137,12 @@ var $$ = Object.create(null);
       }
       return value;
     },
-    toList$1$growable: function(_, growable) {
-      var result, t1, i;
-      if (growable) {
-        result = H.setRuntimeTypeInfo([], [H.getRuntimeTypeArgument(this, "ListIterable", 0)]);
-        C.JSArray_methods.set$length(result, this.get$length(this));
-      } else {
-        t1 = Array(this.get$length(this));
-        t1.fixed$length = init;
-        result = H.setRuntimeTypeInfo(t1, [H.getRuntimeTypeArgument(this, "ListIterable", 0)]);
-      }
-      for (i = 0; i < this.get$length(this); ++i) {
-        t1 = this.elementAt$1(0, i);
-        if (i >= result.length)
-          return H.ioore(result, i);
-        result[i] = t1;
-      }
-      return result;
-    },
-    toList$0: function($receiver) {
-      return this.toList$1$growable($receiver, true);
-    },
     $isEfficientLength: true
   },
   ListIterator: {
-    "^": "Object;_iterable,__internal$_length,_index,_current",
+    "^": "Object;_iterable,__internal$_length,_index,__internal$_current",
     get$current: function() {
-      return this._current;
+      return this.__internal$_current;
     },
     moveNext$0: function() {
       var t1, t2, $length, t3;
@@ -4087,10 +4153,10 @@ var $$ = Object.create(null);
         throw H.wrapException(P.ConcurrentModificationError$(t1));
       t3 = this._index;
       if (t3 >= $length) {
-        this._current = null;
+        this.__internal$_current = null;
         return false;
       }
-      this._current = t2.elementAt$1(t1, t3);
+      this.__internal$_current = t2.elementAt$1(t1, t3);
       ++this._index;
       return true;
     }
@@ -4107,6 +4173,10 @@ var $$ = Object.create(null);
       var t1 = this._iterable;
       return t1.get$length(t1);
     },
+    get$isEmpty: function(_) {
+      var t1 = this._iterable;
+      return t1.get$isEmpty(t1);
+    },
     $asIterableBase: function($S, $T) {
       return [$T];
     },
@@ -4121,24 +4191,21 @@ var $$ = Object.create(null);
     $isEfficientLength: true
   },
   MappedIterator: {
-    "^": "Iterator;_current,_iterator,_f",
+    "^": "Iterator;__internal$_current,_iterator,_f",
     _f$1: function(arg0) {
       return this._f.call$1(arg0);
     },
     moveNext$0: function() {
       var t1 = this._iterator;
       if (t1.moveNext$0()) {
-        this._current = this._f$1(t1.get$current());
+        this.__internal$_current = this._f$1(t1.get$current());
         return true;
       }
-      this._current = null;
+      this.__internal$_current = null;
       return false;
     },
     get$current: function() {
-      return this._current;
-    },
-    $asIterator: function($S, $T) {
-      return [$T];
+      return this.__internal$_current;
     }
   },
   MappedListIterable: {
@@ -4186,21 +4253,19 @@ var $$ = Object.create(null);
   ExpandIterable: {
     "^": "IterableBase;_iterable,_f",
     get$iterator: function(_) {
-      var t1 = new H.ExpandIterator(J.get$iterator$ax(this._iterable), this._f, C.C_EmptyIterator, null);
-      t1.$builtinTypeInfo = this.$builtinTypeInfo;
-      return t1;
+      return new H.ExpandIterator(J.get$iterator$ax(this._iterable), this._f, C.C_EmptyIterator, null);
     },
     $asIterableBase: function($S, $T) {
       return [$T];
     }
   },
   ExpandIterator: {
-    "^": "Object;_iterator,_f,_currentExpansion,_current",
+    "^": "Object;_iterator,_f,_currentExpansion,__internal$_current",
     _f$1: function(arg0) {
       return this._f.call$1(arg0);
     },
     get$current: function() {
-      return this._current;
+      return this.__internal$_current;
     },
     moveNext$0: function() {
       var t1, t2;
@@ -4208,7 +4273,7 @@ var $$ = Object.create(null);
       if (t1 == null)
         return false;
       for (t2 = this._iterator; !t1.moveNext$0();) {
-        this._current = null;
+        this.__internal$_current = null;
         if (t2.moveNext$0()) {
           this._currentExpansion = null;
           t1 = J.get$iterator$ax(this._f$1(t2.get$current()));
@@ -4216,7 +4281,7 @@ var $$ = Object.create(null);
         } else
           return false;
       }
-      this._current = this._currentExpansion.get$current();
+      this.__internal$_current = this._currentExpansion.get$current();
       return true;
     }
   },
@@ -4245,26 +4310,23 @@ var $$ = Object.create(null);
     },
     remove$1: function(receiver, element) {
       throw H.wrapException(P.UnsupportedError$("Cannot remove from a fixed-length list"));
-    },
-    clear$0: function(receiver) {
-      throw H.wrapException(P.UnsupportedError$("Cannot clear a fixed-length list"));
     }
   },
   Symbol0: {
-    "^": "Object;__internal$_name<",
+    "^": "Object;_name<",
     $eq: function(_, other) {
       if (other == null)
         return false;
-      return !!J.getInterceptor(other).$isSymbol0 && J.$eq(this.__internal$_name, other.__internal$_name);
+      return !!J.getInterceptor(other).$isSymbol0 && J.$eq(this._name, other._name);
     },
     get$hashCode: function(_) {
-      var t1 = J.get$hashCode$(this.__internal$_name);
+      var t1 = J.get$hashCode$(this._name);
       if (typeof t1 !== "number")
         return H.iae(t1);
       return 536870911 & 664597 * t1;
     },
     toString$0: function(_) {
-      return "Symbol(\"" + H.S(this.__internal$_name) + "\")";
+      return "Symbol(\"" + H.S(this._name) + "\")";
     },
     $isSymbol0: true,
     static: {"^": "Symbol_reservedWordRE,Symbol_publicIdentifierRE,Symbol_identifierRE,Symbol_operatorRE,Symbol_publicSymbolPattern,Symbol_symbolPattern"}
@@ -4345,7 +4407,7 @@ var $$ = Object.create(null);
       if ($._nextCallback != null)
         $.get$_AsyncRun_scheduleImmediateClosure().call$1(P._asyncRunCallback$closure());
     }
-  }, "call$0", "_asyncRunCallback$closure", 0, 0, 13],
+  }, "call$0", "_asyncRunCallback$closure", 0, 0, 0],
   scheduleMicrotask: function(callback) {
     var t1 = $.Zone__current;
     if (C.C__RootZone === t1) {
@@ -4374,16 +4436,16 @@ var $$ = Object.create(null);
 
   },
   _nullDataHandler: [function(value) {
-  }, "call$1", "_nullDataHandler$closure", 2, 0, 14, 15],
+  }, "call$1", "_nullDataHandler$closure", 2, 0, 13, 14],
   _nullErrorHandler: [function(error, stackTrace) {
     var t1 = $.Zone__current;
     t1.toString;
     P._rootHandleUncaughtError(null, null, t1, error, stackTrace);
   }, function(error) {
     return P._nullErrorHandler(error, null);
-  }, null, "call$2", "call$1", "_nullErrorHandler$closure", 2, 2, 16, 17, 18, 19],
+  }, null, "call$2", "call$1", "_nullErrorHandler$closure", 2, 2, 15, 16, 17, 18],
   _nullDoneHandler: [function() {
-  }, "call$0", "_nullDoneHandler$closure", 0, 0, 13],
+  }, "call$0", "_nullDoneHandler$closure", 0, 0, 0],
   _runUserCode: function(userCode, onSuccess, onError) {
     var e, s, replacement, exception, t1;
     try {
@@ -4514,7 +4576,7 @@ var $$ = Object.create(null);
     }
   },
   _AsyncRun__initializeScheduleImmediate_internalCallback: {
-    "^": "Closure:27;box_0",
+    "^": "Closure:26;box_0",
     call$1: [function(_) {
       var t1, f;
       H.leaveJsAsync();
@@ -4522,11 +4584,11 @@ var $$ = Object.create(null);
       f = t1.storedCallback_0;
       t1.storedCallback_0 = null;
       f.call$0();
-    }, "call$1", null, 2, 0, null, 45, "call"],
+    }, "call$1", null, 2, 0, null, 37, "call"],
     $isFunction: true
   },
   _AsyncRun__initializeScheduleImmediate_closure: {
-    "^": "Closure:46;box_0,div_1,span_2",
+    "^": "Closure:38;box_0,div_1,span_2",
     call$1: function(callback) {
       var t1, t2;
       ++init.globalState.topEventLoop._activeJsAsyncCount;
@@ -4538,7 +4600,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   _AsyncRun__scheduleImmediateJsOverride_internalCallback: {
-    "^": "Closure:11;callback_0",
+    "^": "Closure:34;callback_0",
     call$0: [function() {
       H.leaveJsAsync();
       this.callback_0.call$0();
@@ -4546,7 +4608,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   _AsyncRun__scheduleImmediateWithSetImmediate_internalCallback: {
-    "^": "Closure:11;callback_0",
+    "^": "Closure:34;callback_0",
     call$0: [function() {
       H.leaveJsAsync();
       this.callback_0.call$0();
@@ -4575,7 +4637,7 @@ var $$ = Object.create(null);
     "^": "_ControllerStream;_async$_controller"
   },
   _BroadcastSubscription: {
-    "^": "_ControllerSubscription;_eventState@,_async$_next@,_async$_previous@,_async$_controller,_onData,_onError,_onDone,_zone,_state,_cancelFuture,_pending",
+    "^": "_ControllerSubscription;_eventState@,_async$_next@,_async$_previous@,_async$_controller,_async$_onData,_onError,_onDone,_zone,_state,_cancelFuture,_pending",
     get$_async$_controller: function() {
       return this._async$_controller;
     },
@@ -4610,9 +4672,9 @@ var $$ = Object.create(null);
       return (t1 & 4) !== 0;
     },
     _onPause$0: [function() {
-    }, "call$0", "get$_onPause", 0, 0, 13],
+    }, "call$0", "get$_onPause", 0, 0, 0],
     _onResume$0: [function() {
-    }, "call$0", "get$_onResume", 0, 0, 13],
+    }, "call$0", "get$_onResume", 0, 0, 0],
     static: {"^": "_BroadcastSubscription__STATE_EVENT_ID,_BroadcastSubscription__STATE_FIRING,_BroadcastSubscription__STATE_REMOVE_AFTER_FIRING"}
   },
   _BroadcastStreamController: {
@@ -4693,7 +4755,7 @@ var $$ = Object.create(null);
       return H.computeSignature(function(T) {
         return {func: "void__T", void: true, args: [T]};
       }, this.$receiver, "_BroadcastStreamController");
-    }, 41],
+    }, 39],
     addError$2: [function(error, stackTrace) {
       if (this._state >= 4)
         throw H.wrapException(this._addEventError$0());
@@ -4701,7 +4763,7 @@ var $$ = Object.create(null);
       this._sendError$2(error, stackTrace);
     }, function(error) {
       return this.addError$2(error, null);
-    }, "addError$1", "call$2", "call$1", "get$addError", 2, 2, 47, 17, 18, 19],
+    }, "addError$1", "call$2", "call$1", "get$addError", 2, 2, 40, 16, 17, 18],
     close$0: function(_) {
       var t1, doneFuture;
       t1 = this._state;
@@ -4832,31 +4894,6 @@ var $$ = Object.create(null);
     "^": "Object;",
     $isFuture: true
   },
-  _Completer: {
-    "^": "Object;",
-    completeError$2: [function(error, stackTrace) {
-      if (error == null)
-        throw H.wrapException(P.ArgumentError$("Error must not be null"));
-      if (this.future._state !== 0)
-        throw H.wrapException(P.StateError$("Future already completed"));
-      $.Zone__current.toString;
-      this._completeError$2(error, stackTrace);
-    }, function(error) {
-      return this.completeError$2(error, null);
-    }, "completeError$1", "call$2", "call$1", "get$completeError", 2, 2, 47, 17, 18, 19]
-  },
-  _AsyncCompleter: {
-    "^": "_Completer;future",
-    complete$1: function(_, value) {
-      var t1 = this.future;
-      if (t1._state !== 0)
-        throw H.wrapException(P.StateError$("Future already completed"));
-      t1._asyncComplete$1(value);
-    },
-    _completeError$2: function(error, stackTrace) {
-      this.future._asyncCompleteError$2(error, stackTrace);
-    }
-  },
   _Future: {
     "^": "Object;_state,_zone<,_resultOrListeners,_nextListener@,_onValueCallback?,_errorTestCallback?,_onErrorCallback?,_whenCompleteActionCallback?",
     get$_isComplete: function() {
@@ -4893,9 +4930,6 @@ var $$ = Object.create(null);
       result = H.setRuntimeTypeInfo(new P._Future(0, t1, null, null, f, null, P._registerErrorHandler(onError, t1), null), [null]);
       this._addListener$1(result);
       return result;
-    },
-    then$1: function(f) {
-      return this.then$2$onError(f, null);
     },
     whenComplete$1: function(action) {
       var t1, result;
@@ -4971,7 +5005,7 @@ var $$ = Object.create(null);
       P._Future__propagateToListeners(this, listeners);
     }, function(error) {
       return this._completeError$2(error, null);
-    }, "_completeError$1", "call$2", "call$1", "get$_completeError", 2, 2, 16, 17, 18, 19],
+    }, "_completeError$1", "call$2", "call$1", "get$_completeError", 2, 2, 15, 16, 17, 18],
     _asyncComplete$1: function(value) {
       var t1;
       if (value == null)
@@ -4997,13 +5031,6 @@ var $$ = Object.create(null);
       t1 = this._zone;
       t1.toString;
       P._rootScheduleMicrotask(null, null, t1, new P._Future__asyncComplete_closure0(this, value));
-    },
-    _asyncCompleteError$2: function(error, stackTrace) {
-      var t1;
-      this._markPendingCompletion$0();
-      t1 = this._zone;
-      t1.toString;
-      P._rootScheduleMicrotask(null, null, t1, new P._Future__asyncCompleteError_closure(this, error, stackTrace));
     },
     $is_Future: true,
     $isFuture: true,
@@ -5131,51 +5158,44 @@ var $$ = Object.create(null);
       }}
   },
   _Future__addListener_closure: {
-    "^": "Closure:11;this_0,listener_1",
+    "^": "Closure:34;this_0,listener_1",
     call$0: function() {
       P._Future__propagateToListeners(this.this_0, this.listener_1);
     },
     $isFunction: true
   },
   _Future__chainForeignFuture_closure: {
-    "^": "Closure:27;target_0",
+    "^": "Closure:26;target_0",
     call$1: [function(value) {
       this.target_0._completeWithValue$1(value);
-    }, "call$1", null, 2, 0, null, 15, "call"],
+    }, "call$1", null, 2, 0, null, 14, "call"],
     $isFunction: true
   },
   _Future__chainForeignFuture_closure0: {
-    "^": "Closure:48;target_1",
+    "^": "Closure:41;target_1",
     call$2: [function(error, stackTrace) {
       this.target_1._completeError$2(error, stackTrace);
     }, function(error) {
       return this.call$2(error, null);
-    }, "call$1", "call$2", null, null, 2, 2, null, 17, 18, 19, "call"],
+    }, "call$1", "call$2", null, null, 2, 2, null, 16, 17, 18, "call"],
     $isFunction: true
   },
   _Future__asyncComplete_closure: {
-    "^": "Closure:11;this_0,coreFuture_1",
+    "^": "Closure:34;this_0,coreFuture_1",
     call$0: function() {
       P._Future__chainCoreFuture(this.coreFuture_1, this.this_0);
     },
     $isFunction: true
   },
   _Future__asyncComplete_closure0: {
-    "^": "Closure:11;this_2,value_3",
+    "^": "Closure:34;this_2,value_3",
     call$0: function() {
       this.this_2._completeWithValue$1(this.value_3);
     },
     $isFunction: true
   },
-  _Future__asyncCompleteError_closure: {
-    "^": "Closure:11;this_0,error_1,stackTrace_2",
-    call$0: function() {
-      this.this_0._completeError$2(this.error_1, this.stackTrace_2);
-    },
-    $isFunction: true
-  },
   _Future__propagateToListeners_handleValueCallback: {
-    "^": "Closure:49;box_1,listener_3,sourceValue_4,zone_5",
+    "^": "Closure:42;box_1,listener_3,sourceValue_4,zone_5",
     call$0: function() {
       var e, s, exception, t1;
       try {
@@ -5193,7 +5213,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   _Future__propagateToListeners_handleError: {
-    "^": "Closure:13;box_2,box_1,listener_6,zone_7",
+    "^": "Closure:0;box_2,box_1,listener_6,zone_7",
     call$0: function() {
       var asyncError, test, matchesTest, e, s, errorCallback, e0, s0, t1, exception, t2, listenerValueOrError, t3, t4;
       asyncError = this.box_2.source_4.get$_error();
@@ -5251,7 +5271,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   _Future__propagateToListeners_handleWhenCompleteCallback: {
-    "^": "Closure:13;box_2,box_1,hasError_8,listener_9,zone_10",
+    "^": "Closure:0;box_2,box_1,hasError_8,listener_9,zone_10",
     call$0: function() {
       var t1, e, s, exception, t2, t3;
       t1 = {};
@@ -5287,14 +5307,14 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   _Future__propagateToListeners_handleWhenCompleteCallback_closure: {
-    "^": "Closure:27;box_2,listener_11",
+    "^": "Closure:26;box_2,listener_11",
     call$1: [function(ignored) {
       P._Future__propagateToListeners(this.box_2.source_4, this.listener_11);
-    }, "call$1", null, 2, 0, null, 50, "call"],
+    }, "call$1", null, 2, 0, null, 43, "call"],
     $isFunction: true
   },
   _Future__propagateToListeners_handleWhenCompleteCallback_closure0: {
-    "^": "Closure:48;box_0,listener_12",
+    "^": "Closure:41;box_0,listener_12",
     call$2: [function(error, stackTrace) {
       var t1, completeResult;
       t1 = this.box_0;
@@ -5306,7 +5326,7 @@ var $$ = Object.create(null);
       P._Future__propagateToListeners(t1.completeResult_0, this.listener_12);
     }, function(error) {
       return this.call$2(error, null);
-    }, "call$1", "call$2", null, null, 2, 2, null, 17, 18, 19, "call"],
+    }, "call$1", "call$2", null, null, 2, 2, null, 16, 17, 18, "call"],
     $isFunction: true
   },
   _AsyncCallbackEntry: {
@@ -5338,7 +5358,7 @@ var $$ = Object.create(null);
     "^": "Closure;box_0,this_1,action_2,future_3",
     call$1: [function(element) {
       P._runUserCode(new P.Stream_forEach__closure(this.action_2, element), new P.Stream_forEach__closure0(), P._cancelAndErrorClosure(this.box_0.subscription_0, this.future_3));
-    }, "call$1", null, 2, 0, null, 29, "call"],
+    }, "call$1", null, 2, 0, null, 28, "call"],
     $isFunction: true,
     $signature: function() {
       return H.computeSignature(function(T) {
@@ -5347,34 +5367,34 @@ var $$ = Object.create(null);
     }
   },
   Stream_forEach__closure: {
-    "^": "Closure:11;action_4,element_5",
+    "^": "Closure:34;action_4,element_5",
     call$0: function() {
       return this.action_4.call$1(this.element_5);
     },
     $isFunction: true
   },
   Stream_forEach__closure0: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(_) {
     },
     $isFunction: true
   },
   Stream_forEach_closure0: {
-    "^": "Closure:11;future_6",
+    "^": "Closure:34;future_6",
     call$0: [function() {
       this.future_6._complete$1(null);
     }, "call$0", null, 0, 0, null, "call"],
     $isFunction: true
   },
   Stream_length_closure: {
-    "^": "Closure:27;box_0",
+    "^": "Closure:26;box_0",
     call$1: [function(_) {
       ++this.box_0.count_0;
-    }, "call$1", null, 2, 0, null, 45, "call"],
+    }, "call$1", null, 2, 0, null, 37, "call"],
     $isFunction: true
   },
   Stream_length_closure0: {
-    "^": "Closure:11;box_0,future_1",
+    "^": "Closure:34;box_0,future_1",
     call$0: [function() {
       this.future_1._complete$1(this.box_0.count_0);
     }, "call$0", null, 0, 0, null, "call"],
@@ -5409,16 +5429,16 @@ var $$ = Object.create(null);
     },
     _onPause$0: [function() {
       this.get$_async$_controller()._recordPause$1(this);
-    }, "call$0", "get$_onPause", 0, 0, 13],
+    }, "call$0", "get$_onPause", 0, 0, 0],
     _onResume$0: [function() {
       this.get$_async$_controller()._recordResume$1(this);
-    }, "call$0", "get$_onResume", 0, 0, 13]
+    }, "call$0", "get$_onResume", 0, 0, 0]
   },
   _EventSink: {
     "^": "Object;"
   },
   _BufferingStreamSubscription: {
-    "^": "Object;_onData,_onError<,_onDone,_zone<,_state,_cancelFuture,_pending",
+    "^": "Object;_async$_onData,_onError<,_onDone,_zone<,_state,_cancelFuture,_pending",
     pause$1: function(_, resumeSignal) {
       var t1 = this._state;
       if ((t1 & 8) !== 0)
@@ -5483,7 +5503,7 @@ var $$ = Object.create(null);
       if (t1 < 32)
         this._sendData$1(data);
       else
-        this._addPending$1(H.setRuntimeTypeInfo(new P._DelayedData(data, null), [null]));
+        this._addPending$1(new P._DelayedData(data, null));
     },
     _addError$2: function(error, stackTrace) {
       var t1 = this._state;
@@ -5506,9 +5526,9 @@ var $$ = Object.create(null);
         this._addPending$1(C.C__DelayedDone);
     },
     _onPause$0: [function() {
-    }, "call$0", "get$_onPause", 0, 0, 13],
+    }, "call$0", "get$_onPause", 0, 0, 0],
     _onResume$0: [function() {
-    }, "call$0", "get$_onResume", 0, 0, 13],
+    }, "call$0", "get$_onResume", 0, 0, 0],
     _onCancel$0: function() {
       return;
     },
@@ -5531,7 +5551,7 @@ var $$ = Object.create(null);
     _sendData$1: function(data) {
       var t1 = this._state;
       this._state = (t1 | 32) >>> 0;
-      this._zone.runUnaryGuarded$2(this._onData, data);
+      this._zone.runUnaryGuarded$2(this._async$_onData, data);
       this._state = (this._state & 4294967263) >>> 0;
       this._checkState$1((t1 & 4) !== 0);
     },
@@ -5614,7 +5634,7 @@ var $$ = Object.create(null);
     _BufferingStreamSubscription$4: function(onData, onError, onDone, cancelOnError, $T) {
       var t1 = this._zone;
       t1.toString;
-      this._onData = onData;
+      this._async$_onData = onData;
       this._onError = P._registerErrorHandler(onError == null ? P._nullErrorHandler$closure() : onError, t1);
       this._onDone = onDone == null ? P._nullDoneHandler$closure() : onDone;
     },
@@ -5628,7 +5648,7 @@ var $$ = Object.create(null);
       }}
   },
   _BufferingStreamSubscription__sendError_sendError: {
-    "^": "Closure:13;this_0,error_1,stackTrace_2",
+    "^": "Closure:0;this_0,error_1,stackTrace_2",
     call$0: function() {
       var t1, t2, t3, t4, t5, t6;
       t1 = this.this_0;
@@ -5651,7 +5671,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   _BufferingStreamSubscription__sendDone_sendDone: {
-    "^": "Closure:13;this_0",
+    "^": "Closure:0;this_0",
     call$0: function() {
       var t1, t2;
       t1 = this.this_0;
@@ -5722,7 +5742,7 @@ var $$ = Object.create(null);
     }
   },
   _PendingEvents_schedule_closure: {
-    "^": "Closure:11;this_0,dispatch_1",
+    "^": "Closure:34;this_0,dispatch_1",
     call$0: function() {
       var t1, oldState;
       t1 = this.this_0;
@@ -5799,18 +5819,18 @@ var $$ = Object.create(null);
         return;
       this._state = (t1 | 1) >>> 0;
       this._zone.runGuarded$1(this._onDone);
-    }, "call$0", "get$_sendDone", 0, 0, 13],
+    }, "call$0", "get$_sendDone", 0, 0, 0],
     static: {"^": "_DoneStreamSubscription__DONE_SENT,_DoneStreamSubscription__SCHEDULED,_DoneStreamSubscription__PAUSED"}
   },
   _cancelAndError_closure: {
-    "^": "Closure:11;future_0,error_1,stackTrace_2",
+    "^": "Closure:34;future_0,error_1,stackTrace_2",
     call$0: function() {
       return this.future_0._completeError$2(this.error_1, this.stackTrace_2);
     },
     $isFunction: true
   },
   _cancelAndErrorClosure_closure: {
-    "^": "Closure:51;subscription_0,future_1",
+    "^": "Closure:44;subscription_0,future_1",
     call$2: function(error, stackTrace) {
       return P._cancelAndError(this.subscription_0, this.future_1, error, stackTrace);
     },
@@ -5819,7 +5839,16 @@ var $$ = Object.create(null);
   _ForwardingStream: {
     "^": "Stream;",
     listen$4$cancelOnError$onDone$onError: function(onData, cancelOnError, onDone, onError) {
-      return P._ForwardingStreamSubscription$(this, onData, onError, onDone, true === cancelOnError, H.getRuntimeTypeArgument(this, "_ForwardingStream", 0), H.getRuntimeTypeArgument(this, "_ForwardingStream", 1));
+      var t1, t2, t3, t4;
+      cancelOnError = true === cancelOnError;
+      t1 = H.getRuntimeTypeArgument(this, "_ForwardingStream", 0);
+      t2 = H.getRuntimeTypeArgument(this, "_ForwardingStream", 1);
+      t3 = $.Zone__current;
+      t4 = cancelOnError ? 1 : 0;
+      t4 = H.setRuntimeTypeInfo(new P._ForwardingStreamSubscription(this, null, null, null, null, t3, t4, null, null), [t1, t2]);
+      t4._BufferingStreamSubscription$4(onData, onError, onDone, cancelOnError, t2);
+      t4._ForwardingStreamSubscription$5(this, onData, onError, onDone, cancelOnError, t1, t2);
+      return t4;
     },
     listen$3$onDone$onError: function(onData, onDone, onError) {
       return this.listen$4$cancelOnError$onDone$onError(onData, null, onDone, onError);
@@ -5832,7 +5861,7 @@ var $$ = Object.create(null);
     }
   },
   _ForwardingStreamSubscription: {
-    "^": "_BufferingStreamSubscription;_stream,_subscription,_onData,_onError,_onDone,_zone,_state,_cancelFuture,_pending",
+    "^": "_BufferingStreamSubscription;_stream,_subscription,_async$_onData,_onError,_onDone,_zone,_state,_cancelFuture,_pending",
     _async$_add$1: function(data) {
       if ((this._state & 2) !== 0)
         return;
@@ -5848,13 +5877,13 @@ var $$ = Object.create(null);
       if (t1 == null)
         return;
       t1.pause$0(0);
-    }, "call$0", "get$_onPause", 0, 0, 13],
+    }, "call$0", "get$_onPause", 0, 0, 0],
     _onResume$0: [function() {
       var t1 = this._subscription;
       if (t1 == null)
         return;
       t1.resume$0();
-    }, "call$0", "get$_onResume", 0, 0, 13],
+    }, "call$0", "get$_onResume", 0, 0, 0],
     _onCancel$0: function() {
       var t1 = this._subscription;
       if (t1 != null) {
@@ -5869,13 +5898,13 @@ var $$ = Object.create(null);
       return H.computeSignature(function(S, T) {
         return {func: "void__S", void: true, args: [S]};
       }, this.$receiver, "_ForwardingStreamSubscription");
-    }, 41],
+    }, 39],
     _handleError$2: [function(error, stackTrace) {
       this._addError$2(error, stackTrace);
-    }, "call$2", "get$_handleError", 4, 0, 52, 18, 19],
+    }, "call$2", "get$_handleError", 4, 0, 45, 17, 18],
     _handleDone$0: [function() {
       this._close$0();
-    }, "call$0", "get$_handleDone", 0, 0, 13],
+    }, "call$0", "get$_handleDone", 0, 0, 0],
     _ForwardingStreamSubscription$5: function(_stream, onData, onError, onDone, cancelOnError, $S, $T) {
       var t1, t2;
       t1 = this.get$_handleData();
@@ -5884,16 +5913,7 @@ var $$ = Object.create(null);
     },
     $as_BufferingStreamSubscription: function($S, $T) {
       return [$T];
-    },
-    static: {_ForwardingStreamSubscription$: function(_stream, onData, onError, onDone, cancelOnError, $S, $T) {
-        var t1, t2;
-        t1 = $.Zone__current;
-        t2 = cancelOnError ? 1 : 0;
-        t2 = H.setRuntimeTypeInfo(new P._ForwardingStreamSubscription(_stream, null, null, null, null, t1, t2, null, null), [$S, $T]);
-        t2._BufferingStreamSubscription$4(onData, onError, onDone, cancelOnError, $T);
-        t2._ForwardingStreamSubscription$5(_stream, onData, onError, onDone, cancelOnError, $S, $T);
-        return t2;
-      }}
+    }
   },
   _WhereStream: {
     "^": "_ForwardingStream;_test,_source",
@@ -5956,7 +5976,7 @@ var $$ = Object.create(null);
     "^": "Object;"
   },
   _rootHandleUncaughtError_closure: {
-    "^": "Closure:11;error_0,stackTrace_1",
+    "^": "Closure:34;error_0,stackTrace_1",
     call$0: function() {
       throw H.wrapException(P._UncaughtAsyncError$(this.error_0, this.stackTrace_1));
     },
@@ -6057,31 +6077,31 @@ var $$ = Object.create(null);
     static: {"^": "_RootZone__rootMap,_RootZone__rootDelegate"}
   },
   _RootZone_bindCallback_closure: {
-    "^": "Closure:11;this_0,f_1",
+    "^": "Closure:34;this_0,f_1",
     call$0: [function() {
       return this.this_0.runGuarded$1(this.f_1);
     }, "call$0", null, 0, 0, null, "call"],
     $isFunction: true
   },
   _RootZone_bindCallback_closure0: {
-    "^": "Closure:11;this_2,f_3",
+    "^": "Closure:34;this_2,f_3",
     call$0: [function() {
       return this.this_2.run$1(this.f_3);
     }, "call$0", null, 0, 0, null, "call"],
     $isFunction: true
   },
   _RootZone_bindUnaryCallback_closure: {
-    "^": "Closure:27;this_0,f_1",
+    "^": "Closure:26;this_0,f_1",
     call$1: [function(arg) {
       return this.this_0.runUnaryGuarded$2(this.f_1, arg);
-    }, "call$1", null, 2, 0, null, 53, "call"],
+    }, "call$1", null, 2, 0, null, 46, "call"],
     $isFunction: true
   },
   _RootZone_bindUnaryCallback_closure0: {
-    "^": "Closure:27;this_2,f_3",
+    "^": "Closure:26;this_2,f_3",
     call$1: [function(arg) {
       return this.this_2.runUnary$2(this.f_3, arg);
-    }, "call$1", null, 2, 0, null, 53, "call"],
+    }, "call$1", null, 2, 0, null, 46, "call"],
     $isFunction: true
   }
 }],
@@ -6095,10 +6115,10 @@ var $$ = Object.create(null);
   },
   _defaultEquals: [function(a, b) {
     return J.$eq(a, b);
-  }, "call$2", "_defaultEquals$closure", 4, 0, 20],
+  }, "call$2", "_defaultEquals$closure", 4, 0, 19],
   _defaultHashCode: [function(a) {
     return J.get$hashCode$(a);
-  }, "call$1", "_defaultHashCode$closure", 2, 0, 21, 22],
+  }, "call$1", "_defaultHashCode$closure", 2, 0, 20, 21],
   HashMap_HashMap: function(equals, hashCode, isValidKey, $K, $V) {
     return H.setRuntimeTypeInfo(new P._HashMap(0, null, null, null, null), [$K, $V]);
   },
@@ -6262,9 +6282,9 @@ var $$ = Object.create(null);
     return t1.charCodeAt(0) == 0 ? t1 : t1;
   },
   _HashMap: {
-    "^": "Object;_length,_strings,_nums,_rest,_keys",
+    "^": "Object;_collection$_length,_strings,_nums,_rest,_keys",
     get$length: function(_) {
-      return this._length;
+      return this._collection$_length;
     },
     get$keys: function() {
       return H.setRuntimeTypeInfo(new P.HashMapKeyIterable(this), [H.getTypeArgumentByIndex(this, 0)]);
@@ -6354,7 +6374,7 @@ var $$ = Object.create(null);
       bucket = rest[hash];
       if (bucket == null) {
         P._HashMap__setTableEntry(rest, hash, [key, value]);
-        ++this._length;
+        ++this._collection$_length;
         this._keys = null;
       } else {
         index = this._findBucketIndex$2(bucket, key);
@@ -6362,7 +6382,7 @@ var $$ = Object.create(null);
           bucket[index + 1] = value;
         else {
           bucket.push(key, value);
-          ++this._length;
+          ++this._collection$_length;
           this._keys = null;
         }
       }
@@ -6384,7 +6404,7 @@ var $$ = Object.create(null);
       index = this._findBucketIndex$2(bucket, key);
       if (index < 0)
         return;
-      --this._length;
+      --this._collection$_length;
       this._keys = null;
       return bucket.splice(index, 2)[1];
     },
@@ -6403,7 +6423,7 @@ var $$ = Object.create(null);
       t1 = this._keys;
       if (t1 != null)
         return t1;
-      result = Array(this._length);
+      result = Array(this._collection$_length);
       result.fixed$length = init;
       strings = this._strings;
       if (strings != null) {
@@ -6442,7 +6462,7 @@ var $$ = Object.create(null);
     },
     _addHashTableEntry$3: function(table, key, value) {
       if (table[key] == null) {
-        ++this._length;
+        ++this._collection$_length;
         this._keys = null;
       }
       P._HashMap__setTableEntry(table, key, value);
@@ -6452,7 +6472,7 @@ var $$ = Object.create(null);
       if (table != null && table[key] != null) {
         value = P._HashMap__getTableEntry(table, key);
         delete table[key];
-        --this._length;
+        --this._collection$_length;
         this._keys = null;
         return value;
       } else
@@ -6488,10 +6508,10 @@ var $$ = Object.create(null);
       }}
   },
   _HashMap_values_closure: {
-    "^": "Closure:27;this_0",
+    "^": "Closure:26;this_0",
     call$1: [function(each) {
       return this.this_0.$index(0, each);
-    }, "call$1", null, 2, 0, null, 54, "call"],
+    }, "call$1", null, 2, 0, null, 47, "call"],
     $isFunction: true
   },
   _HashMap_addAll_closure: {
@@ -6509,13 +6529,14 @@ var $$ = Object.create(null);
   HashMapKeyIterable: {
     "^": "IterableBase;_map",
     get$length: function(_) {
-      return this._map._length;
+      return this._map._collection$_length;
+    },
+    get$isEmpty: function(_) {
+      return this._map._collection$_length === 0;
     },
     get$iterator: function(_) {
       var t1 = this._map;
-      t1 = new P.HashMapKeyIterator(t1, t1._computeKeys$0(), 0, null);
-      t1.$builtinTypeInfo = this.$builtinTypeInfo;
-      return t1;
+      return new P.HashMapKeyIterator(t1, t1._computeKeys$0(), 0, null);
     },
     forEach$1: function(_, f) {
       var t1, keys, $length, i;
@@ -6552,12 +6573,12 @@ var $$ = Object.create(null);
     }
   },
   _LinkedHashMap: {
-    "^": "Object;_length,_strings,_nums,_rest,_first,_last,_modifications",
+    "^": "Object;_collection$_length,_strings,_nums,_rest,_first,_last,_modifications",
     get$length: function(_) {
-      return this._length;
+      return this._collection$_length;
     },
     get$isEmpty: function(_) {
-      return this._length === 0;
+      return this._collection$_length === 0;
     },
     get$keys: function() {
       return H.setRuntimeTypeInfo(new P.LinkedHashMapKeyIterable(this), [H.getTypeArgumentByIndex(this, 0)]);
@@ -6685,13 +6706,13 @@ var $$ = Object.create(null);
       return cell.get$_value();
     },
     clear$0: function(_) {
-      if (this._length > 0) {
+      if (this._collection$_length > 0) {
         this._last = null;
         this._first = null;
         this._rest = null;
         this._nums = null;
         this._strings = null;
-        this._length = 0;
+        this._collection$_length = 0;
         this._modifications = this._modifications + 1 & 67108863;
       }
     },
@@ -6736,7 +6757,7 @@ var $$ = Object.create(null);
         last.set$_next(cell);
         this._last = cell;
       }
-      ++this._length;
+      ++this._collection$_length;
       this._modifications = this._modifications + 1 & 67108863;
       return cell;
     },
@@ -6752,7 +6773,7 @@ var $$ = Object.create(null);
         this._last = previous;
       else
         next.set$_previous(previous);
-      --this._length;
+      --this._collection$_length;
       this._modifications = this._modifications + 1 & 67108863;
     },
     _computeHashCode$1: function(key) {
@@ -6780,17 +6801,17 @@ var $$ = Object.create(null);
       }}
   },
   _LinkedHashMap_values_closure: {
-    "^": "Closure:27;this_0",
+    "^": "Closure:26;this_0",
     call$1: [function(each) {
       return this.this_0.$index(0, each);
-    }, "call$1", null, 2, 0, null, 54, "call"],
+    }, "call$1", null, 2, 0, null, 47, "call"],
     $isFunction: true
   },
   _LinkedHashMap_addAll_closure: {
     "^": "Closure;this_0",
-    call$2: [function(key, value) {
+    call$2: function(key, value) {
       this.this_0.$indexSet(0, key, value);
-    }, "call$2", null, 4, 0, null, 55, 15, "call"],
+    },
     $isFunction: true,
     $signature: function() {
       return H.computeSignature(function(K, V) {
@@ -6804,13 +6825,15 @@ var $$ = Object.create(null);
   LinkedHashMapKeyIterable: {
     "^": "IterableBase;_map",
     get$length: function(_) {
-      return this._map._length;
+      return this._map._collection$_length;
+    },
+    get$isEmpty: function(_) {
+      return this._map._collection$_length === 0;
     },
     get$iterator: function(_) {
       var t1, t2;
       t1 = this._map;
       t2 = new P.LinkedHashMapKeyIterator(t1, t1._modifications, null, null);
-      t2.$builtinTypeInfo = this.$builtinTypeInfo;
       t2._cell = t1._first;
       return t2;
     },
@@ -6851,14 +6874,17 @@ var $$ = Object.create(null);
     }
   },
   _LinkedHashSet: {
-    "^": "_HashSetBase;_length,_strings,_nums,_rest,_first,_last,_modifications",
+    "^": "_HashSetBase;_collection$_length,_strings,_nums,_rest,_first,_last,_modifications",
     get$iterator: function(_) {
-      var t1 = H.setRuntimeTypeInfo(new P.LinkedHashSetIterator(this, this._modifications, null, null), [null]);
-      t1._cell = t1._set._first;
+      var t1 = new P.LinkedHashSetIterator(this, this._modifications, null, null);
+      t1._cell = this._first;
       return t1;
     },
     get$length: function(_) {
-      return this._length;
+      return this._collection$_length;
+    },
+    get$isEmpty: function(_) {
+      return this._collection$_length === 0;
     },
     contains$1: function(_, object) {
       var strings, nums;
@@ -6978,13 +7004,13 @@ var $$ = Object.create(null);
       return true;
     },
     clear$0: function(_) {
-      if (this._length > 0) {
+      if (this._collection$_length > 0) {
         this._last = null;
         this._first = null;
         this._rest = null;
         this._nums = null;
         this._strings = null;
-        this._length = 0;
+        this._collection$_length = 0;
         this._modifications = this._modifications + 1 & 67108863;
       }
     },
@@ -7017,7 +7043,7 @@ var $$ = Object.create(null);
         last.set$_next(cell);
         this._last = cell;
       }
-      ++this._length;
+      ++this._collection$_length;
       this._modifications = this._modifications + 1 & 67108863;
       return cell;
     },
@@ -7033,7 +7059,7 @@ var $$ = Object.create(null);
         this._last = previous;
       else
         next.set$_previous(previous);
-      --this._length;
+      --this._collection$_length;
       this._modifications = this._modifications + 1 & 67108863;
     },
     _computeHashCode$1: function(element) {
@@ -7105,6 +7131,12 @@ var $$ = Object.create(null);
         ++count;
       return count;
     },
+    get$isEmpty: function(_) {
+      return !this.get$iterator(this).moveNext$0();
+    },
+    get$isNotEmpty: function(_) {
+      return !this.get$isEmpty(this);
+    },
     get$single: function(_) {
       var it, result;
       it = this.get$iterator(this);
@@ -7143,7 +7175,7 @@ var $$ = Object.create(null);
   ListMixin: {
     "^": "Object;",
     get$iterator: function(receiver) {
-      return H.setRuntimeTypeInfo(new H.ListIterator(receiver, this.get$length(receiver), 0, null), [H.getRuntimeTypeArgument(receiver, "ListMixin", 0)]);
+      return new H.ListIterator(receiver, this.get$length(receiver), 0, null);
     },
     elementAt$1: function(receiver, index) {
       return this.$index(receiver, index);
@@ -7162,20 +7194,8 @@ var $$ = Object.create(null);
         throw H.wrapException(P.StateError$("No elements"));
       return this.$index(receiver, 0);
     },
-    join$1: function(receiver, separator) {
-      var buffer, t1;
-      if (this.get$length(receiver) === 0)
-        return "";
-      buffer = P.StringBuffer$("");
-      buffer.writeAll$2(receiver, separator);
-      t1 = buffer._contents;
-      return t1.charCodeAt(0) == 0 ? t1 : t1;
-    },
     where$1: function(receiver, test) {
       return H.setRuntimeTypeInfo(new H.WhereIterable(receiver, test), [H.getRuntimeTypeArgument(receiver, "ListMixin", 0)]);
-    },
-    map$1: function(receiver, f) {
-      return H.setRuntimeTypeInfo(new H.MappedListIterable(receiver, f), [null, null]);
     },
     toList$1$growable: function(receiver, growable) {
       var result, i, t1;
@@ -7219,9 +7239,6 @@ var $$ = Object.create(null);
         }
       return false;
     },
-    clear$0: function(receiver) {
-      this.set$length(receiver, 0);
-    },
     _rangeCheck$2: function(receiver, start, end) {
       if (start > this.get$length(receiver))
         throw H.wrapException(P.RangeError$range(start, 0, this.get$length(receiver)));
@@ -7263,7 +7280,7 @@ var $$ = Object.create(null);
     $isEfficientLength: true
   },
   Maps_mapToString_closure: {
-    "^": "Closure:38;box_0,result_1",
+    "^": "Closure:32;box_0,result_1",
     call$2: function(k, v) {
       var t1 = this.box_0;
       if (!t1.first_0)
@@ -7279,9 +7296,7 @@ var $$ = Object.create(null);
   ListQueue: {
     "^": "IterableBase;_table,_head,_tail,_modificationCount",
     get$iterator: function(_) {
-      var t1 = new P._ListQueueIterator(this, this._tail, this._modificationCount, this._head, null);
-      t1.$builtinTypeInfo = this.$builtinTypeInfo;
-      return t1;
+      return new P._ListQueueIterator(this, this._tail, this._modificationCount, this._head, null);
     },
     forEach$1: function(_, action) {
       var modificationCount, i, t1;
@@ -7548,6 +7563,9 @@ var $$ = Object.create(null);
   },
   SetMixin: {
     "^": "Object;",
+    get$isEmpty: function(_) {
+      return this.get$length(this) === 0;
+    },
     addAll$1: function(_, elements) {
       var t1;
       for (t1 = J.get$iterator$ax(elements); t1.moveNext$0();)
@@ -7555,8 +7573,8 @@ var $$ = Object.create(null);
     },
     removeAll$1: function(elements) {
       var t1;
-      for (t1 = H.setRuntimeTypeInfo(new H.ListIterator(elements, elements.length, 0, null), [H.getTypeArgumentByIndex(elements, 0)]); t1.moveNext$0();)
-        this.remove$1(0, t1._current);
+      for (t1 = new H.ListIterator(elements, elements.length, 0, null); t1.moveNext$0();)
+        this.remove$1(0, t1.__internal$_current);
     },
     toString$0: function(_) {
       return P.IterableBase_iterableToFullString(this, "{", "}");
@@ -7607,7 +7625,7 @@ var $$ = Object.create(null);
   "^": "",
   _defaultToEncodable: [function(object) {
     return object.toJson$0();
-  }, "call$1", "_defaultToEncodable$closure", 2, 0, 23, 0],
+  }, "call$1", "_defaultToEncodable$closure", 2, 0, 22, 1],
   Codec: {
     "^": "Object;"
   },
@@ -7615,9 +7633,9 @@ var $$ = Object.create(null);
     "^": "Object;"
   },
   HtmlEscapeMode: {
-    "^": "Object;_name,escapeLtGt,escapeQuot,escapeApos,escapeSlash",
+    "^": "Object;_convert$_name,escapeLtGt,escapeQuot,escapeApos,escapeSlash",
     toString$0: function(_) {
-      return this._name;
+      return this._convert$_name;
     },
     static: {"^": "HtmlEscapeMode_UNKNOWN,HtmlEscapeMode_ATTRIBUTE,HtmlEscapeMode_ELEMENT"}
   },
@@ -7678,9 +7696,6 @@ var $$ = Object.create(null);
       } else
         t1 = null;
       return t1;
-    },
-    $asConverter: function() {
-      return [P.String, P.String];
     }
   },
   JsonUnsupportedObjectError: {
@@ -7715,16 +7730,10 @@ var $$ = Object.create(null);
     },
     get$encoder: function() {
       return C.JsonEncoder_null_null;
-    },
-    $asCodec: function() {
-      return [P.Object, P.String];
     }
   },
   JsonEncoder: {
-    "^": "Converter;indent,_toEncodableFunction",
-    $asConverter: function() {
-      return [P.Object, P.String];
-    }
+    "^": "Converter;indent,_toEncodableFunction"
   },
   _JsonStringifier: {
     "^": "Object;_toEncodable,_sink,_seen",
@@ -7906,7 +7915,7 @@ var $$ = Object.create(null);
       }}
   },
   _JsonStringifier_stringifyJsonValue_closure: {
-    "^": "Closure:39;box_0,this_1",
+    "^": "Closure:35;box_0,this_1",
     call$2: function(key, value) {
       var t1, t2, t3;
       t1 = this.this_1;
@@ -7928,7 +7937,7 @@ var $$ = Object.create(null);
   },
   Comparable_compare: [function(a, b) {
     return J.compareTo$1$ns(a, b);
-  }, "call$2", "Comparable_compare$closure", 4, 0, 24],
+  }, "call$2", "Comparable_compare$closure", 4, 0, 23],
   Error_safeToString: function(object) {
     var buffer, t1, i, t2, codeUnit;
     if (typeof object === "number" || typeof object === "boolean" || null == object)
@@ -7976,10 +7985,10 @@ var $$ = Object.create(null);
   },
   identical: [function(a, b) {
     return a == null ? b == null : a === b;
-  }, "call$2", "identical$closure", 4, 0, 25],
+  }, "call$2", "identical$closure", 4, 0, 24],
   identityHashCode: [function(object) {
     return H.objectHashCode(object);
-  }, "call$1", "identityHashCode$closure", 2, 0, 26],
+  }, "call$1", "identityHashCode$closure", 2, 0, 25],
   List_List$filled: function($length, fill, $E) {
     var result, t1, i;
     result = J.JSArray_JSArray$fixed($length, $E);
@@ -8011,25 +8020,25 @@ var $$ = Object.create(null);
   },
   num__returnNull: [function(_) {
     return;
-  }, "call$1", "num__returnNull$closure", 2, 0, 27],
+  }, "call$1", "num__returnNull$closure", 2, 0, 26],
   print: function(object) {
     var line = H.S(object);
     H.printString(line);
   },
   Function__toMangledNames_closure: {
-    "^": "Closure:38;result_0",
+    "^": "Closure:32;result_0",
     call$2: function(symbol, value) {
-      this.result_0.$indexSet(0, symbol.get$__internal$_name(), value);
+      this.result_0.$indexSet(0, symbol.get$_name(), value);
     },
     $isFunction: true
   },
   NoSuchMethodError_toString_closure: {
-    "^": "Closure:56;box_0",
+    "^": "Closure:48;box_0",
     call$2: function(key, value) {
       var t1 = this.box_0;
       if (t1.i_1 > 0)
         t1.sb_0.write$1(", ");
-      t1.sb_0.write$1(key.get$__internal$_name());
+      t1.sb_0.write$1(key.get$_name());
       t1.sb_0.write$1(": ");
       t1.sb_0.write$1(P.Error_safeToString(value));
       ++t1.i_1;
@@ -8121,7 +8130,7 @@ var $$ = Object.create(null);
       }}
   },
   Duration_toString_sixDigits: {
-    "^": "Closure:57;",
+    "^": "Closure:49;",
     call$1: function(n) {
       if (n >= 100000)
         return H.S(n);
@@ -8138,7 +8147,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   Duration_toString_twoDigits: {
-    "^": "Closure:57;",
+    "^": "Closure:49;",
     call$1: function(n) {
       if (n >= 10)
         return H.S(n);
@@ -8185,7 +8194,7 @@ var $$ = Object.create(null);
       }}
   },
   NoSuchMethodError: {
-    "^": "Error;_core$_receiver,_core$_memberName,_core$_arguments,_namedArguments,_existingArgumentNames",
+    "^": "Error;_core$_receiver,_memberName,_core$_arguments,_namedArguments,_existingArgumentNames",
     toString$0: function(_) {
       var t1, t2, t3, t4, t5, str;
       t1 = {};
@@ -8203,7 +8212,7 @@ var $$ = Object.create(null);
         t5._contents += typeof str === "string" ? str : H.S(str);
       }
       this._namedArguments.forEach$1(0, new P.NoSuchMethodError_toString_closure(t1));
-      return "NoSuchMethodError : method not found: '" + this._core$_memberName.toString$0(0) + "'\nReceiver: " + H.S(P.Error_safeToString(this._core$_receiver)) + "\nArguments: [" + H.S(t1.sb_0) + "]";
+      return "NoSuchMethodError : method not found: '" + this._memberName.toString$0(0) + "'\nReceiver: " + H.S(P.Error_safeToString(this._core$_receiver)) + "\nArguments: [" + H.S(t1.sb_0) + "]";
     },
     static: {NoSuchMethodError$: function(receiver, memberName, positionalArguments, namedArguments, existingArgumentNames) {
         return new P.NoSuchMethodError(receiver, memberName, positionalArguments, namedArguments, existingArgumentNames);
@@ -8241,10 +8250,7 @@ var $$ = Object.create(null);
   ConcurrentModificationError: {
     "^": "Error;modifiedObject",
     toString$0: function(_) {
-      var t1 = this.modifiedObject;
-      if (t1 == null)
-        return "Concurrent modification during iteration.";
-      return "Concurrent modification during iteration: " + H.S(P.Error_safeToString(t1)) + ".";
+      return "Concurrent modification during iteration: " + H.S(P.Error_safeToString(this.modifiedObject)) + ".";
     },
     static: {ConcurrentModificationError$: function(modifiedObject) {
         return new P.ConcurrentModificationError(modifiedObject);
@@ -8289,7 +8295,7 @@ var $$ = Object.create(null);
     }
   },
   FormatException: {
-    "^": "Object;message,source,offset",
+    "^": "Object;message,source,offset>",
     toString$0: function(_) {
       var t1, report;
       t1 = this.message;
@@ -8339,10 +8345,6 @@ var $$ = Object.create(null);
     },
     static: {"^": "Expando__KEY_PROPERTY_NAME,Expando__EXPANDO_PROPERTY_NAME,Expando__keyCount"}
   },
-  Function: {
-    "^": "Object;",
-    $isFunction: true
-  },
   $int: {
     "^": "num;",
     $is$int: true
@@ -8388,6 +8390,9 @@ var $$ = Object.create(null);
     noSuchMethod$1: function(_, invocation) {
       throw H.wrapException(P.NoSuchMethodError$(this, invocation.get$memberName(), invocation.get$positionalArguments(), invocation.get$namedArguments(), null));
     }
+  },
+  Match: {
+    "^": "Object;"
   },
   StackTrace: {
     "^": "Object;"
@@ -8457,22 +8462,6 @@ var $$ = Object.create(null);
   _ElementFactoryProvider_createElement_tag: function(tag, typeExtension) {
     return document.createElement(tag);
   },
-  HttpRequest_getString: function(url, onProgress, withCredentials) {
-    return W.HttpRequest_request(url, null, null, onProgress, null, null, null, withCredentials).then$1(new W.HttpRequest_getString_closure());
-  },
-  HttpRequest_request: function(url, method, mimeType, onProgress, requestHeaders, responseType, sendData, withCredentials) {
-    var t1, completer, xhr;
-    t1 = W.HttpRequest;
-    completer = H.setRuntimeTypeInfo(new P._AsyncCompleter(P._Future$(t1)), [t1]);
-    xhr = new XMLHttpRequest();
-    C.HttpRequest_methods.open$3$async(xhr, "GET", url, true);
-    t1 = H.setRuntimeTypeInfo(new W._EventStream(xhr, "load", false), [null]);
-    H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._html$_target, t1._eventType, W._wrapZone(new W.HttpRequest_request_closure(completer, xhr)), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)])._tryResume$0();
-    t1 = H.setRuntimeTypeInfo(new W._EventStream(xhr, "error", false), [null]);
-    H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._html$_target, t1._eventType, W._wrapZone(completer.get$completeError()), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)])._tryResume$0();
-    xhr.send();
-    return completer.future;
-  },
   InputElement_InputElement: function(type) {
     var e, exception;
     e = document.createElement("input", null);
@@ -8507,59 +8496,6 @@ var $$ = Object.create(null);
     } else
       return e;
   },
-  _callConstructor: function($constructor, interceptor) {
-    return new W._callConstructor_closure($constructor, interceptor);
-  },
-  _callAttached: [function(receiver) {
-    return J.attached$0$x(receiver);
-  }, "call$1", "_callAttached$closure", 2, 0, 27, 32],
-  _callDetached: [function(receiver) {
-    return J.detached$0$x(receiver);
-  }, "call$1", "_callDetached$closure", 2, 0, 27, 32],
-  _callAttributeChanged: [function(receiver, $name, oldValue, newValue) {
-    return J.attributeChanged$3$x(receiver, $name, oldValue, newValue);
-  }, "call$4", "_callAttributeChanged$closure", 8, 0, 33, 32, 34, 35, 36],
-  _registerCustomElement: function(context, $document, tag, type, extendsTagName) {
-    var interceptorClass, interceptor, $constructor, baseClassName, baseConstructor, properties, proto;
-    interceptorClass = J.findInterceptorConstructorForType(type);
-    if (interceptorClass == null)
-      throw H.wrapException(P.ArgumentError$(type));
-    interceptor = interceptorClass.prototype;
-    $constructor = J.findConstructorForNativeSubclassType(type, "created");
-    if ($constructor == null)
-      throw H.wrapException(P.ArgumentError$(H.S(type) + " has no constructor called 'created'"));
-    J.getNativeInterceptor(W._ElementFactoryProvider_createElement_tag("article", null));
-    baseClassName = interceptorClass.$nativeSuperclassTag;
-    if (baseClassName == null)
-      throw H.wrapException(P.ArgumentError$(type));
-    if (!J.$eq(baseClassName, "HTMLElement"))
-      throw H.wrapException(P.UnsupportedError$("Class must provide extendsTag if base native class is not HtmlElement"));
-    baseConstructor = context[baseClassName];
-    properties = {};
-    properties.createdCallback = {value: function(invokeCallback) {
-        return function() {
-          return invokeCallback(this);
-        };
-      }(H.convertDartClosureToJS(W._callConstructor($constructor, interceptor), 1))};
-    properties.attachedCallback = {value: function(invokeCallback) {
-        return function() {
-          return invokeCallback(this);
-        };
-      }(H.convertDartClosureToJS(W._callAttached$closure(), 1))};
-    properties.detachedCallback = {value: function(invokeCallback) {
-        return function() {
-          return invokeCallback(this);
-        };
-      }(H.convertDartClosureToJS(W._callDetached$closure(), 1))};
-    properties.attributeChangedCallback = {value: function(invokeCallback) {
-        return function(arg1, arg2, arg3) {
-          return invokeCallback(this, arg1, arg2, arg3);
-        };
-      }(H.convertDartClosureToJS(W._callAttributeChanged$closure(), 4))};
-    proto = Object.create(baseConstructor.prototype, properties);
-    Object.defineProperty(proto, init.dispatchPropertyName, {value: H.makeLeafDispatchRecord(interceptor), enumerable: false, writable: true, configurable: true});
-    $document.registerElement(tag, {prototype: proto});
-  },
   _wrapZone: function(callback) {
     var t1 = $.Zone__current;
     if (t1 === C.C__RootZone)
@@ -8568,7 +8504,7 @@ var $$ = Object.create(null);
   },
   HtmlElement: {
     "^": "Element;",
-    "%": "HTMLAppletElement|HTMLBRElement|HTMLDListElement|HTMLDataListElement|HTMLDetailsElement|HTMLDialogElement|HTMLDirectoryElement|HTMLDivElement|HTMLFontElement|HTMLFrameElement|HTMLHRElement|HTMLHeadElement|HTMLHeadingElement|HTMLHtmlElement|HTMLLabelElement|HTMLLegendElement|HTMLMarqueeElement|HTMLMenuElement|HTMLModElement|HTMLOptGroupElement|HTMLParagraphElement|HTMLPictureElement|HTMLPreElement|HTMLQuoteElement|HTMLShadowElement|HTMLSpanElement|HTMLTableCaptionElement|HTMLTableCellElement|HTMLTableColElement|HTMLTableDataCellElement|HTMLTableHeaderCellElement|HTMLTitleElement|HTMLUListElement|HTMLUnknownElement;HTMLElement;JGrid"
+    "%": "HTMLAppletElement|HTMLBRElement|HTMLDListElement|HTMLDataListElement|HTMLDetailsElement|HTMLDialogElement|HTMLDirectoryElement|HTMLDivElement|HTMLFontElement|HTMLFrameElement|HTMLHRElement|HTMLHeadElement|HTMLHeadingElement|HTMLHtmlElement|HTMLLabelElement|HTMLLegendElement|HTMLMarqueeElement|HTMLMenuElement|HTMLModElement|HTMLOptGroupElement|HTMLParagraphElement|HTMLPictureElement|HTMLPreElement|HTMLQuoteElement|HTMLShadowElement|HTMLSpanElement|HTMLTableCaptionElement|HTMLTableCellElement|HTMLTableColElement|HTMLTableDataCellElement|HTMLTableHeaderCellElement|HTMLTitleElement|HTMLUListElement|HTMLUnknownElement;HTMLElement"
   },
   AnchorElement: {
     "^": "HtmlElement;target=,type},hostname=,href},port=,protocol=",
@@ -8598,7 +8534,7 @@ var $$ = Object.create(null);
     "%": "HTMLBodyElement"
   },
   ButtonElement: {
-    "^": "HtmlElement;name%,type},value%",
+    "^": "HtmlElement;name=,type},value%",
     "%": "HTMLButtonElement"
   },
   CanvasElement: {
@@ -8628,17 +8564,13 @@ var $$ = Object.create(null);
     "^": "CssRule;style=",
     "%": "CSSKeyframeRule|MozCSSKeyframeRule|WebKitCSSKeyframeRule"
   },
-  CssKeyframesRule: {
-    "^": "CssRule;name}",
-    "%": "CSSKeyframesRule|MozCSSKeyframesRule|WebKitCSSKeyframesRule"
-  },
   CssPageRule: {
     "^": "CssRule;selectorText=,style=",
     "%": "CSSPageRule"
   },
   CssRule: {
     "^": "Interceptor;",
-    "%": "CSSCharsetRule|CSSImportRule|CSSMediaRule|CSSSupportsRule|CSSUnknownRule;CSSRule"
+    "%": "CSSCharsetRule|CSSImportRule|CSSKeyframesRule|CSSMediaRule|CSSSupportsRule|CSSUnknownRule|MozCSSKeyframesRule|WebKitCSSKeyframesRule;CSSRule"
   },
   CssStyleDeclaration: {
     "^": "Interceptor_CssStyleDeclarationBase;length=",
@@ -8694,9 +8626,6 @@ var $$ = Object.create(null);
   },
   CssStyleSheet: {
     "^": "StyleSheet;cssRules=",
-    insertRule$2: function(receiver, rule, index) {
-      return receiver.insertRule(rule, index);
-    },
     "%": "CSSStyleSheet"
   },
   CssViewportRule: {
@@ -8820,11 +8749,8 @@ var $$ = Object.create(null);
     get$client: function(receiver) {
       return P.Rectangle$(C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(receiver.clientLeft)), C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(receiver.clientTop)), C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(receiver.clientWidth)), C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(receiver.clientHeight)), null);
     },
-    attached$0: function(receiver) {
-    },
-    detached$0: function(receiver) {
-    },
-    attributeChanged$3: function(receiver, $name, oldValue, newValue) {
+    get$offset: function(receiver) {
+      return P.Rectangle$(C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(receiver.offsetLeft)), C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(receiver.offsetTop)), C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(receiver.offsetWidth)), C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(receiver.offsetHeight)), null);
     },
     toString$0: function(receiver) {
       return receiver.localName;
@@ -8851,6 +8777,9 @@ var $$ = Object.create(null);
         elem = elem.parentElement;
       } while (elem != null);
       return false;
+    },
+    get$contentEdge: function(receiver) {
+      return new W._ContentCssRect(receiver, 0, 0, 0, 0);
     },
     get$borderEdge: function(receiver) {
       return new W._BorderCssRect(receiver, 0, 0, 0, 0);
@@ -9012,14 +8941,12 @@ var $$ = Object.create(null);
     get$onSelectStart: function(receiver) {
       return H.setRuntimeTypeInfo(new W._ElementEventStreamImpl(receiver, "selectstart", false), [null]);
     },
-    Element$created$0: function(receiver) {
-    },
     $isElement: true,
     $isEventTarget: true,
     "%": ";Element"
   },
   EmbedElement: {
-    "^": "HtmlElement;name%,type},width%",
+    "^": "HtmlElement;name=,type},width%",
     "%": "HTMLEmbedElement"
   },
   ErrorEvent: {
@@ -9065,11 +8992,11 @@ var $$ = Object.create(null);
     "%": ";EventTarget"
   },
   FieldSetElement: {
-    "^": "HtmlElement;name%",
+    "^": "HtmlElement;name=",
     "%": "HTMLFieldSetElement"
   },
   FormElement: {
-    "^": "HtmlElement;length=,name%,target=",
+    "^": "HtmlElement;length=,name=,target=",
     "%": "HTMLFormElement"
   },
   HtmlCollection: {
@@ -9107,25 +9034,8 @@ var $$ = Object.create(null);
     $isJavaScriptIndexingBehavior: true,
     "%": "HTMLCollection|HTMLFormControlsCollection|HTMLOptionsCollection"
   },
-  HttpRequest: {
-    "^": "HttpRequestEventTarget;responseText=",
-    open$5$async$password$user: function(receiver, method, url, async, password, user) {
-      return receiver.open(method, url, async, user, password);
-    },
-    open$3$async: function($receiver, method, url, async) {
-      return $receiver.open(method, url, async);
-    },
-    send$1: function(receiver, data) {
-      return receiver.send(data);
-    },
-    "%": "XMLHttpRequest"
-  },
-  HttpRequestEventTarget: {
-    "^": "EventTarget;",
-    "%": ";XMLHttpRequestEventTarget"
-  },
   IFrameElement: {
-    "^": "HtmlElement;name%,width%",
+    "^": "HtmlElement;name=,width%",
     "%": "HTMLIFrameElement"
   },
   ImageElement: {
@@ -9133,7 +9043,7 @@ var $$ = Object.create(null);
     "%": "HTMLImageElement"
   },
   InputElement: {
-    "^": "HtmlElement;checked=,defaultValue%,name%,type},value%,width%",
+    "^": "HtmlElement;checked=,defaultValue%,name=,type},value%,width%",
     select$0: function(receiver) {
       return receiver.select();
     },
@@ -9141,7 +9051,6 @@ var $$ = Object.create(null);
     $isElement: true,
     $isEventTarget: true,
     $isNode: true,
-    $isCheckboxInputElement: true,
     "%": "HTMLInputElement"
   },
   KeyboardEvent: {
@@ -9152,7 +9061,7 @@ var $$ = Object.create(null);
     "%": "KeyboardEvent"
   },
   KeygenElement: {
-    "^": "HtmlElement;name%",
+    "^": "HtmlElement;name=",
     "%": "HTMLKeygenElement"
   },
   LIElement: {
@@ -9160,7 +9069,7 @@ var $$ = Object.create(null);
     "%": "HTMLLIElement"
   },
   LinkElement: {
-    "^": "HtmlElement;href},sheet=,type}",
+    "^": "HtmlElement;href},type}",
     "%": "HTMLLinkElement"
   },
   Location: {
@@ -9171,7 +9080,7 @@ var $$ = Object.create(null);
     "%": "Location"
   },
   MapElement: {
-    "^": "HtmlElement;name%",
+    "^": "HtmlElement;name=",
     "%": "HTMLMapElement"
   },
   MediaElement: {
@@ -9183,7 +9092,7 @@ var $$ = Object.create(null);
     "%": "MediaStream"
   },
   MetaElement: {
-    "^": "HtmlElement;name%",
+    "^": "HtmlElement;name=",
     "%": "HTMLMetaElement"
   },
   MeterElement: {
@@ -9209,7 +9118,18 @@ var $$ = Object.create(null);
     get$client: function(receiver) {
       return H.setRuntimeTypeInfo(new P.Point(receiver.clientX, receiver.clientY), [null]);
     },
-    $isMouseEvent: true,
+    get$offset: function(receiver) {
+      var target, point;
+      if (!!receiver.offsetX)
+        return H.setRuntimeTypeInfo(new P.Point(receiver.offsetX, receiver.offsetY), [null]);
+      else {
+        if (!J.getInterceptor(W._convertNativeToDart_EventTarget(receiver.target)).$isElement)
+          throw H.wrapException(P.UnsupportedError$("offsetX is only supported on elements"));
+        target = W._convertNativeToDart_EventTarget(receiver.target);
+        point = H.setRuntimeTypeInfo(new P.Point(receiver.clientX, receiver.clientY), [null]).$sub(0, J.get$topLeft$x(J.getBoundingClientRect$0$x(target)));
+        return H.setRuntimeTypeInfo(new P.Point(J.toInt$0$n(point.x), J.toInt$0$n(point.y)), [null]);
+      }
+    },
     "%": "DragEvent|MSPointerEvent|MouseEvent|MouseScrollEvent|MouseWheelEvent|PointerEvent|WheelEvent"
   },
   Node: {
@@ -9294,7 +9214,7 @@ var $$ = Object.create(null);
     "%": "HTMLOListElement"
   },
   ObjectElement: {
-    "^": "HtmlElement;name%,type},width%",
+    "^": "HtmlElement;name=,type},width%",
     "%": "HTMLObjectElement"
   },
   OptionElement: {
@@ -9302,11 +9222,11 @@ var $$ = Object.create(null);
     "%": "HTMLOptionElement"
   },
   OutputElement: {
-    "^": "HtmlElement;defaultValue%,name%,value%",
+    "^": "HtmlElement;defaultValue%,name=,value%",
     "%": "HTMLOutputElement"
   },
   ParamElement: {
-    "^": "HtmlElement;name%,value%",
+    "^": "HtmlElement;name=,value%",
     "%": "HTMLParamElement"
   },
   ProcessingInstruction: {
@@ -9332,7 +9252,7 @@ var $$ = Object.create(null);
     "%": "HTMLScriptElement"
   },
   SelectElement: {
-    "^": "HtmlElement;length=,name%,value%",
+    "^": "HtmlElement;length=,name=,value%",
     "%": "HTMLSelectElement"
   },
   Selection: {
@@ -9359,7 +9279,7 @@ var $$ = Object.create(null);
     "%": "SpeechRecognitionError"
   },
   StyleElement: {
-    "^": "HtmlElement;sheet=,type}",
+    "^": "HtmlElement;type}",
     $isStyleElement: true,
     "%": "HTMLStyleElement"
   },
@@ -9447,7 +9367,7 @@ var $$ = Object.create(null);
     "%": "HTMLTemplateElement"
   },
   TextAreaElement: {
-    "^": "HtmlElement;defaultValue%,name%,value%",
+    "^": "HtmlElement;defaultValue%,name=,value%",
     select$0: function(receiver) {
       return receiver.select();
     },
@@ -9474,7 +9394,7 @@ var $$ = Object.create(null);
     "%": "HTMLVideoElement"
   },
   Window: {
-    "^": "EventTarget;name}",
+    "^": "EventTarget;",
     get$parent: function(receiver) {
       return W._convertNativeToDart_Window(receiver.parent);
     },
@@ -9566,6 +9486,9 @@ var $$ = Object.create(null);
       hash = 536870911 & t4 + ((67108863 & t4) << 3 >>> 0);
       hash ^= hash >>> 11;
       return 536870911 & hash + ((16383 & hash) << 15 >>> 0);
+    },
+    get$topLeft: function(receiver) {
+      return H.setRuntimeTypeInfo(new P.Point(receiver.left, receiver.top), [null]);
     },
     $isRectangle: true,
     $asRectangle: function() {
@@ -9708,14 +9631,14 @@ var $$ = Object.create(null);
     "^": "Object+CssStyleDeclarationBase;"
   },
   _CssStyleDeclarationSet_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: [function(e) {
       return J.get$style$x(e);
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   _CssStyleDeclarationSet_setProperty_closure: {
-    "^": "Closure:27;propertyName_0,value_1,priority_2",
+    "^": "Closure:26;propertyName_0,value_1,priority_2",
     call$1: function(e) {
       return J.setProperty$3$x(e, this.propertyName_0, this.value_1, this.priority_2);
     },
@@ -9809,6 +9732,9 @@ var $$ = Object.create(null);
     },
     set$width: function(receiver, value) {
       this.setProperty$3(receiver, "width", value, "");
+    },
+    set$zIndex: function(receiver, value) {
+      this.setProperty$3(receiver, "z-index", value, "");
     }
   },
   _ChildrenElementList: {
@@ -9837,7 +9763,7 @@ var $$ = Object.create(null);
     },
     get$iterator: function(_) {
       var t1 = this.toList$0(this);
-      return H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]);
+      return new H.ListIterator(t1, t1.length, 0, null);
     },
     addAll$1: function(_, iterable) {
       var t1, t2;
@@ -9918,6 +9844,14 @@ var $$ = Object.create(null);
     get$style: function(_) {
       return W._CssStyleDeclarationSet$(this._elementList);
     },
+    get$contentEdge: function(_) {
+      var t1, t2;
+      t1 = this._elementList;
+      t2 = J.get$first$ax(t1);
+      t2 = new W._ContentCssListRect(null, t2, 0, 0, 0, 0);
+      t2._elementList = t1;
+      return t2;
+    },
     get$borderEdge: function(_) {
       return J.get$borderEdge$x(J.get$first$ax(this._elementList));
     },
@@ -9974,14 +9908,14 @@ var $$ = Object.create(null);
       }}
   },
   _FrozenElementList$_wrap_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(e) {
       return !!J.getInterceptor(e).$isElement;
     },
     $isFunction: true
   },
   Element_Element$html_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(e) {
       return !!J.getInterceptor(e).$isElement;
     },
@@ -10002,37 +9936,6 @@ var $$ = Object.create(null);
       return [W.Node];
     },
     $isEfficientLength: true
-  },
-  HttpRequest_getString_closure: {
-    "^": "Closure:27;",
-    call$1: [function(xhr) {
-      return J.get$responseText$x(xhr);
-    }, "call$1", null, 2, 0, null, 58, "call"],
-    $isFunction: true
-  },
-  HttpRequest_request_closure0: {
-    "^": "Closure:38;xhr_0",
-    call$2: function(header, value) {
-      this.xhr_0.setRequestHeader(header, value);
-    },
-    $isFunction: true
-  },
-  HttpRequest_request_closure: {
-    "^": "Closure:27;completer_1,xhr_2",
-    call$1: [function(e) {
-      var t1, t2, t3;
-      t1 = this.xhr_2;
-      t2 = t1.status;
-      if (typeof t2 !== "number")
-        return t2.$ge();
-      t2 = t2 >= 200 && t2 < 300 || t2 === 0 || t2 === 304;
-      t3 = this.completer_1;
-      if (t2)
-        t3.complete$1(0, t1);
-      else
-        t3.completeError$1(e);
-    }, "call$1", null, 2, 0, null, 2, "call"],
-    $isFunction: true
   },
   _ChildNodeListLazy: {
     "^": "ListBase;_this",
@@ -10093,9 +9996,6 @@ var $$ = Object.create(null);
         return false;
       t1.removeChild(object);
       return true;
-    },
-    clear$0: function(_) {
-      J._clearChildren$0$x(this._this);
     },
     $indexSet: function(_, index, value) {
       var t1, t2;
@@ -10203,15 +10103,10 @@ var $$ = Object.create(null);
     addAll$1: function(_, other) {
       C.JSArray_methods.forEach$1(other, new W._AttributeMap_addAll_closure(this));
     },
-    putIfAbsent$2: function(key, ifAbsent) {
-      if (this.containsKey$1(key) !== true)
-        this.$indexSet(0, key, ifAbsent.call$0());
-      return this.$index(0, key);
-    },
     forEach$1: function(_, f) {
       var t1, key;
-      for (t1 = this.get$keys(), t1 = H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]); t1.moveNext$0();) {
-        key = t1._current;
+      for (t1 = this.get$keys(), t1 = new H.ListIterator(t1, t1.length, 0, null); t1.moveNext$0();) {
+        key = t1.__internal$_current;
         f.call$2(key, this.$index(0, key));
       }
     },
@@ -10251,7 +10146,7 @@ var $$ = Object.create(null);
     }
   },
   _AttributeMap_addAll_closure: {
-    "^": "Closure:38;this_0",
+    "^": "Closure:32;this_0",
     call$2: function(k, v) {
       this.this_0.$indexSet(0, k, v);
     },
@@ -10365,7 +10260,7 @@ var $$ = Object.create(null);
     }
   },
   _DataAttributeMap_addAll_closure: {
-    "^": "Closure:38;this_0",
+    "^": "Closure:32;this_0",
     call$2: function(k, v) {
       var t1 = this.this_0;
       t1._attributes._element.setAttribute("data-" + H.S(t1._toHyphenedName$1(k)), v);
@@ -10373,7 +10268,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   _DataAttributeMap_forEach_closure: {
-    "^": "Closure:59;this_0,f_1",
+    "^": "Closure:50;this_0,f_1",
     call$2: function(key, value) {
       var t1 = J.getInterceptor$s(key);
       if (t1.startsWith$1(key, "data-"))
@@ -10382,7 +10277,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   _DataAttributeMap_keys_closure: {
-    "^": "Closure:59;this_0,keys_1",
+    "^": "Closure:50;this_0,keys_1",
     call$2: function(key, value) {
       var t1 = J.getInterceptor$s(key);
       if (t1.startsWith$1(key, "data-"))
@@ -10391,7 +10286,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   _DataAttributeMap_values_closure: {
-    "^": "Closure:59;this_0,values_1",
+    "^": "Closure:50;this_0,values_1",
     call$2: function(key, value) {
       if (J.startsWith$1$s(key, "data-"))
         this.values_1.push(value);
@@ -10408,8 +10303,8 @@ var $$ = Object.create(null);
     writeClasses$1: function(s) {
       var classes, t1;
       classes = C.JSArray_methods.join$1(P.List_List$from(s, true, null), " ");
-      for (t1 = this._elementIterable, t1 = H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]); t1.moveNext$0();)
-        J.set$className$x(t1._current, classes);
+      for (t1 = this._elementIterable, t1 = new H.ListIterator(t1, t1.length, 0, null); t1.moveNext$0();)
+        J.set$className$x(t1.__internal$_current, classes);
     },
     modify$1: function(_, f) {
       this._elementCssClassSetIterable.forEach$1(0, new W._MultiElementCssClassSet_modify_closure(f));
@@ -10430,35 +10325,35 @@ var $$ = Object.create(null);
       }}
   },
   _MultiElementCssClassSet_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: [function(e) {
       return new W._ElementCssClassSet(e);
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   _MultiElementCssClassSet_readClasses_closure: {
-    "^": "Closure:27;s_0",
+    "^": "Closure:26;s_0",
     call$1: function(e) {
       return this.s_0.addAll$1(0, e.readClasses$0());
     },
     $isFunction: true
   },
   _MultiElementCssClassSet_modify_closure: {
-    "^": "Closure:27;f_0",
+    "^": "Closure:26;f_0",
     call$1: function(e) {
       return J.modify$1$x(e, this.f_0);
     },
     $isFunction: true
   },
   _MultiElementCssClassSet_remove_closure: {
-    "^": "Closure:27;value_0",
+    "^": "Closure:26;value_0",
     call$1: function(e) {
       return J.remove$1$ax(e, this.value_0);
     },
     $isFunction: true
   },
   _MultiElementCssClassSet__modifyWithReturnValue_closure: {
-    "^": "Closure:38;f_0",
+    "^": "Closure:32;f_0",
     call$2: function(prevValue, element) {
       return this.f_0.call$1(element) === true || prevValue === true;
     },
@@ -10469,8 +10364,8 @@ var $$ = Object.create(null);
     readClasses$0: function() {
       var s, t1, trimmed;
       s = P.LinkedHashSet_LinkedHashSet(null, null, null, P.String);
-      for (t1 = J.get$className$x(this._element).split(" "), t1 = H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]); t1.moveNext$0();) {
-        trimmed = J.trim$0$s(t1._current);
+      for (t1 = J.get$className$x(this._element).split(" "), t1 = new H.ListIterator(t1, t1.length, 0, null); t1.moveNext$0();) {
+        trimmed = J.trim$0$s(t1.__internal$_current);
         if (trimmed.length !== 0)
           s.add$1(0, trimmed);
       }
@@ -10518,6 +10413,21 @@ var $$ = Object.create(null);
       return t1 - t2;
     }
   },
+  _ContentCssListRect: {
+    "^": "_ContentCssRect;_elementList,_element,left,top,_width,_height",
+    set$width: function(_, newWidth) {
+      J.forEach$1$ax(this._elementList, new W._ContentCssListRect_width_closure(newWidth));
+    }
+  },
+  _ContentCssListRect_width_closure: {
+    "^": "Closure:26;newWidth_0",
+    call$1: function(e) {
+      var t1 = this.newWidth_0;
+      J.get$contentEdge$x(e).set$width(0, t1);
+      return t1;
+    },
+    $isFunction: true
+  },
   _BorderCssRect: {
     "^": "CssRect;_element,left,top,_width,_height",
     get$height: function(_) {
@@ -10541,8 +10451,8 @@ var $$ = Object.create(null);
     _addOrSubtractToBoxModel$2: function(dimensions, augmentingMeasurement) {
       var styles, t1, t2, t3, t4, t5, val, measurement, propValue, t6;
       styles = J.getComputedStyle$0$x(this._element);
-      for (t1 = H.setRuntimeTypeInfo(new H.ListIterator(dimensions, dimensions.length, 0, null), [H.getTypeArgumentByIndex(dimensions, 0)]), t2 = augmentingMeasurement === "margin", t3 = !t2, t4 = augmentingMeasurement === "content", t5 = J.getInterceptor$x(styles), val = 0; t1.moveNext$0();) {
-        measurement = t1._current;
+      for (t1 = new H.ListIterator(dimensions, dimensions.length, 0, null), t2 = augmentingMeasurement === "margin", t3 = !t2, t4 = augmentingMeasurement === "content", t5 = J.getInterceptor$x(styles), val = 0; t1.moveNext$0();) {
+        measurement = t1.__internal$_current;
         if (t2) {
           propValue = t5._getPropertyValueHelper$1(styles, augmentingMeasurement + "-" + H.S(measurement));
           t6 = W.Dimension$css(propValue != null ? propValue : "")._html$_value;
@@ -10606,9 +10516,9 @@ var $$ = Object.create(null);
       }}
   },
   _EventStream: {
-    "^": "Stream;_html$_target,_eventType,_useCapture",
+    "^": "Stream;_target,_eventType,_useCapture",
     listen$4$cancelOnError$onDone$onError: function(onData, cancelOnError, onDone, onError) {
-      var t1 = new W._EventStreamSubscription(0, this._html$_target, this._eventType, W._wrapZone(onData), this._useCapture);
+      var t1 = new W._EventStreamSubscription(0, this._target, this._eventType, W._wrapZone(onData), this._useCapture);
       t1.$builtinTypeInfo = this.$builtinTypeInfo;
       t1._tryResume$0();
       return t1;
@@ -10621,25 +10531,25 @@ var $$ = Object.create(null);
     }
   },
   _ElementEventStreamImpl: {
-    "^": "_EventStream;_html$_target,_eventType,_useCapture",
+    "^": "_EventStream;_target,_eventType,_useCapture",
     matches$1: function(_, selector) {
       var t1 = H.setRuntimeTypeInfo(new P._WhereStream(new W._ElementEventStreamImpl_matches_closure(selector), this), [H.getRuntimeTypeArgument(this, "Stream", 0)]);
       return H.setRuntimeTypeInfo(new P._MapStream(new W._ElementEventStreamImpl_matches_closure0(selector), t1), [H.getRuntimeTypeArgument(t1, "Stream", 0), null]);
     }
   },
   _ElementEventStreamImpl_matches_closure: {
-    "^": "Closure:27;selector_0",
+    "^": "Closure:26;selector_0",
     call$1: function($event) {
       return J.matchesWithAncestors$1$x(J.get$target$x($event), this.selector_0);
     },
     $isFunction: true
   },
   _ElementEventStreamImpl_matches_closure0: {
-    "^": "Closure:27;selector_1",
+    "^": "Closure:26;selector_1",
     call$1: [function(e) {
       J.set$_selector$x(e, this.selector_1);
       return e;
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   _ElementListEventStreamImpl: {
@@ -10653,7 +10563,7 @@ var $$ = Object.create(null);
       pool = H.setRuntimeTypeInfo(new W._StreamPool(null, P.LinkedHashMap_LinkedHashMap(null, null, null, [P.Stream, null], [P.StreamSubscription, null])), [null]);
       pool._html$_StreamPool$broadcast$0(null);
       for (t1 = this._targetList, t1 = t1.get$iterator(t1), t2 = this._eventType, t3 = this._useCapture; t1.moveNext$0();) {
-        t4 = new W._EventStream(t1._current, t2, t3);
+        t4 = new W._EventStream(t1.__internal$_current, t2, t3);
         t4.$builtinTypeInfo = [null];
         pool.add$1(0, t4);
       }
@@ -10669,32 +10579,32 @@ var $$ = Object.create(null);
     }
   },
   _ElementListEventStreamImpl_matches_closure: {
-    "^": "Closure:27;selector_0",
+    "^": "Closure:26;selector_0",
     call$1: function($event) {
       return J.matchesWithAncestors$1$x(J.get$target$x($event), this.selector_0);
     },
     $isFunction: true
   },
   _ElementListEventStreamImpl_matches_closure0: {
-    "^": "Closure:27;selector_1",
+    "^": "Closure:26;selector_1",
     call$1: [function(e) {
       J.set$_selector$x(e, this.selector_1);
       return e;
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   _EventStreamSubscription: {
-    "^": "StreamSubscription;_pauseCount,_html$_target,_eventType,_html$_onData,_useCapture",
+    "^": "StreamSubscription;_pauseCount,_target,_eventType,_onData,_useCapture",
     cancel$0: function() {
-      if (this._html$_target == null)
+      if (this._target == null)
         return;
       this._unlisten$0();
-      this._html$_target = null;
-      this._html$_onData = null;
+      this._target = null;
+      this._onData = null;
       return;
     },
     pause$1: function(_, resumeSignal) {
-      if (this._html$_target == null)
+      if (this._target == null)
         return;
       ++this._pauseCount;
       this._unlisten$0();
@@ -10706,20 +10616,20 @@ var $$ = Object.create(null);
       return this._pauseCount > 0;
     },
     resume$0: function() {
-      if (this._html$_target == null || this._pauseCount <= 0)
+      if (this._target == null || this._pauseCount <= 0)
         return;
       --this._pauseCount;
       this._tryResume$0();
     },
     _tryResume$0: function() {
-      var t1 = this._html$_onData;
+      var t1 = this._onData;
       if (t1 != null && this._pauseCount <= 0)
-        J.addEventListener$3$x(this._html$_target, this._eventType, t1, this._useCapture);
+        J.addEventListener$3$x(this._target, this._eventType, t1, this._useCapture);
     },
     _unlisten$0: function() {
-      var t1 = this._html$_onData;
+      var t1 = this._onData;
       if (t1 != null)
-        J.removeEventListener$3$x(this._html$_target, this._eventType, t1, this._useCapture);
+        J.removeEventListener$3$x(this._target, this._eventType, t1, this._useCapture);
     }
   },
   _StreamPool: {
@@ -10740,10 +10650,10 @@ var $$ = Object.create(null);
     close$0: [function(_) {
       var t1, t2, t3;
       for (t1 = this._subscriptions, t2 = t1.get$values(t1), t3 = t2._iterable, t2 = H.setRuntimeTypeInfo(new H.MappedIterator(null, t3.get$iterator(t3), t2._f), [H.getTypeArgumentByIndex(t2, 0), H.getTypeArgumentByIndex(t2, 1)]); t2.moveNext$0();)
-        t2._current.cancel$0();
+        t2.__internal$_current.cancel$0();
       t1.clear$0(0);
       this._controller.close$0(0);
-    }, "call$0", "get$close", 0, 0, 13],
+    }, "call$0", "get$close", 0, 0, 0],
     _html$_StreamPool$broadcast$0: function($T) {
       var t1 = this.get$close(this);
       t1 = H.setRuntimeTypeInfo(new P._SyncBroadcastStreamController(null, t1, 0, null, null, null, null), [$T]);
@@ -10753,7 +10663,7 @@ var $$ = Object.create(null);
     }
   },
   _StreamPool_add_closure: {
-    "^": "Closure:11;this_0,stream_1",
+    "^": "Closure:34;this_0,stream_1",
     call$0: [function() {
       return this.this_0.remove$1(0, this.stream_1);
     }, "call$0", null, 0, 0, null, "call"],
@@ -10779,10 +10689,10 @@ var $$ = Object.create(null);
       var t1, t2;
       t1 = $.get$_Html5NodeValidator__attributeValidators();
       if (t1.get$isEmpty(t1)) {
-        for (t2 = H.setRuntimeTypeInfo(new H.ListIterator(C.List_1GN, 261, 0, null), [H.getTypeArgumentByIndex(C.List_1GN, 0)]); t2.moveNext$0();)
-          t1.$indexSet(0, t2._current, W._Html5NodeValidator__standardAttributeValidator$closure());
-        for (t2 = H.setRuntimeTypeInfo(new H.ListIterator(C.List_yrN, 12, 0, null), [H.getTypeArgumentByIndex(C.List_yrN, 0)]); t2.moveNext$0();)
-          t1.$indexSet(0, t2._current, W._Html5NodeValidator__uriAttributeValidator$closure());
+        for (t2 = new H.ListIterator(C.List_1GN, 261, 0, null); t2.moveNext$0();)
+          t1.$indexSet(0, t2.__internal$_current, W._Html5NodeValidator__standardAttributeValidator$closure());
+        for (t2 = new H.ListIterator(C.List_yrN, 12, 0, null); t2.moveNext$0();)
+          t1.$indexSet(0, t2.__internal$_current, W._Html5NodeValidator__uriAttributeValidator$closure());
       }
     },
     static: {"^": "_Html5NodeValidator__allowedElements,_Html5NodeValidator__standardAttributes,_Html5NodeValidator__uriAttributes,_Html5NodeValidator__attributeValidators", _Html5NodeValidator$: function(uriPolicy) {
@@ -10794,7 +10704,7 @@ var $$ = Object.create(null);
         return t1;
       }, _Html5NodeValidator__standardAttributeValidator: [function(element, attributeName, value, context) {
         return true;
-      }, "call$4", "_Html5NodeValidator__standardAttributeValidator$closure", 8, 0, 28, 29, 30, 15, 31], _Html5NodeValidator__uriAttributeValidator: [function(element, attributeName, value, context) {
+      }, "call$4", "_Html5NodeValidator__standardAttributeValidator$closure", 8, 0, 27, 28, 29, 14, 30], _Html5NodeValidator__uriAttributeValidator: [function(element, attributeName, value, context) {
         var t1, t2, t3, t4, t5;
         t1 = context.get$uriPolicy();
         t2 = t1._hiddenAnchor;
@@ -10819,12 +10729,12 @@ var $$ = Object.create(null);
         else
           t1 = true;
         return t1;
-      }, "call$4", "_Html5NodeValidator__uriAttributeValidator$closure", 8, 0, 28, 29, 30, 15, 31]}
+      }, "call$4", "_Html5NodeValidator__uriAttributeValidator$closure", 8, 0, 27, 28, 29, 14, 30]}
   },
   ImmutableListMixin: {
     "^": "Object;",
     get$iterator: function(receiver) {
-      return H.setRuntimeTypeInfo(new W.FixedSizeListIterator(receiver, this.get$length(receiver), -1, null), [H.getRuntimeTypeArgument(receiver, "ImmutableListMixin", 0)]);
+      return new W.FixedSizeListIterator(receiver, this.get$length(receiver), -1, null);
     },
     add$1: function(receiver, value) {
       throw H.wrapException(P.UnsupportedError$("Cannot add to immutable List."));
@@ -10858,14 +10768,14 @@ var $$ = Object.create(null);
     }
   },
   NodeValidatorBuilder_allowsElement_closure: {
-    "^": "Closure:27;element_0",
+    "^": "Closure:26;element_0",
     call$1: function(v) {
       return v.allowsElement$1(this.element_0);
     },
     $isFunction: true
   },
   NodeValidatorBuilder_allowsAttribute_closure: {
-    "^": "Closure:27;element_0,attributeName_1,value_2",
+    "^": "Closure:26;element_0,attributeName_1,value_2",
     call$1: function(v) {
       return v.allowsAttribute$3(this.element_0, this.attributeName_1, this.value_2);
     },
@@ -10924,10 +10834,10 @@ var $$ = Object.create(null);
       }}
   },
   _TemplatingNodeValidator_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: [function(attr) {
       return "TEMPLATE::" + H.S(attr);
-    }, "call$1", null, 2, 0, null, 60, "call"],
+    }, "call$1", null, 2, 0, null, 51, "call"],
     $isFunction: true
   },
   _SvgNodeValidator: {
@@ -10947,32 +10857,23 @@ var $$ = Object.create(null);
     }
   },
   FixedSizeListIterator: {
-    "^": "Object;_array,_html$_length,_position,_html$_current",
+    "^": "Object;_array,_length,_position,_current",
     moveNext$0: function() {
       var nextPosition, t1;
       nextPosition = this._position + 1;
-      t1 = this._html$_length;
+      t1 = this._length;
       if (nextPosition < t1) {
-        this._html$_current = J.$index$asx(this._array, nextPosition);
+        this._current = J.$index$asx(this._array, nextPosition);
         this._position = nextPosition;
         return true;
       }
-      this._html$_current = null;
+      this._current = null;
       this._position = t1;
       return false;
     },
     get$current: function() {
-      return this._html$_current;
+      return this._current;
     }
-  },
-  _callConstructor_closure: {
-    "^": "Closure:27;constructor_0,interceptor_1",
-    call$1: [function(receiver) {
-      Object.defineProperty(receiver, init.dispatchPropertyName, {value: H.makeLeafDispatchRecord(this.interceptor_1), enumerable: false, writable: true, configurable: true});
-      receiver.constructor = receiver.__proto__.constructor;
-      return this.constructor_0(receiver);
-    }, "call$1", null, 2, 0, null, 32, "call"],
-    $isFunction: true
   },
   _DOMWindowCrossFrame: {
     "^": "Object;_window",
@@ -11060,7 +10961,7 @@ var $$ = Object.create(null);
     }
   },
   _ValidatingTreeSanitizer_sanitizeTree_walk: {
-    "^": "Closure:61;this_0",
+    "^": "Closure:52;this_0",
     call$1: function(node) {
       var child, nextChild;
       this.this_0.sanitizeNode$1(node);
@@ -11310,8 +11211,8 @@ var $$ = Object.create(null);
       s = P.LinkedHashSet_LinkedHashSet(null, null, null, P.String);
       if (classname == null)
         return s;
-      for (t1 = classname.split(" "), t1 = H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]); t1.moveNext$0();) {
-        trimmed = J.trim$0$s(t1._current);
+      for (t1 = classname.split(" "), t1 = new H.ListIterator(t1, t1.length, 0, null); t1.moveNext$0();) {
+        trimmed = J.trim$0$s(t1.__internal$_current);
         if (trimmed.length !== 0)
           s.add$1(0, trimmed);
       }
@@ -11548,6 +11449,9 @@ var $$ = Object.create(null);
       if (typeof t6 !== "number")
         return H.iae(t6);
       return P._JenkinsSmiHash_finish(P._JenkinsSmiHash_combine(P._JenkinsSmiHash_combine(P._JenkinsSmiHash_combine(P._JenkinsSmiHash_combine(0, t1), t2), t3 + t4 & 0x1FFFFFFF), t5 + t6 & 0x1FFFFFFF));
+    },
+    get$topLeft: function(_) {
+      return H.setRuntimeTypeInfo(new P.Point(this.get$left(this), this.get$top(this)), [H.getRuntimeTypeArgument(this, "_RectangleBase", 0)]);
     }
   },
   Rectangle: {
@@ -11880,16 +11784,20 @@ var $$ = Object.create(null);
       return this.readClasses$0().join$1(0, " ");
     },
     get$iterator: function(_) {
-      var t1 = this.readClasses$0();
-      t1 = H.setRuntimeTypeInfo(new P.LinkedHashSetIterator(t1, t1._modifications, null, null), [null]);
-      t1._cell = t1._set._first;
-      return t1;
+      var t1, t2;
+      t1 = this.readClasses$0();
+      t2 = new P.LinkedHashSetIterator(t1, t1._modifications, null, null);
+      t2._cell = t1._first;
+      return t2;
     },
     forEach$1: function(_, f) {
       this.readClasses$0().forEach$1(0, f);
     },
+    get$isEmpty: function(_) {
+      return this.readClasses$0()._collection$_length === 0;
+    },
     get$length: function(_) {
-      return this.readClasses$0()._length;
+      return this.readClasses$0()._collection$_length;
     },
     lookup$1: function(value) {
       return this.readClasses$0().contains$1(0, value) ? value : null;
@@ -11922,24 +11830,24 @@ var $$ = Object.create(null);
     $isEfficientLength: true
   },
   CssClassSetImpl_add_closure: {
-    "^": "Closure:27;value_0",
+    "^": "Closure:26;value_0",
     call$1: [function(s) {
       return J.add$1$ax(s, this.value_0);
-    }, "call$1", null, 2, 0, null, 62, "call"],
+    }, "call$1", null, 2, 0, null, 53, "call"],
     $isFunction: true
   },
   CssClassSetImpl_addAll_closure: {
-    "^": "Closure:27;iterable_0",
+    "^": "Closure:26;iterable_0",
     call$1: [function(s) {
       return J.addAll$1$ax(s, this.iterable_0);
-    }, "call$1", null, 2, 0, null, 62, "call"],
+    }, "call$1", null, 2, 0, null, 53, "call"],
     $isFunction: true
   },
   CssClassSetImpl_removeAll_closure: {
-    "^": "Closure:27;iterable_0",
+    "^": "Closure:26;iterable_0",
     call$1: [function(s) {
       return s.removeAll$1(this.iterable_0);
-    }, "call$1", null, 2, 0, null, 62, "call"],
+    }, "call$1", null, 2, 0, null, 53, "call"],
     $isFunction: true
   },
   FilteredElementList: {
@@ -12012,113 +11920,21 @@ var $$ = Object.create(null);
     },
     get$iterator: function(_) {
       var t1 = this.get$_filtered();
-      return H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]);
+      return new H.ListIterator(t1, t1.length, 0, null);
     }
   },
   FilteredElementList__filtered_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(n) {
       return !!J.getInterceptor(n).$isElement;
     },
     $isFunction: true
   },
   FilteredElementList_removeRange_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(el) {
       return J.remove$0$ax(el);
     },
-    $isFunction: true
-  }
-}],
-["", "package:slickdart/parser.dart", , G, {
-  "^": "",
-  CsvAdapter: {
-    "^": "Object;charWidth,widthBase,_cols,_data,strs",
-    updateMaxLen$1: function(fields) {
-      var len, t1, t2, i, newWidth, t3;
-      for (len = fields.length, t1 = this.charWidth, t2 = this.widthBase, i = 0; i < len; ++i) {
-        if (i >= fields.length)
-          return H.ioore(fields, i);
-        newWidth = J.$mul$ns(J.get$length$asx(fields[i]), t1) + t2;
-        t3 = this._cols.innerList;
-        if (i >= t3.length)
-          return H.ioore(t3, i);
-        if (J.$lt$n(J.$index$asx(t3[i], "width"), newWidth)) {
-          t3 = this._cols.innerList;
-          if (i >= t3.length)
-            return H.ioore(t3, i);
-          J.set$width$x(t3[i], newWidth);
-        }
-      }
-    },
-    makeData$0: function() {
-      return H.setRuntimeTypeInfo(new H.MappedListIterable(J.sublist$1$ax(this.strs, 1), new G.CsvAdapter_makeData_closure(this)), [null, null]).toList$0(0);
-    },
-    toDataMap$1: function(fields) {
-      var m, len, i, t1;
-      m = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
-      for (len = this._cols.innerList.length, i = 0; i < len; ++i) {
-        t1 = this._cols.innerList;
-        if (i >= t1.length)
-          return H.ioore(t1, i);
-        t1 = t1[i].get$field();
-        if (i >= fields.length)
-          return H.ioore(fields, i);
-        m.$indexSet(0, t1, fields[i]);
-      }
-      return m;
-    },
-    CsvAdapter$3: function(csv, charWidth, widthBase) {
-      var t1, t2;
-      t1 = J.split$1$s(csv, "\r");
-      this.strs = t1;
-      if (t1.length > 1) {
-        C.JSArray_methods.forEach$1(J.split$1$s(t1[0], ","), new G.CsvAdapter_closure());
-        t1 = this.strs;
-        if (0 >= t1.length)
-          return H.ioore(t1, 0);
-        this._cols = Z.ColumnList_ColumnList$fromMap(H.setRuntimeTypeInfo(new H.MappedListIterable(J.split$1$s(t1[0], ","), new G.CsvAdapter_closure0(this)), [null, null]).toList$0(0));
-      }
-      t1 = this.strs;
-      t2 = t1.length;
-      C.JSArray_methods.forEach$1(J.sublist$2$ax(t1, 1, t2 > 10 ? 10 : t2), new G.CsvAdapter_closure1(this));
-      this._data = this.makeData$0();
-    },
-    static: {CsvAdapter$: function(csv, charWidth, widthBase) {
-        var t1 = new G.CsvAdapter(charWidth, widthBase, null, null, null);
-        t1.CsvAdapter$3(csv, charWidth, widthBase);
-        return t1;
-      }}
-  },
-  CsvAdapter_closure: {
-    "^": "Closure:27;",
-    call$1: function(item) {
-      return P.print(item);
-    },
-    $isFunction: true
-  },
-  CsvAdapter_closure0: {
-    "^": "Closure:3;this_0",
-    call$1: [function(item) {
-      var t1, t2;
-      t1 = J.getInterceptor$s(item);
-      t2 = this.this_0;
-      return P.LinkedHashMap_LinkedHashMap$_literal(["field", t1.replaceAll$2(item, "\"", ""), "width", t2.widthBase + J.$mul$ns(t1.get$length(item), t2.charWidth), "id", item, "name", item], null, null);
-    }, "call$1", null, 2, 0, null, 63, "call"],
-    $isFunction: true
-  },
-  CsvAdapter_closure1: {
-    "^": "Closure:27;this_1",
-    call$1: function(line) {
-      return this.this_1.updateMaxLen$1(J.split$1$s(line, ","));
-    },
-    $isFunction: true
-  },
-  CsvAdapter_makeData_closure: {
-    "^": "Closure:27;this_0",
-    call$1: [function(line) {
-      return this.this_0.toDataMap$1(J.split$1$s(line, ","));
-    }, "call$1", null, 2, 0, null, 64, "call"],
     $isFunction: true
   }
 }],
@@ -12333,7 +12149,7 @@ var $$ = Object.create(null);
     }
   },
   Node__createTree_closure: {
-    "^": "Closure:38;box_0",
+    "^": "Closure:32;box_0",
     call$2: function(prev, elem) {
       var t1 = J.getInterceptor$asx(elem);
       return J.$add$ns(prev, t1.$index(elem, "_height") != null ? t1.$index(elem, "_height") : this.box_0.root_0.get$defaultHeight());
@@ -12352,67 +12168,6 @@ var $$ = Object.create(null);
 }],
 ["slick.column", "package:slickdart/slick_column.dart", , Z, {
   "^": "",
-  ColumnList: {
-    "^": "ListBase;innerList",
-    get$length: function(_) {
-      return this.innerList.length;
-    },
-    set$length: function(_, $length) {
-      C.JSArray_methods.set$length(this.innerList, $length);
-    },
-    $indexSet: function(_, index, value) {
-      var t1 = this.innerList;
-      if (index >>> 0 !== index || index >= t1.length)
-        return H.ioore(t1, index);
-      t1[index] = value;
-    },
-    $index: function(_, index) {
-      var t1 = this.innerList;
-      if (index >>> 0 !== index || index >= t1.length)
-        return H.ioore(t1, index);
-      return t1[index];
-    },
-    add$1: function(_, value) {
-      return this.innerList.push(value);
-    },
-    addAll$1: function(_, all) {
-      return C.JSArray_methods.addAll$1(this.innerList, all);
-    },
-    $asListBase: function() {
-      return [Z.Column];
-    },
-    $asObject_ListMixin: function() {
-      return [Z.Column];
-    },
-    $asList: function() {
-      return [Z.Column];
-    },
-    static: {ColumnList_ColumnList$fromMap: function(mList) {
-        var cols = new Z.ColumnList([]);
-        C.JSArray_methods.forEach$1(mList, new Z.ColumnList_ColumnList$fromMap_closure(cols));
-        return cols;
-      }}
-  },
-  ColumnList_ColumnList$fromMap_closure: {
-    "^": "Closure:65;cols_0",
-    call$1: function(k) {
-      var t1, t2;
-      if (k.containsKey$1("id") !== true) {
-        t1 = J.getInterceptor$asx(k);
-        t1.$indexSet(k, "id", t1.$index(k, "field"));
-      }
-      if (k.containsKey$1("name") !== true) {
-        t1 = J.getInterceptor$asx(k);
-        t1.$indexSet(k, "name", t1.$index(k, "field"));
-      }
-      t1 = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
-      t2 = P.LinkedHashMap_LinkedHashMap$_literal(["name", "", "resizable", true, "sortable", false, "minWidth", 30, "rerenderOnResize", false, "headerCssClass", null, "defaultSortAsc", true, "focusable", true, "selectable", true, "cannotTriggerInsert", false], null, null);
-      t1.addAll$1(0, t2);
-      t1.addAll$1(0, k);
-      this.cols_0.innerList.push(new Z.Column(t1, t2));
-    },
-    $isFunction: true
-  },
   Column: {
     "^": "Object;_src<,_columnDefaults",
     get$asyncPostRender: function() {
@@ -12475,14 +12230,8 @@ var $$ = Object.create(null);
     get$cannotTriggerInsert: function() {
       return this._src.$index(0, "cannotTriggerInsert");
     },
-    set$toolTip: function(item) {
-      this._src.$indexSet(0, "toolTip", item);
-    },
     set$previousWidth: function(item) {
       this._src.$indexSet(0, "previousWidth", item);
-    },
-    set$name: function(_, item) {
-      this._src.$indexSet(0, "name", item);
     },
     set$width: function(_, item) {
       this._src.$indexSet(0, "width", item);
@@ -12493,144 +12242,20 @@ var $$ = Object.create(null);
     toString$0: function(_) {
       return this._src.toString$0(0);
     },
-    $isColumn: true,
-    static: {Column_Column$fromColumn: function(old) {
+    static: {Column_Column$fromMap: function(src) {
         var t1, t2;
         t1 = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
         t2 = P.LinkedHashMap_LinkedHashMap$_literal(["name", "", "resizable", true, "sortable", false, "minWidth", 30, "rerenderOnResize", false, "headerCssClass", null, "defaultSortAsc", true, "focusable", true, "selectable", true, "cannotTriggerInsert", false], null, null);
         t1.addAll$1(0, t2);
-        t1.addAll$1(0, old.get$_src());
+        t1.addAll$1(0, src);
         return new Z.Column(t1, t2);
       }}
-  },
-  CheckboxSelectColumn: {
-    "^": "Column_IPlugin;_column$_options,_column$_defaults,_column$_grid,_column$_handler,_selectedRowsLookup,_src,_columnDefaults",
-    init$1: function(_, grid) {
-      this._column$_grid = grid;
-      this._column$_handler.subscribe$2(grid.onSelectedRowsChanged, this.get$handleSelectedRowsChanged()).subscribe$2(this._column$_grid.onClick, this.get$handleClick()).subscribe$2(this._column$_grid.onHeaderClick, this.get$handleHeaderClick()).subscribe$2(this._column$_grid.onKeyDown, this.get$handleKeyDown());
-    },
-    destroy$0: function() {
-      this._column$_handler.unsubscribeAll$0();
-    },
-    handleSelectedRowsChanged$2: [function(e, args) {
-      var t1, selectedRows, lookup, i, row, t2, t3;
-      t1 = this._column$_grid;
-      if (t1.selectionModel == null)
-        H.throwExpression("Selection model is not set");
-      selectedRows = t1.selectedRows;
-      lookup = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
-      for (i = 0; i < selectedRows.length; ++i) {
-        row = selectedRows[i];
-        lookup.$indexSet(0, row, true);
-        t1 = lookup.$index(0, row);
-        t2 = this._selectedRowsLookup.$index(0, row);
-        if (t1 == null ? t2 != null : t1 !== t2) {
-          this._column$_grid.invalidateRows$1([row]);
-          this._selectedRowsLookup.remove$1(0, row);
-        }
-      }
-      for (t1 = this._selectedRowsLookup.get$keys(), t2 = t1._map, t1 = H.setRuntimeTypeInfo(new P.LinkedHashMapKeyIterator(t2, t2._modifications, null, null), [H.getTypeArgumentByIndex(t1, 0)]), t1._cell = t1._map._first; t1.moveNext$0();) {
-        i = t1._collection$_current;
-        this._column$_grid.invalidateRows$1([i]);
-      }
-      this._selectedRowsLookup = lookup;
-      this._column$_grid.render$0();
-      t1 = selectedRows.length;
-      t1 = t1 > 0 && t1 === this._column$_grid.data.length;
-      t2 = this._column$_grid;
-      t3 = this._column$_options;
-      if (t1)
-        t2.updateColumnHeader$3(t3.$index(0, "columnId"), "<input type='checkbox' checked='checked'>", this._column$_options.$index(0, "toolTip"));
-      else
-        t2.updateColumnHeader$3(t3.$index(0, "columnId"), "<input type='checkbox'>", this._column$_options.$index(0, "toolTip"));
-    }, "call$2", "get$handleSelectedRowsChanged", 4, 0, 43, 2, 42],
-    handleKeyDown$2: [function(e, args) {
-      var t1, t2;
-      t1 = J.getInterceptor$x(e);
-      if (t1.get$which(e) === 32) {
-        t2 = J.getInterceptor$asx(args);
-        if (J.$eq(J.get$id$x(J.$index$asx(this._column$_grid.columns, t2.$index(args, "cell"))), this._column$_options.$index(0, "columnId"))) {
-          if (this._column$_grid.options.$index(0, "editorLock").isActive$0() !== true || this._column$_grid.options.$index(0, "editorLock").commitCurrentEdit$0() === true)
-            this.toggleRowSelection$1(t2.$index(args, "row"));
-          t1.preventDefault$0(e);
-          t1.stopImmediatePropagation$0(e);
-        }
-      }
-    }, "call$2", "get$handleKeyDown", 4, 0, 66, 2, 42],
-    handleClick$2: [function(e, args) {
-      var evt, t1;
-      evt = !!J.getInterceptor(e).$isEventData ? e : B.EventData_EventData$fromDom(e);
-      P.print(C.JSString_methods.$add(C.JSString_methods.$add("handle from:", new H.TypeImpl(H.getRuntimeTypeString(this), null).toString$0(0)) + " ", J.toString$0(J.get$target$x(evt.get$domEvent()))));
-      t1 = J.getInterceptor$asx(args);
-      if (J.$eq(J.get$id$x(J.$index$asx(this._column$_grid.columns, t1.$index(args, "cell"))), this._column$_options.$index(0, "columnId")) && !!J.getInterceptor(J.get$target$x(evt.get$domEvent())).$isCheckboxInputElement) {
-        if (this._column$_grid.options.$index(0, "editorLock").isActive$0() === true && this._column$_grid.options.$index(0, "editorLock").commitCurrentEdit$0() !== true) {
-          J.preventDefault$0$x(evt.get$domEvent());
-          J.stopImmediatePropagation$0$x(evt.get$domEvent());
-          evt.set$_isImmediatePropagationStopped(true);
-          return;
-        }
-        this.toggleRowSelection$1(t1.$index(args, "row"));
-        J.stopPropagation$0$x(evt.get$domEvent());
-        evt.set$_isPropagationStopped(true);
-        J.stopImmediatePropagation$0$x(evt.get$domEvent());
-        evt.set$_isImmediatePropagationStopped(true);
-      }
-    }, "call$2", "get$handleClick", 4, 0, 66, 2, 42],
-    toggleRowSelection$1: function(row) {
-      var t1, list;
-      t1 = this._column$_grid;
-      if (t1.selectionModel == null)
-        H.throwExpression("Selection model is not set");
-      list = t1.selectedRows;
-      if (this._selectedRowsLookup.containsKey$1(row))
-        C.JSArray_methods.remove$1(list, row);
-      else
-        list.push(row);
-      this._column$_grid.setSelectedRows$1(list);
-    },
-    handleHeaderClick$2: [function(evt, args) {
-      var e, t1, rows, i, t2;
-      e = evt.get$domEvent();
-      if (J.$eq(H.interceptedTypeCast(J.$index$asx(args, "column"), "$isColumn")._src.$index(0, "id"), this._column$_options.$index(0, "columnId")) && !!J.getInterceptor(J.get$target$x(e)).$isCheckboxInputElement) {
-        if (this._column$_grid.options.$index(0, "editorLock").isActive$0() === true && this._column$_grid.options.$index(0, "editorLock").commitCurrentEdit$0() !== true) {
-          t1 = J.getInterceptor$x(e);
-          t1.preventDefault$0(e);
-          t1.stopImmediatePropagation$0(e);
-          return;
-        }
-        t1 = J.getInterceptor$x(e);
-        if (!!J.getInterceptor(t1.get$target(e)).$isCheckboxInputElement && J.get$checked$x(H.interceptedTypeCast(t1.get$target(e), "$isCheckboxInputElement")) === true) {
-          rows = [];
-          for (i = 0; t2 = this._column$_grid, i < t2.data.length; ++i)
-            rows.push(i);
-          t2.setSelectedRows$1(rows);
-        } else
-          this._column$_grid.setSelectedRows$1([]);
-        t1.stopPropagation$0(e);
-        t1.stopImmediatePropagation$0(e);
-      }
-    }, "call$2", "get$handleHeaderClick", 4, 0, 43, 67, 42],
-    checkboxSelectionFormatter$5: [function(row, cell, value, columnDef, dataContext) {
-      if (dataContext != null)
-        return this._selectedRowsLookup.containsKey$1(row) ? "<input type='checkbox' checked='checked'>" : "<input type='checkbox'>";
-      return;
-    }, "call$5", "get$checkboxSelectionFormatter", 10, 0, 68, 69, 70, 15, 71, 72],
-    CheckboxSelectColumn$1: function(options) {
-      var t1 = P.LinkedHashMap_LinkedHashMap(null, null, null, null, null);
-      t1.addAll$1(0, this._column$_defaults);
-      this._column$_options = t1;
-      t1.addAll$1(0, options);
-    }
-  },
-  Column_IPlugin: {
-    "^": "Column+IPlugin;",
-    $isIPlugin: true
   }
 }],
 ["slick.core", "package:slickdart/slick_core.dart", , B, {
   "^": "",
   EventData: {
-    "^": "Object;domEvent<,_isPropagationStopped?,_isImmediatePropagationStopped?",
+    "^": "Object;domEvent,_isPropagationStopped,_isImmediatePropagationStopped",
     get$target: function(_) {
       return J.get$target$x(this.domEvent);
     },
@@ -12718,15 +12343,21 @@ var $$ = Object.create(null);
   },
   Range: {
     "^": "Object;fromRow<,fromCell<,toRow<,toCell<",
+    contains$2: function(_, row, cell) {
+      var t1 = J.getInterceptor$n(row);
+      if (t1.$ge(row, this.fromRow))
+        if (t1.$le(row, this.toRow)) {
+          t1 = J.getInterceptor$n(cell);
+          t1 = t1.$ge(cell, this.fromCell) && t1.$le(cell, this.toCell);
+        } else
+          t1 = false;
+      else
+        t1 = false;
+      return t1;
+    },
     toString$0: function(_) {
       var t1, t2;
-      if (J.$eq(this.fromRow, this.toRow)) {
-        t1 = this.fromCell;
-        t2 = this.toCell;
-        t2 = t1 == null ? t2 == null : t1 === t2;
-        t1 = t2;
-      } else
-        t1 = false;
+      t1 = J.$eq(this.fromRow, this.toRow) && J.$eq(this.fromCell, this.toCell);
       t2 = this.fromRow;
       if (t1)
         return "( + " + H.S(t2) + " : " + H.S(this.fromCell) + " )";
@@ -12734,7 +12365,7 @@ var $$ = Object.create(null);
         return "( " + H.S(t2) + " : " + H.S(this.fromCell) + " - " + H.S(this.toRow) + " : " + H.S(this.toCell) + " )";
     },
     Range$4: function(fromRow, fromCell, toRow, toCell) {
-      var t1, tmp, t2;
+      var t1, tmp;
       t1 = this.toRow;
       if (t1 == null && this.toCell == null) {
         t1 = this.fromRow;
@@ -12746,15 +12377,10 @@ var $$ = Object.create(null);
         this.toRow = this.fromRow;
         this.fromRow = tmp;
       }
-      t1 = this.fromCell;
-      t2 = this.toCell;
-      if (typeof t1 !== "number")
-        return t1.$gt();
-      if (typeof t2 !== "number")
-        return H.iae(t2);
-      if (t1 > t2) {
-        this.toCell = t1;
-        this.fromCell = t2;
+      if (J.$gt$n(this.fromCell, this.toCell)) {
+        tmp = this.toCell;
+        this.toCell = this.fromCell;
+        this.fromCell = tmp;
       }
     },
     static: {Range$: function(fromRow, fromCell, toRow, toCell) {
@@ -12799,130 +12425,6 @@ var $$ = Object.create(null);
     }
   }
 }],
-["slick.cust.el", "package:slickdart/slick_custom.dart", , U, {
-  "^": "",
-  JGrid: {
-    "^": "HtmlElement;shadowRoot,grid=",
-    init$2: function(receiver, data, colDefs) {
-      var t1 = this._prepareGrid$2(receiver, receiver.shadowRoot.lastChild, colDefs);
-      receiver.grid = t1;
-      t1.init$0(0);
-      C.JSArray_methods.set$length(receiver.grid.data, 0);
-      C.JSArray_methods.addAll$1(receiver.grid.data, data);
-      receiver.grid.finishInitialization$0();
-    },
-    attached$0: function(receiver) {
-      var t1;
-      P.print("attached");
-      t1 = receiver.shadowRoot.host;
-      t1.toString;
-      P.print(C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(t1.clientWidth)));
-      t1 = J.get$onContextMenu$x(receiver.shadowRoot.host);
-      H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._html$_target, t1._eventType, W._wrapZone(this.get$_cjContextMenu(receiver)), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)])._tryResume$0();
-    },
-    detached$0: function(receiver) {
-      receiver.grid.unSubscribe$0();
-    },
-    _prepareGrid$3$opt: function(receiver, el, colDefs, opt) {
-      var data, t1, t2, t3, t4, sg;
-      data = [];
-      opt = P.LinkedHashMap_LinkedHashMap$_literal(["multiColumnSort", true, "editable", true, "autoEdit", true, "frozenColumn", 1], null, null);
-      opt.$indexSet(0, "explicitInitialization", true);
-      t1 = H.setRuntimeTypeInfo(new P.Expando(null), [Z.Column]);
-      t2 = new B.Event([]);
-      t3 = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
-      t4 = P.LinkedHashMap_LinkedHashMap$_literal(["name", "", "resizable", true, "sortable", false, "minWidth", 30, "rerenderOnResize", false, "headerCssClass", null, "defaultSortAsc", true, "focusable", true, "selectable", true, "cannotTriggerInsert", false], null, null);
-      t3.addAll$1(0, t4);
-      sg = new R.SlickGrid(t1, el, data, colDefs, opt, null, [], new B.Event([]), t2, new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), new B.Event([]), null, new Z.Column(t3, t4), null, null, null, null, null, null, 0, 0, 1, false, "slickgrid_" + C.JSInt_methods.toString$0(C.C__JSRandom.nextInt$1(10000000)), null, null, [], [], [], null, null, [], [], [], [], null, [], null, null, null, null, null, null, 0, 0, null, null, null, null, null, null, null, false, false, 0, 0, 0, 0, null, false, 0, -1, 0, 0, 0, 0, 0, 0, 1, null, null, null, null, null, null, null, null, null, P.LinkedHashMap_LinkedHashMap$_empty(null, null), 0, null, 0, 0, 0, 0, 0, 0, null, [], [], P.LinkedHashMap_LinkedHashMap$_empty(null, null), P.LinkedHashMap_LinkedHashMap$_empty(null, null), [], [], [], null, null, null, P.LinkedHashMap_LinkedHashMap$_empty(null, null), null, null, 0, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0);
-      sg.SlickGrid$4(el, data, colDefs, opt);
-      J.forEach$1$ax(colDefs, new U.JGrid__prepareGrid_closure(sg));
-      t2.handlers.push(new U.JGrid__prepareGrid_closure0(data, sg));
-      return sg;
-    },
-    _prepareGrid$2: function($receiver, el, colDefs) {
-      return this._prepareGrid$3$opt($receiver, el, colDefs, null);
-    },
-    _cjContextMenu$1: [function(receiver, e) {
-      var t1;
-      window.alert("hi");
-      t1 = J.getInterceptor$x(e);
-      t1.stopPropagation$0(e);
-      t1.preventDefault$0(e);
-    }, "call$1", "get$_cjContextMenu", 2, 0, 73, 2],
-    JGrid$created$0: function(receiver) {
-      var t1 = (receiver.createShadowRoot || receiver.webkitCreateShadowRoot).call(receiver);
-      receiver.shadowRoot = t1;
-      t1.innerHTML = "<style>\n @import \"packages/slickdart/slick.grid.css\";\n</style>\n<style>\n@import \"packages/slickdart/slick_default_theme.css\"; \n</style>\n<style>\n#grid{\n   height: 100%;\n   width: 100%;\n   background: white;\n   display: block;\n}\n</style>\n<div id='grid'></div>";
-    },
-    $isJGrid: true,
-    static: {JGrid$created: function(receiver) {
-        receiver.toString;
-        C.JGrid_methods.Element$created$0(receiver);
-        C.JGrid_methods.JGrid$created$0(receiver);
-        return receiver;
-      }}
-  },
-  JGrid__prepareGrid_closure: {
-    "^": "Closure:27;sg_0",
-    call$1: function(item) {
-      var t1, t2;
-      t1 = J.getInterceptor(item);
-      if (!!t1.$isIPlugin) {
-        t2 = this.sg_0;
-        t2.plugins.push(item);
-        t1.init$1(item, t2);
-        t2.setSelectionModel$1(V.RowSelectionModel$(P.LinkedHashMap_LinkedHashMap$_literal(["selectActiveRow", false], null, null)));
-      }
-    },
-    $isFunction: true
-  },
-  JGrid__prepareGrid_closure0: {
-    "^": "Closure:38;data_1,sg_2",
-    call$2: [function(e, args) {
-      var cols, t1;
-      cols = J.$index$asx(args, "sortCols");
-      t1 = this.data_1;
-      C.JSArray_methods.checkMutable$1(t1, "sort");
-      H.IterableMixinWorkaround_sortList(t1, new U.JGrid__prepareGrid__closure(cols));
-      t1 = this.sg_2;
-      t1.updateRowCount$0();
-      t1.invalidateAllRows$0();
-      t1.render$0();
-      t1.render$0();
-    }, "call$2", null, 4, 0, null, 2, 42, "call"],
-    $isFunction: true
-  },
-  JGrid__prepareGrid__closure: {
-    "^": "Closure:38;cols_3",
-    call$2: function(dataRow1, dataRow2) {
-      var t1, t2, l, t3, t4, i, field, sign, value1, value2, t5, result;
-      t1 = this.cols_3;
-      t2 = J.getInterceptor$asx(t1);
-      l = t2.get$length(t1);
-      if (typeof l !== "number")
-        return H.iae(l);
-      t3 = J.getInterceptor$asx(dataRow1);
-      t4 = J.getInterceptor$asx(dataRow2);
-      i = 0;
-      for (; i < l; ++i) {
-        field = J.$index$asx(J.$index$asx(t2.$index(t1, i), "sortCol"), "field");
-        sign = J.$index$asx(t2.$index(t1, i), "sortAsc") === true ? 1 : -1;
-        value1 = t3.$index(dataRow1, field);
-        value2 = t4.$index(dataRow2, field);
-        t5 = J.getInterceptor(value1);
-        if (t5.$eq(value1, value2))
-          t5 = 0;
-        else
-          t5 = t5.compareTo$1(value1, value2) > 0 ? 1 : -1;
-        result = t5 * sign;
-        if (result !== 0)
-          return result;
-      }
-      return 0;
-    },
-    $isFunction: true
-  }
-}],
 ["slick.dnd", "package:slickdart/slick_dnd.dart", , E, {
   "^": "",
   DragAndDrop: {
@@ -12931,7 +12433,7 @@ var $$ = Object.create(null);
       var cols, t1, col, t2;
       cols = W._FrozenElementList$_wrap(this.rootEl.querySelectorAll(".slick-header-column"), null);
       for (t1 = cols.get$iterator(cols); t1.moveNext$0();) {
-        col = t1._current;
+        col = t1.__internal$_current;
         t2 = J.getInterceptor$x(col);
         t2.set$draggable(col, true);
         t2.get$onDragStart(col).listen$1(this.get$_onDragStart());
@@ -12953,7 +12455,7 @@ var $$ = Object.create(null);
       J.get$top$x(t1.getBoundingClientRect());
       line = J.toString$0(t1);
       H.printString(line);
-    }, "call$1", "get$_onDrag", 2, 0, 74, 75],
+    }, "call$1", "get$_onDrag", 2, 0, 54, 55],
     _onDragStart$1: [function($event) {
       var t1, dragTarget, t2;
       H.printString("drag start");
@@ -12964,25 +12466,25 @@ var $$ = Object.create(null);
       this._dragSourceEl = dragTarget;
       t1.get$dataTransfer($event).effectAllowed = "move";
       t1.get$dataTransfer($event).setData("text/html", t2.get$innerHtml(dragTarget));
-    }, "call$1", "get$_onDragStart", 2, 0, 74, 75],
+    }, "call$1", "get$_onDragStart", 2, 0, 54, 55],
     _onDragEnd$1: [function($event) {
       var cols, t1;
       J.get$classes$x(J.get$target$x($event)).remove$1(0, "moving");
       cols = W._FrozenElementList$_wrap(this.rootEl.querySelectorAll(".slick-header-column"), null);
       for (t1 = cols.get$iterator(cols); t1.moveNext$0();)
-        J.get$classes$x(t1._current).remove$1(0, "over");
-    }, "call$1", "get$_onDragEnd", 2, 0, 74, 75],
+        J.get$classes$x(t1.__internal$_current).remove$1(0, "over");
+    }, "call$1", "get$_onDragEnd", 2, 0, 54, 55],
     _onDragEnter$1: [function($event) {
       J.get$classes$x(J.get$target$x($event)).add$1(0, "over");
-    }, "call$1", "get$_onDragEnter", 2, 0, 74, 75],
+    }, "call$1", "get$_onDragEnter", 2, 0, 54, 55],
     _onDragOver$1: [function($event) {
       var t1 = J.getInterceptor$x($event);
       t1.preventDefault$0($event);
       t1.get$dataTransfer($event).dropEffect = "move";
-    }, "call$1", "get$_onDragOver", 2, 0, 74, 75],
+    }, "call$1", "get$_onDragOver", 2, 0, 54, 55],
     _onDragLeave$1: [function($event) {
       J.get$classes$x(J.get$target$x($event)).remove$1(0, "over");
-    }, "call$1", "get$_onDragLeave", 2, 0, 74, 75],
+    }, "call$1", "get$_onDragLeave", 2, 0, 54, 55],
     _onDrop$1: [function($event) {
       var t1, dropTarget, t2;
       t1 = J.getInterceptor$x($event);
@@ -12993,7 +12495,7 @@ var $$ = Object.create(null);
         J.set$innerHtml$x(this._dragSourceEl, t2.get$innerHtml(dropTarget));
         t2.set$innerHtml(dropTarget, t1.get$dataTransfer($event).getData("text/html"));
       }
-    }, "call$1", "get$_onDrop", 2, 0, 74, 75]
+    }, "call$1", "get$_onDrop", 2, 0, 54, 55]
   }
 }],
 ["slick.editor", "package:slickdart/slick_editor.dart", , Y, {
@@ -13043,7 +12545,7 @@ var $$ = Object.create(null);
   TextEditor: {
     "^": "InputEditor;editor$InputEditor$$input,_ep,$$input,defaultValue",
     set$editorParm: function(m) {
-      var t1, t2, t3;
+      var t1, t2, t3, t4, t5, t6, t7;
       Y.Editor.prototype.set$editorParm.call(this, m);
       t1 = W.InputElement_InputElement("text");
       this.editor$InputEditor$$input = t1;
@@ -13052,7 +12554,13 @@ var $$ = Object.create(null);
       t1 = this.editor$InputEditor$$input;
       t2 = J.getInterceptor$x(t1);
       t3 = t2.get$onKeyDown(t1).matches$1(0, ".nav");
-      P._ForwardingStreamSubscription$(t3, new Y.TextEditor_editorParm_closure(), null, null, false, H.getRuntimeTypeArgument(t3, "_ForwardingStream", 0), H.getRuntimeTypeArgument(t3, "_ForwardingStream", 1));
+      t4 = new Y.TextEditor_editorParm_closure();
+      t5 = H.getRuntimeTypeArgument(t3, "_ForwardingStream", 0);
+      t6 = H.getRuntimeTypeArgument(t3, "_ForwardingStream", 1);
+      t7 = $.Zone__current;
+      t7 = H.setRuntimeTypeInfo(new P._ForwardingStreamSubscription(t3, null, null, null, null, t7, 0, null, null), [t5, t6]);
+      t7._BufferingStreamSubscription$4(t4, null, null, false, t6);
+      t7._ForwardingStreamSubscription$5(t3, t4, null, null, false, t5, t6);
       t1.focus();
       t2.select$0(t1);
     },
@@ -13078,12 +12586,12 @@ var $$ = Object.create(null);
     }
   },
   TextEditor_editorParm_closure: {
-    "^": "Closure:76;",
+    "^": "Closure:56;",
     call$1: [function(e) {
       var t1 = J.getInterceptor$x(e);
       if (t1.get$keyCode(e) === 37 || t1.get$keyCode(e) === 39)
         t1.stopImmediatePropagation$0(e);
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   CheckboxEditor: {
@@ -13131,8 +12639,7 @@ var $$ = Object.create(null);
 ["slick.grid", "package:slickdart/slick_grid.dart", , R, {
   "^": "",
   IPlugin: {
-    "^": "Object;",
-    $isIPlugin: true
+    "^": "Object;"
   },
   NullTreeSanitizer: {
     "^": "Object;",
@@ -13143,44 +12650,36 @@ var $$ = Object.create(null);
     "^": "Object;columnCount,rowNode@,cellColSpans<,cellNodesByColumnIdx<,cellRenderQueue<"
   },
   SlickGrid: {
-    "^": "Object;_headExt,container,data,columns,options,_ancestorScrollSubscribe,_subscriptionList,onScroll>,onSort,onHeaderMouseEnter,onHeaderMouseLeave,onHeaderContextMenu,onHeaderClick,onHeaderCellRendered,onBeforeHeaderCellDestroy,onHeaderRowCellRendered,onBeforeHeaderRowCellDestroy,onMouseEnter,onMouseLeave,onClick>,onDblClick,onContextMenu>,onKeyDown>,onAddNewRow,onValidationError,onViewportChanged,onColumnsReordered,onColumnsResized,onCellChange,onBeforeEditCell,onBeforeCellEditorDestroy,onBeforeDestroy,onActiveCellChanged,onActiveCellPositionChanged,onDragInit,onDragStart>,onDrag>,onDragEnd>,onSelectedRowsChanged,onCellCssStylesChanged,defaults,columnDefaults,yLookup,th,h,ph,n,cj,page>,offset,vScrollDir,initialized?,uid,$$focusSink,$$focusSink2,$$headerScroller,$$headers,$$headerRow,$$headerRowSpacerL,$$headerRowSpacerR,$$headerRowScroller,$$topPanelScroller,$$topPanel,$$viewport,$$viewportL,$$canvas,$$canvasL,$$style,$$boundAncestors,stylesheet,columnCssRulesL,columnCssRulesR,viewportH,viewportW,viewportWL,canvasWidth,canvasWidthL,canvasWidthR,headersWidth,headersWidthL,headersWidthR,viewportHasHScroll,viewportHasVScroll,headerColumnWidthDiff,headerColumnHeightDiff,cellWidthDiff,cellHeightDiff,absoluteColumnMinWidth,hasFrozenRows,frozenRowsHeight,actualFrozenRow,paneTopH,paneBottomH,viewportTopH,viewportBottomH,topPanelH,headerRowH,tabbingDirection,$$activeCanvasNode,$$activeViewportNode,activePosX,activeRow,activeCell,activeCellNode,currentEditor,serializedEditorValue,editController,rowsCache,renderedRows,numVisibleRows,prevScrollTop,scrollTop>,lastRenderedScrollTop,lastRenderedScrollLeft,prevScrollLeft,scrollLeft>,selectionModel,selectedRows,plugins,cellCssClasses,columnsById,sortColumns,columnPosLeft,columnPosRight,h_editorLoader,h_render,h_postrender,postProcessedRows,postProcessToRow,postProcessFromRow,counter_rows_rendered,counter_rows_removed,$$paneHeaderL,$$paneHeaderR,$$paneTopL,$$paneTopR,$$paneBottomL,$$paneBottomR,$$headerScrollerL,$$headerScrollerR,$$headerL,$$headerR,$$headerRowScrollerL,$$headerRowScrollerR,$$headerRowL,$$headerRowR,$$topPanelScrollerL,$$topPanelScrollerR,$$topPanelL,$$topPanelR,$$viewportTopL,$$viewportTopR,$$viewportBottomL,$$viewportBottomR,$$canvasTopL,$$canvasTopR,$$canvasBottomL,$$canvasBottomR,$$viewportScrollContainerX,$$viewportScrollContainerY,$$headerScrollContainer,$$headerRowScrollContainer,scount",
+    "^": "Object;_headExt,container,data,columns,options,_ancestorScrollSubscribe,_subscriptionList,onScroll>,onSort,onHeaderMouseEnter,onHeaderMouseLeave,onHeaderContextMenu,onHeaderClick,onHeaderCellRendered,onBeforeHeaderCellDestroy,onHeaderRowCellRendered,onBeforeHeaderRowCellDestroy,onMouseEnter,onMouseLeave,onClick>,onDblClick,onContextMenu>,onKeyDown>,onAddNewRow,onValidationError,onViewportChanged,onColumnsReordered,onColumnsResized,onCellChange,onBeforeEditCell,onBeforeCellEditorDestroy,onBeforeDestroy,onActiveCellChanged,onActiveCellPositionChanged,onDragInit,onDragStart>,onDrag>,onDragEnd>,onSelectedRowsChanged,onCellCssStylesChanged,defaults,columnDefaults,yLookup,th,h,ph,n,cj,page>,offset>,vScrollDir,initialized?,uid,$$focusSink,$$focusSink2,$$headerScroller,$$headers,$$headerRow,$$headerRowSpacerL,$$headerRowSpacerR,$$headerRowScroller,$$topPanelScroller,$$topPanel,$$viewport,$$viewportL,$$canvas,$$canvasL,$$style,$$boundAncestors,stylesheet,columnCssRulesL,columnCssRulesR,viewportH,viewportW,viewportWL,canvasWidth,canvasWidthL,canvasWidthR,headersWidth,headersWidthL,headersWidthR,viewportHasHScroll,viewportHasVScroll,headerColumnWidthDiff,headerColumnHeightDiff,cellWidthDiff,cellHeightDiff,absoluteColumnMinWidth,hasFrozenRows,frozenRowsHeight,actualFrozenRow,paneTopH,paneBottomH,viewportTopH,viewportBottomH,topPanelH,headerRowH,tabbingDirection,$$activeCanvasNode,$$activeViewportNode,activePosX,activeRow,activeCell,activeCellNode,currentEditor,serializedEditorValue,editController,rowsCache,renderedRows,numVisibleRows,prevScrollTop,scrollTop>,lastRenderedScrollTop,lastRenderedScrollLeft,prevScrollLeft,scrollLeft>,selectionModel,selectedRows,plugins,cellCssClasses,columnsById,sortColumns,columnPosLeft,columnPosRight,h_editorLoader,h_render,h_postrender,postProcessedRows,postProcessToRow,postProcessFromRow,counter_rows_rendered,counter_rows_removed,$$paneHeaderL,$$paneHeaderR,$$paneTopL,$$paneTopR,$$paneBottomL,$$paneBottomR,$$headerScrollerL,$$headerScrollerR,$$headerL,$$headerR,$$headerRowScrollerL,$$headerRowScrollerR,$$headerRowL,$$headerRowR,$$topPanelScrollerL,$$topPanelScrollerR,$$topPanelL,$$topPanelR,$$viewportTopL,$$viewportTopR,$$viewportBottomL,$$viewportBottomR,$$canvasTopL,$$canvasTopR,$$canvasBottomL,$$canvasBottomR,$$viewportScrollContainerX,$$viewportScrollContainerY,$$headerScrollContainer,$$headerRowScrollContainer,scount",
     handleSelectedRangesChanged$2: [function(e, ranges) {
-      var hash, t1, t2, t3, t4, i, t5, j, k, t6, prevHash;
+      var hash, t1, t2, i, t3, j, k, t4, t5, prevHash;
       this.selectedRows = [];
       hash = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
       t1 = J.getInterceptor$asx(ranges);
       t2 = this.columns;
-      t3 = J.getInterceptor$asx(t2);
-      t4 = this.options;
       i = 0;
       while (true) {
-        t5 = t1.get$length(ranges);
-        if (typeof t5 !== "number")
-          return H.iae(t5);
-        if (!(i < t5))
+        t3 = t1.get$length(ranges);
+        if (typeof t3 !== "number")
+          return H.iae(t3);
+        if (!(i < t3))
           break;
-        for (j = t1.$index(ranges, i).get$fromRow(); t5 = J.getInterceptor$n(j), t5.$le(j, t1.$index(ranges, i).get$toRow()); j = t5.$add(j, 1)) {
+        for (j = t1.$index(ranges, i).get$fromRow(); t3 = J.getInterceptor$n(j), t3.$le(j, t1.$index(ranges, i).get$toRow()); j = t3.$add(j, 1)) {
           if (!hash.containsKey$1(j)) {
             this.selectedRows.push(j);
             hash.$indexSet(0, j, P.LinkedHashMap_LinkedHashMap$_empty(null, null));
           }
-          k = t1.$index(ranges, i).get$fromCell();
-          while (true) {
-            t6 = t1.$index(ranges, i).get$toCell();
-            if (typeof k !== "number")
-              return k.$le();
-            if (typeof t6 !== "number")
-              return H.iae(t6);
-            if (!(k <= t6))
-              break;
-            if (this.canCellBeSelected$2(j, k) === true)
-              J.$indexSet$ax(hash.$index(0, j), J.get$id$x(t3.$index(t2, k)), t4.$index(0, "selectedCellCssClass"));
-            ++k;
-          }
+          for (k = t1.$index(ranges, i).get$fromCell(); t4 = J.getInterceptor$n(k), t4.$le(k, t1.$index(ranges, i).get$toCell()); k = t4.$add(k, 1))
+            if (this.canCellBeSelected$2(j, k) === true) {
+              t5 = hash.$index(0, j);
+              if (k >>> 0 !== k || k >= t2.length)
+                return H.ioore(t2, k);
+              J.$indexSet$ax(t5, J.get$id$x(t2[k]), this.options.$index(0, "selectedCellCssClass"));
+            }
         }
         ++i;
       }
-      t1 = t4.$index(0, "selectedCellCssClass");
+      t1 = this.options.$index(0, "selectedCellCssClass");
       t2 = this.cellCssClasses;
       prevHash = t2.$index(0, t1);
       t2.$indexSet(0, t1, hash);
@@ -13189,12 +12688,12 @@ var $$ = Object.create(null);
       if (this.selectionModel == null)
         H.throwExpression("Selection model is not set");
       this.trigger$3(this.onSelectedRowsChanged, P.LinkedHashMap_LinkedHashMap$_literal(["rows", this.selectedRows], null, null), e);
-    }, "call$2", "get$handleSelectedRangesChanged", 4, 0, 77, 2, 78],
+    }, "call$2", "get$handleSelectedRangesChanged", 4, 0, 57, 3, 58],
     updateCellCssStylesOnRenderedRows$2: function(addedHash, removedHash) {
       var t1, t2, node, columnId, row, removedRowHash, addedRowHash, t3, t4, t5;
-      for (t1 = this.rowsCache.get$keys(), t2 = t1._map, t1 = H.setRuntimeTypeInfo(new P.LinkedHashMapKeyIterator(t2, t2._modifications, null, null), [H.getTypeArgumentByIndex(t1, 0)]), t1._cell = t1._map._first, t2 = removedHash == null, node = null, columnId = null; t1.moveNext$0();) {
-        row = t1._collection$_current;
-        removedRowHash = t2 ? null : removedHash.$index(0, row);
+      for (t1 = this.rowsCache.get$keys()._map, t2 = new P.LinkedHashMapKeyIterator(t1, t1._modifications, null, null), t2._cell = t1._first, t1 = removedHash == null, node = null, columnId = null; t2.moveNext$0();) {
+        row = t2._collection$_current;
+        removedRowHash = t1 ? null : removedHash.$index(0, row);
         addedRowHash = addedHash.$index(0, row);
         if (removedRowHash != null)
           for (t3 = J.get$iterator$ax(removedRowHash.get$keys()), t4 = addedRowHash != null, t5 = J.getInterceptor$asx(removedRowHash); t3.moveNext$0();) {
@@ -13284,48 +12783,57 @@ var $$ = Object.create(null);
       return P.LinkedHashMap_LinkedHashMap$_literal(["left", t1, "right", t2[idx]], null, null);
     },
     applyColumnHeaderWidths$0: function() {
-      var t1, headers, ii, t2, i, h, t3;
+      var t1, headers, ii, i, h, t2, hWidth;
       if (!this.initialized)
         return;
       t1 = H.setRuntimeTypeInfo(new H.ExpandIterable(this.$$headers, new R.SlickGrid_applyColumnHeaderWidths_closure()), [null, null]);
       headers = P.List_List$from(t1, true, H.getRuntimeTypeArgument(t1, "IterableBase", 0));
-      for (ii = headers.length, t1 = this.columns, t2 = J.getInterceptor$asx(t1), i = 0; i < ii; ++i) {
+      for (ii = headers.length, t1 = this.columns, i = 0; i < ii; ++i) {
         if (i >= headers.length)
           return H.ioore(headers, i);
         h = headers[i];
-        t3 = J.getInterceptor$x(h);
-        if (J.floor$0$n(H.doubleTypeCast(J.get$width$x(t3.getBoundingClientRect$0(h)))) !== J.$sub$n(J.get$width$x(t2.$index(t1, i)), this.headerColumnWidthDiff))
-          J.set$width$x(t3.get$style(h), J.toString$0(J.$sub$n(J.get$width$x(t2.$index(t1, i)), this.headerColumnWidthDiff)) + "px");
+        t2 = J.getInterceptor$x(h);
+        hWidth = J.floor$0$n(H.doubleTypeCast(J.get$width$x(t2.getBoundingClientRect$0(h))));
+        if (i >= t1.length)
+          return H.ioore(t1, i);
+        if (hWidth !== J.$sub$n(J.get$width$x(t1[i]), this.headerColumnWidthDiff)) {
+          t2 = t2.get$style(h);
+          if (i >= t1.length)
+            return H.ioore(t1, i);
+          J.set$width$x(t2, J.toString$0(J.$sub$n(J.get$width$x(t1[i]), this.headerColumnWidthDiff)) + "px");
+        }
       }
       this.updateColumnCaches$0();
     },
     applyColumnWidths$0: function() {
-      var t1, t2, t3, x, i, w, rule, t4, t5;
-      for (t1 = this.columns, t2 = J.getInterceptor$asx(t1), t3 = this.options, x = 0, i = 0; i < t2.get$length(t1); ++i) {
-        w = J.get$width$x(t2.$index(t1, i));
+      var t1, x, i, w, rule, t2, t3;
+      for (t1 = this.columns, x = 0, i = 0; i < t1.length; ++i) {
+        w = J.get$width$x(t1[i]);
         rule = this.getColumnCssRules$1(i);
         J.set$left$x(J.get$style$x(rule.$index(0, "left")), C.JSNumber_methods.toString$0(x) + "px");
-        t4 = J.get$style$x(rule.$index(0, "right"));
-        if (!J.$eq(t3.$index(0, "frozenColumn"), -1)) {
-          t5 = t3.$index(0, "frozenColumn");
-          if (typeof t5 !== "number")
-            return H.iae(t5);
-          t5 = i > t5;
+        t2 = J.get$style$x(rule.$index(0, "right"));
+        if (!J.$eq(this.options.$index(0, "frozenColumn"), -1)) {
+          t3 = this.options.$index(0, "frozenColumn");
+          if (typeof t3 !== "number")
+            return H.iae(t3);
+          t3 = i > t3;
         } else
-          t5 = false;
-        t5 = t5 ? this.canvasWidthR : this.canvasWidthL;
-        if (typeof t5 !== "number")
-          return t5.$sub();
+          t3 = false;
+        t3 = t3 ? this.canvasWidthR : this.canvasWidthL;
+        if (typeof t3 !== "number")
+          return t3.$sub();
         if (typeof w !== "number")
           return H.iae(w);
-        J.set$right$x(t4, H.S(t5 - x - w) + "px");
-        if (J.$eq(t3.$index(0, "frozenColumn"), i))
+        J.set$right$x(t2, H.S(t3 - x - w) + "px");
+        if (J.$eq(this.options.$index(0, "frozenColumn"), i))
           x = 0;
         else {
-          t4 = J.get$width$x(t2.$index(t1, i));
-          if (typeof t4 !== "number")
-            return H.iae(t4);
-          x += t4;
+          if (i >= t1.length)
+            return H.ioore(t1, i);
+          t2 = J.get$width$x(t1[i]);
+          if (typeof t2 !== "number")
+            return H.iae(t2);
+          x += t2;
         }
       }
     },
@@ -13342,14 +12850,14 @@ var $$ = Object.create(null);
         return H.iae(t2);
       return P.LinkedHashMap_LinkedHashMap$_literal(["top", t1, "bottom", this.getRowFromPosition$1(viewportTop + t2) + 1, "leftPx", viewportLeft, "rightPx", viewportLeft + this.viewportW], null, null);
     },
-    getVisibleRange$0: function() {
-      return this.getVisibleRange$2(null, null);
-    },
     getVisibleRange$1: function(viewportTop) {
       return this.getVisibleRange$2(viewportTop, null);
     },
+    getVisibleRange$0: function() {
+      return this.getVisibleRange$2(null, null);
+    },
     render$1: [function(timer) {
-      var visible, vrange, outRange, t1, t2, buffer, t3, maxRow;
+      var visible, vrange, outRange, t1, t2, buffer, maxRow;
       if (!this.initialized)
         return;
       visible = this.getVisibleRange$0();
@@ -13370,8 +12878,7 @@ var $$ = Object.create(null);
         outRange.$indexSet(0, "top", 0);
       t1 = this.data;
       t2 = t1.length;
-      t3 = this.options;
-      maxRow = t2 + (t3.$index(0, "enableAddRow") === true ? 1 : 0) - 1;
+      maxRow = t2 + (this.options.$index(0, "enableAddRow") === true ? 1 : 0) - 1;
       if (J.$gt$n(outRange.$index(0, "bottom"), maxRow))
         outRange.$indexSet(0, "bottom", maxRow);
       outRange.$indexSet(0, "leftPx", J.$sub$n(outRange.$index(0, "leftPx"), this.viewportW * 2));
@@ -13385,12 +12892,12 @@ var $$ = Object.create(null);
       this.renderRows$1(outRange);
       if (this.hasFrozenRows) {
         outRange.$indexSet(0, "top", 0);
-        outRange.$indexSet(0, "bottom", t3.$index(0, "frozenRow"));
+        outRange.$indexSet(0, "bottom", this.options.$index(0, "frozenRow"));
         this.renderRows$1(outRange);
       }
       this.postProcessFromRow = visible.$index(0, "top");
       t1 = t1.length;
-      t2 = t3.$index(0, "enableAddRow") === true ? 1 : 0;
+      t2 = this.options.$index(0, "enableAddRow") === true ? 1 : 0;
       this.postProcessToRow = P.min(t1 + t2 - 1, visible.$index(0, "bottom"));
       this.startPostProcessing$0();
       this.lastRenderedScrollTop = this.scrollTop;
@@ -13401,9 +12908,9 @@ var $$ = Object.create(null);
       this.h_render = null;
     }, function() {
       return this.render$1(null);
-    }, "render$0", "call$1", "call$0", "get$render", 0, 2, 79, 17],
+    }, "render$0", "call$1", "call$0", "get$render", 0, 2, 59, 16],
     autosizeColumns$0: function() {
-      var widths, t1, availWidth, t2, i, shrinkLeeway, total, c, t3, t4, prevTotal, shrinkProportion, width, absMinWidth, shrinkSize, growProportion, cWidth, growSize, reRender;
+      var widths, t1, availWidth, i, shrinkLeeway, total, c, t2, t3, prevTotal, shrinkProportion, width, absMinWidth, shrinkSize, growProportion, cWidth, growSize, reRender;
       widths = [];
       t1 = this.viewportHasVScroll;
       availWidth = this.viewportW;
@@ -13413,19 +12920,19 @@ var $$ = Object.create(null);
           return H.iae(t1);
         availWidth -= t1;
       }
-      for (t1 = this.columns, t2 = J.getInterceptor$asx(t1), i = 0, shrinkLeeway = 0, total = 0, c = null; i < t2.get$length(t1); ++i) {
-        c = t2.$index(t1, i);
-        t3 = J.getInterceptor$asx(c);
-        widths.push(t3.$index(c, "width"));
-        t4 = t3.$index(c, "width");
-        if (typeof t4 !== "number")
-          return H.iae(t4);
-        total += t4;
-        if (t3.$index(c, "resizable") != null) {
-          t3 = J.$sub$n(t3.$index(c, "width"), P.max(t3.$index(c, "minWidth"), this.absoluteColumnMinWidth));
-          if (typeof t3 !== "number")
-            return H.iae(t3);
-          shrinkLeeway += t3;
+      for (t1 = this.columns, i = 0, shrinkLeeway = 0, total = 0, c = null; i < t1.length; ++i) {
+        c = t1[i];
+        t2 = J.getInterceptor$asx(c);
+        widths.push(t2.$index(c, "width"));
+        t3 = t2.$index(c, "width");
+        if (typeof t3 !== "number")
+          return H.iae(t3);
+        total += t3;
+        if (t2.$index(c, "resizable") != null) {
+          t2 = J.$sub$n(t2.$index(c, "width"), P.max(t2.$index(c, "minWidth"), this.absoluteColumnMinWidth));
+          if (typeof t2 !== "number")
+            return H.iae(t2);
+          shrinkLeeway += t2;
         }
       }
       prevTotal = total;
@@ -13435,38 +12942,41 @@ var $$ = Object.create(null);
         shrinkProportion = (total - availWidth) / shrinkLeeway;
         i = 0;
         while (true) {
-          if (!(i < t2.get$length(t1) && total > availWidth))
+          t2 = t1.length;
+          if (!(i < t2 && total > availWidth))
             break;
           c$1: {
-            c = t2.$index(t1, i);
+            if (i >= t2)
+              return H.ioore(t1, i);
+            c = t1[i];
             if (i >= widths.length)
               return H.ioore(widths, i);
             width = widths[i];
-            t3 = J.getInterceptor$asx(c);
-            if (t3.$index(c, "resizable") == null) {
-              t4 = J.getInterceptor$n(width);
-              t4 = t4.$le(width, t3.$index(c, "minWidth")) || t4.$le(width, this.absoluteColumnMinWidth);
+            t2 = J.getInterceptor$asx(c);
+            if (t2.$index(c, "resizable") == null) {
+              t3 = J.getInterceptor$n(width);
+              t3 = t3.$le(width, t2.$index(c, "minWidth")) || t3.$le(width, this.absoluteColumnMinWidth);
             } else
-              t4 = true;
-            if (t4)
+              t3 = true;
+            if (t3)
               break c$1;
-            absMinWidth = P.max(t3.$index(c, "minWidth"), this.absoluteColumnMinWidth);
-            t3 = J.getInterceptor$n(width);
-            t4 = t3.$sub(width, absMinWidth);
-            if (typeof t4 !== "number")
-              return H.iae(t4);
-            shrinkSize = C.JSNumber_methods.toInt$0(Math.floor(shrinkProportion * t4));
+            absMinWidth = P.max(t2.$index(c, "minWidth"), this.absoluteColumnMinWidth);
+            t2 = J.getInterceptor$n(width);
+            t3 = t2.$sub(width, absMinWidth);
+            if (typeof t3 !== "number")
+              return H.iae(t3);
+            shrinkSize = C.JSNumber_methods.toInt$0(Math.floor(shrinkProportion * t3));
             if (shrinkSize === 0)
               shrinkSize = 1;
-            shrinkSize = P.min(shrinkSize, t3.$sub(width, absMinWidth));
+            shrinkSize = P.min(shrinkSize, t2.$sub(width, absMinWidth));
             total -= shrinkSize;
             shrinkLeeway -= shrinkSize;
             if (i >= widths.length)
               return H.ioore(widths, i);
-            t3 = J.$sub$n(widths[i], shrinkSize);
+            t2 = J.$sub$n(widths[i], shrinkSize);
             if (i >= widths.length)
               return H.ioore(widths, i);
-            widths[i] = t3;
+            widths[i] = t2;
           }
           ++i;
         }
@@ -13478,51 +12988,58 @@ var $$ = Object.create(null);
         growProportion = availWidth / total;
         i = 0;
         while (true) {
-          if (!(i < t2.get$length(t1) && total < availWidth))
+          t2 = t1.length;
+          if (!(i < t2 && total < availWidth))
             break;
           c$1: {
-            c = t2.$index(t1, i);
-            t3 = J.getInterceptor$asx(c);
-            if (t3.$index(c, "resizable") != null || J.$le$n(t3.$index(c, "maxWidth"), t3.$index(c, "width")))
+            if (i >= t2)
+              return H.ioore(t1, i);
+            c = t1[i];
+            t2 = J.getInterceptor$asx(c);
+            if (t2.$index(c, "resizable") != null || J.$le$n(t2.$index(c, "maxWidth"), t2.$index(c, "width")))
               break c$1;
-            cWidth = J.$eq(J.$sub$n(t3.$index(c, "maxWidth"), t3.$index(c, "width")), 0) ? 1000000 : J.$sub$n(t3.$index(c, "maxWidth"), t3.$index(c, "width"));
-            t4 = t3.$index(c, "width");
-            if (typeof t4 !== "number")
-              return H.iae(t4);
-            t4 = C.JSNumber_methods.toInt$0(Math.floor(growProportion * t4));
-            t3 = t3.$index(c, "width");
+            cWidth = J.$eq(J.$sub$n(t2.$index(c, "maxWidth"), t2.$index(c, "width")), 0) ? 1000000 : J.$sub$n(t2.$index(c, "maxWidth"), t2.$index(c, "width"));
+            t3 = t2.$index(c, "width");
             if (typeof t3 !== "number")
               return H.iae(t3);
-            growSize = P.min(t4 - t3, cWidth);
+            t3 = C.JSNumber_methods.toInt$0(Math.floor(growProportion * t3));
+            t2 = t2.$index(c, "width");
+            if (typeof t2 !== "number")
+              return H.iae(t2);
+            growSize = P.min(t3 - t2, cWidth);
             if (growSize === 0)
               growSize = 1;
             total += growSize;
             if (i >= widths.length)
               return H.ioore(widths, i);
-            t3 = J.$add$ns(widths[i], growSize);
+            t2 = J.$add$ns(widths[i], growSize);
             if (i >= widths.length)
               return H.ioore(widths, i);
-            widths[i] = t3;
+            widths[i] = t2;
           }
           ++i;
         }
         if (prevTotal === total)
           break;
       }
-      for (i = 0, reRender = false; i < t2.get$length(t1); ++i) {
-        if (J.$index$asx(t2.$index(t1, i), "rerenderOnResize") != null) {
-          t3 = J.get$width$x(t2.$index(t1, i));
+      for (i = 0, reRender = false; i < t1.length; ++i) {
+        if (J.$index$asx(t1[i], "rerenderOnResize") != null) {
+          if (i >= t1.length)
+            return H.ioore(t1, i);
+          t2 = J.get$width$x(t1[i]);
           if (i >= widths.length)
             return H.ioore(widths, i);
-          t3 = !J.$eq(t3, widths[i]);
+          t2 = !J.$eq(t2, widths[i]);
         } else
-          t3 = false;
-        if (t3)
+          t2 = false;
+        if (t2)
           reRender = true;
-        t3 = t2.$index(t1, i);
+        if (i >= t1.length)
+          return H.ioore(t1, i);
+        t2 = t1[i];
         if (i >= widths.length)
           return H.ioore(widths, i);
-        J.set$width$x(t3, widths[i]);
+        J.set$width$x(t2, widths[i]);
       }
       this.applyColumnHeaderWidths$0();
       this.updateCanvasWidth$1(true);
@@ -13532,7 +13049,7 @@ var $$ = Object.create(null);
       }
     },
     resizeCanvas$1: [function(e) {
-      var t1, t2, t3, t4, t5, paneBottomTop;
+      var t1, t2, t3, t4, paneBottomTop;
       if (!this.initialized)
         return;
       this.paneTopH = 0;
@@ -13540,31 +13057,29 @@ var $$ = Object.create(null);
       this.viewportTopH = 0;
       this.viewportBottomH = 0;
       t1 = this.container;
-      t2 = J.getInterceptor$x(t1);
-      this.viewportW = J.floor$0$n(H.doubleTypeCast(J.get$width$x(t2.getBoundingClientRect$0(t1))));
+      this.viewportW = J.floor$0$n(H.doubleTypeCast(J.get$width$x(t1.getBoundingClientRect())));
       this._getViewportHeight$0();
       if (this.hasFrozenRows) {
-        t3 = this.options.$index(0, "frozenBottom");
-        t4 = this.frozenRowsHeight;
-        if (t3 === true) {
-          this.paneTopH = J.$sub$n(J.$sub$n(this.viewportH, t4), $.scrollbarDimensions.$index(0, "height"));
+        t2 = this.options.$index(0, "frozenBottom");
+        t3 = this.frozenRowsHeight;
+        if (t2 === true) {
+          this.paneTopH = J.$sub$n(J.$sub$n(this.viewportH, t3), $.scrollbarDimensions.$index(0, "height"));
           this.paneBottomH = J.$add$ns(this.frozenRowsHeight, $.scrollbarDimensions.$index(0, "height"));
         } else {
-          this.paneTopH = t4;
-          this.paneBottomH = J.$sub$n(this.viewportH, t4);
+          this.paneTopH = t3;
+          this.paneBottomH = J.$sub$n(this.viewportH, t3);
         }
       } else
         this.paneTopH = this.viewportH;
-      t3 = this.topPanelH;
-      t4 = this.headerRowH;
-      this.paneTopH = J.$add$ns(this.paneTopH, t3 + t4);
-      t5 = this.options;
-      if (J.$gt$n(t5.$index(0, "frozenColumn"), -1) && t5.$index(0, "autoHeight") === true)
+      t2 = this.topPanelH;
+      t3 = this.headerRowH;
+      this.paneTopH = J.$add$ns(this.paneTopH, t2 + t3);
+      if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1) && this.options.$index(0, "autoHeight") === true)
         this.paneTopH = J.$add$ns(this.paneTopH, $.scrollbarDimensions.$index(0, "height"));
-      this.viewportTopH = J.$sub$n(J.$sub$n(this.paneTopH, t3), t4);
-      if (J.$eq(t5.$index(0, "autoHeight"), true)) {
-        if (J.$gt$n(t5.$index(0, "frozenColumn"), -1)) {
-          t1 = t2.get$style(t1);
+      this.viewportTopH = J.$sub$n(J.$sub$n(this.paneTopH, t2), t3);
+      if (J.$eq(this.options.$index(0, "autoHeight"), true)) {
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
+          t1 = t1.style;
           t2 = this.paneTopH;
           t3 = J.get$height$x(this.$$headerScrollerL.style);
           H.checkString("");
@@ -13588,7 +13103,7 @@ var $$ = Object.create(null);
         return H.iae(t3);
       paneBottomTop = C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(t2.top + t3));
       J.set$height$x(this.$$viewportTopL.style, H.S(this.viewportTopH) + "px");
-      if (J.$gt$n(t5.$index(0, "frozenColumn"), -1)) {
+      if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
         t1 = this.$$paneTopR.style;
         t2 = this.$$paneHeaderL;
         t2.toString;
@@ -13609,22 +13124,22 @@ var $$ = Object.create(null);
       }
       if (this.hasFrozenRows) {
         J.set$height$x(this.$$viewportBottomL.style, H.S(this.paneBottomH) + "px");
-        t1 = t5.$index(0, "frozenBottom");
+        t1 = this.options.$index(0, "frozenBottom");
         t2 = this.frozenRowsHeight;
         if (t1 === true) {
           J.set$height$x(this.$$canvasBottomL.style, H.S(t2) + "px");
-          if (J.$gt$n(t5.$index(0, "frozenColumn"), -1))
+          if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
             J.set$height$x(this.$$canvasBottomR.style, H.S(this.frozenRowsHeight) + "px");
         } else {
           J.set$height$x(this.$$canvasTopL.style, H.S(t2) + "px");
-          if (J.$gt$n(t5.$index(0, "frozenColumn"), -1))
+          if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
             J.set$height$x(this.$$canvasTopR.style, H.S(this.frozenRowsHeight) + "px");
         }
-      } else if (J.$gt$n(t5.$index(0, "frozenColumn"), -1))
+      } else if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
         J.set$height$x(this.$$viewportTopR.style, H.S(this.viewportTopH) + "px");
-      if (J.$eq(t5.$index(0, "forceFitColumns"), true))
+      if (J.$eq(this.options.$index(0, "forceFitColumns"), true))
         this.autosizeColumns$0();
-      if (J.$eq(t5.$index(0, "forceFitColumns"), true))
+      if (J.$eq(this.options.$index(0, "forceFitColumns"), true))
         this.autosizeColumns$0();
       this.updateRowCount$0();
       this.handleScroll$0();
@@ -13632,7 +13147,7 @@ var $$ = Object.create(null);
       this.render$0();
     }, function() {
       return this.resizeCanvas$1(null);
-    }, "resizeCanvas$0", "call$1", "call$0", "get$resizeCanvas", 0, 2, 80, 17, 2],
+    }, "resizeCanvas$0", "call$1", "call$0", "get$resizeCanvas", 0, 2, 60, 16, 3],
     _createElem$6$clz$hideFocus$style$tabIndex$templateStr: function(parentNode, clz, hideFocus, style, tabIndex, templateStr) {
       var div, t1;
       div = document.createElement("div", null);
@@ -13647,14 +13162,14 @@ var $$ = Object.create(null);
         parentNode.appendChild(div);
       return div;
     },
+    _createElem$3$clz$tabIndex: function(parentNode, clz, tabIndex) {
+      return this._createElem$6$clz$hideFocus$style$tabIndex$templateStr(parentNode, clz, false, null, tabIndex, null);
+    },
     _createElem$2$clz: function(parentNode, clz) {
       return this._createElem$6$clz$hideFocus$style$tabIndex$templateStr(parentNode, clz, false, null, 0, null);
     },
     _createElem$3$clz$style: function(parentNode, clz, style) {
       return this._createElem$6$clz$hideFocus$style$tabIndex$templateStr(parentNode, clz, false, style, 0, null);
-    },
-    _createElem$3$clz$tabIndex: function(parentNode, clz, tabIndex) {
-      return this._createElem$6$clz$hideFocus$style$tabIndex$templateStr(parentNode, clz, false, null, tabIndex, null);
     },
     _createElem$2$style: function(parentNode, style) {
       return this._createElem$6$clz$hideFocus$style$tabIndex$templateStr(parentNode, "", false, style, 0, null);
@@ -13662,8 +13177,8 @@ var $$ = Object.create(null);
     _createElem$4$clz$hideFocus$tabIndex: function(parentNode, clz, hideFocus, tabIndex) {
       return this._createElem$6$clz$hideFocus$style$tabIndex$templateStr(parentNode, clz, hideFocus, null, tabIndex, null);
     },
-    init$0: function(_) {
-      var $$c, t1, t2, t3, t4, dim, i, t5, t6, t7;
+    init$0: function() {
+      var $$c, t1, t2, t3, t4, dim, i, t5, t6;
       if ($.maxSupportedCssHeight == null)
         $.maxSupportedCssHeight = this.getMaxSupportedCssHeight$0();
       if ($.scrollbarDimensions == null) {
@@ -13680,171 +13195,179 @@ var $$ = Object.create(null);
         $.scrollbarDimensions = dim;
       }
       this.defaults.forEach$1(0, new R.SlickGrid_init_closure(this));
-      t1 = this.options;
-      if (t1.$index(0, "autoHeight") === true)
-        t1.$indexSet(0, "leaveSpaceForNewRows", false);
-      t2 = this.columnDefaults._src;
-      t2.$indexSet(0, "width", t1.$index(0, "defaultColumnWidth"));
+      if (this.options.$index(0, "autoHeight") === true)
+        this.options.$indexSet(0, "leaveSpaceForNewRows", false);
+      t1 = this.columnDefaults._src;
+      t1.$indexSet(0, "width", this.options.$index(0, "defaultColumnWidth"));
       this.columnsById = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
-      for (t3 = this.columns, t4 = J.getInterceptor$asx(t3), i = 0; i < t4.get$length(t3); ++i) {
-        t5 = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
-        t6 = P.LinkedHashMap_LinkedHashMap$_literal(["name", "", "resizable", true, "sortable", false, "minWidth", 30, "rerenderOnResize", false, "headerCssClass", null, "defaultSortAsc", true, "focusable", true, "selectable", true, "cannotTriggerInsert", false], null, null);
-        t5.addAll$1(0, t6);
-        t5.addAll$1(0, t2);
-        t5.addAll$1(0, t4.$index(t3, i).get$_src());
-        t4.$indexSet(t3, i, new Z.Column(t5, t6));
-        this.columnsById.$indexSet(0, t5.$index(0, "id"), i);
-        if (t5.$index(0, "minWidth") != null && J.$lt$n(t5.$index(0, "width"), t5.$index(0, "minWidth")))
-          t5.$indexSet(0, "width", t5.$index(0, "minWidth"));
-        if (t5.$index(0, "maxWidth") != null && J.$gt$n(t5.$index(0, "width"), t5.$index(0, "maxWidth")))
-          t5.$indexSet(0, "width", t5.$index(0, "maxWidth"));
+      for (t2 = this.columns, i = 0; i < t2.length; ++i) {
+        t3 = P.LinkedHashMap_LinkedHashMap$_empty(null, null);
+        t4 = P.LinkedHashMap_LinkedHashMap$_literal(["name", "", "resizable", true, "sortable", false, "minWidth", 30, "rerenderOnResize", false, "headerCssClass", null, "defaultSortAsc", true, "focusable", true, "selectable", true, "cannotTriggerInsert", false], null, null);
+        t3.addAll$1(0, t4);
+        t3.addAll$1(0, t1);
+        if (i >= t2.length)
+          return H.ioore(t2, i);
+        t3.addAll$1(0, t2[i].get$_src());
+        if (i >= t2.length)
+          return H.ioore(t2, i);
+        t2[i] = new Z.Column(t3, t4);
+        this.columnsById.$indexSet(0, t3.$index(0, "id"), i);
+        if (t3.$index(0, "minWidth") != null && J.$lt$n(t3.$index(0, "width"), t3.$index(0, "minWidth")))
+          t3.$indexSet(0, "width", t3.$index(0, "minWidth"));
+        if (t3.$index(0, "maxWidth") != null && J.$gt$n(t3.$index(0, "width"), t3.$index(0, "maxWidth")))
+          t3.$indexSet(0, "width", t3.$index(0, "maxWidth"));
       }
       this.editController = P.LinkedHashMap_LinkedHashMap$_literal(["commitCurrentEdit", this.get$commitCurrentEdit(), "cancelCurrentEdit", this.get$cancelCurrentEdit()], null, null);
-      t2 = this.container;
-      t3 = J.getInterceptor$x(t2);
-      J.clear$0$ax(t3.get$children(t2));
-      J.set$outline$x(t3.get$style(t2), "0");
-      J.set$overflow$x(t3.get$style(t2), "hidden");
-      t3.get$classes(t2).add$1(0, this.uid);
-      t3.get$classes(t2).add$1(0, "ui-widget");
-      if (!H.JSSyntaxRegExp_makeNative("relative|absolute|fixed", false, true, false).test(H.checkString(J.get$position$x(t3.get$style(t2)))))
-        J.set$position$x(t3.get$style(t2), "relative");
-      t3 = document.createElement("div", null);
-      this.$$focusSink = t3;
-      t3.setAttribute("hideFocus", "true");
-      t3 = this.$$focusSink.style;
-      J.getInterceptor$x(t3).set$position(t3, "fixed");
-      C.CssStyleDeclaration_methods.set$width(t3, "0");
-      C.CssStyleDeclaration_methods.set$height(t3, "0");
-      C.CssStyleDeclaration_methods.set$top(t3, "0");
-      C.CssStyleDeclaration_methods.set$left(t3, "0");
-      C.CssStyleDeclaration_methods.set$outline(t3, "0");
-      t2.appendChild(this.$$focusSink);
-      this.$$paneHeaderL = this._createElem$3$clz$tabIndex(t2, "slick-pane slick-pane-header slick-pane-left", 0);
-      this.$$paneHeaderR = this._createElem$3$clz$tabIndex(t2, "slick-pane slick-pane-header slick-pane-right", 0);
-      this.$$paneTopL = this._createElem$3$clz$tabIndex(t2, "slick-pane slick-pane-top slick-pane-left", 0);
-      this.$$paneTopR = this._createElem$3$clz$tabIndex(t2, "slick-pane slick-pane-top slick-pane-right", 0);
-      this.$$paneBottomL = this._createElem$3$clz$tabIndex(t2, "slick-pane slick-pane-bottom slick-pane-left", 0);
-      this.$$paneBottomR = this._createElem$3$clz$tabIndex(t2, "slick-pane slick-pane-bottom slick-pane-right", 0);
+      t1 = this.container;
+      t2 = J.getInterceptor$x(t1);
+      t2.get$children(t1).clear$0(0);
+      J.set$outline$x(t1.style, "0");
+      J.set$overflow$x(t1.style, "hidden");
+      t2.get$classes(t1).add$1(0, this.uid);
+      t2.get$classes(t1).add$1(0, "ui-widget");
+      if (!H.JSSyntaxRegExp_makeNative("relative|absolute|fixed", false, true, false).test(H.checkString(J.get$position$x(t1.style))))
+        J.set$position$x(t1.style, "relative");
+      t2 = document.createElement("div", null);
+      this.$$focusSink = t2;
+      t2.setAttribute("hideFocus", "true");
+      t2 = this.$$focusSink.style;
+      J.getInterceptor$x(t2).set$position(t2, "fixed");
+      C.CssStyleDeclaration_methods.set$width(t2, "0");
+      C.CssStyleDeclaration_methods.set$height(t2, "0");
+      C.CssStyleDeclaration_methods.set$top(t2, "0");
+      C.CssStyleDeclaration_methods.set$left(t2, "0");
+      C.CssStyleDeclaration_methods.set$outline(t2, "0");
+      t1.appendChild(this.$$focusSink);
+      this.$$paneHeaderL = this._createElem$3$clz$tabIndex(t1, "slick-pane slick-pane-header slick-pane-left", 0);
+      this.$$paneHeaderR = this._createElem$3$clz$tabIndex(t1, "slick-pane slick-pane-header slick-pane-right", 0);
+      this.$$paneTopL = this._createElem$3$clz$tabIndex(t1, "slick-pane slick-pane-top slick-pane-left", 0);
+      this.$$paneTopR = this._createElem$3$clz$tabIndex(t1, "slick-pane slick-pane-top slick-pane-right", 0);
+      this.$$paneBottomL = this._createElem$3$clz$tabIndex(t1, "slick-pane slick-pane-bottom slick-pane-left", 0);
+      this.$$paneBottomR = this._createElem$3$clz$tabIndex(t1, "slick-pane slick-pane-bottom slick-pane-right", 0);
       this.$$headerScrollerL = this._createElem$2$clz(this.$$paneHeaderL, "ui-state-default slick-header slick-header-left");
       this.$$headerScrollerR = this._createElem$2$clz(this.$$paneHeaderR, "ui-state-default slick-header slick-header-right");
-      t3 = this.$$headerScroller;
-      t3.push(this.$$headerScrollerL);
-      t3.push(this.$$headerScrollerR);
+      t2 = this.$$headerScroller;
+      t2.push(this.$$headerScrollerL);
+      t2.push(this.$$headerScrollerR);
       this.$$headerL = this._createElem$3$clz$style(this.$$headerScrollerL, "slick-header-columns slick-header-columns-left", P.LinkedHashMap_LinkedHashMap$_literal(["left", "-1000px"], null, null));
       this.$$headerR = this._createElem$3$clz$style(this.$$headerScrollerR, "slick-header-columns slick-header-columns-right", P.LinkedHashMap_LinkedHashMap$_literal(["left", "-1000px"], null, null));
-      t3 = this.$$headers;
-      t3.push(this.$$headerL);
-      t3.push(this.$$headerR);
+      t2 = this.$$headers;
+      t2.push(this.$$headerL);
+      t2.push(this.$$headerR);
       this.$$headerRowScrollerL = this._createElem$2$clz(this.$$paneTopL, "ui-state-default slick-headerrow");
       this.$$headerRowScrollerR = this._createElem$2$clz(this.$$paneTopR, "ui-state-default slick-headerrow");
-      t3 = this.$$headerRowScroller;
-      t3.push(this.$$headerRowScrollerL);
-      t3.push(this.$$headerRowScrollerR);
-      t4 = this._createElem$2$style(this.$$headerRowScrollerL, P.LinkedHashMap_LinkedHashMap$_literal(["display", "block", "height", "1px", "position", "absolute", "top", "0", "left", "0"], null, null));
-      t5 = t4.style;
-      t6 = this.getCanvasWidth$0();
-      t7 = $.scrollbarDimensions.$index(0, "width");
-      if (typeof t7 !== "number")
-        return H.iae(t7);
-      J.set$width$x(t5, H.S(t6 + t7) + "px");
-      this.$$headerRowSpacerL = t4;
-      t4 = this._createElem$2$style(this.$$headerRowScrollerR, P.LinkedHashMap_LinkedHashMap$_literal(["display", "block", "height", "1px", "position", "absolute", "top", "0", "left", "0"], null, null));
-      t7 = t4.style;
-      t6 = this.getCanvasWidth$0();
-      t5 = $.scrollbarDimensions.$index(0, "width");
-      if (typeof t5 !== "number")
-        return H.iae(t5);
-      J.set$width$x(t7, H.S(t6 + t5) + "px");
-      this.$$headerRowSpacerR = t4;
+      t2 = this.$$headerRowScroller;
+      t2.push(this.$$headerRowScrollerL);
+      t2.push(this.$$headerRowScrollerR);
+      t3 = this._createElem$2$style(this.$$headerRowScrollerL, P.LinkedHashMap_LinkedHashMap$_literal(["display", "block", "height", "1px", "position", "absolute", "top", "0", "left", "0"], null, null));
+      t4 = t3.style;
+      t5 = this.getCanvasWidth$0();
+      t6 = $.scrollbarDimensions.$index(0, "width");
+      if (typeof t6 !== "number")
+        return H.iae(t6);
+      J.set$width$x(t4, H.S(t5 + t6) + "px");
+      this.$$headerRowSpacerL = t3;
+      t3 = this._createElem$2$style(this.$$headerRowScrollerR, P.LinkedHashMap_LinkedHashMap$_literal(["display", "block", "height", "1px", "position", "absolute", "top", "0", "left", "0"], null, null));
+      t6 = t3.style;
+      t5 = this.getCanvasWidth$0();
+      t4 = $.scrollbarDimensions.$index(0, "width");
+      if (typeof t4 !== "number")
+        return H.iae(t4);
+      J.set$width$x(t6, H.S(t5 + t4) + "px");
+      this.$$headerRowSpacerR = t3;
       this.$$headerRowL = this._createElem$2$clz(this.$$headerRowScrollerL, "slick-headerrow-columns slick-headerrow-columns-left");
       this.$$headerRowR = this._createElem$2$clz(this.$$headerRowScrollerR, "slick-headerrow-columns slick-headerrow-columns-right");
-      t4 = this.$$headerRow;
-      t4.push(this.$$headerRowL);
-      t4.push(this.$$headerRowR);
+      t3 = this.$$headerRow;
+      t3.push(this.$$headerRowL);
+      t3.push(this.$$headerRowR);
       this.$$topPanelScrollerL = this._createElem$2$clz(this.$$paneTopL, "ui-state-default slick-top-panel-scroller");
       this.$$topPanelScrollerR = this._createElem$2$clz(this.$$paneTopR, "ui-state-default slick-top-panel-scroller");
-      t4 = this.$$topPanelScroller;
-      t4.push(this.$$topPanelScrollerL);
-      t4.push(this.$$topPanelScrollerR);
+      t3 = this.$$topPanelScroller;
+      t3.push(this.$$topPanelScrollerL);
+      t3.push(this.$$topPanelScrollerR);
       this.$$topPanelL = this._createElem$3$clz$style(this.$$topPanelScrollerL, "slick-top-panel", P.LinkedHashMap_LinkedHashMap$_literal(["width", "10000px"], null, null));
       this.$$topPanelR = this._createElem$3$clz$style(this.$$topPanelScrollerR, "slick-top-panel", P.LinkedHashMap_LinkedHashMap$_literal(["width", "10000px"], null, null));
-      t5 = this.$$topPanel;
-      t5.push(this.$$topPanelL);
-      t5.push(this.$$topPanelR);
-      if (t1.$index(0, "showTopPanel") !== true)
-        C.JSArray_methods.forEach$1(t4, new R.SlickGrid_init_closure0());
-      if (t1.$index(0, "showHeaderRow") !== true)
-        C.JSArray_methods.forEach$1(t3, new R.SlickGrid_init_closure1());
+      t4 = this.$$topPanel;
+      t4.push(this.$$topPanelL);
+      t4.push(this.$$topPanelR);
+      if (this.options.$index(0, "showTopPanel") !== true)
+        C.JSArray_methods.forEach$1(t3, new R.SlickGrid_init_closure0());
+      if (this.options.$index(0, "showHeaderRow") !== true)
+        C.JSArray_methods.forEach$1(t2, new R.SlickGrid_init_closure1());
       this.$$viewportTopL = this._createElem$4$clz$hideFocus$tabIndex(this.$$paneTopL, "slick-viewport slick-viewport-top slick-viewport-left", true, 0);
       this.$$viewportTopR = this._createElem$4$clz$hideFocus$tabIndex(this.$$paneTopR, "slick-viewport slick-viewport-top slick-viewport-right", true, 0);
       this.$$viewportBottomL = this._createElem$4$clz$hideFocus$tabIndex(this.$$paneBottomL, "slick-viewport slick-viewport-bottom slick-viewport-left", true, 0);
       this.$$viewportBottomR = this._createElem$4$clz$hideFocus$tabIndex(this.$$paneBottomR, "slick-viewport slick-viewport-bottom slick-viewport-right", true, 0);
-      t3 = this.$$viewport;
-      t3.push(this.$$viewportTopL);
-      t3.push(this.$$viewportTopR);
-      t3.push(this.$$viewportBottomL);
-      t3.push(this.$$viewportBottomR);
-      t3 = this.$$viewportTopL;
-      this.$$activeViewportNode = t3;
-      this.$$canvasTopL = this._createElem$4$clz$hideFocus$tabIndex(t3, "grid-canvas grid-canvas-top grid-canvas-left", true, 0);
+      t2 = this.$$viewport;
+      t2.push(this.$$viewportTopL);
+      t2.push(this.$$viewportTopR);
+      t2.push(this.$$viewportBottomL);
+      t2.push(this.$$viewportBottomR);
+      t2 = this.$$viewportTopL;
+      this.$$activeViewportNode = t2;
+      this.$$canvasTopL = this._createElem$4$clz$hideFocus$tabIndex(t2, "grid-canvas grid-canvas-top grid-canvas-left", true, 0);
       this.$$canvasTopR = this._createElem$4$clz$hideFocus$tabIndex(this.$$viewportTopR, "grid-canvas grid-canvas-top grid-canvas-right", true, 0);
       this.$$canvasBottomL = this._createElem$4$clz$hideFocus$tabIndex(this.$$viewportBottomL, "grid-canvas grid-canvas-bottom grid-canvas-left", true, 0);
       this.$$canvasBottomR = this._createElem$4$clz$hideFocus$tabIndex(this.$$viewportBottomR, "grid-canvas grid-canvas-bottom grid-canvas-right", true, 0);
-      t3 = this.$$canvas;
-      t3.push(this.$$canvasTopL);
-      t3.push(this.$$canvasTopR);
-      t3.push(this.$$canvasBottomL);
-      t3.push(this.$$canvasBottomR);
+      t2 = this.$$canvas;
+      t2.push(this.$$canvasTopL);
+      t2.push(this.$$canvasTopR);
+      t2.push(this.$$canvasBottomL);
+      t2.push(this.$$canvasBottomR);
       this.$$activeCanvasNode = this.$$canvasTopL;
-      t3 = this.$$focusSink.cloneNode(true);
-      this.$$focusSink2 = t3;
-      t2.appendChild(t3);
-      if (!J.$eq(t1.$index(0, "explicitInitialization"), true))
+      t2 = this.$$focusSink.cloneNode(true);
+      this.$$focusSink2 = t2;
+      t1.appendChild(t2);
+      if (!J.$eq(this.options.$index(0, "explicitInitialization"), true))
         this.finishInitialization$0();
     },
     finishInitialization$0: function() {
-      var t1, t2, t3;
+      var t1, t2;
       if (!this.initialized) {
         this.initialized = true;
-        this.viewportW = J.floor$0$n(H.doubleTypeCast(J.get$width$x(J.getBoundingClientRect$0$x(this.container))));
+        this.viewportW = J.floor$0$n(H.doubleTypeCast(J.get$width$x(this.container.getBoundingClientRect())));
         this._getViewportHeight$0();
         this.measureCellPaddingAndBorder$0();
-        t1 = this.options;
-        if (J.$eq(t1.$index(0, "dynamicHeight"), true)) {
-          t2 = this.data;
-          t3 = new V.Root(t2, t1.$index(0, "rowHeight"), P.LinkedHashMap_LinkedHashMap$_empty(null, null), null, null, null, null, null, null);
-          t3.root = t3;
-          t3._createTree$2(t3, t2);
-          this.yLookup = t3;
+        if (J.$eq(this.options.$index(0, "dynamicHeight"), true)) {
+          t1 = this.data;
+          t2 = new V.Root(t1, this.options.$index(0, "rowHeight"), P.LinkedHashMap_LinkedHashMap$_empty(null, null), null, null, null, null, null, null);
+          t2.root = t2;
+          t2._createTree$2(t2, t1);
+          this.yLookup = t2;
         }
         this.disableSelection$1(this.$$headers);
-        if (J.$eq(t1.$index(0, "enableTextSelectionOnCells"), false))
+        if (J.$eq(this.options.$index(0, "enableTextSelectionOnCells"), false))
           C.JSArray_methods.forEach$1(this.$$viewport, new R.SlickGrid_finishInitialization_closure());
-        t1.$indexSet(0, "frozenColumn", J.$ge$n(t1.$index(0, "frozenColumn"), 0) && J.$lt$n(t1.$index(0, "frozenColumn"), J.get$length$asx(this.columns)) ? t1.$index(0, "frozenColumn") : -1);
-        t1.$indexSet(0, "frozenRow", J.$ge$n(t1.$index(0, "frozenRow"), 0) && J.$lt$n(t1.$index(0, "frozenRow"), this.numVisibleRows) ? t1.$index(0, "frozenRow") : -1);
-        if (J.$gt$n(t1.$index(0, "frozenRow"), -1)) {
+        t1 = this.options;
+        t1.$indexSet(0, "frozenColumn", J.$ge$n(t1.$index(0, "frozenColumn"), 0) && J.$lt$n(this.options.$index(0, "frozenColumn"), this.columns.length) ? this.options.$index(0, "frozenColumn") : -1);
+        t1 = this.options;
+        t1.$indexSet(0, "frozenRow", J.$ge$n(t1.$index(0, "frozenRow"), 0) && J.$lt$n(this.options.$index(0, "frozenRow"), this.numVisibleRows) ? this.options.$index(0, "frozenRow") : -1);
+        if (J.$gt$n(this.options.$index(0, "frozenRow"), -1)) {
           this.hasFrozenRows = true;
-          if (t1.$index(0, "dynamicHeight") === true)
-            this.frozenRowsHeight = this.yLookup.getPosition$1(J.$add$ns(t1.$index(0, "frozenRow"), 1));
+          t1 = this.options.$index(0, "dynamicHeight");
+          t2 = this.options;
+          if (t1 === true)
+            this.frozenRowsHeight = this.yLookup.getPosition$1(J.$add$ns(t2.$index(0, "frozenRow"), 1));
           else
-            this.frozenRowsHeight = J.$mul$ns(t1.$index(0, "frozenRow"), t1.$index(0, "rowHeight"));
-          if (J.$eq(t1.$index(0, "frozenBottom"), true)) {
-            t2 = this.data.length;
-            t3 = t1.$index(0, "frozenRow");
-            if (typeof t3 !== "number")
-              return H.iae(t3);
-            t3 = t2 - t3;
-            t2 = t3;
+            this.frozenRowsHeight = J.$mul$ns(t2.$index(0, "frozenRow"), this.options.$index(0, "rowHeight"));
+          t1 = J.$eq(this.options.$index(0, "frozenBottom"), true);
+          t2 = this.options;
+          if (t1) {
+            t1 = this.data.length;
+            t2 = t2.$index(0, "frozenRow");
+            if (typeof t2 !== "number")
+              return H.iae(t2);
+            t2 = t1 - t2;
+            t1 = t2;
           } else
-            t2 = t1.$index(0, "frozenRow");
-          this.actualFrozenRow = t2;
+            t1 = t2.$index(0, "frozenRow");
+          this.actualFrozenRow = t1;
         } else
           this.hasFrozenRows = false;
-        t2 = J.$gt$n(t1.$index(0, "frozenColumn"), -1);
-        t3 = this.$$paneHeaderR;
-        if (t2) {
-          t3.hidden = false;
+        t1 = J.$gt$n(this.options.$index(0, "frozenColumn"), -1);
+        t2 = this.$$paneHeaderR;
+        if (t1) {
+          t2.hidden = false;
           this.$$paneTopR.hidden = false;
           if (this.hasFrozenRows) {
             this.$$paneBottomL.hidden = false;
@@ -13854,122 +13377,122 @@ var $$ = Object.create(null);
             this.$$paneBottomL.hidden = true;
           }
         } else {
-          t3.hidden = true;
-          this.$$paneTopR.hidden = true;
-          t2 = this.$$paneBottomR;
           t2.hidden = true;
+          this.$$paneTopR.hidden = true;
+          t1 = this.$$paneBottomR;
+          t1.hidden = true;
           if (this.hasFrozenRows)
             this.$$paneBottomL.hidden = false;
           else {
-            t2.hidden = true;
+            t1.hidden = true;
             this.$$paneBottomL.hidden = true;
           }
         }
-        if (J.$gt$n(t1.$index(0, "frozenColumn"), -1)) {
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
           this.$$headerScrollContainer = this.$$headerScrollerR;
           this.$$headerRowScrollContainer = this.$$headerRowScrollerR;
           if (this.hasFrozenRows) {
-            t2 = t1.$index(0, "frozenBottom");
-            t3 = this.$$viewportBottomR;
-            if (t2 === true) {
-              this.$$viewportScrollContainerX = t3;
+            t1 = this.options.$index(0, "frozenBottom");
+            t2 = this.$$viewportBottomR;
+            if (t1 === true) {
+              this.$$viewportScrollContainerX = t2;
               this.$$viewportScrollContainerY = this.$$viewportTopR;
             } else {
-              this.$$viewportScrollContainerY = t3;
-              this.$$viewportScrollContainerX = t3;
+              this.$$viewportScrollContainerY = t2;
+              this.$$viewportScrollContainerX = t2;
             }
           } else {
-            t2 = this.$$viewportTopR;
-            this.$$viewportScrollContainerY = t2;
-            this.$$viewportScrollContainerX = t2;
+            t1 = this.$$viewportTopR;
+            this.$$viewportScrollContainerY = t1;
+            this.$$viewportScrollContainerX = t1;
           }
         } else {
           this.$$headerScrollContainer = this.$$headerScrollerL;
           this.$$headerRowScrollContainer = this.$$headerRowScrollerL;
           if (this.hasFrozenRows) {
-            t2 = t1.$index(0, "frozenBottom");
-            t3 = this.$$viewportBottomL;
-            if (t2 === true) {
-              this.$$viewportScrollContainerX = t3;
+            t1 = this.options.$index(0, "frozenBottom");
+            t2 = this.$$viewportBottomL;
+            if (t1 === true) {
+              this.$$viewportScrollContainerX = t2;
               this.$$viewportScrollContainerY = this.$$viewportTopL;
             } else {
-              this.$$viewportScrollContainerY = t3;
-              this.$$viewportScrollContainerX = t3;
+              this.$$viewportScrollContainerY = t2;
+              this.$$viewportScrollContainerX = t2;
             }
           } else {
-            t2 = this.$$viewportTopL;
-            this.$$viewportScrollContainerY = t2;
-            this.$$viewportScrollContainerX = t2;
+            t1 = this.$$viewportTopL;
+            this.$$viewportScrollContainerY = t1;
+            this.$$viewportScrollContainerX = t1;
           }
         }
+        t1 = this.$$viewportTopL.style;
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
+          t2 = this.hasFrozenRows ? "hidden" : "scroll";
+        else
+          t2 = this.hasFrozenRows ? "hidden" : "auto";
+        J.set$overflowX$x(t1, t2);
         t2 = this.$$viewportTopL.style;
-        if (J.$gt$n(t1.$index(0, "frozenColumn"), -1))
-          t3 = this.hasFrozenRows ? "hidden" : "scroll";
-        else
-          t3 = this.hasFrozenRows ? "hidden" : "auto";
-        J.set$overflowX$x(t2, t3);
-        t3 = this.$$viewportTopL.style;
-        if (J.$gt$n(t1.$index(0, "frozenColumn"), -1)) {
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
           if (this.hasFrozenRows)
             ;
-          t2 = "hidden";
+          t1 = "hidden";
         } else
-          t2 = this.hasFrozenRows ? "scroll" : "auto";
-        J.set$overflowY$x(t3, t2);
+          t1 = this.hasFrozenRows ? "scroll" : "auto";
+        J.set$overflowY$x(t2, t1);
+        t1 = this.$$viewportTopR.style;
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
+          t2 = this.hasFrozenRows ? "hidden" : "scroll";
+        else
+          t2 = this.hasFrozenRows ? "hidden" : "auto";
+        J.set$overflowX$x(t1, t2);
         t2 = this.$$viewportTopR.style;
-        if (J.$gt$n(t1.$index(0, "frozenColumn"), -1))
-          t3 = this.hasFrozenRows ? "hidden" : "scroll";
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
+          t1 = this.hasFrozenRows ? "scroll" : "auto";
         else
-          t3 = this.hasFrozenRows ? "hidden" : "auto";
-        J.set$overflowX$x(t2, t3);
-        t3 = this.$$viewportTopR.style;
-        if (J.$gt$n(t1.$index(0, "frozenColumn"), -1))
-          t2 = this.hasFrozenRows ? "scroll" : "auto";
-        else
-          t2 = this.hasFrozenRows ? "scroll" : "auto";
-        J.set$overflowY$x(t3, t2);
+          t1 = this.hasFrozenRows ? "scroll" : "auto";
+        J.set$overflowY$x(t2, t1);
+        t1 = this.$$viewportBottomL.style;
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
+          t2 = this.hasFrozenRows ? "hidden" : "auto";
+        else {
+          if (this.hasFrozenRows)
+            ;
+          t2 = "auto";
+        }
+        J.set$overflowX$x(t1, t2);
         t2 = this.$$viewportBottomL.style;
-        if (J.$gt$n(t1.$index(0, "frozenColumn"), -1))
-          t3 = this.hasFrozenRows ? "hidden" : "auto";
-        else {
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
           if (this.hasFrozenRows)
             ;
-          t3 = "auto";
-        }
-        J.set$overflowX$x(t2, t3);
-        t3 = this.$$viewportBottomL.style;
-        if (J.$gt$n(t1.$index(0, "frozenColumn"), -1)) {
-          if (this.hasFrozenRows)
-            ;
-          t2 = "hidden";
+          t1 = "hidden";
         } else
+          t1 = this.hasFrozenRows ? "scroll" : "auto";
+        J.set$overflowY$x(t2, t1);
+        t1 = this.$$viewportBottomR.style;
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
           t2 = this.hasFrozenRows ? "scroll" : "auto";
-        J.set$overflowY$x(t3, t2);
-        t2 = this.$$viewportBottomR.style;
-        if (J.$gt$n(t1.$index(0, "frozenColumn"), -1))
-          t3 = this.hasFrozenRows ? "scroll" : "auto";
         else {
           if (this.hasFrozenRows)
             ;
-          t3 = "auto";
+          t2 = "auto";
         }
-        J.set$overflowX$x(t2, t3);
-        t3 = this.$$viewportBottomR.style;
-        if (J.$gt$n(t1.$index(0, "frozenColumn"), -1)) {
+        J.set$overflowX$x(t1, t2);
+        t2 = this.$$viewportBottomR.style;
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
           if (this.hasFrozenRows)
             ;
         } else if (this.hasFrozenRows)
           ;
-        J.set$overflowY$x(t3, "auto");
+        J.set$overflowY$x(t2, "auto");
         this.updateColumnCaches$0();
         this.createColumnHeaders$0();
         this.setupColumnSort$0();
         this.createCssRules$0();
         this.resizeCanvas$0();
-        if (this.hasFrozenRows && t1.$index(0, "frozenBottom") !== true)
+        if (this.hasFrozenRows && this.options.$index(0, "frozenBottom") !== true)
           ;
         t1 = H.setRuntimeTypeInfo(new W._EventStream(window, "resize", false), [null]);
-        t1 = H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._html$_target, t1._eventType, W._wrapZone(this.get$resizeCanvas()), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)]);
+        t1 = H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._target, t1._eventType, W._wrapZone(this.get$resizeCanvas()), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)]);
         t1._tryResume$0();
         this._subscriptionList.push(t1);
         C.JSArray_methods.forEach$1(this.$$viewport, new R.SlickGrid_finishInitialization_closure0(this));
@@ -13979,32 +13502,17 @@ var $$ = Object.create(null);
         C.JSArray_methods.forEach$1(t1, new R.SlickGrid_finishInitialization_closure3(this));
         C.JSArray_methods.forEach$1(this.$$headerRowScroller, new R.SlickGrid_finishInitialization_closure4(this));
         t1 = J.get$onKeyDown$x(this.$$focusSink);
-        H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._html$_target, t1._eventType, W._wrapZone(this.get$handleKeyDown()), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)])._tryResume$0();
+        H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._target, t1._eventType, W._wrapZone(this.get$handleKeyDown()), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)])._tryResume$0();
         t1 = J.get$onKeyDown$x(this.$$focusSink2);
-        H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._html$_target, t1._eventType, W._wrapZone(this.get$handleKeyDown()), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)])._tryResume$0();
+        H.setRuntimeTypeInfo(new W._EventStreamSubscription(0, t1._target, t1._eventType, W._wrapZone(this.get$handleKeyDown()), t1._useCapture), [H.getTypeArgumentByIndex(t1, 0)])._tryResume$0();
         t1 = this.$$canvas;
         C.JSArray_methods.forEach$1(t1, new R.SlickGrid_finishInitialization_closure5(this));
         C.JSArray_methods.forEach$1(t1, new R.SlickGrid_finishInitialization_closure6(this));
       }
     },
-    setSelectionModel$1: function(model) {
-      var t1, t2;
-      t1 = this.selectionModel;
-      if (t1 != null) {
-        t1 = t1.onSelectedRangesChanged;
-        t2 = this.get$handleSelectedRangesChanged();
-        C.JSArray_methods.remove$1(t1.handlers, t2);
-        this.selectionModel._handler.unsubscribeAll$0();
-      }
-      this.selectionModel = model;
-      model._grid = this;
-      t1 = model._handler;
-      t1.subscribe$2(this.onActiveCellChanged, model.get$handleActiveCellChange());
-      t1.subscribe$2(model._grid.onKeyDown, model.get$handleKeyDown());
-      t1.subscribe$2(model._grid.onClick, model.get$handleClick());
-      t1 = this.selectionModel.onSelectedRangesChanged;
-      t2 = this.get$handleSelectedRangesChanged();
-      t1.handlers.push(t2);
+    setActiveCanvasNode$1: function(element) {
+      if (element != null)
+        this.$$activeCanvasNode = M.findClosestAncestor(J.get$target$x(element), ".grid-canvas", null);
     },
     defaultFormatter$5: [function(row, cell, value, columnDef, dataContext) {
       var val;
@@ -14014,42 +13522,44 @@ var $$ = Object.create(null);
         return J.toString$0(value);
       val = C.HtmlEscape_gsm._convert$3(value, 0, J.get$length$asx(value));
       return val == null ? value : val;
-    }, function(row, cell, value, columnDef) {
-      return this.defaultFormatter$5(row, cell, value, columnDef, null);
-    }, "defaultFormatter$4", function(row, cell, value) {
+    }, function(row, cell, value) {
       return this.defaultFormatter$5(row, cell, value, null, null);
-    }, "defaultFormatter$3", "call$5", "call$4", "call$3", "get$defaultFormatter", 6, 4, 81, 17, 17, 69, 70, 15, 71, 72],
+    }, "defaultFormatter$3", function(row, cell, value, columnDef) {
+      return this.defaultFormatter$5(row, cell, value, columnDef, null);
+    }, "defaultFormatter$4", "call$5", "call$3", "call$4", "get$defaultFormatter", 6, 4, 61, 16, 16, 62, 63, 14, 64, 65],
     getHeadersWidth$0: function() {
-      var t1, t2, ii, t3, i, width, t4;
+      var t1, ii, i, width, t2;
       this.headersWidthR = 0;
       this.headersWidthL = 0;
       this.headersWidth = 0;
-      for (t1 = this.columns, t2 = J.getInterceptor$asx(t1), ii = t2.get$length(t1), t3 = this.options, i = 0; i < ii; ++i) {
-        width = J.get$width$x(t2.$index(t1, i));
-        if (J.$gt$n(t3.$index(0, "frozenColumn"), -1)) {
-          t4 = t3.$index(0, "frozenColumn");
-          if (typeof t4 !== "number")
-            return H.iae(t4);
-          t4 = i > t4;
+      for (t1 = this.columns, ii = t1.length, i = 0; i < ii; ++i) {
+        if (i >= t1.length)
+          return H.ioore(t1, i);
+        width = J.get$width$x(t1[i]);
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
+          t2 = this.options.$index(0, "frozenColumn");
+          if (typeof t2 !== "number")
+            return H.iae(t2);
+          t2 = i > t2;
         } else
-          t4 = false;
-        if (t4) {
-          t4 = this.headersWidthR;
-          if (typeof t4 !== "number")
-            return t4.$add();
+          t2 = false;
+        if (t2) {
+          t2 = this.headersWidthR;
+          if (typeof t2 !== "number")
+            return t2.$add();
           if (typeof width !== "number")
             return H.iae(width);
-          this.headersWidthR = t4 + width;
+          this.headersWidthR = t2 + width;
         } else {
-          t4 = this.headersWidthL;
-          if (typeof t4 !== "number")
-            return t4.$add();
+          t2 = this.headersWidthL;
+          if (typeof t2 !== "number")
+            return t2.$add();
           if (typeof width !== "number")
             return H.iae(width);
-          this.headersWidthL = t4 + width;
+          this.headersWidthL = t2 + width;
         }
       }
-      t1 = J.$gt$n(t3.$index(0, "frozenColumn"), -1);
+      t1 = J.$gt$n(this.options.$index(0, "frozenColumn"), -1);
       t2 = this.headersWidthL;
       if (t1) {
         if (typeof t2 !== "number")
@@ -14084,7 +13594,7 @@ var $$ = Object.create(null);
       this.headersWidth = t1 + t2;
     },
     getCanvasWidth$0: function() {
-      var t1, availableWidth, t2, i, t3, i0, t4, t5, totalRowWidth;
+      var t1, availableWidth, i, i0, t2, t3, t4, totalRowWidth;
       t1 = this.viewportHasVScroll;
       availableWidth = this.viewportW;
       if (t1) {
@@ -14094,34 +13604,39 @@ var $$ = Object.create(null);
         availableWidth -= t1;
       }
       t1 = this.columns;
-      t2 = J.getInterceptor$asx(t1);
-      i = t2.get$length(t1);
+      i = t1.length;
       this.canvasWidthR = 0;
       this.canvasWidthL = 0;
-      for (t3 = this.options; i0 = i - 1, i > 0; i = i0) {
-        if (J.$gt$n(t3.$index(0, "frozenColumn"), -1)) {
-          t4 = t3.$index(0, "frozenColumn");
+      for (; i0 = i - 1, i > 0; i = i0) {
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
+          t2 = this.options.$index(0, "frozenColumn");
+          if (typeof t2 !== "number")
+            return H.iae(t2);
+          t2 = i0 > t2;
+        } else
+          t2 = false;
+        t3 = t1.length;
+        t4 = t1[i0];
+        if (t2) {
+          t2 = this.canvasWidthR;
+          if (i0 < 0 || i0 >= t3)
+            return H.ioore(t1, i0);
+          t4 = J.get$width$x(t4);
+          if (typeof t2 !== "number")
+            return t2.$add();
           if (typeof t4 !== "number")
             return H.iae(t4);
-          t4 = i0 > t4;
-        } else
-          t4 = false;
-        if (t4) {
-          t4 = this.canvasWidthR;
-          t5 = J.get$width$x(t2.$index(t1, i0));
-          if (typeof t4 !== "number")
-            return t4.$add();
-          if (typeof t5 !== "number")
-            return H.iae(t5);
-          this.canvasWidthR = t4 + t5;
+          this.canvasWidthR = t2 + t4;
         } else {
-          t4 = this.canvasWidthL;
-          t5 = J.get$width$x(t2.$index(t1, i0));
+          t2 = this.canvasWidthL;
+          if (i0 < 0 || i0 >= t3)
+            return H.ioore(t1, i0);
+          t4 = J.get$width$x(t4);
+          if (typeof t2 !== "number")
+            return t2.$add();
           if (typeof t4 !== "number")
-            return t4.$add();
-          if (typeof t5 !== "number")
-            return H.iae(t5);
-          this.canvasWidthL = t4 + t5;
+            return H.iae(t4);
+          this.canvasWidthL = t2 + t4;
         }
       }
       t1 = this.canvasWidthL;
@@ -14131,7 +13646,7 @@ var $$ = Object.create(null);
       if (typeof t2 !== "number")
         return H.iae(t2);
       totalRowWidth = t1 + t2;
-      return t3.$index(0, "fullWidthRows") === true ? P.max(totalRowWidth, availableWidth) : totalRowWidth;
+      return this.options.$index(0, "fullWidthRows") === true ? P.max(totalRowWidth, availableWidth) : totalRowWidth;
     },
     updateCanvasWidth$1: function(forceColumnWidthsUpdate) {
       var oldCanvasWidth, oldCanvasWidthL, oldCanvasWidthR, t1, widthChanged, t2, t3, t4;
@@ -14258,34 +13773,8 @@ var $$ = Object.create(null);
       t1.remove$0(div);
       return supportedHeight;
     },
-    updateColumnHeader$3: function(columnId, title, toolTip) {
-      var idx, t1, t2, columnDef, t3, $$header;
-      if (!this.initialized)
-        return;
-      idx = this.columnsById.$index(0, columnId);
-      if (idx == null)
-        return;
-      t1 = this.columns;
-      t2 = J.getInterceptor$asx(t1);
-      columnDef = t2.$index(t1, idx);
-      t3 = H.setRuntimeTypeInfo(new H.ExpandIterable(this.$$headers, new R.SlickGrid_updateColumnHeader_closure()), [null, null]);
-      t3 = P.List_List$from(t3, true, H.getRuntimeTypeArgument(t3, "IterableBase", 0));
-      if (idx !== (idx | 0) || idx >= t3.length)
-        return H.ioore(t3, idx);
-      $$header = t3[idx];
-      if ($$header != null) {
-        J.set$name$x(t2.$index(t1, idx), title);
-        if (toolTip != null)
-          t2.$index(t1, idx).set$toolTip(toolTip);
-        this.trigger$2(this.onBeforeHeaderCellDestroy, P.LinkedHashMap_LinkedHashMap$_literal(["node", $$header, "column", columnDef], null, null));
-        t1 = J.getInterceptor$x($$header);
-        t1.get$attributes($$header).putIfAbsent$2("title", new R.SlickGrid_updateColumnHeader_closure0(toolTip));
-        J.set$innerHtml$x(J.get$first$ax(t1.get$children($$header)), title);
-        this.trigger$2(this.onHeaderCellRendered, P.LinkedHashMap_LinkedHashMap$_literal(["node", $$header, "column", columnDef], null, null));
-      }
-    },
     createColumnHeaders$0: function() {
-      var t1, t2, t3, t4, t5, t6, t7, t8, t9, i, m, t10, $$headerTarget, $$headerRowTarget, header, spanEl, t11, t12, t13, t14, t15, headerRowCell;
+      var t1, t2, t3, t4, t5, t6, t7, i, m, t8, $$headerTarget, $$headerRowTarget, header, spanEl, t9, t10, t11, t12, t13, headerRowCell;
       t1 = new R.SlickGrid_createColumnHeaders_onMouseEnter();
       t2 = new R.SlickGrid_createColumnHeaders_onMouseLeave();
       C.JSArray_methods.forEach$1(this.$$headers, new R.SlickGrid_createColumnHeaders_closure(this));
@@ -14297,80 +13786,80 @@ var $$ = Object.create(null);
       C.JSArray_methods.forEach$1(this.$$headerRow, new R.SlickGrid_createColumnHeaders_closure0(this));
       J.get$children$x(this.$$headerRowL).clear$0(0);
       J.get$children$x(this.$$headerRowR).clear$0(0);
-      for (t3 = this.columns, t4 = J.getInterceptor$asx(t3), t5 = this.options, t6 = this.onHeaderCellRendered, t7 = this._headExt, t8 = this.uid, t9 = this.onHeaderRowCellRendered, i = 0; i < t4.get$length(t3); ++i) {
-        m = t4.$index(t3, i);
-        if (J.$gt$n(t5.$index(0, "frozenColumn"), -1)) {
-          t10 = t5.$index(0, "frozenColumn");
-          if (typeof t10 !== "number")
-            return H.iae(t10);
-          $$headerTarget = i <= t10 ? this.$$headerL : this.$$headerR;
+      for (t3 = this.columns, t4 = this.onHeaderCellRendered, t5 = this._headExt, t6 = this.uid, t7 = this.onHeaderRowCellRendered, i = 0; i < t3.length; ++i) {
+        m = t3[i];
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
+          t8 = this.options.$index(0, "frozenColumn");
+          if (typeof t8 !== "number")
+            return H.iae(t8);
+          $$headerTarget = i <= t8 ? this.$$headerL : this.$$headerR;
         } else
           $$headerTarget = this.$$headerL;
-        if (J.$gt$n(t5.$index(0, "frozenColumn"), -1)) {
-          t10 = t5.$index(0, "frozenColumn");
-          if (typeof t10 !== "number")
-            return H.iae(t10);
-          $$headerRowTarget = i <= t10 ? this.$$headerRowL : this.$$headerRowR;
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
+          t8 = this.options.$index(0, "frozenColumn");
+          if (typeof t8 !== "number")
+            return H.iae(t8);
+          $$headerRowTarget = i <= t8 ? this.$$headerRowL : this.$$headerRowR;
         } else
           $$headerRowTarget = this.$$headerRowL;
         header = this._createElem$2$clz(null, "ui-state-default slick-header-column");
         spanEl = document.createElement("span", null);
-        t10 = J.getInterceptor$x(spanEl);
-        t10.get$classes(spanEl).add$1(0, "slick-column-name");
-        t11 = J.getInterceptor$asx(m);
-        if (!!J.getInterceptor(t11.$index(m, "name")).$isElement)
-          t10.get$children(spanEl).add$1(0, t11.$index(m, "name"));
+        t8 = J.getInterceptor$x(spanEl);
+        t8.get$classes(spanEl).add$1(0, "slick-column-name");
+        t9 = J.getInterceptor$asx(m);
+        if (!!J.getInterceptor(t9.$index(m, "name")).$isElement)
+          t8.get$children(spanEl).add$1(0, t9.$index(m, "name"));
         else
-          spanEl.textContent = t11.$index(m, "name");
+          spanEl.textContent = t9.$index(m, "name");
         header.appendChild(spanEl);
-        J.set$width$x(header.style, J.toString$0(J.$sub$n(t11.$index(m, "width"), this.headerColumnWidthDiff)) + "px");
-        header.setAttribute("id", C.JSString_methods.$add(t8, t11.get$id(m)));
+        J.set$width$x(header.style, J.toString$0(J.$sub$n(t9.$index(m, "width"), this.headerColumnWidthDiff)) + "px");
+        header.setAttribute("id", C.JSString_methods.$add(t6, t9.get$id(m)));
         if (m.get$toolTip() != null)
           header.setAttribute("title", m.get$toolTip());
-        t7.$indexSet(0, header, m);
-        if (t11.$index(m, "headerCssClass") != null)
-          J.get$classes$x(header).add$1(0, t11.$index(m, "headerCssClass"));
-        t10 = J.getInterceptor$x(header);
-        t12 = t10.get$classes(header);
-        t12.add$1(0, t11.$index(m, "headerCssClass") == null ? "" : t11.$index(m, "headerCssClass"));
+        t5.$indexSet(0, header, m);
+        if (t9.$index(m, "headerCssClass") != null)
+          J.get$classes$x(header).add$1(0, t9.$index(m, "headerCssClass"));
+        t8 = J.getInterceptor$x(header);
+        t10 = t8.get$classes(header);
+        t10.add$1(0, t9.$index(m, "headerCssClass") == null ? "" : t9.$index(m, "headerCssClass"));
         $$headerTarget.appendChild(header);
-        if (J.$eq(t5.$index(0, "enableColumnReorder"), true) || J.$eq(t11.$index(m, "sortable"), true)) {
-          t12 = t10.get$onMouseEnter(header);
-          t13 = t12._eventType;
-          t14 = t12._useCapture;
-          t15 = new W._EventStreamSubscription(0, t12._html$_target, t13, W._wrapZone(t1), t14);
-          t15.$builtinTypeInfo = [H.getTypeArgumentByIndex(t12, 0)];
-          t12 = t15._html$_onData;
-          if (t12 != null && t15._pauseCount <= 0)
-            J.addEventListener$3$x(t15._html$_target, t13, t12, t14);
-          t12 = t10.get$onMouseLeave(header);
-          t13 = t12._eventType;
-          t14 = t12._useCapture;
-          t15 = new W._EventStreamSubscription(0, t12._html$_target, t13, W._wrapZone(t2), t14);
-          t15.$builtinTypeInfo = [H.getTypeArgumentByIndex(t12, 0)];
-          t12 = t15._html$_onData;
-          if (t12 != null && t15._pauseCount <= 0)
-            J.addEventListener$3$x(t15._html$_target, t13, t12, t14);
+        if (J.$eq(this.options.$index(0, "enableColumnReorder"), true) || J.$eq(t9.$index(m, "sortable"), true)) {
+          t10 = t8.get$onMouseEnter(header);
+          t11 = t10._eventType;
+          t12 = t10._useCapture;
+          t13 = new W._EventStreamSubscription(0, t10._target, t11, W._wrapZone(t1), t12);
+          t13.$builtinTypeInfo = [H.getTypeArgumentByIndex(t10, 0)];
+          t10 = t13._onData;
+          if (t10 != null && t13._pauseCount <= 0)
+            J.addEventListener$3$x(t13._target, t11, t10, t12);
+          t10 = t8.get$onMouseLeave(header);
+          t11 = t10._eventType;
+          t12 = t10._useCapture;
+          t13 = new W._EventStreamSubscription(0, t10._target, t11, W._wrapZone(t2), t12);
+          t13.$builtinTypeInfo = [H.getTypeArgumentByIndex(t10, 0)];
+          t10 = t13._onData;
+          if (t10 != null && t13._pauseCount <= 0)
+            J.addEventListener$3$x(t13._target, t11, t10, t12);
         }
-        if (t11.$index(m, "sortable") === true) {
-          t10.get$classes(header).add$1(0, "slick-header-sortable");
+        if (t9.$index(m, "sortable") === true) {
+          t8.get$classes(header).add$1(0, "slick-header-sortable");
           spanEl = document.createElement("span", null);
           J.get$classes$x(spanEl).add$1(0, "slick-sort-indicator");
           header.appendChild(spanEl);
         }
-        this.trigger$2(t6, P.LinkedHashMap_LinkedHashMap$_literal(["node", header, "column", m], null, null));
-        if (t5.$index(0, "showHeaderRow") === true) {
+        this.trigger$2(t4, P.LinkedHashMap_LinkedHashMap$_literal(["node", header, "column", m], null, null));
+        if (this.options.$index(0, "showHeaderRow") === true) {
           headerRowCell = this._createElem$2$clz($$headerRowTarget, "ui-state-default slick-headerrow-column l" + i + " r" + i);
           headerRowCell.toString;
-          t10 = C.JsonCodec_null_null.encode$1(m);
-          headerRowCell.setAttribute("data-" + H.S(new W._DataAttributeMap(new W._ElementAttributeMap(headerRowCell))._toHyphenedName$1("column")), t10);
-          this.trigger$2(t9, P.LinkedHashMap_LinkedHashMap$_literal(["node", headerRowCell, "column", m], null, null));
+          t8 = C.JsonCodec_null_null.encode$1(m);
+          headerRowCell.setAttribute("data-" + H.S(new W._DataAttributeMap(new W._ElementAttributeMap(headerRowCell))._toHyphenedName$1("column")), t8);
+          this.trigger$2(t7, P.LinkedHashMap_LinkedHashMap$_literal(["node", headerRowCell, "column", m], null, null));
         }
         new E.DragAndDrop($$headerRowTarget, null).install$0();
       }
       this.setSortColumns$1(this.sortColumns);
       this.setupColumnResize$0();
-      if (t5.$index(0, "enableColumnReorder") === true)
+      if (this.options.$index(0, "enableColumnReorder") === true)
         ;
     },
     measureCellPaddingAndBorder$0: function() {
@@ -14507,7 +13996,7 @@ var $$ = Object.create(null);
       this.absoluteColumnMinWidth = P.max(this.headerColumnWidthDiff, this.cellWidthDiff);
     },
     setupColumnResize$0: function() {
-      var t1, columnElements, t2, $$col, t3, t4, item, resizeItem, t5, t6, t7;
+      var t1, columnElements, $$col, t2, t3, item, resizeItem, t4, t5, t6;
       t1 = {};
       columnElements = [];
       t1.c_0 = null;
@@ -14523,56 +14012,56 @@ var $$ = Object.create(null);
       C.JSArray_methods.forEach$1(columnElements, new R.SlickGrid_setupColumnResize_closure1(t1, this));
       if (t1.firstResizable_5 == null)
         return;
-      for (t1.i_7 = 0, t2 = this.options, $$col = null, t3 = 0; t4 = columnElements.length, t3 < t4; t3 = ++t1.i_7) {
-        if (t3 < 0)
-          return H.ioore(columnElements, t3);
-        item = columnElements[t3];
-        t4 = t1.firstResizable_5;
-        if (typeof t4 !== "number")
-          return H.iae(t4);
-        if (t3 >= t4)
-          if (t2.$index(0, "forceFitColumns") === true) {
-            t3 = t1.i_7;
-            t4 = t1.lastResizable_6;
-            if (typeof t4 !== "number")
-              return H.iae(t4);
-            t4 = t3 >= t4;
-            t3 = t4;
+      for (t1.i_7 = 0, $$col = null, t2 = 0; t3 = columnElements.length, t2 < t3; t2 = ++t1.i_7) {
+        if (t2 < 0)
+          return H.ioore(columnElements, t2);
+        item = columnElements[t2];
+        t3 = t1.firstResizable_5;
+        if (typeof t3 !== "number")
+          return H.iae(t3);
+        if (t2 >= t3)
+          if (this.options.$index(0, "forceFitColumns") === true) {
+            t2 = t1.i_7;
+            t3 = t1.lastResizable_6;
+            if (typeof t3 !== "number")
+              return H.iae(t3);
+            t3 = t2 >= t3;
+            t2 = t3;
           } else
-            t3 = false;
+            t2 = false;
         else
-          t3 = true;
-        if (t3)
+          t2 = true;
+        if (t2)
           continue;
         resizeItem = document.createElement("div", null);
-        t3 = J.getInterceptor$x(resizeItem);
-        t3.get$classes(resizeItem).add$1(0, "slick-resizable-handle");
+        t2 = J.getInterceptor$x(resizeItem);
+        t2.get$classes(resizeItem).add$1(0, "slick-resizable-handle");
         J.append$1$x(item, resizeItem);
         resizeItem.draggable = true;
-        t4 = t3.get$onDragStart(resizeItem);
-        t5 = t4._eventType;
-        t6 = t4._useCapture;
-        t7 = new W._EventStreamSubscription(0, t4._html$_target, t5, W._wrapZone(new R.SlickGrid_setupColumnResize_closure2(t1, this, columnElements, resizeItem)), t6);
-        t7.$builtinTypeInfo = [H.getTypeArgumentByIndex(t4, 0)];
-        t4 = t7._html$_onData;
-        if (t4 != null && t7._pauseCount <= 0)
-          J.addEventListener$3$x(t7._html$_target, t5, t4, t6);
-        t4 = t3.get$onDrag(resizeItem);
-        t5 = t4._eventType;
-        t6 = t4._useCapture;
-        t7 = new W._EventStreamSubscription(0, t4._html$_target, t5, W._wrapZone(new R.SlickGrid_setupColumnResize_closure3(t1, this, columnElements)), t6);
-        t7.$builtinTypeInfo = [H.getTypeArgumentByIndex(t4, 0)];
-        t4 = t7._html$_onData;
-        if (t4 != null && t7._pauseCount <= 0)
-          J.addEventListener$3$x(t7._html$_target, t5, t4, t6);
-        t3 = t3.get$onDragEnd(resizeItem);
+        t3 = t2.get$onDragStart(resizeItem);
         t4 = t3._eventType;
         t5 = t3._useCapture;
-        t6 = new W._EventStreamSubscription(0, t3._html$_target, t4, W._wrapZone(new R.SlickGrid_setupColumnResize_closure4(t1, this, columnElements, item)), t5);
+        t6 = new W._EventStreamSubscription(0, t3._target, t4, W._wrapZone(new R.SlickGrid_setupColumnResize_closure2(t1, this, columnElements, resizeItem)), t5);
         t6.$builtinTypeInfo = [H.getTypeArgumentByIndex(t3, 0)];
-        t3 = t6._html$_onData;
+        t3 = t6._onData;
         if (t3 != null && t6._pauseCount <= 0)
-          J.addEventListener$3$x(t6._html$_target, t4, t3, t5);
+          J.addEventListener$3$x(t6._target, t4, t3, t5);
+        t3 = t2.get$onDrag(resizeItem);
+        t4 = t3._eventType;
+        t5 = t3._useCapture;
+        t6 = new W._EventStreamSubscription(0, t3._target, t4, W._wrapZone(new R.SlickGrid_setupColumnResize_closure3(t1, this, columnElements)), t5);
+        t6.$builtinTypeInfo = [H.getTypeArgumentByIndex(t3, 0)];
+        t3 = t6._onData;
+        if (t3 != null && t6._pauseCount <= 0)
+          J.addEventListener$3$x(t6._target, t4, t3, t5);
+        t2 = t2.get$onDragEnd(resizeItem);
+        t3 = t2._eventType;
+        t4 = t2._useCapture;
+        t5 = new W._EventStreamSubscription(0, t2._target, t3, W._wrapZone(new R.SlickGrid_setupColumnResize_closure4(t1, this, columnElements, item)), t4);
+        t5.$builtinTypeInfo = [H.getTypeArgumentByIndex(t2, 0)];
+        t2 = t5._onData;
+        if (t2 != null && t5._pauseCount <= 0)
+          J.addEventListener$3$x(t5._target, t3, t2, t4);
         $$col = item;
       }
     },
@@ -14588,23 +14077,27 @@ var $$ = Object.create(null);
       return this.trigger$3(evt, args, null);
     },
     updateColumnCaches$0: function() {
-      var t1, t2, ii, t3, x, i, t4, t5;
+      var t1, ii, x, i, t2, t3;
       this.columnPosLeft = [];
       this.columnPosRight = [];
-      for (t1 = this.columns, t2 = J.getInterceptor$asx(t1), ii = t2.get$length(t1), t3 = this.options, x = 0, i = 0; i < ii; ++i) {
+      for (t1 = this.columns, ii = t1.length, x = 0, i = 0; i < ii; ++i) {
         C.JSArray_methods.insert$2(this.columnPosLeft, i, x);
-        t4 = this.columnPosRight;
-        t5 = J.get$width$x(t2.$index(t1, i));
-        if (typeof t5 !== "number")
-          return H.iae(t5);
-        C.JSArray_methods.insert$2(t4, i, x + t5);
-        if (J.$eq(t3.$index(0, "frozenColumn"), i))
+        t2 = this.columnPosRight;
+        if (i >= t1.length)
+          return H.ioore(t1, i);
+        t3 = J.get$width$x(t1[i]);
+        if (typeof t3 !== "number")
+          return H.iae(t3);
+        C.JSArray_methods.insert$2(t2, i, x + t3);
+        if (J.$eq(this.options.$index(0, "frozenColumn"), i))
           x = 0;
         else {
-          t4 = J.get$width$x(t2.$index(t1, i));
-          if (typeof t4 !== "number")
-            return H.iae(t4);
-          x += t4;
+          if (i >= t1.length)
+            return H.ioore(t1, i);
+          t2 = J.get$width$x(t1[i]);
+          if (typeof t2 !== "number")
+            return H.iae(t2);
+          x += t2;
         }
       }
     },
@@ -14635,7 +14128,7 @@ var $$ = Object.create(null);
       if (!t2 && this.selectedRows.length > 0) {
         if (t2)
           H.throwExpression("Selection model is not set");
-        t2 = this.rowsToRanges$1([]);
+        t2 = t1._removeInvalidRanges$1(this.rowsToRanges$1([]));
         t1._ranges = t2;
         t1.onSelectedRangesChanged.notify$1(t2);
       }
@@ -14667,52 +14160,40 @@ var $$ = Object.create(null);
       --this.renderedRows;
       ++this.counter_rows_removed;
     },
-    invalidateRows$1: function(rows) {
-      var t1, i;
-      this.vScrollDir = 0;
-      for (t1 = this.rowsCache, i = 0; i < 1; ++i) {
-        if (this.currentEditor != null && J.$eq(this.activeRow, rows[i]))
-          this.makeActiveCellNormal$0();
-        if (t1.$index(0, rows[i]) != null)
-          this.removeRowFromCache$1(rows[i]);
-      }
-    },
     _getViewportHeight$0: function() {
-      var t1, t2, t3, csd, height, paddingTop, paddingBottom, headerScrollerHeight, vboxDelta, topPanelHeight, headerRowHeight;
-      t1 = this.options;
-      if (t1.$index(0, "autoHeight") != null && t1.$index(0, "autoHeight") === true) {
-        t2 = t1.$index(0, "rowHeight");
-        t3 = this.data.length;
-        t2 = J.$mul$ns(t2, t3 + (t1.$index(0, "enableAddRow") === true ? 1 : 0));
-        if (J.$eq(t1.$index(0, "frozenColumn"), -1)) {
-          t3 = C.JSArray_methods.get$first(this.$$headers);
-          t3.toString;
-          t3 = J.get$offsetHeight$x(t3);
+      var t1, t2, csd, height, paddingTop, paddingBottom, headerScrollerHeight, vboxDelta, topPanelHeight, headerRowHeight;
+      if (this.options.$index(0, "autoHeight") != null && this.options.$index(0, "autoHeight") === true) {
+        t1 = this.options.$index(0, "rowHeight");
+        t2 = this.data.length;
+        t1 = J.$mul$ns(t1, t2 + (this.options.$index(0, "enableAddRow") === true ? 1 : 0));
+        if (J.$eq(this.options.$index(0, "frozenColumn"), -1)) {
+          t2 = C.JSArray_methods.get$first(this.$$headers);
+          t2.toString;
+          t2 = J.get$offsetHeight$x(t2);
         } else
-          t3 = 0;
-        t3 = J.$add$ns(t2, t3);
-        this.viewportH = t3;
-        t2 = t3;
+          t2 = 0;
+        t2 = J.$add$ns(t1, t2);
+        this.viewportH = t2;
+        t1 = t2;
       } else {
-        t2 = this.container;
-        t3 = J.getInterceptor$x(t2);
-        csd = t3.getComputedStyle$0(t2);
-        t2 = H.doubleTypeCast(J.get$height$x(t3.getBoundingClientRect$0(t2)));
+        t1 = this.container;
+        csd = J.getComputedStyle$0$x(t1);
+        t1 = H.doubleTypeCast(J.get$height$x(t1.getBoundingClientRect()));
+        t1.toString;
+        height = C.JSNumber_methods.toInt$0(Math.floor(t1));
+        t1 = J.getInterceptor$x(csd).get$paddingTop(csd);
+        H.checkString("");
+        paddingTop = H.Primitives_parseInt(H.stringReplaceAllUnchecked(t1, "px", ""), null, null);
+        t1 = C.CssStyleDeclaration_methods.get$paddingBottom(csd);
+        H.checkString("");
+        paddingBottom = H.Primitives_parseInt(H.stringReplaceAllUnchecked(t1, "px", ""), null, null);
+        t1 = this.$$headerScroller;
+        t2 = H.doubleTypeCast(J.get$height$x(C.JSArray_methods.get$first(t1).getBoundingClientRect()));
         t2.toString;
-        height = C.JSNumber_methods.toInt$0(Math.floor(t2));
-        t2 = J.getInterceptor$x(csd).get$paddingTop(csd);
-        H.checkString("");
-        paddingTop = H.Primitives_parseInt(H.stringReplaceAllUnchecked(t2, "px", ""), null, null);
-        t2 = C.CssStyleDeclaration_methods.get$paddingBottom(csd);
-        H.checkString("");
-        paddingBottom = H.Primitives_parseInt(H.stringReplaceAllUnchecked(t2, "px", ""), null, null);
-        t2 = this.$$headerScroller;
-        t3 = H.doubleTypeCast(J.get$height$x(C.JSArray_methods.get$first(t2).getBoundingClientRect()));
-        t3.toString;
-        headerScrollerHeight = C.JSNumber_methods.toInt$0(Math.floor(t3));
-        vboxDelta = this.getVBoxDelta$1(C.JSArray_methods.get$first(t2));
-        topPanelHeight = J.$eq(t1.$index(0, "showTopPanel"), true) ? J.$add$ns(t1.$index(0, "topPanelHeight"), this.getVBoxDelta$1(C.JSArray_methods.get$first(this.$$topPanelScroller))) : 0;
-        headerRowHeight = J.$eq(t1.$index(0, "showHeaderRow"), true) ? J.$add$ns(t1.$index(0, "headerRowHeight"), this.getVBoxDelta$1(C.JSArray_methods.get$first(this.$$headerRowScroller))) : 0;
+        headerScrollerHeight = C.JSNumber_methods.toInt$0(Math.floor(t2));
+        vboxDelta = this.getVBoxDelta$1(C.JSArray_methods.get$first(t1));
+        topPanelHeight = J.$eq(this.options.$index(0, "showTopPanel"), true) ? J.$add$ns(this.options.$index(0, "topPanelHeight"), this.getVBoxDelta$1(C.JSArray_methods.get$first(this.$$topPanelScroller))) : 0;
+        headerRowHeight = J.$eq(this.options.$index(0, "showHeaderRow"), true) ? J.$add$ns(this.options.$index(0, "headerRowHeight"), this.getVBoxDelta$1(C.JSArray_methods.get$first(this.$$headerRowScroller))) : 0;
         if (typeof paddingTop !== "number")
           return H.iae(paddingTop);
         if (typeof paddingBottom !== "number")
@@ -14723,10 +14204,10 @@ var $$ = Object.create(null);
           return H.iae(topPanelHeight);
         if (typeof headerRowHeight !== "number")
           return H.iae(headerRowHeight);
-        t2 = height - paddingTop - paddingBottom - headerScrollerHeight - vboxDelta - topPanelHeight - headerRowHeight;
-        this.viewportH = t2;
+        t1 = height - paddingTop - paddingBottom - headerScrollerHeight - vboxDelta - topPanelHeight - headerRowHeight;
+        this.viewportH = t1;
       }
-      this.numVisibleRows = C.JSNumber_methods.toInt$0(Math.ceil(J.$div$n(t2, t1.$index(0, "rowHeight"))));
+      this.numVisibleRows = C.JSNumber_methods.toInt$0(Math.ceil(J.$div$n(t1, this.options.$index(0, "rowHeight"))));
       return this.viewportH;
     },
     setSortColumns$1: function(cols) {
@@ -14738,23 +14219,21 @@ var $$ = Object.create(null);
       C.JSArray_methods.forEach$1(this.sortColumns, new R.SlickGrid_setSortColumns_closure1(this));
     },
     getRowTop$1: function(row) {
-      var t1 = this.options;
-      if (J.$eq(t1.$index(0, "dynamicHeight"), true))
+      if (J.$eq(this.options.$index(0, "dynamicHeight"), true))
         return this.yLookup.getPosition$1(row);
       else
-        return J.$sub$n(J.$mul$ns(t1.$index(0, "rowHeight"), row), this.offset);
+        return J.$sub$n(J.$mul$ns(this.options.$index(0, "rowHeight"), row), this.offset);
     },
     getRowFromPosition$1: function(y) {
       var t1, t2;
-      t1 = this.options;
-      if (J.$eq(t1.$index(0, "dynamicHeight"), true))
+      if (J.$eq(this.options.$index(0, "dynamicHeight"), true))
         return this.yLookup.getRowId$1(y);
       else {
-        t2 = this.offset;
-        t1 = t1.$index(0, "rowHeight");
-        if (typeof t1 !== "number")
-          return H.iae(t1);
-        return C.JSNumber_methods.toInt$0(Math.floor((y + t2) / t1));
+        t1 = this.offset;
+        t2 = this.options.$index(0, "rowHeight");
+        if (typeof t2 !== "number")
+          return H.iae(t2);
+        return C.JSNumber_methods.toInt$0(Math.floor((y + t1) / t2));
       }
     },
     scrollTo$1: function(_, y) {
@@ -14796,30 +14275,34 @@ var $$ = Object.create(null);
       }
     },
     cleanupRows$1: function(rangeToKeep) {
-      var t1, t2, i, t3, removeFrozenRow;
-      for (t1 = P.List_List$from(this.rowsCache.get$keys(), true, null), t1 = H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]), t2 = this.options; t1.moveNext$0();) {
-        i = t1._current;
+      var t1, i, t2, removeFrozenRow;
+      for (t1 = P.List_List$from(this.rowsCache.get$keys(), true, null), t1 = new H.ListIterator(t1, t1.length, 0, null); t1.moveNext$0();) {
+        i = t1.__internal$_current;
         if (this.hasFrozenRows)
-          if (!(t2.$index(0, "frozenBottom") === true && J.$gt$n(i, this.actualFrozenRow)))
-            t3 = t2.$index(0, "frozenBottom") !== true && J.$lt$n(i, this.actualFrozenRow);
+          if (!(this.options.$index(0, "frozenBottom") === true && J.$gt$n(i, this.actualFrozenRow)))
+            t2 = this.options.$index(0, "frozenBottom") !== true && J.$lt$n(i, this.actualFrozenRow);
           else
-            t3 = true;
+            t2 = true;
         else
-          t3 = false;
-        removeFrozenRow = !t3 || false;
-        t3 = J.getInterceptor(i);
-        if (!t3.$eq(i, this.activeRow))
-          t3 = (t3.$lt(i, rangeToKeep.$index(0, "top")) || t3.$gt(i, rangeToKeep.$index(0, "bottom"))) && removeFrozenRow;
+          t2 = false;
+        removeFrozenRow = !t2 || false;
+        t2 = J.getInterceptor(i);
+        if (!t2.$eq(i, this.activeRow))
+          t2 = (t2.$lt(i, rangeToKeep.$index(0, "top")) || t2.$gt(i, rangeToKeep.$index(0, "bottom"))) && removeFrozenRow;
         else
-          t3 = false;
-        if (t3)
+          t2 = false;
+        if (t2)
           this.removeRowFromCache$1(i);
       }
     },
     commitCurrentEdit$0: [function() {
-      var item, column, t1, validationResults, t2, editCommand, newItem;
+      var item, t1, t2, column, validationResults, editCommand, newItem;
       item = this.getDataItem$1(this.activeRow);
-      column = J.$index$asx(this.columns, this.activeCell);
+      t1 = this.columns;
+      t2 = this.activeCell;
+      if (t2 >>> 0 !== t2 || t2 >= t1.length)
+        return H.ioore(t1, t2);
+      column = t1[t2];
       t1 = this.currentEditor;
       if (t1 != null) {
         if (t1.isValueChanged$0()) {
@@ -14829,10 +14312,9 @@ var $$ = Object.create(null);
             t2 = this.currentEditor;
             if (t1) {
               editCommand = P.LinkedHashMap_LinkedHashMap$_literal(["row", this.activeRow, "cell", this.activeCell, "editor", t2, "serializedValue", t2.serializeValue$0(), "prevSerializedValue", this.serializedEditorValue, "execute", new R.SlickGrid_commitCurrentEdit_closure(this, item), "undo", new R.SlickGrid_commitCurrentEdit_closure0()], null, null);
-              t1 = this.options;
-              if (t1.$index(0, "editCommandHandler") != null) {
+              if (this.options.$index(0, "editCommandHandler") != null) {
                 this.makeActiveCellNormal$0();
-                t1.$index(0, "editCommandHandler").call$3(item, column, editCommand);
+                this.options.$index(0, "editCommandHandler").call$3(item, column, editCommand);
               } else {
                 editCommand.$index(0, "execute").call$0();
                 this.makeActiveCellNormal$0();
@@ -14857,29 +14339,22 @@ var $$ = Object.create(null);
         this.makeActiveCellNormal$0();
       }
       return true;
-    }, "call$0", "get$commitCurrentEdit", 0, 0, 11],
+    }, "call$0", "get$commitCurrentEdit", 0, 0, 34],
     cancelCurrentEdit$0: [function() {
       this.makeActiveCellNormal$0();
       return true;
-    }, "call$0", "get$cancelCurrentEdit", 0, 0, 49],
+    }, "call$0", "get$cancelCurrentEdit", 0, 0, 42],
     rowsToRanges$1: function(rows) {
       var ranges, lastCell, i, t1;
       ranges = [];
-      lastCell = J.get$length$asx(this.columns) - 1;
-      for (i = 0; i < rows.length; ++i) {
+      lastCell = this.columns.length - 1;
+      for (i = 0; false; ++i) {
+        if (i >= 0)
+          return H.ioore(rows, i);
         t1 = rows[i];
         ranges.push(B.Range$(t1, 0, t1, lastCell));
       }
       return ranges;
-    },
-    setSelectedRows$1: function(rows) {
-      var t1, t2;
-      t1 = this.selectionModel;
-      if (t1 == null)
-        throw H.wrapException("Selection model is not set");
-      t2 = this.rowsToRanges$1(rows);
-      t1._ranges = t2;
-      t1.onSelectedRangesChanged.notify$1(t2);
     },
     getDataItem$1: function(i) {
       var t1 = this.data;
@@ -14891,13 +14366,13 @@ var $$ = Object.create(null);
     },
     updateRowPositions$0: function() {
       var t1, t2, t3, row;
-      for (t1 = this.rowsCache, t2 = t1.get$keys(), t3 = t2._map, t2 = H.setRuntimeTypeInfo(new P.LinkedHashMapKeyIterator(t3, t3._modifications, null, null), [H.getTypeArgumentByIndex(t2, 0)]), t2._cell = t2._map._first; t2.moveNext$0();) {
-        row = t2._collection$_current;
+      for (t1 = this.rowsCache, t2 = t1.get$keys()._map, t3 = new P.LinkedHashMapKeyIterator(t2, t2._modifications, null, null), t3._cell = t2._first; t3.moveNext$0();) {
+        row = t3._collection$_current;
         J.forEach$1$ax(t1.$index(0, row).get$rowNode(), new R.SlickGrid_updateRowPositions_closure(this, row));
       }
     },
     _cleanUpAndRenderCells$1: function(range) {
-      var t1, stringArray, processedRows, t2, row, btm, t3, x, node, t4, columnIdx, t5;
+      var t1, stringArray, processedRows, t2, row, btm, t3, x, node, columnIdx, t4;
       t1 = {};
       t1.cacheEntry_0 = null;
       stringArray = [];
@@ -14920,23 +14395,23 @@ var $$ = Object.create(null);
         return;
       x = document.createElement("div", null);
       J.setInnerHtml$2$treeSanitizer$x(x, C.JSArray_methods.join$1(stringArray, ""), $.get$_treeSanitizer());
-      for (t2 = this.options, t3 = this.rowsCache, node = null; processedRows._head !== processedRows._tail;) {
-        t1.cacheEntry_0 = t3.$index(0, processedRows.removeLast$0(0));
-        for (; t4 = t1.cacheEntry_0.get$cellRenderQueue(), t4._head !== t4._tail;) {
+      for (t2 = this.rowsCache, node = null; processedRows._head !== processedRows._tail;) {
+        t1.cacheEntry_0 = t2.$index(0, processedRows.removeLast$0(0));
+        for (; t3 = t1.cacheEntry_0.get$cellRenderQueue(), t3._head !== t3._tail;) {
           columnIdx = t1.cacheEntry_0.get$cellRenderQueue().removeLast$0(0);
           node = x.lastChild;
-          t4 = J.$gt$n(t2.$index(0, "frozenColumn"), -1) && J.$gt$n(columnIdx, t2.$index(0, "frozenColumn"));
-          t5 = t1.cacheEntry_0;
-          if (t4) {
-            t4 = t5.get$rowNode();
-            if (1 >= t4.length)
-              return H.ioore(t4, 1);
-            J.append$1$x(t4[1], node);
+          t3 = J.$gt$n(this.options.$index(0, "frozenColumn"), -1) && J.$gt$n(columnIdx, this.options.$index(0, "frozenColumn"));
+          t4 = t1.cacheEntry_0;
+          if (t3) {
+            t3 = t4.get$rowNode();
+            if (1 >= t3.length)
+              return H.ioore(t3, 1);
+            J.append$1$x(t3[1], node);
           } else {
-            t4 = t5.get$rowNode();
-            if (0 >= t4.length)
-              return H.ioore(t4, 0);
-            J.append$1$x(t4[0], node);
+            t3 = t4.get$rowNode();
+            if (0 >= t3.length)
+              return H.ioore(t3, 0);
+            J.append$1$x(t3[0], node);
           }
           t1.cacheEntry_0.get$cellNodesByColumnIdx().$indexSet(0, columnIdx, node);
         }
@@ -14960,7 +14435,7 @@ var $$ = Object.create(null);
       }
     },
     cleanUpCells$2: function(range, row) {
-      var t1, t2, cacheEntry, cellsToRemove, t3, t4, t5, i, t6, colspan, t7;
+      var t1, t2, cacheEntry, cellsToRemove, t3, t4, i, t5, colspan, t6;
       t1 = {};
       if (this.hasFrozenRows)
         t2 = this.options.$index(0, "frozenBottom") === true && J.$gt$n(row, this.actualFrozenRow) || J.$le$n(row, this.actualFrozenRow);
@@ -14971,36 +14446,36 @@ var $$ = Object.create(null);
       t1.totalCellsRemoved_0 = 0;
       cacheEntry = this.rowsCache.$index(0, row);
       cellsToRemove = [];
-      for (t2 = cacheEntry.get$cellNodesByColumnIdx().get$keys(), t3 = t2._map, t2 = H.setRuntimeTypeInfo(new P.LinkedHashMapKeyIterator(t3, t3._modifications, null, null), [H.getTypeArgumentByIndex(t2, 0)]), t2._cell = t2._map._first, t3 = this.columns, t4 = J.getInterceptor$asx(t3), t5 = J.getInterceptor(row); t2.moveNext$0();) {
-        i = t2._collection$_current;
-        t6 = cacheEntry.get$cellColSpans();
-        if (i >>> 0 !== i || i >= t6.length)
-          return H.ioore(t6, i);
-        colspan = t6[i];
-        t6 = this.columnPosLeft;
-        if (i >= t6.length)
-          return H.ioore(t6, i);
-        t6 = t6[i];
-        t7 = range.$index(0, "rightPx");
-        if (typeof t7 !== "number")
-          return H.iae(t7);
-        if (!(t6 > t7)) {
-          t6 = this.columnPosRight;
-          t7 = t4.get$length(t3);
+      for (t2 = cacheEntry.get$cellNodesByColumnIdx().get$keys()._map, t3 = new P.LinkedHashMapKeyIterator(t2, t2._modifications, null, null), t3._cell = t2._first, t2 = this.columns, t4 = J.getInterceptor(row); t3.moveNext$0();) {
+        i = t3._collection$_current;
+        t5 = cacheEntry.get$cellColSpans();
+        if (i >>> 0 !== i || i >= t5.length)
+          return H.ioore(t5, i);
+        colspan = t5[i];
+        t5 = this.columnPosLeft;
+        if (i >= t5.length)
+          return H.ioore(t5, i);
+        t5 = t5[i];
+        t6 = range.$index(0, "rightPx");
+        if (typeof t6 !== "number")
+          return H.iae(t6);
+        if (!(t5 > t6)) {
+          t5 = this.columnPosRight;
+          t6 = t2.length;
           if (typeof colspan !== "number")
             return H.iae(colspan);
-          t7 = P.min(t7 - 1, i + colspan - 1);
-          if (t7 >>> 0 !== t7 || t7 >= t6.length)
-            return H.ioore(t6, t7);
-          t7 = t6[t7];
-          t6 = range.$index(0, "leftPx");
-          if (typeof t6 !== "number")
-            return H.iae(t6);
-          t6 = t7 < t6;
+          t6 = P.min(t6 - 1, i + colspan - 1);
+          if (t6 >>> 0 !== t6 || t6 >= t5.length)
+            return H.ioore(t5, t6);
+          t6 = t5[t6];
+          t5 = range.$index(0, "leftPx");
+          if (typeof t5 !== "number")
+            return H.iae(t5);
+          t5 = t6 < t5;
         } else
-          t6 = true;
-        if (t6)
-          if (!(t5.$eq(row, this.activeRow) && i === this.activeCell))
+          t5 = true;
+        if (t5)
+          if (!(t4.$eq(row, this.activeRow) && i === this.activeCell))
             cellsToRemove.push(i);
       }
       C.JSArray_methods.forEach$1(cellsToRemove, new R.SlickGrid_cleanUpCells_closure(t1, this, row, cacheEntry, null));
@@ -15021,20 +14496,18 @@ var $$ = Object.create(null);
       this.trigger$3(this.onClick, P.LinkedHashMap_LinkedHashMap$_literal(["row", cell.$index(0, "row"), "cell", cell.$index(0, "cell")], null, null), evt);
       if (evt._isImmediatePropagationStopped)
         return;
-      if ((!J.$eq(this.activeCell, cell.$index(0, "cell")) || !J.$eq(this.activeRow, cell.$index(0, "row"))) && this.canCellBeActive$2(cell.$index(0, "row"), cell.$index(0, "cell")) === true) {
-        t1 = this.options;
-        if (t1.$index(0, "editorLock").isActive$0() !== true || t1.$index(0, "editorLock").commitCurrentEdit$0() === true)
+      if ((!J.$eq(this.activeCell, cell.$index(0, "cell")) || !J.$eq(this.activeRow, cell.$index(0, "row"))) && this.canCellBeActive$2(cell.$index(0, "row"), cell.$index(0, "cell")) === true)
+        if (this.options.$index(0, "editorLock").isActive$0() !== true || this.options.$index(0, "editorLock").commitCurrentEdit$0() === true)
           if (this.hasFrozenRows) {
-            if (!(t1.$index(0, "frozenBottom") !== true && J.$ge$n(cell.$index(0, "row"), this.actualFrozenRow)))
-              t1 = t1.$index(0, "frozenBottom") === true && J.$lt$n(cell.$index(0, "row"), this.actualFrozenRow);
+            if (!(this.options.$index(0, "frozenBottom") !== true && J.$ge$n(cell.$index(0, "row"), this.actualFrozenRow)))
+              t1 = this.options.$index(0, "frozenBottom") === true && J.$lt$n(cell.$index(0, "row"), this.actualFrozenRow);
             else
               t1 = true;
             if (t1)
               this.scrollRowIntoView$2(cell.$index(0, "row"), false);
             this.setActiveCellInternal$1(this.getCellNode$2(cell.$index(0, "row"), cell.$index(0, "cell")));
           }
-      }
-    }, "call$1", "get$handleClick", 2, 0, 74, 2],
+    }, "call$1", "get$handleClick", 2, 0, 54, 3],
     handleDblClick$1: [function(e) {
       var evt, cell, t1;
       evt = B.EventData_EventData$fromDom(e);
@@ -15050,7 +14523,7 @@ var $$ = Object.create(null);
         return;
       if (this.options.$index(0, "editable") === true)
         this.gotoCell$3(cell.$index(0, "row"), cell.$index(0, "cell"), true);
-    }, "call$1", "get$handleDblClick", 2, 0, 74, 2],
+    }, "call$1", "get$handleDblClick", 2, 0, 54, 3],
     setFocus$0: function() {
       if (this.tabbingDirection === -1)
         this.$$focusSink.focus();
@@ -15071,6 +14544,49 @@ var $$ = Object.create(null);
       else
         return P.LinkedHashMap_LinkedHashMap$_literal(["row", row, "cell", cell], null, null);
     },
+    getCellNodeBox$2: function(row, cell) {
+      var frozenRowOffset, y1, t1, y2, t2, x1, i;
+      if (!this.cellExists$2(row, cell))
+        return;
+      frozenRowOffset = this.getFrozenRowOffset$1(row);
+      y1 = J.$sub$n(this.getRowTop$1(row), frozenRowOffset);
+      t1 = J.getInterceptor$ns(y1);
+      y2 = J.$sub$n(t1.$add(y1, this.options.$index(0, "rowHeight")), 1);
+      if (this.options.$index(0, "dynamicHeight") === true) {
+        t2 = this.data;
+        if (row >>> 0 !== row || row >= t2.length)
+          return H.ioore(t2, row);
+        t2 = J.$index$asx(t2[row], "_height") != null;
+      } else
+        t2 = false;
+      if (t2) {
+        t2 = this.data;
+        if (row >>> 0 !== row || row >= t2.length)
+          return H.ioore(t2, row);
+        y2 = t1.$add(y1, J.$index$asx(t2[row], "_height"));
+      }
+      if (typeof cell !== "number")
+        return H.iae(cell);
+      t1 = this.columns;
+      x1 = 0;
+      i = 0;
+      for (; i < cell; ++i) {
+        if (i >= t1.length)
+          return H.ioore(t1, i);
+        t2 = J.get$width$x(t1[i]);
+        if (typeof t2 !== "number")
+          return H.iae(t2);
+        x1 += t2;
+        if (J.$eq(this.options.$index(0, "frozenColumn"), i))
+          x1 = 0;
+      }
+      if (cell >>> 0 !== cell || cell >= t1.length)
+        return H.ioore(t1, cell);
+      t1 = J.get$width$x(t1[cell]);
+      if (typeof t1 !== "number")
+        return H.iae(t1);
+      return P.LinkedHashMap_LinkedHashMap$_literal([["top"], y1, ["left"], x1, ["bottom"], y2, ["right"], x1 + t1], null, null);
+    },
     getCellFromNode$1: function(cellNode) {
       var t1, t2, cls;
       t1 = H.JSSyntaxRegExp_makeNative("l\\d+", false, true, false);
@@ -15081,35 +14597,54 @@ var $$ = Object.create(null);
       return H.Primitives_parseInt(J.substring$1$s(cls, 1), null, null);
     },
     getRowFromNode$1: function(rowNode) {
-      var t1, t2, t3, row, t4;
-      for (t1 = this.rowsCache, t2 = t1.get$keys(), t3 = t2._map, t2 = H.setRuntimeTypeInfo(new P.LinkedHashMapKeyIterator(t3, t3._modifications, null, null), [H.getTypeArgumentByIndex(t2, 0)]), t2._cell = t2._map._first, t3 = this.options; t2.moveNext$0();) {
-        row = t2._collection$_current;
-        t4 = t1.$index(0, row).get$rowNode();
-        if (0 >= t4.length)
-          return H.ioore(t4, 0);
-        if (J.$eq(t4[0], rowNode))
+      var t1, t2, t3, row;
+      for (t1 = this.rowsCache, t2 = t1.get$keys()._map, t3 = new P.LinkedHashMapKeyIterator(t2, t2._modifications, null, null), t3._cell = t2._first; t3.moveNext$0();) {
+        row = t3._collection$_current;
+        t2 = t1.$index(0, row).get$rowNode();
+        if (0 >= t2.length)
+          return H.ioore(t2, 0);
+        if (J.$eq(t2[0], rowNode))
           return row;
-        if (J.$ge$n(t3.$index(0, "frozenColumn"), 0)) {
-          t4 = t1.$index(0, row).get$rowNode();
-          if (1 >= t4.length)
-            return H.ioore(t4, 1);
-          if (J.$eq(t4[1], rowNode))
+        if (J.$ge$n(this.options.$index(0, "frozenColumn"), 0)) {
+          t2 = t1.$index(0, row).get$rowNode();
+          if (1 >= t2.length)
+            return H.ioore(t2, 1);
+          if (J.$eq(t2[1], rowNode))
             return row;
         }
       }
       return;
     },
+    getFrozenRowOffset$1: function(row) {
+      var t1, t2, distY, offset;
+      t1 = this.options.$index(0, "dynamicHeight");
+      t2 = this.actualFrozenRow;
+      distY = t1 === true ? this.yLookup.getPosition$1(J.$add$ns(t2, 1)) : J.$mul$ns(t2, this.options.$index(0, "rowHeight"));
+      if (this.hasFrozenRows)
+        if (this.options.$index(0, "frozenBottom") === true) {
+          if (J.$ge$n(row, this.actualFrozenRow))
+            t1 = J.$lt$n(this.h, this.viewportTopH) ? distY : this.h;
+          else
+            t1 = 0;
+          offset = t1;
+        } else {
+          t1 = J.$ge$n(row, this.actualFrozenRow) ? this.frozenRowsHeight : 0;
+          offset = t1;
+        }
+      else
+        offset = 0;
+      return offset;
+    },
     canCellBeActive$2: function(row, cell) {
       var t1, t2, t3;
-      t1 = this.options;
-      if (t1.$index(0, "enableCellNavigation") === true) {
-        t2 = this.data.length;
-        t1 = t1.$index(0, "enableAddRow") === true ? 1 : 0;
+      if (this.options.$index(0, "enableCellNavigation") === true) {
+        t1 = this.data.length;
+        t2 = this.options.$index(0, "enableAddRow") === true ? 1 : 0;
         t3 = J.getInterceptor$n(row);
-        if (!t3.$ge(row, t2 + t1))
+        if (!t3.$ge(row, t1 + t2))
           if (!t3.$lt(row, 0)) {
             t1 = J.getInterceptor$n(cell);
-            t1 = t1.$ge(cell, J.get$length$asx(this.columns)) || t1.$lt(cell, 0);
+            t1 = t1.$ge(cell, this.columns.length) || t1.$lt(cell, 0);
           } else
             t1 = true;
         else
@@ -15118,49 +14653,51 @@ var $$ = Object.create(null);
         t1 = true;
       if (t1)
         return false;
-      return J.$index$asx(this.columns, cell).get$focusable();
+      t1 = this.columns;
+      if (cell >>> 0 !== cell || cell >= t1.length)
+        return H.ioore(t1, cell);
+      return t1[cell].get$focusable();
     },
     canCellBeSelected$2: function(row, cell) {
       var t1 = J.getInterceptor$n(row);
       if (!t1.$ge(row, this.data.length))
         if (!t1.$lt(row, 0)) {
-          t1 = J.get$length$asx(this.columns);
-          if (typeof cell !== "number")
-            return cell.$ge();
-          t1 = cell >= t1 || cell < 0;
+          t1 = J.getInterceptor$n(cell);
+          t1 = t1.$ge(cell, this.columns.length) || t1.$lt(cell, 0);
         } else
           t1 = true;
       else
         t1 = true;
       if (t1)
         return false;
-      return J.$index$asx(this.columns, cell).get$selectable();
+      t1 = this.columns;
+      if (cell >>> 0 !== cell || cell >= t1.length)
+        return H.ioore(t1, cell);
+      return t1[cell].get$selectable();
     },
     gotoCell$3: function(row, cell, forceEdit) {
-      var t1, newCell;
+      var newCell;
       if (!this.initialized)
         return;
       if (this.canCellBeActive$2(row, cell) !== true)
         return;
-      t1 = this.options;
-      if (t1.$index(0, "editorLock").commitCurrentEdit$0() !== true)
+      if (this.options.$index(0, "editorLock").commitCurrentEdit$0() !== true)
         return;
       this.scrollCellIntoView$3(row, cell, false);
       newCell = this.getCellNode$2(row, cell);
-      this.setActiveCellInternal$2(newCell, forceEdit || J.$eq(row, this.data.length) || t1.$index(0, "autoEdit") === true);
+      this.setActiveCellInternal$2(newCell, forceEdit || J.$eq(row, this.data.length) || this.options.$index(0, "autoEdit") === true);
       if (this.currentEditor == null)
         this.setFocus$0();
     },
     scrollRowIntoView$2: function(row, doPaging) {
-      var t1, t2, rowTopDist, rowAtBottom, t3;
-      t1 = this.options;
-      t2 = J.getInterceptor$ns(row);
-      rowTopDist = t1.$index(0, "dynamicHeight") === true ? this.yLookup.getPosition$1(t2.$add(row, 1)) : t2.$mul(row, t1.$index(0, "rowHeight"));
-      t2 = J.getInterceptor$ns(row);
-      if (t1.$index(0, "dynamicHeight") === true)
-        this.yLookup.getPosition$1(t2.$add(row, 2));
+      var t1, rowTopDist, t2, rowAtBottom, t3;
+      t1 = J.getInterceptor$ns(row);
+      rowTopDist = this.options.$index(0, "dynamicHeight") === true ? this.yLookup.getPosition$1(t1.$add(row, 1)) : t1.$mul(row, this.options.$index(0, "rowHeight"));
+      t1 = J.getInterceptor$ns(row);
+      if (this.options.$index(0, "dynamicHeight") === true)
+        this.yLookup.getPosition$1(t1.$add(row, 2));
       else
-        J.$mul$ns(t2.$add(row, 1), t1.$index(0, "rowHeight"));
+        J.$mul$ns(t1.$add(row, 1), this.options.$index(0, "rowHeight"));
       t1 = J.getInterceptor$n(rowTopDist);
       t2 = t1.$sub(rowTopDist, this.viewportH);
       rowAtBottom = J.$add$ns(t2, this.viewportHasHScroll ? $.scrollbarDimensions.$index(0, "height") : 0);
@@ -15169,33 +14706,29 @@ var $$ = Object.create(null);
       if (typeof t3 !== "number")
         return H.iae(t3);
       if (t1.$gt(rowTopDist, t2 + t3 + this.offset)) {
-        this.scrollTo$1(0, doPaging != null ? rowTopDist : rowAtBottom);
+        this.scrollTo$1(0, rowTopDist);
         this.render$0();
       } else if (t1.$lt(rowTopDist, this.scrollTop + this.offset)) {
-        this.scrollTo$1(0, doPaging != null ? rowAtBottom : rowTopDist);
+        this.scrollTo$1(0, rowAtBottom);
         this.render$0();
       }
     },
-    scrollRowIntoView$1: function(row) {
-      return this.scrollRowIntoView$2(row, null);
-    },
     scrollPage$1: function(dir) {
-      var t1, deltaRows, t2, t3, row, dataLengthIncludingAddNew, prevActivePosX, cell, prevCell;
+      var t1, deltaRows, t2, row, dataLengthIncludingAddNew, prevActivePosX, cell, prevCell;
       t1 = this.numVisibleRows;
       if (typeof t1 !== "number")
         return H.iae(t1);
       deltaRows = dir * t1;
       t1 = this.getRowFromPosition$1(this.scrollTop);
-      t2 = this.options;
-      t3 = t2.$index(0, "rowHeight");
-      if (typeof t3 !== "number")
-        return H.iae(t3);
-      this.scrollTo$1(0, (t1 + deltaRows) * t3);
+      t2 = this.options.$index(0, "rowHeight");
+      if (typeof t2 !== "number")
+        return H.iae(t2);
+      this.scrollTo$1(0, (t1 + deltaRows) * t2);
       this.render$0();
-      if (t2.$index(0, "enableCellNavigation") != null && this.activeRow != null) {
+      if (this.options.$index(0, "enableCellNavigation") != null && this.activeRow != null) {
         row = J.$add$ns(this.activeRow, deltaRows);
         t1 = this.data.length;
-        dataLengthIncludingAddNew = t1 + (t2.$index(0, "enableAddRow") === true ? 1 : 0);
+        dataLengthIncludingAddNew = t1 + (this.options.$index(0, "enableAddRow") === true ? 1 : 0);
         if (J.$ge$n(row, dataLengthIncludingAddNew))
           row = dataLengthIncludingAddNew - 1;
         if (J.$lt$n(row, 0))
@@ -15228,26 +14761,6 @@ var $$ = Object.create(null);
       }
       return;
     },
-    setActiveCell$2: function(row, cell) {
-      var t1;
-      if (!this.initialized)
-        return;
-      t1 = J.getInterceptor$n(row);
-      if (!t1.$gt(row, this.data.length))
-        if (!t1.$lt(row, 0)) {
-          t1 = J.getInterceptor$n(cell);
-          t1 = t1.$ge(cell, J.get$length$asx(this.columns)) || t1.$lt(cell, 0);
-        } else
-          t1 = true;
-      else
-        t1 = true;
-      if (t1)
-        return;
-      if (this.options.$index(0, "enableCellNavigation") != null)
-        return;
-      this.scrollCellIntoView$3(row, cell, false);
-      this.setActiveCellInternal$2(this.getCellNode$2(row, cell), false);
-    },
     scrollCellIntoView$3: function(row, cell, doPaging) {
       var t1, left, right, t2;
       if (J.$le$n(cell, this.options.$index(0, "frozenColumn")))
@@ -15279,7 +14792,7 @@ var $$ = Object.create(null);
       }
     },
     setActiveCellInternal$2: function(newCell, opt_editMode) {
-      var t1, t2, t3;
+      var t1, t2;
       if (this.activeCellNode != null) {
         this.makeActiveCellNormal$0();
         J.get$classes$x(this.activeCellNode).remove$1(0, "active");
@@ -15298,15 +14811,14 @@ var $$ = Object.create(null);
           opt_editMode = J.$eq(this.activeRow, this.data.length) || J.$eq(this.options.$index(0, "autoEdit"), true);
         J.get$classes$x(this.activeCellNode).add$1(0, "active");
         J.forEach$1$ax(this.rowsCache.$index(0, this.activeRow).get$rowNode(), new R.SlickGrid_setActiveCellInternal_closure0());
-        t2 = this.options;
-        if (J.$eq(t2.$index(0, "editable"), true) && opt_editMode === true && this.isCellPotentiallyEditable$2(this.activeRow, this.activeCell)) {
-          t3 = this.h_editorLoader;
-          if (t3 != null) {
-            t3.cancel$0();
+        if (J.$eq(this.options.$index(0, "editable"), true) && opt_editMode === true && this.isCellPotentiallyEditable$2(this.activeRow, this.activeCell)) {
+          t2 = this.h_editorLoader;
+          if (t2 != null) {
+            t2.cancel$0();
             this.h_editorLoader = null;
           }
-          if (t2.$index(0, "asyncEditorLoading") === true)
-            this.h_editorLoader = P.Timer_Timer(P.Duration$(0, 0, 0, t2.$index(0, "asyncEditorLoadDelay"), 0, 0), this.makeActiveCellEditable$0());
+          if (this.options.$index(0, "asyncEditorLoading") === true)
+            this.h_editorLoader = P.Timer_Timer(P.Duration$(0, 0, 0, this.options.$index(0, "asyncEditorLoadDelay"), 0, 0), this.makeActiveCellEditable$0());
           else
             this.makeActiveCellEditable$0();
         }
@@ -15327,7 +14839,7 @@ var $$ = Object.create(null);
         return P.LinkedHashMap_LinkedHashMap$_literal(["row", this.activeRow, "cell", this.activeCell], null, null);
     },
     makeActiveCellNormal$0: function() {
-      var t1, d, column, formatter;
+      var t1, d, t2, column, formatter;
       t1 = this.currentEditor;
       if (t1 == null)
         return;
@@ -15338,7 +14850,11 @@ var $$ = Object.create(null);
         d = this.getDataItem$1(this.activeRow);
         J.get$classes$x(this.activeCellNode).removeAll$1(["editable", "invalid"]);
         if (d != null) {
-          column = J.$index$asx(this.columns, this.activeCell);
+          t1 = this.columns;
+          t2 = this.activeCell;
+          if (t2 >>> 0 !== t2 || t2 >= t1.length)
+            return H.ioore(t1, t2);
+          column = t1[t2];
           formatter = column.get$formatter() != null ? column.get$formatter() : this.options.$index(0, "defaultFormatter");
           J.setInnerHtml$2$treeSanitizer$x(this.activeCellNode, formatter.call$5(this.activeRow, this.activeCell, this.getDataItemValueForColumn$2(d, column), column, d), $.get$_treeSanitizer());
           t1 = this.activeRow;
@@ -15355,25 +14871,22 @@ var $$ = Object.create(null);
       this.options.$index(0, "editorLock").deactivate$1(this.editController);
     },
     getDataItemValueForColumn$2: function(item, columnDef) {
-      var t1 = this.options;
-      if (t1.$index(0, "dataItemColumnValueExtractor") != null)
-        return t1.$index(0, "dataItemColumnValueExtractor").call$2(item, columnDef);
+      if (this.options.$index(0, "dataItemColumnValueExtractor") != null)
+        return this.options.$index(0, "dataItemColumnValueExtractor").call$2(item, columnDef);
       return J.$index$asx(item, columnDef.get$field());
     },
     startPostProcessing$0: function() {
-      var t1, t2;
-      t1 = this.options;
-      if (J.$eq(t1.$index(0, "enableAsyncPostRender"), false))
+      if (J.$eq(this.options.$index(0, "enableAsyncPostRender"), false))
         return;
-      t2 = this.h_postrender;
-      if (t2 != null)
-        t2.cancel$0();
-      t1 = P.Timer_Timer(P.Duration$(0, 0, 0, t1.$index(0, "asyncPostRenderDelay"), 0, 0), this.get$asyncPostProcessRows());
+      var t1 = this.h_postrender;
+      if (t1 != null)
+        t1.cancel$0();
+      t1 = P.Timer_Timer(P.Duration$(0, 0, 0, this.options.$index(0, "asyncPostRenderDelay"), 0, 0), this.get$asyncPostProcessRows());
       this.h_postrender = t1;
       P.print(t1._handle != null);
     },
     asyncPostProcessRows$0: [function() {
-      var dataLength, t1, t2, t3, row, cacheEntry, t4, columnIdx, m, node;
+      var dataLength, t1, t2, t3, row, cacheEntry, columnIdx, m, node;
       dataLength = this.data.length;
       t1 = this.rowsCache;
       while (true) {
@@ -15400,9 +14913,11 @@ var $$ = Object.create(null);
           if (t1.$index(0, row) == null)
             t1.$indexSet(0, row, P.LinkedHashMap_LinkedHashMap$_empty(null, null));
           this.ensureCellNodesInRowsCache$1(row);
-          for (t2 = cacheEntry.get$cellNodesByColumnIdx(), t2 = t2.get$iterator(t2), t3 = this.columns, t4 = J.getInterceptor$asx(t3); t2.moveNext$0(), false;) {
+          for (t2 = cacheEntry.get$cellNodesByColumnIdx(), t2 = t2.get$iterator(t2), t3 = this.columns; t2.moveNext$0(), false;) {
             columnIdx = t2.get$current();
-            m = t4.$index(t3, columnIdx);
+            if (columnIdx >>> 0 !== columnIdx || columnIdx >= t3.length)
+              return H.ioore(t3, columnIdx);
+            m = t3[columnIdx];
             if (m.get$asyncPostRender() != null && t1.$index(0, row).$index(0, columnIdx) !== true) {
               node = cacheEntry.get$cellNodesByColumnIdx().$index(0, columnIdx);
               if (node === true)
@@ -15414,27 +14929,27 @@ var $$ = Object.create(null);
           return;
         }
       }
-    }, "call$0", "get$asyncPostProcessRows", 0, 0, 11],
+    }, "call$0", "get$asyncPostProcessRows", 0, 0, 34],
     renderRows$1: function(range) {
-      var stringArrayL, stringArrayR, rows, t1, dataLength, i, ii, t2, t3, t4, t5, needToReselectCell, t6, t7, t8, x, xRight;
+      var stringArrayL, stringArrayR, rows, t1, dataLength, i, ii, t2, t3, needToReselectCell, t4, t5, t6, x, xRight;
       stringArrayL = [];
       stringArrayR = [];
       rows = [];
       t1 = this.data;
       dataLength = t1.length;
-      for (i = range.$index(0, "top"), ii = range.$index(0, "bottom"), t2 = this.rowsCache, t3 = this.columns, t4 = J.getInterceptor$asx(t3), t5 = this.options, needToReselectCell = false; t6 = J.getInterceptor$n(i), t6.$le(i, ii); i = t6.$add(i, 1)) {
+      for (i = range.$index(0, "top"), ii = range.$index(0, "bottom"), t2 = this.rowsCache, t3 = this.columns, needToReselectCell = false; t4 = J.getInterceptor$n(i), t4.$le(i, ii); i = t4.$add(i, 1)) {
         if (!t2.get$keys()._map.containsKey$1(i))
-          t7 = this.hasFrozenRows && t5.$index(0, "frozenBottom") === true && t6.$eq(i, t1.length);
+          t5 = this.hasFrozenRows && this.options.$index(0, "frozenBottom") === true && t4.$eq(i, t1.length);
         else
-          t7 = true;
-        if (t7)
+          t5 = true;
+        if (t5)
           continue;
         ++this.renderedRows;
         rows.push(i);
-        t7 = t4.get$length(t3);
-        t8 = new R.RowCache(null, null, null, P.LinkedHashMap_LinkedHashMap$_empty(null, null), P.ListQueue$(null, P.$int));
-        t8.cellColSpans = P.List_List$filled(t7, 1, null);
-        t2.$indexSet(0, i, t8);
+        t5 = t3.length;
+        t6 = new R.RowCache(null, null, null, P.LinkedHashMap_LinkedHashMap$_empty(null, null), P.ListQueue$(null, P.$int));
+        t6.cellColSpans = P.List_List$filled(t5, 1, null);
+        t2.$indexSet(0, i, t6);
         this.appendRowHtml$5(stringArrayL, stringArrayR, i, range, dataLength);
         if (this.activeCellNode != null && J.$eq(this.activeRow, i))
           needToReselectCell = true;
@@ -15460,35 +14975,35 @@ var $$ = Object.create(null);
         } else
           t4 = false;
         if (t4) {
-          t4 = J.$gt$n(t5.$index(0, "frozenColumn"), -1);
-          t6 = rows.length;
-          t7 = rows[i];
+          t4 = J.$gt$n(this.options.$index(0, "frozenColumn"), -1);
+          t5 = rows.length;
+          t6 = rows[i];
           if (t4) {
-            if (i >= t6)
+            if (i >= t5)
               return H.ioore(rows, i);
-            t2.$index(0, t7).set$rowNode([t1.get$firstChild(x), t3.get$firstChild(xRight)]);
+            t2.$index(0, t6).set$rowNode([t1.get$firstChild(x), t3.get$firstChild(xRight)]);
             J.get$children$x(this.$$canvasBottomL).add$1(0, t1.get$firstChild(x));
             J.get$children$x(this.$$canvasBottomR).add$1(0, t3.get$firstChild(xRight));
           } else {
-            if (i >= t6)
+            if (i >= t5)
               return H.ioore(rows, i);
-            t2.$index(0, t7).set$rowNode([t1.get$firstChild(x)]);
+            t2.$index(0, t6).set$rowNode([t1.get$firstChild(x)]);
             J.get$children$x(this.$$canvasBottomL).add$1(0, t1.get$firstChild(x));
           }
         } else {
-          t4 = J.$gt$n(t5.$index(0, "frozenColumn"), -1);
-          t6 = rows.length;
-          t7 = rows[i];
+          t4 = J.$gt$n(this.options.$index(0, "frozenColumn"), -1);
+          t5 = rows.length;
+          t6 = rows[i];
           if (t4) {
-            if (i >= t6)
+            if (i >= t5)
               return H.ioore(rows, i);
-            t2.$index(0, t7).set$rowNode([t1.get$firstChild(x), t3.get$firstChild(xRight)]);
+            t2.$index(0, t6).set$rowNode([t1.get$firstChild(x), t3.get$firstChild(xRight)]);
             J.get$children$x(this.$$canvasTopL).add$1(0, t1.get$firstChild(x));
             J.get$children$x(this.$$canvasTopR).add$1(0, t3.get$firstChild(xRight));
           } else {
-            if (i >= t6)
+            if (i >= t5)
               return H.ioore(rows, i);
-            t2.$index(0, t7).set$rowNode([t1.get$firstChild(x)]);
+            t2.$index(0, t6).set$rowNode([t1.get$firstChild(x)]);
             J.get$children$x(this.$$canvasTopL).add$1(0, t1.get$firstChild(x));
           }
         }
@@ -15497,29 +15012,13 @@ var $$ = Object.create(null);
         this.activeCellNode = this.getCellNode$2(this.activeRow, this.activeCell);
     },
     appendRowHtml$5: function(stringArrayL, stringArrayR, row, range, dataLength) {
-      var d, t1, t2, rowCss, t3, t4, distY, offset, rHeight, rowHtml, ii, i, t5, i0, t6;
+      var d, t1, t2, rowCss, frozenRowOffset, rHeight, rowHtml, ii, i, t3, i0, t4;
       d = this.getDataItem$1(row);
       t1 = J.getInterceptor$n(row);
       t2 = "slick-row" + (t1.$lt(row, dataLength) && d == null ? " loading" : "");
       t2 += t1.$eq(row, this.activeRow) ? " active" : "";
       rowCss = t2 + (t1.$mod(row, 2) === 1 ? " odd" : " even");
-      t2 = this.options;
-      t3 = t2.$index(0, "dynamicHeight");
-      t4 = this.actualFrozenRow;
-      distY = t3 === true ? this.yLookup.getPosition$1(J.$add$ns(t4, 1)) : J.$mul$ns(t4, t2.$index(0, "rowHeight"));
-      if (this.hasFrozenRows)
-        if (t2.$index(0, "frozenBottom") === true) {
-          if (t1.$ge(row, this.actualFrozenRow))
-            t1 = J.$lt$n(this.h, this.viewportTopH) ? distY : this.h;
-          else
-            t1 = 0;
-          offset = t1;
-        } else {
-          t1 = t1.$ge(row, this.actualFrozenRow) ? this.frozenRowsHeight : 0;
-          offset = t1;
-        }
-      else
-        offset = 0;
+      frozenRowOffset = this.getFrozenRowOffset$1(row);
       t1 = this.data;
       if (row >>> 0 !== row || row >= t1.length)
         return H.ioore(t1, row);
@@ -15529,80 +15028,75 @@ var $$ = Object.create(null);
         rHeight = "height:" + H.S(J.$index$asx(t1[row], "_height")) + "px";
       } else
         rHeight = "";
-      rowHtml = "<div class='ui-widget-content " + rowCss + "' style='top: " + H.S(J.$sub$n(this.getRowTop$1(row), offset)) + "px;  " + rHeight + "'>";
+      rowHtml = "<div class='ui-widget-content " + rowCss + "' style='top: " + H.S(J.$sub$n(this.getRowTop$1(row), frozenRowOffset)) + "px;  " + rHeight + "'>";
       stringArrayL.push(rowHtml);
-      if (J.$gt$n(t2.$index(0, "frozenColumn"), -1))
+      if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
         stringArrayR.push(rowHtml);
-      for (t1 = this.columns, t3 = J.getInterceptor$asx(t1), ii = t3.get$length(t1), t4 = ii - 1, i = 0; i < ii; i = i0) {
-        t3.$index(t1, i);
-        t5 = this.columnPosRight;
+      for (t1 = this.columns, ii = t1.length, t2 = ii - 1, i = 0; i < ii; i = i0) {
+        if (i >= t1.length)
+          return H.ioore(t1, i);
+        t3 = this.columnPosRight;
         i0 = i + 1;
-        t6 = P.min(t4, i0 - 1);
-        if (t6 >>> 0 !== t6 || t6 >= t5.length)
-          return H.ioore(t5, t6);
-        t6 = t5[t6];
-        t5 = range.$index(0, "leftPx");
-        if (typeof t5 !== "number")
-          return H.iae(t5);
-        if (t6 > t5) {
-          t5 = this.columnPosLeft;
-          if (i >= t5.length)
-            return H.ioore(t5, i);
-          t5 = t5[i];
-          t6 = range.$index(0, "rightPx");
-          if (typeof t6 !== "number")
-            return H.iae(t6);
-          if (t5 > t6)
+        t4 = P.min(t2, i0 - 1);
+        if (t4 >>> 0 !== t4 || t4 >= t3.length)
+          return H.ioore(t3, t4);
+        t4 = t3[t4];
+        t3 = range.$index(0, "leftPx");
+        if (typeof t3 !== "number")
+          return H.iae(t3);
+        if (t4 > t3) {
+          t3 = this.columnPosLeft;
+          if (i >= t3.length)
+            return H.ioore(t3, i);
+          t3 = t3[i];
+          t4 = range.$index(0, "rightPx");
+          if (typeof t4 !== "number")
+            return H.iae(t4);
+          if (t3 > t4)
             break;
-          if (J.$gt$n(t2.$index(0, "frozenColumn"), -1)) {
-            t5 = t2.$index(0, "frozenColumn");
-            if (typeof t5 !== "number")
-              return H.iae(t5);
-            t5 = i > t5;
+          if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
+            t3 = this.options.$index(0, "frozenColumn");
+            if (typeof t3 !== "number")
+              return H.iae(t3);
+            t3 = i > t3;
           } else
-            t5 = false;
-          if (t5)
+            t3 = false;
+          if (t3)
             this.appendCellHtml$5(stringArrayR, row, i, 1, d);
           else
             this.appendCellHtml$5(stringArrayL, row, i, 1, d);
         } else {
-          if (J.$gt$n(t2.$index(0, "frozenColumn"), -1)) {
-            t5 = t2.$index(0, "frozenColumn");
-            if (typeof t5 !== "number")
-              return H.iae(t5);
-            t5 = i <= t5;
+          if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
+            t3 = this.options.$index(0, "frozenColumn");
+            if (typeof t3 !== "number")
+              return H.iae(t3);
+            t3 = i <= t3;
           } else
-            t5 = false;
-          if (t5)
+            t3 = false;
+          if (t3)
             this.appendCellHtml$5(stringArrayL, row, i, 1, d);
         }
       }
       stringArrayL.push("</div>");
-      if (J.$gt$n(t2.$index(0, "frozenColumn"), -1))
+      if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
         stringArrayR.push("</div>");
     },
     appendCellHtml$5: function(stringArray, row, cell, colspan, item) {
-      var t1, t2, m, t3, cellCss, t4, key, style, value;
+      var t1, m, t2, cellCss, t3, key, style, value;
       t1 = this.columns;
-      t2 = J.getInterceptor$asx(t1);
-      m = t2.$index(t1, cell);
-      t3 = "slick-cell l" + cell + " r";
-      t1 = t2.get$length(t1);
+      if (cell < 0 || cell >= t1.length)
+        return H.ioore(t1, cell);
+      m = t1[cell];
+      t2 = "slick-cell l" + cell + " r";
+      t1 = t1.length;
       if (typeof colspan !== "number")
         return H.iae(colspan);
-      t1 = t3 + C.JSNumber_methods.toString$0(P.min(t1 - 1, cell + colspan - 1));
+      t1 = t2 + C.JSNumber_methods.toString$0(P.min(t1 - 1, cell + colspan - 1));
       cellCss = t1 + (m.get$cssClass() != null ? C.JSString_methods.$add(" ", m.get$cssClass()) : "");
       if (J.$eq(row, this.activeRow) && cell === this.activeCell)
         cellCss += " active";
-      t1 = this.cellCssClasses;
-      t2 = t1.get$keys();
-      t3 = t2._map;
-      t4 = new P.LinkedHashMapKeyIterator(t3, t3._modifications, null, null);
-      t4.$builtinTypeInfo = [H.getTypeArgumentByIndex(t2, 0)];
-      t4._cell = t3._first;
-      t2 = J.getInterceptor$x(m);
-      for (; t4.moveNext$0();) {
-        key = t4._collection$_current;
+      for (t1 = this.cellCssClasses, t2 = t1.get$keys()._map, t3 = new P.LinkedHashMapKeyIterator(t2, t2._modifications, null, null), t3._cell = t2._first, t2 = J.getInterceptor$x(m); t3.moveNext$0();) {
+        key = t3._collection$_current;
         if (t1.$index(0, key).containsKey$1(row) && t1.$index(0, key).$index(0, row).containsKey$1(t2.get$id(m)) === true)
           cellCss += C.JSString_methods.$add(" ", J.$index$asx(t1.$index(0, key).$index(0, row), t2.get$id(m)));
       }
@@ -15624,7 +15118,7 @@ var $$ = Object.create(null);
       t1 = this.rowsCache;
       t1.$index(0, row).get$cellRenderQueue()._add$1(cell);
       t1 = t1.$index(0, row).get$cellColSpans();
-      if (cell < 0 || cell >= t1.length)
+      if (cell >= t1.length)
         return H.ioore(t1, cell);
       t1[cell] = colspan;
     },
@@ -15632,13 +15126,12 @@ var $$ = Object.create(null);
       C.JSArray_methods.forEach$1(this.$$headers, new R.SlickGrid_setupColumnSort_closure(this));
     },
     updateRowCount$0: function() {
-      var t1, t2, dataLengthIncludingAddNew, numberOfRows, oldViewportHasVScroll, t3, l, oldH, t4;
+      var t1, dataLengthIncludingAddNew, numberOfRows, oldViewportHasVScroll, t2, l, oldH, t3;
       if (!this.initialized)
         return;
       t1 = this.data.length;
-      t2 = this.options;
-      dataLengthIncludingAddNew = t1 + (t2.$index(0, "enableAddRow") === true ? 1 : 0);
-      if (t2.$index(0, "leaveSpaceForNewRows") === true) {
+      dataLengthIncludingAddNew = t1 + (this.options.$index(0, "enableAddRow") === true ? 1 : 0);
+      if (this.options.$index(0, "leaveSpaceForNewRows") === true) {
         t1 = this.numVisibleRows;
         if (typeof t1 !== "number")
           return t1.$sub();
@@ -15647,15 +15140,15 @@ var $$ = Object.create(null);
         t1 = 0;
       numberOfRows = dataLengthIncludingAddNew + t1;
       oldViewportHasVScroll = this.viewportHasVScroll;
-      if (J.$eq(t2.$index(0, "autoHeight"), false)) {
-        t1 = t2.$index(0, "rowHeight");
+      if (J.$eq(this.options.$index(0, "autoHeight"), false)) {
+        t1 = this.options.$index(0, "rowHeight");
         if (typeof t1 !== "number")
           return H.iae(t1);
-        t3 = this.viewportH;
-        if (typeof t3 !== "number")
-          return H.iae(t3);
-        t3 = numberOfRows * t1 > t3;
-        t1 = t3;
+        t2 = this.viewportH;
+        if (typeof t2 !== "number")
+          return H.iae(t2);
+        t2 = numberOfRows * t1 > t2;
+        t1 = t2;
       } else
         t1 = false;
       this.viewportHasVScroll = t1;
@@ -15665,11 +15158,11 @@ var $$ = Object.create(null);
       if (this.activeCellNode != null && J.$gt$n(this.activeRow, l))
         this.setActiveCellInternal$2(null, false);
       oldH = this.h;
-      if (J.$eq(t2.$index(0, "dynamicHeight"), true)) {
+      if (J.$eq(this.options.$index(0, "dynamicHeight"), true)) {
         t1 = this.yLookup.height;
         this.th = t1;
       } else {
-        t1 = P.max(J.$mul$ns(t2.$index(0, "rowHeight"), numberOfRows), J.$sub$n(this.viewportH, $.scrollbarDimensions.$index(0, "height")));
+        t1 = P.max(J.$mul$ns(this.options.$index(0, "rowHeight"), numberOfRows), J.$sub$n(this.viewportH, $.scrollbarDimensions.$index(0, "height")));
         this.th = t1;
       }
       if (J.$lt$n(t1, $.maxSupportedCssHeight)) {
@@ -15687,21 +15180,21 @@ var $$ = Object.create(null);
         this.ph = t1;
         this.n = C.JSNumber_methods.toInt$0(Math.floor(J.$div$n(this.th, t1)));
         t1 = J.$sub$n(this.th, this.h);
-        t3 = this.n;
-        if (typeof t3 !== "number")
-          return t3.$sub();
-        this.cj = J.$div$n(t1, t3 - 1);
+        t2 = this.n;
+        if (typeof t2 !== "number")
+          return t2.$sub();
+        this.cj = J.$div$n(t1, t2 - 1);
       }
       if (!J.$eq(this.h, oldH)) {
-        t1 = this.hasFrozenRows && t2.$index(0, "frozenBottom") !== true;
-        t3 = this.h;
+        t1 = this.hasFrozenRows && this.options.$index(0, "frozenBottom") !== true;
+        t2 = this.h;
         if (t1) {
-          J.set$height$x(this.$$canvasBottomL.style, H.S(t3) + "px");
-          if (J.$gt$n(t2.$index(0, "frozenColumn"), -1))
+          J.set$height$x(this.$$canvasBottomL.style, H.S(t2) + "px");
+          if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
             J.set$height$x(this.$$canvasBottomR.style, H.S(this.h) + "px");
         } else {
-          J.set$height$x(this.$$canvasTopL.style, H.S(t3) + "px");
-          if (J.$gt$n(t2.$index(0, "frozenColumn"), -1))
+          J.set$height$x(this.$$canvasTopL.style, H.S(t2) + "px");
+          if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1))
             J.set$height$x(this.$$canvasTopR.style, H.S(this.h) + "px");
         }
         t1 = this.$$viewportScrollContainerY;
@@ -15709,20 +15202,20 @@ var $$ = Object.create(null);
         this.scrollTop = C.JSNumber_methods.toInt$0(C.JSNumber_methods.roundToDouble$0(t1.scrollTop));
       }
       t1 = this.scrollTop;
-      t3 = this.offset;
-      t4 = J.$sub$n(this.th, this.viewportH);
-      if (typeof t4 !== "number")
-        return H.iae(t4);
+      t2 = this.offset;
+      t3 = J.$sub$n(this.th, this.viewportH);
+      if (typeof t3 !== "number")
+        return H.iae(t3);
       if (J.$eq(this.th, 0) || this.scrollTop === 0) {
         this.offset = 0;
         this.page = 0;
-      } else if (t1 + t3 <= t4)
+      } else if (t1 + t2 <= t3)
         this.scrollTo$1(0, this.scrollTop + this.offset);
       else
         this.scrollTo$1(0, J.$sub$n(this.th, this.viewportH));
-      if (!J.$eq(this.h, oldH) && t2.$index(0, "autoHeight") === true)
+      if (!J.$eq(this.h, oldH) && this.options.$index(0, "autoHeight") === true)
         this.resizeCanvas$0();
-      if (t2.$index(0, "forceFitColumns") === true && oldViewportHasVScroll !== this.viewportHasVScroll)
+      if (this.options.$index(0, "forceFitColumns") === true && oldViewportHasVScroll !== this.viewportHasVScroll)
         this.autosizeColumns$0();
       this.updateCanvasWidth$1(false);
     },
@@ -15738,7 +15231,7 @@ var $$ = Object.create(null);
         t1.toString;
         t1.scrollLeft = C.JSInt_methods.round$0(scrollLeft);
       }
-    }, "call$1", "get$handleHeaderRowScroll", 2, 0, 82, 2],
+    }, "call$1", "get$handleHeaderRowScroll", 2, 0, 66, 3],
     handleScroll$1: [function(e) {
       var t1, t2, maxScrollDistanceY, maxScrollDistanceX, vScrollDist, t3, t4;
       t1 = this.$$viewportScrollContainerY;
@@ -15807,9 +15300,8 @@ var $$ = Object.create(null);
         t4 = this.scrollTop;
         this.vScrollDir = t3 < t4 ? 1 : -1;
         this.prevScrollTop = t4;
-        t3 = this.options;
-        if (J.$gt$n(t3.$index(0, "frozenColumn"), -1)) {
-          t3 = this.hasFrozenRows && t3.$index(0, "frozenBottom") !== true;
+        if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1)) {
+          t3 = this.hasFrozenRows && this.options.$index(0, "frozenBottom") !== true;
           t4 = this.scrollTop;
           if (t3) {
             t3 = this.$$viewportBottomL;
@@ -15856,9 +15348,9 @@ var $$ = Object.create(null);
         this.trigger$2(t1, P.LinkedHashMap_LinkedHashMap$_literal(["scrollLeft", this.scrollLeft, "scrollTop", this.scrollTop], null, null));
     }, function() {
       return this.handleScroll$1(null);
-    }, "handleScroll$0", "call$1", "call$0", "get$handleScroll", 0, 2, 80, 17, 2],
+    }, "handleScroll$0", "call$1", "call$0", "get$handleScroll", 0, 2, 60, 16, 3],
     createCssRules$0: function() {
-      var t1, rowHeight, t2, rules, t3, i;
+      var t1, rowHeight, rules, t2, i;
       this.$$style = document.createElement("style", null);
       t1 = this.container;
       if (t1.parentElement == null) {
@@ -15866,15 +15358,14 @@ var $$ = Object.create(null);
         J.insert$2$ax(J.get$children$x(H.interceptedTypeCast(t1.parentNode, "$isShadowRoot")), 0, this.$$style);
       } else
         document.querySelector("head").appendChild(this.$$style);
-      t1 = this.options;
-      rowHeight = J.$sub$n(t1.$index(0, "rowHeight"), this.cellHeightDiff);
-      t2 = this.uid;
-      rules = ["." + t2 + " .slick-header-column { left: 1000px; }", C.JSString_methods.$add("." + t2 + " .slick-top-panel { height:", J.toString$0(t1.$index(0, "topPanelHeight"))) + "px; }", C.JSString_methods.$add("." + t2 + " .slick-headerrow-columns { height:", J.toString$0(t1.$index(0, "headerRowHeight"))) + "px; }", "." + t2 + " .slick-cell { height:" + J.toString$0(rowHeight) + "px; }", C.JSString_methods.$add("." + t2 + " .slick-row { height:", J.toString$0(t1.$index(0, "rowHeight"))) + "px; }"];
+      rowHeight = J.$sub$n(this.options.$index(0, "rowHeight"), this.cellHeightDiff);
+      t1 = this.uid;
+      rules = ["." + t1 + " .slick-header-column { left: 1000px; }", C.JSString_methods.$add("." + t1 + " .slick-top-panel { height:", J.toString$0(this.options.$index(0, "topPanelHeight"))) + "px; }", C.JSString_methods.$add("." + t1 + " .slick-headerrow-columns { height:", J.toString$0(this.options.$index(0, "headerRowHeight"))) + "px; }", "." + t1 + " .slick-cell { height:" + J.toString$0(rowHeight) + "px; }", C.JSString_methods.$add("." + t1 + " .slick-row { height:", J.toString$0(this.options.$index(0, "rowHeight"))) + "px; }"];
       if (J.contains$1$asx(window.navigator.userAgent, "Android") && J.contains$1$asx(window.navigator.userAgent, "Chrome"))
-        rules.push("." + t2 + " .slick-viewport { -webkit-transform: translateZ(0);}");
-      for (t1 = this.columns, t3 = J.getInterceptor$asx(t1), i = 0; i < t3.get$length(t1); ++i) {
-        rules.push("." + t2 + " .l" + C.JSInt_methods.toString$0(i) + " { }");
-        rules.push("." + t2 + " .r" + C.JSInt_methods.toString$0(i) + " { }");
+        rules.push("." + t1 + " .slick-viewport { -webkit-transform: translateZ(0);}");
+      for (t2 = this.columns, i = 0; i < t2.length; ++i) {
+        rules.push("." + t1 + " .l" + C.JSInt_methods.toString$0(i) + " { }");
+        rules.push("." + t1 + " .r" + C.JSInt_methods.toString$0(i) + " { }");
       }
       t1 = this.$$style;
       t2 = C.JSArray_methods.join$1(rules, " ");
@@ -15884,17 +15375,17 @@ var $$ = Object.create(null);
     handleHeaderMouseEnter$1: [function(e) {
       var evt = B.EventData_EventData$fromDom(e);
       this.trigger$3(this.onHeaderMouseEnter, P.LinkedHashMap_LinkedHashMap$_literal(["column", this._headExt.$index(0, H.interceptedTypeCast(J.get$target$x(e), "$isElement"))], null, null), evt);
-    }, "call$1", "get$handleHeaderMouseEnter", 2, 0, 74, 2],
+    }, "call$1", "get$handleHeaderMouseEnter", 2, 0, 54, 3],
     handleHeaderMouseLeave$1: [function(e) {
       var evt = B.EventData_EventData$fromDom(e);
       this.trigger$3(this.onHeaderMouseLeave, P.LinkedHashMap_LinkedHashMap$_literal(["column", this._headExt.$index(0, H.interceptedTypeCast(J.get$target$x(e), "$isElement"))], null, null), evt);
-    }, "call$1", "get$handleHeaderMouseLeave", 2, 0, 14, 2],
+    }, "call$1", "get$handleHeaderMouseLeave", 2, 0, 13, 3],
     handleHeaderContextMenu$1: [function(e) {
       var $$header, evt;
       $$header = M.findClosestAncestor(J.get$target$x(e), "slick-header-column", ".slick-header-columns");
       evt = B.EventData_EventData$fromDom(e);
       this.trigger$3(this.onHeaderContextMenu, P.LinkedHashMap_LinkedHashMap$_literal(["column", $$header != null ? this._headExt.$index(0, $$header) : null], null, null), evt);
-    }, "call$1", "get$handleHeaderContextMenu", 2, 0, 83, 2],
+    }, "call$1", "get$handleHeaderContextMenu", 2, 0, 67, 3],
     handleHeaderClick$1: [function(e) {
       var header, evt, c;
       P.print("header clicked");
@@ -15903,26 +15394,29 @@ var $$ = Object.create(null);
       c = header != null ? this._headExt.$index(0, header) : null;
       if (c != null)
         this.trigger$3(this.onHeaderClick, P.LinkedHashMap_LinkedHashMap$_literal(["column", c], null, null), evt);
-    }, "call$1", "get$handleHeaderClick", 2, 0, 82, 2],
+    }, "call$1", "get$handleHeaderClick", 2, 0, 66, 3],
     makeActiveCellEditable$1: function(ed) {
       var t1, t2, columnDef, item, t3, t4, t5, editorParm;
       if (this.activeCellNode == null)
         return;
-      t1 = this.options;
-      if (J.$eq(t1.$index(0, "editable"), false))
+      if (J.$eq(this.options.$index(0, "editable"), false))
         throw H.wrapException("Grid : makeActiveCellEditable : should never get called when options.editable is false");
-      t2 = this.h_editorLoader;
-      if (t2 != null)
-        t2.cancel$0();
+      t1 = this.h_editorLoader;
+      if (t1 != null)
+        t1.cancel$0();
       if (!this.isCellPotentiallyEditable$2(this.activeRow, this.activeCell))
         return;
-      columnDef = J.$index$asx(this.columns, this.activeCell);
+      t1 = this.columns;
+      t2 = this.activeCell;
+      if (t2 >>> 0 !== t2 || t2 >= t1.length)
+        return H.ioore(t1, t2);
+      columnDef = t1[t2];
       item = this.getDataItem$1(this.activeRow);
       if (J.$eq(this.trigger$2(this.onBeforeEditCell, P.LinkedHashMap_LinkedHashMap$_literal(["row", this.activeRow, "cell", this.activeCell, "item", item, "column", columnDef], null, null)), false)) {
         this.setFocus$0();
         return;
       }
-      t1.$index(0, "editorLock").activate$1(this.editController);
+      this.options.$index(0, "editorLock").activate$1(this.editController);
       J.get$classes$x(this.activeCellNode).add$1(0, "editable");
       J.setInnerHtml$1$x(this.activeCellNode, "");
       t1 = this.absBox$1(this.container);
@@ -15942,17 +15436,16 @@ var $$ = Object.create(null);
       return this.makeActiveCellEditable$1(null);
     },
     commitEditAndSetFocus$0: [function() {
-      var t1 = this.options;
-      if (t1.$index(0, "editorLock").commitCurrentEdit$0() === true) {
+      if (this.options.$index(0, "editorLock").commitCurrentEdit$0() === true) {
         this.setFocus$0();
-        if (t1.$index(0, "autoEdit") === true)
+        if (this.options.$index(0, "autoEdit") === true)
           this.navigate$1("down");
       }
-    }, "call$0", "get$commitEditAndSetFocus", 0, 0, 13],
+    }, "call$0", "get$commitEditAndSetFocus", 0, 0, 0],
     cancelEditAndSetFocus$0: [function() {
       if (this.options.$index(0, "editorLock").cancelCurrentEdit$0() === true)
         this.setFocus$0();
-    }, "call$0", "get$cancelEditAndSetFocus", 0, 0, 13],
+    }, "call$0", "get$cancelEditAndSetFocus", 0, 0, 0],
     absBox$1: function(elem) {
       var t1, box, offsetParent;
       t1 = J.getInterceptor$x(elem);
@@ -15997,13 +15490,12 @@ var $$ = Object.create(null);
       return box;
     },
     navigate$1: function(dir) {
-      var t1, pos, isAddNewRow;
-      t1 = this.options;
-      if (J.$eq(t1.$index(0, "enableCellNavigation"), false))
+      var pos, t1, isAddNewRow;
+      if (J.$eq(this.options.$index(0, "enableCellNavigation"), false))
         return false;
       if (this.activeCellNode == null && dir !== "prev" && dir !== "next")
         return false;
-      if (t1.$index(0, "editorLock").commitCurrentEdit$0() !== true)
+      if (this.options.$index(0, "editorLock").commitCurrentEdit$0() !== true)
         return true;
       this.setFocus$0();
       this.tabbingDirection = P.LinkedHashMap_LinkedHashMap$_literal(["up", -1, "down", 1, "left", -1, "right", 1, "prev", -1, "next", 1], null, null).$index(0, dir);
@@ -16035,7 +15527,7 @@ var $$ = Object.create(null);
         if (this.canCellBeActive$2(row, prevCell) === true)
           return P.LinkedHashMap_LinkedHashMap$_literal(["row", row, "cell", prevCell, "posX", posX], null, null);
       }
-    }, "call$3", "get$gotoUp", 6, 0, 84],
+    }, "call$3", "get$gotoUp", 6, 0, 68],
     gotoNext$3: [function(row, cell, posX) {
       var pos, t1, dataLengthIncludingAddNew, firstFocusableCell;
       if (row == null && cell == null) {
@@ -16056,13 +15548,13 @@ var $$ = Object.create(null);
           return P.LinkedHashMap_LinkedHashMap$_literal(["row", row, "cell", firstFocusableCell, "posX", firstFocusableCell], null, null);
       }
       return;
-    }, "call$3", "get$gotoNext", 6, 0, 85],
+    }, "call$3", "get$gotoNext", 6, 0, 69],
     gotoPrev$3: [function(row, cell, posX) {
       var t1, pos, lastSelectableCell;
       if (row == null && cell == null) {
         t1 = this.data.length;
         row = t1 + (this.options.$index(0, "enableAddRow") === true ? 1 : 0) - 1;
-        posX = J.get$length$asx(this.columns) - 1;
+        posX = this.columns.length - 1;
         if (this.canCellBeActive$2(row, posX) === true)
           return P.LinkedHashMap_LinkedHashMap$_literal(["row", row, "cell", posX, "posX", posX], null, null);
         cell = posX;
@@ -16079,18 +15571,17 @@ var $$ = Object.create(null);
           pos = P.LinkedHashMap_LinkedHashMap$_literal(["row", row, "cell", lastSelectableCell, "posX", lastSelectableCell], null, null);
       }
       return pos;
-    }, "call$3", "get$gotoPrev", 6, 0, 84],
+    }, "call$3", "get$gotoPrev", 6, 0, 68],
     gotoRight$3: [function(row, cell, posX) {
-      var t1, t2, t3;
+      var t1, t2;
       t1 = this.columns;
-      t2 = J.getInterceptor$asx(t1);
-      if (J.$ge$n(cell, t2.get$length(t1)))
+      if (J.$ge$n(cell, t1.length))
         return;
       do {
         cell = J.$add$ns(cell, 1);
-        t3 = J.getInterceptor$n(cell);
-      } while (t3.$lt(cell, t2.get$length(t1)) && this.canCellBeActive$2(row, cell) !== true);
-      if (t3.$lt(cell, t2.get$length(t1)))
+        t2 = J.getInterceptor$n(cell);
+      } while (t2.$lt(cell, t1.length) && this.canCellBeActive$2(row, cell) !== true);
+      if (t2.$lt(cell, t1.length))
         return P.LinkedHashMap_LinkedHashMap$_literal(["row", row, "cell", cell, "posX", cell], null, null);
       else {
         t1 = J.getInterceptor$n(row);
@@ -16098,16 +15589,16 @@ var $$ = Object.create(null);
           return P.LinkedHashMap_LinkedHashMap$_literal(["row", t1.$add(row, 1), "cell", 0, "posX", 0], null, null);
       }
       return;
-    }, "call$3", "get$gotoRight", 6, 0, 84],
+    }, "call$3", "get$gotoRight", 6, 0, 68],
     gotoLeft$3: [function(row, cell, posX) {
-      var t1, t2, t3, firstFocusableCell, prev, pos;
+      var t1, t2, firstFocusableCell, prev, pos;
       t1 = J.getInterceptor$n(cell);
       if (t1.$le(cell, 0)) {
         t2 = J.getInterceptor$n(row);
         if (t2.$ge(row, 1) && t1.$eq(cell, 0)) {
-          t1 = this.columns;
-          t3 = J.getInterceptor$asx(t1);
-          return P.LinkedHashMap_LinkedHashMap$_literal(["row", t2.$sub(row, 1), "cell", t3.get$length(t1) - 1, "posX", t3.get$length(t1) - 1], null, null);
+          t1 = t2.$sub(row, 1);
+          t2 = this.columns.length - 1;
+          return P.LinkedHashMap_LinkedHashMap$_literal(["row", t1, "cell", t2, "posX", t2], null, null);
         }
         return;
       }
@@ -16128,7 +15619,7 @@ var $$ = Object.create(null);
         if (J.$ge$n(pos.$index(0, "cell"), cell))
           return prev;
       }
-    }, "call$3", "get$gotoLeft", 6, 0, 84],
+    }, "call$3", "get$gotoLeft", 6, 0, 68],
     gotoDown$3: [function(row, cell, posX) {
       var t1, dataLengthIncludingAddNew, prevCell, cell0;
       t1 = this.data.length;
@@ -16146,10 +15637,10 @@ var $$ = Object.create(null);
         if (this.canCellBeActive$2(row, prevCell) === true)
           return P.LinkedHashMap_LinkedHashMap$_literal(["row", row, "cell", prevCell, "posX", posX], null, null);
       }
-    }, "call$3", "get$gotoDown", 6, 0, 84],
+    }, "call$3", "get$gotoDown", 6, 0, 68],
     findFirstFocusableCell$1: function(row) {
-      var t1, t2, cell;
-      for (t1 = this.columns, t2 = J.getInterceptor$asx(t1), cell = 0; cell < t2.get$length(t1);) {
+      var t1, cell;
+      for (t1 = this.columns, cell = 0; cell < t1.length;) {
         if (this.canCellBeActive$2(row, cell) === true)
           return cell;
         ++cell;
@@ -16157,8 +15648,8 @@ var $$ = Object.create(null);
       return;
     },
     findLastFocusableCell$1: function(row) {
-      var t1, t2, cell, lastFocusableCell;
-      for (t1 = this.columns, t2 = J.getInterceptor$asx(t1), cell = 0, lastFocusableCell = null; cell < t2.get$length(t1);) {
+      var t1, cell, lastFocusableCell;
+      for (t1 = this.columns, cell = 0, lastFocusableCell = null; cell < t1.length;) {
         if (this.canCellBeActive$2(row, cell) === true)
           lastFocusableCell = cell;
         ++cell;
@@ -16166,19 +15657,24 @@ var $$ = Object.create(null);
       return lastFocusableCell;
     },
     getEditor$2: function(row, cell) {
-      var column, t1;
-      column = J.$index$asx(this.columns, cell);
+      var t1, column;
+      t1 = this.columns;
+      if (cell >>> 0 !== cell || cell >= t1.length)
+        return H.ioore(t1, cell);
+      column = t1[cell];
       t1 = J.getInterceptor$asx(column);
       if (t1.$index(column, "editor") != null)
         return t1.$index(column, "editor");
-      t1 = this.options;
-      if (t1.$index(0, "editorFactory") != null)
-        return t1.$index(0, "editorFactory").getEditor$1(column);
+      if (this.options.$index(0, "editorFactory") != null)
+        return this.options.$index(0, "editorFactory").getEditor$1(column);
       return;
     },
     getEditorInstance$3: function(row, cell, editorParm) {
-      var column, t1, editorStr, item;
-      column = J.$index$asx(this.columns, cell);
+      var t1, column, editorStr, item;
+      t1 = this.columns;
+      if (cell >>> 0 !== cell || cell >= t1.length)
+        return H.ioore(t1, cell);
+      column = t1[cell];
       t1 = J.getInterceptor$asx(column);
       editorStr = t1.$index(column, "editor");
       if (typeof editorStr === "string")
@@ -16203,12 +15699,15 @@ var $$ = Object.create(null);
       }
     },
     isCellPotentiallyEditable$2: function(row, cell) {
-      var dataLength, t1;
+      var dataLength, t1, t2;
       dataLength = this.data.length;
       t1 = J.getInterceptor$n(row);
       if (t1.$lt(row, dataLength) && this.getDataItem$1(row) == null)
         return false;
-      if (J.$index$asx(this.columns, cell).get$cannotTriggerInsert() === true && t1.$ge(row, dataLength))
+      t2 = this.columns;
+      if (cell >>> 0 !== cell || cell >= t2.length)
+        return H.ioore(t2, cell);
+      if (t2[cell].get$cannotTriggerInsert() === true && t1.$ge(row, dataLength))
         return false;
       if (this.getEditor$2(row, cell) == null)
         return false;
@@ -16217,52 +15716,71 @@ var $$ = Object.create(null);
     handleMouseEnter$1: [function(e) {
       var evt = B.EventData_EventData$fromDom(e);
       this.trigger$3(this.onMouseEnter, P.LinkedHashMap_LinkedHashMap$_empty(null, null), evt);
-    }, "call$1", "get$handleMouseEnter", 2, 0, 74, 2],
+    }, "call$1", "get$handleMouseEnter", 2, 0, 54, 3],
     handleMouseLeave$1: [function(e) {
       var evt = B.EventData_EventData$fromDom(e);
       this.trigger$3(this.onMouseLeave, P.LinkedHashMap_LinkedHashMap$_empty(null, null), evt);
-    }, "call$1", "get$handleMouseLeave", 2, 0, 74, 2],
-    handleDragStart$1: [function(e) {
-      var cell, t1, t2, t3;
-      cell = this.getCellFromEvent$1(B.EventData_EventData$fromDom(e));
-      if (cell == null) {
-        t1 = cell.$index(0, "row");
-        t2 = cell.$index(0, "cell");
-        t3 = J.getInterceptor$n(t1);
-        t3.$lt(t1, 0);
-        t3.$ge(t1, this.data.length);
-        t1 = J.getInterceptor$n(t2);
-        t1.$lt(t2, 0);
-        t1.$ge(t2, J.get$length$asx(this.columns));
-        t1 = false;
-      } else
+    }, "call$1", "get$handleMouseLeave", 2, 0, 54, 3],
+    cellExists$2: function(row, cell) {
+      var t1 = J.getInterceptor$n(row);
+      if (!t1.$lt(row, 0))
+        if (!t1.$ge(row, this.data.length)) {
+          t1 = J.getInterceptor$n(cell);
+          t1 = t1.$lt(cell, 0) || t1.$ge(cell, this.columns.length);
+        } else
+          t1 = true;
+      else
         t1 = true;
-      if (t1)
+      return !t1;
+    },
+    getCellFromPoint$2: function(x, y) {
+      var row, t1, cell, w, i, t2;
+      row = this.getRowFromPosition$1(y);
+      t1 = this.columns;
+      cell = 0;
+      w = 0;
+      i = 0;
+      while (true) {
+        if (!(i < t1.length && C.JSNumber_methods.$lt(w, x)))
+          break;
+        if (i >= t1.length)
+          return H.ioore(t1, i);
+        t2 = J.get$width$x(t1[i]);
+        if (typeof t2 !== "number")
+          return H.iae(t2);
+        w += t2;
+        ++cell;
+        ++i;
+      }
+      return P.LinkedHashMap_LinkedHashMap$_literal(["row", row, "cell", cell - 1], null, null);
+    },
+    handleDragStart$1: [function(e) {
+      var cell = this.getCellFromEvent$1(B.EventData_EventData$fromDom(e));
+      if (cell != null || !this.cellExists$2(cell.$index(0, "row"), cell.$index(0, "cell")))
         return false;
       return false;
-    }, "call$1", "get$handleDragStart", 2, 0, 83, 2],
+    }, "call$1", "get$handleDragStart", 2, 0, 67, 3],
     handleDrag$2: [function(e, dd) {
       return this.trigger$3(this.onDrag, dd, e);
     }, function(e) {
       return this.handleDrag$2(e, null);
-    }, "handleDrag$1", "call$2", "call$1", "get$handleDrag", 2, 2, 48, 17, 2, 86],
+    }, "handleDrag$1", "call$2", "call$1", "get$handleDrag", 2, 2, 41, 16, 3, 70],
     handleDragEnd$2: [function(e, dd) {
       this.trigger$3(this.onDragEnd, dd, e);
     }, function(e) {
       return this.handleDragEnd$2(e, null);
-    }, "handleDragEnd$1", "call$2", "call$1", "get$handleDragEnd", 2, 2, 48, 17, 2, 86],
+    }, "handleDragEnd$1", "call$2", "call$1", "get$handleDragEnd", 2, 2, 41, 16, 3, 70],
     handleKeyDown$2: [function(e, args) {
-      var t1, handled, t2, exception;
+      var t1, handled, exception;
       this.trigger$3(this.onKeyDown, P.LinkedHashMap_LinkedHashMap$_literal(["row", this.activeRow, "cell", this.activeCell], null, null), e);
       t1 = J.getInterceptor(e);
       handled = !!t1.$isEventData && e._isImmediatePropagationStopped;
       if (!handled)
         if (t1.get$shiftKey(e) !== true && t1.get$altKey(e) !== true && t1.get$ctrlKey(e) !== true)
           if (t1.get$which(e) === 27) {
-            t2 = this.options;
-            if (t2.$index(0, "editorLock").isActive$0() !== true)
+            if (this.options.$index(0, "editorLock").isActive$0() !== true)
               return;
-            if (t2.$index(0, "editorLock").cancelCurrentEdit$0() === true)
+            if (this.options.$index(0, "editorLock").cancelCurrentEdit$0() === true)
               this.setFocus$0();
             handled = false;
           } else if (t1.get$which(e) === 34) {
@@ -16282,14 +15800,13 @@ var $$ = Object.create(null);
           else if (t1.get$which(e) === 9)
             handled = this.navigate$1("next");
           else if (t1.get$which(e) === 13) {
-            t2 = this.options;
-            if (t2.$index(0, "editable") === true)
+            if (this.options.$index(0, "editable") === true)
               if (this.currentEditor != null)
                 if (J.$eq(this.activeRow, this.data.length))
                   this.navigate$1("down");
                 else
                   this.commitEditAndSetFocus$0();
-              else if (t2.$index(0, "editorLock").commitCurrentEdit$0() === true)
+              else if (this.options.$index(0, "editorLock").commitCurrentEdit$0() === true)
                 this.makeActiveCellEditable$0();
             handled = true;
           } else
@@ -16307,44 +15824,41 @@ var $$ = Object.create(null);
       }
     }, function(e) {
       return this.handleKeyDown$2(e, null);
-    }, "handleKeyDown$1", "call$2", "call$1", "get$handleKeyDown", 2, 2, 87, 17, 2, 42],
-    unSubscribe$0: function() {
-      C.JSArray_methods.forEach$1(this._subscriptionList, new R.SlickGrid_unSubscribe_closure());
-    },
+    }, "handleKeyDown$1", "call$2", "call$1", "get$handleKeyDown", 2, 2, 71, 16, 3, 31],
     SlickGrid$4: function(container, data, columns, options) {
       this.defaults = P.LinkedHashMap_LinkedHashMap$_literal(["explicitInitialization", false, "rowHeight", 25, "defaultColumnWidth", 80, "enableAddRow", false, "leaveSpaceForNewRows", false, "editable", false, "autoEdit", true, "enableCellNavigation", true, "enableColumnReorder", true, "asyncEditorLoading", false, "asyncEditorLoadDelay", 100, "forceFitColumns", false, "enableAsyncPostRender", false, "asyncPostRenderDelay", 50, "autoHeight", false, "editorLock", $.get$GlobalEditorLock(), "showHeaderRow", false, "headerRowHeight", 25, "showTopPanel", false, "topPanelHeight", 25, "formatterFactory", null, "editorFactory", null, "cellFlashingCssClass", "flashing", "selectedCellCssClass", "selected", "multiSelect", true, "enableTextSelectionOnCells", false, "dataItemColumnValueExtractor", null, "fullWidthRows", false, "multiColumnSort", false, "defaultFormatter", this.get$defaultFormatter(), "forceSyncScrolling", false, "frozenColumn", -1, "frozenRow", -1, "frozenBottom", false, "dynamicHeight", false], null, null);
     }
   },
   SlickGrid_applyColumnHeaderWidths_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(i) {
       return J.get$children$x(i);
     },
     $isFunction: true
   },
   SlickGrid__createElem_closure: {
-    "^": "Closure:38;div_0",
+    "^": "Closure:32;div_0",
     call$2: function(key, value) {
       return J.setProperty$2$x(this.div_0.style, key, value);
     },
     $isFunction: true
   },
   SlickGrid_init_closure: {
-    "^": "Closure:38;this_0",
+    "^": "Closure:32;this_0",
     call$2: function(k, v) {
       return this.this_0.options.putIfAbsent$2(k, new R.SlickGrid_init__closure(v));
     },
     $isFunction: true
   },
   SlickGrid_init__closure: {
-    "^": "Closure:11;v_1",
+    "^": "Closure:34;v_1",
     call$0: function() {
       return this.v_1;
     },
     $isFunction: true
   },
   SlickGrid_init_closure0: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(_) {
       J.set$display$x(J.get$style$x(_), "none");
       return "none";
@@ -16352,7 +15866,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_init_closure1: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(_) {
       J.set$display$x(J.get$style$x(_), "none");
       return "none";
@@ -16360,33 +15874,41 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_finishInitialization_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(item) {
       J.get$onSelectStart$x(item).listen$1(new R.SlickGrid_finishInitialization__closure());
     },
     $isFunction: true
   },
   SlickGrid_finishInitialization__closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: [function($event) {
       var t1 = J.getInterceptor$x($event);
       if (!!J.getInterceptor(t1.get$target($event)).$isInputElement || !!J.getInterceptor(t1.get$target($event)).$isTextAreaElement)
         ;
       else
         t1.preventDefault$0($event);
-    }, "call$1", null, 2, 0, null, 75, "call"],
+    }, "call$1", null, 2, 0, null, 55, "call"],
     $isFunction: true
   },
   SlickGrid_finishInitialization_closure0: {
-    "^": "Closure:27;this_0",
+    "^": "Closure:26;this_0",
     call$1: function(_) {
-      var t1 = J.get$onScroll$x(_).matches$1(0, "*");
-      return P._ForwardingStreamSubscription$(t1, this.this_0.get$handleScroll(), null, null, false, H.getRuntimeTypeArgument(t1, "_ForwardingStream", 0), H.getRuntimeTypeArgument(t1, "_ForwardingStream", 1));
+      var t1, t2, t3, t4, t5;
+      t1 = J.get$onScroll$x(_).matches$1(0, "*");
+      t2 = this.this_0.get$handleScroll();
+      t3 = H.getRuntimeTypeArgument(t1, "_ForwardingStream", 0);
+      t4 = H.getRuntimeTypeArgument(t1, "_ForwardingStream", 1);
+      t5 = $.Zone__current;
+      t5 = H.setRuntimeTypeInfo(new P._ForwardingStreamSubscription(t1, null, null, null, null, t5, 0, null, null), [t3, t4]);
+      t5._BufferingStreamSubscription$4(t2, null, null, false, t4);
+      t5._ForwardingStreamSubscription$5(t1, t2, null, null, false, t3, t4);
+      return t5;
     },
     $isFunction: true
   },
   SlickGrid_finishInitialization_closure1: {
-    "^": "Closure:27;this_1",
+    "^": "Closure:26;this_1",
     call$1: function(_) {
       var t1, t2;
       t1 = J.getInterceptor$x(_);
@@ -16398,28 +15920,28 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_finishInitialization_closure2: {
-    "^": "Closure:27;this_2",
+    "^": "Closure:26;this_2",
     call$1: function(_) {
       return H.setRuntimeTypeInfo(new W._ElementListEventStreamImpl(J.querySelectorAll$1$x(_, ".slick-header-column"), false, "mouseenter"), [null]).listen$1(this.this_2.get$handleHeaderMouseEnter());
     },
     $isFunction: true
   },
   SlickGrid_finishInitialization_closure3: {
-    "^": "Closure:27;this_3",
+    "^": "Closure:26;this_3",
     call$1: function(_) {
       return H.setRuntimeTypeInfo(new W._ElementListEventStreamImpl(J.querySelectorAll$1$x(_, ".slick-header-column"), false, "mouseleave"), [null]).listen$1(this.this_3.get$handleHeaderMouseLeave());
     },
     $isFunction: true
   },
   SlickGrid_finishInitialization_closure4: {
-    "^": "Closure:27;this_4",
+    "^": "Closure:26;this_4",
     call$1: function(_) {
       return J.get$onScroll$x(_).listen$1(this.this_4.get$handleHeaderRowScroll());
     },
     $isFunction: true
   },
   SlickGrid_finishInitialization_closure5: {
-    "^": "Closure:27;this_5",
+    "^": "Closure:26;this_5",
     call$1: function(_) {
       var t1, t2;
       t1 = J.getInterceptor$x(_);
@@ -16432,7 +15954,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_finishInitialization_closure6: {
-    "^": "Closure:27;this_6",
+    "^": "Closure:26;this_6",
     call$1: function(_) {
       var t1, t2;
       t1 = J.getInterceptor$x(_);
@@ -16445,67 +15967,60 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_disableSelection_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function($$target) {
-      var t1;
+      var t1, t2, t3, t4, t5, t6;
       if ($$target != null) {
         t1 = J.getInterceptor$x($$target);
         t1.get$attributes($$target)._element.setAttribute("unselectable", "on");
         J.set$userSelect$x(t1.get$style($$target), "none");
         t1 = t1.get$onSelectStart($$target).matches$1(0, ".ui");
-        P._ForwardingStreamSubscription$(t1, new R.SlickGrid_disableSelection__closure(), null, new R.SlickGrid_disableSelection__closure0(), false, H.getRuntimeTypeArgument(t1, "_ForwardingStream", 0), H.getRuntimeTypeArgument(t1, "_ForwardingStream", 1));
+        t2 = new R.SlickGrid_disableSelection__closure();
+        t3 = new R.SlickGrid_disableSelection__closure0();
+        t4 = H.getRuntimeTypeArgument(t1, "_ForwardingStream", 0);
+        t5 = H.getRuntimeTypeArgument(t1, "_ForwardingStream", 1);
+        t6 = $.Zone__current;
+        t6 = H.setRuntimeTypeInfo(new P._ForwardingStreamSubscription(t1, null, null, null, null, t6, 0, null, null), [t4, t5]);
+        t6._BufferingStreamSubscription$4(t2, null, t3, false, t5);
+        t6._ForwardingStreamSubscription$5(t1, t2, null, t3, false, t4, t5);
       }
     },
     $isFunction: true
   },
   SlickGrid_disableSelection__closure: {
-    "^": "Closure:83;",
+    "^": "Closure:67;",
     call$1: [function(e) {
       var t1;
       P.print("nonselect");
       t1 = J.getInterceptor$x(e);
       t1.preventDefault$0(e);
       t1.stopImmediatePropagation$0(e);
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   SlickGrid_disableSelection__closure0: {
-    "^": "Closure:11;",
+    "^": "Closure:34;",
     call$0: [function() {
       return P.print("done");
     }, "call$0", null, 0, 0, null, "call"],
     $isFunction: true
   },
-  SlickGrid_updateColumnHeader_closure: {
-    "^": "Closure:27;",
-    call$1: function(i) {
-      return J.get$children$x(i);
-    },
-    $isFunction: true
-  },
-  SlickGrid_updateColumnHeader_closure0: {
-    "^": "Closure:11;toolTip_0",
-    call$0: function() {
-      return this.toolTip_0;
-    },
-    $isFunction: true
-  },
   SlickGrid_createColumnHeaders_onMouseEnter: {
-    "^": "Closure:74;",
+    "^": "Closure:54;",
     call$1: [function(e) {
       J.get$classes$x(J.get$currentTarget$x(e)).add$1(0, "ui-state-hover");
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   SlickGrid_createColumnHeaders_onMouseLeave: {
-    "^": "Closure:74;",
+    "^": "Closure:54;",
     call$1: [function(e) {
       J.get$classes$x(J.get$currentTarget$x(e)).remove$1(0, "ui-state-hover");
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   SlickGrid_createColumnHeaders_closure: {
-    "^": "Closure:27;this_0",
+    "^": "Closure:26;this_0",
     call$1: function(hItem) {
       var t1 = J.querySelectorAll$1$x(hItem, ".slick-header-column");
       t1.forEach$1(t1, new R.SlickGrid_createColumnHeaders__closure0(this.this_0));
@@ -16513,7 +16028,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_createColumnHeaders__closure0: {
-    "^": "Closure:88;this_1",
+    "^": "Closure:72;this_1",
     call$1: function(item) {
       var t1, columnDef;
       t1 = J.get$dataset$x(item);
@@ -16526,7 +16041,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_createColumnHeaders_closure0: {
-    "^": "Closure:27;this_2",
+    "^": "Closure:26;this_2",
     call$1: function(item) {
       var t1 = J.querySelectorAll$1$x(item, ".slick-headerrow-column");
       t1.forEach$1(t1, new R.SlickGrid_createColumnHeaders__closure(this.this_2));
@@ -16534,7 +16049,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_createColumnHeaders__closure: {
-    "^": "Closure:88;this_3",
+    "^": "Closure:72;this_3",
     call$1: function(item) {
       var t1, columnDef;
       t1 = J.get$dataset$x(item);
@@ -16547,204 +16062,209 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure0: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure1: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure2: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure3: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure4: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure5: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure6: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure7: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure8: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure9: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure10: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure11: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure12: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure13: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_measureCellPaddingAndBorder_closure14: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(src) {
       return 0;
     },
     $isFunction: true
   },
   SlickGrid_setupColumnResize_closure: {
-    "^": "Closure:27;columnElements_1",
+    "^": "Closure:26;columnElements_1",
     call$1: function(_) {
       return C.JSArray_methods.addAll$1(this.columnElements_1, J.get$children$x(_));
     },
     $isFunction: true
   },
   SlickGrid_setupColumnResize_closure0: {
-    "^": "Closure:27;this_2",
+    "^": "Closure:26;this_2",
     call$1: function(item) {
-      var t1 = J.querySelectorAll$1$x(this.this_2.container, ".slick-resizable-handle");
+      var t1 = W._FrozenElementList$_wrap(this.this_2.container.querySelectorAll(".slick-resizable-handle"), null);
       return t1.forEach$1(t1, new R.SlickGrid_setupColumnResize__closure());
     },
     $isFunction: true
   },
   SlickGrid_setupColumnResize__closure: {
-    "^": "Closure:88;",
+    "^": "Closure:72;",
     call$1: function(itemB) {
       return J.remove$0$ax(itemB);
     },
     $isFunction: true
   },
   SlickGrid_setupColumnResize_closure1: {
-    "^": "Closure:27;box_0,this_3",
+    "^": "Closure:26;box_0,this_3",
     call$1: function(item) {
-      var t1 = this.box_0;
-      if (J.$index$asx(this.this_3.columns, t1.i_7).get$resizable() === true) {
-        if (t1.firstResizable_5 == null)
-          t1.firstResizable_5 = t1.i_7;
-        t1.lastResizable_6 = t1.i_7;
+      var t1, t2, t3;
+      t1 = this.this_3.columns;
+      t2 = this.box_0;
+      t3 = t2.i_7;
+      if (t3 >= t1.length)
+        return H.ioore(t1, t3);
+      if (t1[t3].get$resizable() === true) {
+        if (t2.firstResizable_5 == null)
+          t2.firstResizable_5 = t2.i_7;
+        t2.lastResizable_6 = t2.i_7;
       }
-      ++t1.i_7;
+      ++t2.i_7;
     },
     $isFunction: true
   },
   SlickGrid_setupColumnResize_closure2: {
     "^": "Closure:73;box_0,this_4,columnElements_5,resizeItem_6",
     call$1: [function(e) {
-      var t1, t2, i, t3, t4, pageX, t5, t6, cnt, t7, j, shrinkLeewayOnRight, stretchLeewayOnRight, c, shrinkLeewayOnLeft, stretchLeewayOnLeft;
+      var t1, t2, i, t3, pageX, t4, cnt, j, t5, shrinkLeewayOnRight, stretchLeewayOnRight, c, shrinkLeewayOnLeft, stretchLeewayOnLeft;
       t1 = this.columnElements_5;
       t2 = J.getInterceptor$x(e);
       i = H.Lists_indexOf(t1, H.interceptedTypeCast(t2.get$target(e), "$isElement").parentElement, 0, t1.length);
       P.print("drag begin");
       t3 = this.this_4;
-      t4 = t3.options;
-      if (t4.$index(0, "editorLock").commitCurrentEdit$0() !== true)
+      if (t3.options.$index(0, "editorLock").commitCurrentEdit$0() !== true)
         return false;
       pageX = J.get$x$x(t2.get$page(e));
       t2 = this.box_0;
       t2.pageX_2 = pageX;
       P.print("pageX " + H.S(pageX));
       J.get$classes$x(this.resizeItem_6.parentElement).add$1(0, "slick-header-column-active");
-      for (t5 = t3.columns, t6 = J.getInterceptor$asx(t5), cnt = 0; cnt < t1.length; ++cnt) {
-        t7 = t6.$index(t5, cnt);
-        if (cnt >= t1.length)
-          return H.ioore(t1, cnt);
-        t7.set$previousWidth(J.get$offsetWidth$x(J.get$borderEdge$x(t1[cnt])._element));
+      for (t4 = t3.columns, cnt = 0; cnt < t1.length; ++cnt) {
+        if (cnt >= t4.length)
+          return H.ioore(t4, cnt);
+        t4[cnt].set$previousWidth(J.get$offsetWidth$x(J.get$borderEdge$x(t1[cnt])._element));
       }
-      if (t4.$index(0, "forceFitColumns") === true) {
+      if (t3.options.$index(0, "forceFitColumns") === true) {
         j = i + 1;
         t2.j_1 = j;
-        t4 = j;
+        t5 = j;
         shrinkLeewayOnRight = 0;
         stretchLeewayOnRight = 0;
-        while (t4 < t1.length) {
-          c = t6.$index(t5, t4);
+        while (t5 < t1.length) {
+          if (t5 < 0 || t5 >= t4.length)
+            return H.ioore(t4, t5);
+          c = t4[t5];
           t2.c_0 = c;
           if (c.get$resizable() === true) {
             if (stretchLeewayOnRight != null)
               if (J.get$maxWidth$x(t2.c_0) != null) {
-                t4 = J.$sub$n(J.get$maxWidth$x(t2.c_0), t2.c_0.get$previousWidth());
-                if (typeof t4 !== "number")
-                  return H.iae(t4);
-                stretchLeewayOnRight += t4;
+                t5 = J.$sub$n(J.get$maxWidth$x(t2.c_0), t2.c_0.get$previousWidth());
+                if (typeof t5 !== "number")
+                  return H.iae(t5);
+                stretchLeewayOnRight += t5;
               } else
                 stretchLeewayOnRight = null;
-            t4 = J.$sub$n(t2.c_0.get$previousWidth(), P.max(J.get$minWidth$x(t2.c_0), t3.absoluteColumnMinWidth));
-            if (typeof t4 !== "number")
-              return H.iae(t4);
-            shrinkLeewayOnRight += t4;
+            t5 = J.$sub$n(t2.c_0.get$previousWidth(), P.max(J.get$minWidth$x(t2.c_0), t3.absoluteColumnMinWidth));
+            if (typeof t5 !== "number")
+              return H.iae(t5);
+            shrinkLeewayOnRight += t5;
           }
-          t4 = t2.j_1;
-          if (typeof t4 !== "number")
-            return t4.$add();
-          j = t4 + 1;
+          t5 = t2.j_1;
+          if (typeof t5 !== "number")
+            return t5.$add();
+          j = t5 + 1;
           t2.j_1 = j;
-          t4 = j;
+          t5 = j;
         }
       } else {
         shrinkLeewayOnRight = null;
@@ -16755,7 +16275,9 @@ var $$ = Object.create(null);
       stretchLeewayOnLeft = 0;
       t1 = 0;
       while (t1 <= i) {
-        c = t6.$index(t5, t1);
+        if (t1 < 0 || t1 >= t4.length)
+          return H.ioore(t4, t1);
+        c = t4[t1];
         t2.c_0 = c;
         if (c.get$resizable() === true) {
           if (stretchLeewayOnLeft != null)
@@ -16794,13 +16316,13 @@ var $$ = Object.create(null);
       if (typeof t3 !== "number")
         return t3.$sub();
       t2.minPageX_3 = t3 - t1;
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   SlickGrid_setupColumnResize_closure3: {
     "^": "Closure:73;box_0,this_7,columnElements_8",
     call$1: [function(e) {
-      var t1, t2, i, t3, t4, d, t5, t6, x, actualMinWidth, c, t7, j;
+      var t1, t2, i, t3, t4, d, t5, x, actualMinWidth, c, t6, j;
       t1 = J.getInterceptor$x(e);
       if (J.get$x$x(t1.get$page(e)) === 0) {
         t1.preventDefault$0(e);
@@ -16818,35 +16340,36 @@ var $$ = Object.create(null);
         t3.j_1 = i;
         t1 = this.this_7;
         t4 = t1.columns;
-        t5 = J.getInterceptor$asx(t4);
-        t6 = i;
+        t5 = i;
         x = d;
         actualMinWidth = null;
-        while (t6 >= 0) {
-          c = t5.$index(t4, t6);
+        while (t5 >= 0) {
+          if (t5 >= t4.length)
+            return H.ioore(t4, t5);
+          c = t4[t5];
           t3.c_0 = c;
           if (c.get$resizable() === true) {
-            t6 = J.get$minWidth$x(t3.c_0) != null ? J.get$minWidth$x(t3.c_0) : 0;
-            actualMinWidth = P.max(t6, t1.absoluteColumnMinWidth);
-            t6 = x !== 0 && J.$lt$n(J.$add$ns(t3.c_0.get$previousWidth(), x), actualMinWidth);
-            t7 = t3.c_0;
-            if (t6) {
-              t6 = J.$sub$n(t7.get$previousWidth(), actualMinWidth);
-              if (typeof t6 !== "number")
-                return H.iae(t6);
-              x += t6;
+            t5 = J.get$minWidth$x(t3.c_0) != null ? J.get$minWidth$x(t3.c_0) : 0;
+            actualMinWidth = P.max(t5, t1.absoluteColumnMinWidth);
+            t5 = x !== 0 && J.$lt$n(J.$add$ns(t3.c_0.get$previousWidth(), x), actualMinWidth);
+            t6 = t3.c_0;
+            if (t5) {
+              t5 = J.$sub$n(t6.get$previousWidth(), actualMinWidth);
+              if (typeof t5 !== "number")
+                return H.iae(t5);
+              x += t5;
               J.set$width$x(t3.c_0, actualMinWidth);
             } else {
-              J.set$width$x(t7, J.$add$ns(t7.get$previousWidth(), x));
+              J.set$width$x(t6, J.$add$ns(t6.get$previousWidth(), x));
               x = 0;
             }
           }
-          t6 = t3.j_1;
-          if (typeof t6 !== "number")
-            return t6.$sub();
-          j = t6 - 1;
+          t5 = t3.j_1;
+          if (typeof t5 !== "number")
+            return t5.$sub();
+          j = t5 - 1;
           t3.j_1 = j;
-          t6 = j;
+          t5 = j;
         }
         if (t1.options.$index(0, "forceFitColumns") === true) {
           P.print("apply4");
@@ -16855,21 +16378,23 @@ var $$ = Object.create(null);
           t3.j_1 = j;
           t1 = j;
           while (t1 < t2.length) {
-            c = t5.$index(t4, t1);
+            if (t1 < 0 || t1 >= t4.length)
+              return H.ioore(t4, t1);
+            c = t4[t1];
             t3.c_0 = c;
             if (c.get$resizable() === true) {
               t1 = x !== 0 && J.get$maxWidth$x(t3.c_0) != null && J.$lt$n(J.$sub$n(J.get$maxWidth$x(t3.c_0), t3.c_0.get$previousWidth()), x);
-              t6 = t3.c_0;
+              t5 = t3.c_0;
               if (t1) {
-                t1 = J.$sub$n(J.get$maxWidth$x(t6), t3.c_0.get$previousWidth());
+                t1 = J.$sub$n(J.get$maxWidth$x(t5), t3.c_0.get$previousWidth());
                 if (typeof t1 !== "number")
                   return H.iae(t1);
                 x -= t1;
                 t1 = t3.c_0;
-                t6 = J.getInterceptor$x(t1);
-                t6.set$width(t1, t6.get$maxWidth(t1));
+                t5 = J.getInterceptor$x(t1);
+                t5.set$width(t1, t5.get$maxWidth(t1));
               } else {
-                J.set$width$x(t6, J.$add$ns(t6.get$previousWidth(), x));
+                J.set$width$x(t5, J.$add$ns(t5.get$previousWidth(), x));
                 x = 0;
               }
             }
@@ -16885,81 +16410,83 @@ var $$ = Object.create(null);
         t3.j_1 = i;
         t1 = this.this_7;
         t4 = t1.columns;
-        t5 = J.getInterceptor$asx(t4);
-        t6 = i;
+        t5 = i;
         x = d;
-        while (t6 >= 0) {
-          c = t5.$index(t4, t6);
+        while (t5 >= 0) {
+          if (t5 >= t4.length)
+            return H.ioore(t4, t5);
+          c = t4[t5];
           t3.c_0 = c;
           if (c.get$resizable() === true) {
-            t6 = x !== 0 && J.get$maxWidth$x(t3.c_0) != null && J.$lt$n(J.$sub$n(J.get$maxWidth$x(t3.c_0), t3.c_0.get$previousWidth()), x);
-            t7 = t3.c_0;
-            if (t6) {
-              t6 = J.$sub$n(J.get$maxWidth$x(t7), t3.c_0.get$previousWidth());
-              if (typeof t6 !== "number")
-                return H.iae(t6);
-              x -= t6;
-              t6 = t3.c_0;
-              t7 = J.getInterceptor$x(t6);
-              t7.set$width(t6, t7.get$maxWidth(t6));
+            t5 = x !== 0 && J.get$maxWidth$x(t3.c_0) != null && J.$lt$n(J.$sub$n(J.get$maxWidth$x(t3.c_0), t3.c_0.get$previousWidth()), x);
+            t6 = t3.c_0;
+            if (t5) {
+              t5 = J.$sub$n(J.get$maxWidth$x(t6), t3.c_0.get$previousWidth());
+              if (typeof t5 !== "number")
+                return H.iae(t5);
+              x -= t5;
+              t5 = t3.c_0;
+              t6 = J.getInterceptor$x(t5);
+              t6.set$width(t5, t6.get$maxWidth(t5));
             } else {
-              J.set$width$x(t7, J.$add$ns(t7.get$previousWidth(), x));
+              J.set$width$x(t6, J.$add$ns(t6.get$previousWidth(), x));
               x = 0;
             }
           }
-          t6 = t3.j_1;
-          if (typeof t6 !== "number")
-            return t6.$sub();
-          j = t6 - 1;
+          t5 = t3.j_1;
+          if (typeof t5 !== "number")
+            return t5.$sub();
+          j = t5 - 1;
           t3.j_1 = j;
-          t6 = j;
+          t5 = j;
         }
         if (t1.options.$index(0, "forceFitColumns") === true) {
           x = -d;
           j = i + 1;
           t3.j_1 = j;
-          t6 = j;
+          t5 = j;
           actualMinWidth = null;
-          while (t6 < t2.length) {
-            c = t5.$index(t4, t6);
+          while (t5 < t2.length) {
+            if (t5 < 0 || t5 >= t4.length)
+              return H.ioore(t4, t5);
+            c = t4[t5];
             t3.c_0 = c;
             if (c.get$resizable() === true) {
-              t6 = J.get$minWidth$x(t3.c_0) != null ? J.get$minWidth$x(t3.c_0) : 0;
-              actualMinWidth = P.max(t6, t1.absoluteColumnMinWidth);
-              t6 = x !== 0 && J.$lt$n(J.$add$ns(t3.c_0.get$previousWidth(), x), actualMinWidth);
-              t7 = t3.c_0;
-              if (t6) {
-                t6 = J.$sub$n(t7.get$previousWidth(), actualMinWidth);
-                if (typeof t6 !== "number")
-                  return H.iae(t6);
-                x += t6;
+              t5 = J.get$minWidth$x(t3.c_0) != null ? J.get$minWidth$x(t3.c_0) : 0;
+              actualMinWidth = P.max(t5, t1.absoluteColumnMinWidth);
+              t5 = x !== 0 && J.$lt$n(J.$add$ns(t3.c_0.get$previousWidth(), x), actualMinWidth);
+              t6 = t3.c_0;
+              if (t5) {
+                t5 = J.$sub$n(t6.get$previousWidth(), actualMinWidth);
+                if (typeof t5 !== "number")
+                  return H.iae(t5);
+                x += t5;
                 J.set$width$x(t3.c_0, actualMinWidth);
               } else {
-                J.set$width$x(t7, J.$add$ns(t7.get$previousWidth(), x));
+                J.set$width$x(t6, J.$add$ns(t6.get$previousWidth(), x));
                 x = 0;
               }
             }
-            t6 = t3.j_1;
-            if (typeof t6 !== "number")
-              return t6.$add();
-            j = t6 + 1;
+            t5 = t3.j_1;
+            if (typeof t5 !== "number")
+              return t5.$add();
+            j = t5 + 1;
             t3.j_1 = j;
-            t6 = j;
+            t5 = j;
           }
         }
       }
       t1 = this.this_7;
       t1.applyColumnHeaderWidths$0();
-      t2 = t1.options;
-      if (t2.$index(0, "syncColumnCellResize") != null && J.$eq(t2.$index(0, "syncColumnCellResize"), true))
+      if (t1.options.$index(0, "syncColumnCellResize") != null && J.$eq(t1.options.$index(0, "syncColumnCellResize"), true))
         t1.applyColumnWidths$0();
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   SlickGrid_setupColumnResize_closure4: {
     "^": "Closure:73;box_0,this_9,columnElements_10,item_11",
     call$1: [function(e) {
-      var t1, t2, t3, t4, t5, t6, newWidth, j;
+      var t1, t2, t3, t4, t5, newWidth, j;
       t1 = J.getInterceptor$x(e);
       P.print("drag End " + H.S(J.get$x$x(t1.get$page(e))));
       t2 = this.columnElements_10;
@@ -16969,45 +16496,43 @@ var $$ = Object.create(null);
       t1.j_1 = 0;
       t3 = this.this_9;
       t4 = t3.columns;
-      t5 = J.getInterceptor$asx(t4);
-      t6 = 0;
-      while (t6 < t2.length) {
-        t1.c_0 = t5.$index(t4, t6);
-        t6 = t1.j_1;
-        if (t6 >>> 0 !== t6 || t6 >= t2.length)
-          return H.ioore(t2, t6);
-        newWidth = J.get$offsetWidth$x(J.get$borderEdge$x(t2[t6])._element);
+      t5 = 0;
+      while (t5 < t2.length) {
+        if (t5 < 0 || t5 >= t4.length)
+          return H.ioore(t4, t5);
+        t1.c_0 = t4[t5];
+        newWidth = J.get$offsetWidth$x(J.get$borderEdge$x(t2[t5])._element);
         if (!J.$eq(t1.c_0.get$previousWidth(), newWidth) && t1.c_0.get$rerenderOnResize() === true)
           t3.invalidateAllRows$0();
-        t6 = t1.j_1;
-        if (typeof t6 !== "number")
-          return t6.$add();
-        j = t6 + 1;
+        t5 = t1.j_1;
+        if (typeof t5 !== "number")
+          return t5.$add();
+        j = t5 + 1;
         t1.j_1 = j;
-        t6 = j;
+        t5 = j;
       }
       t3.updateCanvasWidth$1(true);
       t3.render$0();
       t3.trigger$2(t3.onColumnsResized, P.LinkedHashMap_LinkedHashMap$_empty(null, null));
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   SlickGrid_invalidateAllRows_closure: {
-    "^": "Closure:27;this_0",
+    "^": "Closure:26;this_0",
     call$1: function(item) {
       return this.this_0.removeRowFromCache$1(item);
     },
     $isFunction: true
   },
   SlickGrid_setSortColumns_closure: {
-    "^": "Closure:27;headerColumnEls_0",
+    "^": "Closure:26;headerColumnEls_0",
     call$1: function(_) {
       return C.JSArray_methods.addAll$1(this.headerColumnEls_0, J.get$children$x(_));
     },
     $isFunction: true
   },
   SlickGrid_setSortColumns_closure0: {
-    "^": "Closure:88;",
+    "^": "Closure:72;",
     call$1: function(item) {
       var t1 = J.getInterceptor$x(item);
       t1.get$classes(item).remove$1(0, "slick-header-column-sorted");
@@ -17017,7 +16542,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_setSortColumns_closure1: {
-    "^": "Closure:89;this_1",
+    "^": "Closure:74;this_1",
     call$1: function(col) {
       var t1, t2, t3, columnIndex, headers;
       t1 = J.getInterceptor$asx(col);
@@ -17041,14 +16566,14 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_setSortColumns__closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(_) {
       return J.get$children$x(_);
     },
     $isFunction: true
   },
   SlickGrid_commitCurrentEdit_closure: {
-    "^": "Closure:11;this_0,item_1",
+    "^": "Closure:34;this_0,item_1",
     call$0: [function() {
       var t1 = this.this_0.currentEditor;
       t1.applyValue$2(this.item_1, t1.serializeValue$0());
@@ -17056,13 +16581,13 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_commitCurrentEdit_closure0: {
-    "^": "Closure:11;",
+    "^": "Closure:34;",
     call$0: [function() {
     }, "call$0", null, 0, 0, null, "call"],
     $isFunction: true
   },
   SlickGrid_updateRowPositions_closure: {
-    "^": "Closure:27;this_0,row_1",
+    "^": "Closure:26;this_0,row_1",
     call$1: function(_) {
       var t1, t2;
       t1 = J.get$style$x(_);
@@ -17073,9 +16598,9 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid__cleanUpAndRenderCells__helper: {
-    "^": "Closure:90;box_0,this_1,range_2,stringArray_3,processedRows_4",
+    "^": "Closure:75;box_0,this_1,range_2,stringArray_3,processedRows_4",
     call$1: function(row) {
-      var t1, t2, t3, d, ii, t4, t5, t6, cell, t7, t8, colspan;
+      var t1, t2, t3, d, ii, t4, t5, cell, t6, t7, colspan;
       t1 = this.this_1;
       t2 = t1.rowsCache;
       if (!t2.get$keys()._map.containsKey$1(row))
@@ -17087,21 +16612,21 @@ var $$ = Object.create(null);
       t1.cleanUpCells$2(t2, row);
       t3.cellsAdded_1 = 0;
       d = t1.getDataItem$1(row);
-      for (ii = J.get$length$asx(t1.columns), t4 = ii - 1, t5 = t1.options, t6 = this.stringArray_3, cell = 0; cell < ii; ++cell) {
-        t7 = t1.columnPosLeft;
-        if (cell < 0 || cell >= t7.length)
-          return H.ioore(t7, cell);
-        t7 = t7[cell];
-        t8 = t2.$index(0, "rightPx");
-        if (typeof t8 !== "number")
-          return H.iae(t8);
-        if (t7 > t8)
+      for (ii = t1.columns.length, t4 = ii - 1, t5 = this.stringArray_3, cell = 0; cell < ii; ++cell) {
+        t6 = t1.columnPosLeft;
+        if (cell < 0 || cell >= t6.length)
+          return H.ioore(t6, cell);
+        t6 = t6[cell];
+        t7 = t2.$index(0, "rightPx");
+        if (typeof t7 !== "number")
+          return H.iae(t7);
+        if (t6 > t7)
           break;
         if (t3.cacheEntry_0.get$cellNodesByColumnIdx().get$keys()._map.containsKey$1(cell)) {
-          t7 = t3.cacheEntry_0.get$cellColSpans();
-          if (cell >= t7.length)
-            return H.ioore(t7, cell);
-          colspan = t7[cell];
+          t6 = t3.cacheEntry_0.get$cellColSpans();
+          if (cell >= t6.length)
+            return H.ioore(t6, cell);
+          colspan = t6[cell];
           t3.colspan_3 = colspan;
           if (typeof colspan !== "number")
             return colspan.$gt();
@@ -17109,25 +16634,25 @@ var $$ = Object.create(null);
           continue;
         }
         t3.colspan_3 = 1;
-        t7 = t1.columnPosRight;
-        t8 = P.min(t4, cell + 1 - 1);
-        if (t8 >>> 0 !== t8 || t8 >= t7.length)
-          return H.ioore(t7, t8);
-        t8 = t7[t8];
-        t7 = t2.$index(0, "leftPx");
-        if (typeof t7 !== "number")
-          return H.iae(t7);
-        if (t8 > t7 || J.$ge$n(t5.$index(0, "frozenColumn"), cell)) {
-          t1.appendCellHtml$5(t6, row, cell, t3.colspan_3, d);
-          t7 = t3.cellsAdded_1;
-          if (typeof t7 !== "number")
-            return t7.$add();
-          t3.cellsAdded_1 = t7 + 1;
+        t6 = t1.columnPosRight;
+        t7 = P.min(t4, cell + 1 - 1);
+        if (t7 >>> 0 !== t7 || t7 >= t6.length)
+          return H.ioore(t6, t7);
+        t7 = t6[t7];
+        t6 = t2.$index(0, "leftPx");
+        if (typeof t6 !== "number")
+          return H.iae(t6);
+        if (t7 > t6 || J.$ge$n(t1.options.$index(0, "frozenColumn"), cell)) {
+          t1.appendCellHtml$5(t5, row, cell, t3.colspan_3, d);
+          t6 = t3.cellsAdded_1;
+          if (typeof t6 !== "number")
+            return t6.$add();
+          t3.cellsAdded_1 = t6 + 1;
         }
-        t7 = t3.colspan_3;
-        if (typeof t7 !== "number")
-          return t7.$gt();
-        cell += t7 > 1 ? t7 - 1 : 0;
+        t6 = t3.colspan_3;
+        if (typeof t6 !== "number")
+          return t6.$gt();
+        cell += t6 > 1 ? t6 - 1 : 0;
       }
       t1 = t3.cellsAdded_1;
       if (typeof t1 !== "number")
@@ -17140,7 +16665,7 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_cleanUpCells_closure: {
-    "^": "Closure:27;box_0,this_1,row_2,cacheEntry_3,cellToRemove_4",
+    "^": "Closure:26;box_0,this_1,row_2,cacheEntry_3,cellToRemove_4",
     call$1: function(item) {
       var t1, t2;
       t1 = this.cacheEntry_3;
@@ -17159,35 +16684,35 @@ var $$ = Object.create(null);
     $isFunction: true
   },
   SlickGrid_cleanUpCells__closure: {
-    "^": "Closure:27;cacheEntry_5,item_6",
+    "^": "Closure:26;cacheEntry_5,item_6",
     call$1: function(_) {
       return J.remove$1$ax(J.get$children$x(_), this.cacheEntry_5.get$cellNodesByColumnIdx().$index(0, this.item_6));
     },
     $isFunction: true
   },
   SlickGrid_getCellFromNode_closure: {
-    "^": "Closure:27;reg_0",
+    "^": "Closure:26;reg_0",
     call$1: function(item) {
       return this.reg_0._nativeRegExp.test(H.checkString(item));
     },
     $isFunction: true
   },
   SlickGrid_setActiveCellInternal_closure: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(_) {
       return J.get$classes$x(_).remove$1(0, "active");
     },
     $isFunction: true
   },
   SlickGrid_setActiveCellInternal_closure0: {
-    "^": "Closure:27;",
+    "^": "Closure:26;",
     call$1: function(_) {
       return J.get$classes$x(_).add$1(0, "active");
     },
     $isFunction: true
   },
   SlickGrid_setupColumnSort_closure: {
-    "^": "Closure:27;this_0",
+    "^": "Closure:26;this_0",
     call$1: function(_) {
       return J.get$onClick$x(_).listen$1(new R.SlickGrid_setupColumnSort__closure(this.this_0));
     },
@@ -17196,7 +16721,7 @@ var $$ = Object.create(null);
   SlickGrid_setupColumnSort__closure: {
     "^": "Closure:73;this_1",
     call$1: [function(e) {
-      var t1, isMetaKey, $$col, t2, column, t3, sortOpts, t4, i, t5, evt;
+      var t1, isMetaKey, $$col, t2, column, sortOpts, t3, i, t4, evt;
       t1 = J.getInterceptor$x(e);
       isMetaKey = t1.get$metaKey(e) === true || t1.get$ctrlKey(e) === true;
       if (J.get$classes$x(H.interceptedTypeCast(t1.get$target(e), "$isElement")).readClasses$0().contains$1(0, "slick-resizable-handle"))
@@ -17207,28 +16732,27 @@ var $$ = Object.create(null);
       t2 = this.this_1;
       column = t2._headExt.$index(0, $$col);
       if (column.get$sortable() === true) {
-        t3 = t2.options;
-        if (t3.$index(0, "editorLock").commitCurrentEdit$0() !== true)
+        if (t2.options.$index(0, "editorLock").commitCurrentEdit$0() !== true)
           return;
-        t4 = J.getInterceptor$x(column);
+        t3 = J.getInterceptor$x(column);
         i = 0;
         while (true) {
-          t5 = t2.sortColumns;
-          if (!(i < t5.length)) {
+          t4 = t2.sortColumns;
+          if (!(i < t4.length)) {
             sortOpts = null;
             break;
           }
-          if (J.$eq(t5[i].$index(0, "columnId"), t4.get$id(column))) {
-            t5 = t2.sortColumns;
-            if (i >= t5.length)
-              return H.ioore(t5, i);
-            sortOpts = t5[i];
+          if (J.$eq(t4[i].$index(0, "columnId"), t3.get$id(column))) {
+            t4 = t2.sortColumns;
+            if (i >= t4.length)
+              return H.ioore(t4, i);
+            sortOpts = t4[i];
             sortOpts.$indexSet(0, "sortAsc", sortOpts.$index(0, "sortAsc") !== true);
             break;
           }
           ++i;
         }
-        if (isMetaKey && t3.$index(0, "multiColumnSort") === true) {
+        if (isMetaKey && t2.options.$index(0, "multiColumnSort") === true) {
           if (sortOpts != null) {
             t1 = t2.sortColumns;
             if (i >= t1.length)
@@ -17237,10 +16761,10 @@ var $$ = Object.create(null);
             t1.splice(i, 1)[0];
           }
         } else {
-          if (t1.get$shiftKey(e) !== true && t1.get$metaKey(e) !== true || !J.$eq(t3.$index(0, "multiColumnSort"), true))
+          if (t1.get$shiftKey(e) !== true && t1.get$metaKey(e) !== true || !J.$eq(t2.options.$index(0, "multiColumnSort"), true))
             t2.sortColumns = [];
           if (sortOpts == null) {
-            sortOpts = P.LinkedHashMap_LinkedHashMap$_literal(["columnId", t4.get$id(column), "sortAsc", column.get$defaultSortAsc()], null, null);
+            sortOpts = P.LinkedHashMap_LinkedHashMap$_literal(["columnId", t3.get$id(column), "sortAsc", column.get$defaultSortAsc()], null, null);
             t2.sortColumns.push(sortOpts);
           } else {
             t1 = t2.sortColumns;
@@ -17251,114 +16775,234 @@ var $$ = Object.create(null);
         t2.setSortColumns$1(t2.sortColumns);
         evt = B.EventData_EventData$fromDom(e);
         t1 = t2.onSort;
-        if (J.$eq(t3.$index(0, "multiColumnSort"), false))
+        if (J.$eq(t2.options.$index(0, "multiColumnSort"), false))
           t2.trigger$3(t1, P.LinkedHashMap_LinkedHashMap$_literal(["multiColumnSort", false, "sortCol", column, "sortAsc", sortOpts.$index(0, "sortAsc")], null, null), evt);
         else
           t2.trigger$3(t1, P.LinkedHashMap_LinkedHashMap$_literal(["multiColumnSort", true, "sortCols", P.List_List$from(H.setRuntimeTypeInfo(new H.MappedListIterable(t2.sortColumns, new R.SlickGrid_setupColumnSort___closure(t2)), [null, null]), true, null)], null, null), evt);
       }
-    }, "call$1", null, 2, 0, null, 2, "call"],
+    }, "call$1", null, 2, 0, null, 3, "call"],
     $isFunction: true
   },
   SlickGrid_setupColumnSort___closure: {
-    "^": "Closure:27;this_2",
+    "^": "Closure:26;this_2",
     call$1: [function(item) {
-      var t1, t2, t3;
+      var t1, t2, t3, t4;
       t1 = this.this_2;
-      t2 = J.getInterceptor$asx(item);
-      t3 = t2.$index(item, "columnId");
-      return P.LinkedHashMap_LinkedHashMap$_literal(["sortCol", J.$index$asx(t1.columns, t1.columnsById.$index(0, t3)), "sortAsc", t2.$index(item, "sortAsc")], null, null);
-    }, "call$1", null, 2, 0, null, 63, "call"],
+      t2 = t1.columns;
+      t3 = J.getInterceptor$asx(item);
+      t4 = t3.$index(item, "columnId");
+      t4 = t1.columnsById.$index(0, t4);
+      if (t4 >>> 0 !== t4 || t4 >= t2.length)
+        return H.ioore(t2, t4);
+      return P.LinkedHashMap_LinkedHashMap$_literal(["sortCol", t2[t4], "sortAsc", t3.$index(item, "sortAsc")], null, null);
+    }, "call$1", null, 2, 0, null, 76, "call"],
     $isFunction: true
   },
   SlickGrid_updateRowCount_closure: {
-    "^": "Closure:27;l_0",
+    "^": "Closure:26;l_0",
     call$1: function(e) {
       return J.$ge$n(e, this.l_0);
     },
     $isFunction: true
   },
   SlickGrid_updateRowCount_closure0: {
-    "^": "Closure:27;this_1",
+    "^": "Closure:26;this_1",
     call$1: function(e) {
       return this.this_1.removeRowFromCache$1(e);
-    },
-    $isFunction: true
-  },
-  SlickGrid_unSubscribe_closure: {
-    "^": "Closure:27;",
-    call$1: function(_) {
-      return _.cancel$0();
     },
     $isFunction: true
   }
 }],
 ["slick.selection", "package:slickdart/slick_selectionmodel.dart", , V, {
   "^": "",
-  SelectionModel: {
-    "^": "Object;"
+  CellRangeDecorator: {
+    "^": "Object;_elem,options,_grid,_defaults",
+    show$1: function(_, range) {
+      var t1, from, to;
+      if (this._elem != null) {
+        t1 = document.createElement("div", null);
+        this._elem = t1;
+        J.set$zIndex$x(t1.style, J.$index$asx(this.options.$index(0, "selectionCss"), "zIndex"));
+        J.set$zIndex$x(this._elem.style, J.$index$asx(this.options.$index(0, "selectionCss"), "border"));
+        J.get$classes$x(this._elem).add$1(0, this.options.$index(0, "selectionCssClass"));
+        t1 = this._grid.$$canvas;
+        if (0 >= t1.length)
+          return H.ioore(t1, 0);
+        J.get$children$x(t1[0]).add$1(0, this._elem);
+      }
+      from = this._grid.getCellNodeBox$2(range.fromRow, range.fromCell);
+      to = this._grid.getCellNodeBox$2(range.toRow, range.toCell);
+      t1 = this._elem.style;
+      J.getInterceptor$x(t1).set$top(t1, J.$sub$n(from.$index(0, "top"), 1));
+      C.CssStyleDeclaration_methods.set$left(t1, J.$sub$n(from.$index(0, "left"), 1));
+      C.CssStyleDeclaration_methods.set$height(t1, J.$sub$n(J.$sub$n(to.$index(0, "bottom"), from.$index(0, "top")), 2));
+      C.CssStyleDeclaration_methods.set$width(t1, J.$sub$n(J.$sub$n(to.$index(0, "right"), from.$index(0, "left")), 2));
+      return this._elem;
+    },
+    CellRangeDecorator$1: function(sg) {
+      var t1;
+      this._grid = sg;
+      t1 = P.LinkedHashMap_LinkedHashMap(null, null, null, null, null);
+      t1.addAll$1(0, this._defaults);
+      this.options = t1;
+      t1.addAll$1(0, sg.options);
+    }
   },
-  RowSelectionModel: {
-    "^": "SelectionModel;_grid,_ranges,_handler,_inHandler,_options,_defaults,onSelectedRangesChanged",
+  CellRangeSelector: {
+    "^": "IPlugin;onBeforeCellRangeSelected,onCellRangeSelected,options,_grid,$$activeCanvas,_dragging,_decorator,_handler,_rowOffset,_columnOffset,_isRightCanvas,_isBottomCanvas,_defaults",
     destroy$0: function() {
       this._handler.unsubscribeAll$0();
     },
-    rangesToRows$1: function(ranges) {
-      var rows, i, j, t1;
-      rows = [];
-      for (i = 0; i < ranges.length; ++i) {
-        j = ranges[i].get$fromRow();
-        while (true) {
-          if (i >= ranges.length)
-            return H.ioore(ranges, i);
-          t1 = J.getInterceptor$n(j);
-          if (!t1.$le(j, ranges[i].get$toRow()))
-            break;
-          rows.push(j);
-          j = t1.$add(j, 1);
+    handleDragInit$2: [function(e, dd) {
+      var t1 = this._grid;
+      t1.setActiveCanvasNode$1(e);
+      t1 = t1.$$activeCanvasNode;
+      this.$$activeCanvas = t1;
+      this._rowOffset = 0;
+      this._columnOffset = 0;
+      this._isBottomCanvas = J.get$classes$x(t1).readClasses$0().contains$1(0, "grid-canvas-bottom");
+      if (J.$gt$n(this.options.$index(0, "frozenRow"), -1) && this._isBottomCanvas === true) {
+        if (this.options.$index(0, "frozenBottom") === true) {
+          t1 = J.get$contentEdge$x(this.$$activeCanvas);
+          t1 = J.get$offsetHeight$x(t1._element) + t1._addOrSubtractToBoxModel$2($.get$_HEIGHT(), "content");
+        } else {
+          t1 = J.get$contentEdge$x(H.IterableMixinWorkaround_firstWhere(this._grid.$$canvas, new V.CellRangeSelector_handleDragInit_closure(), null));
+          t1 = J.get$offsetHeight$x(t1._element) + t1._addOrSubtractToBoxModel$2($.get$_HEIGHT(), "content");
         }
+        this._rowOffset = t1;
       }
-      return rows;
-    },
-    rowsToRanges$1: function(rows) {
-      var ranges, lastCell, i, t1;
-      ranges = [];
-      lastCell = J.get$length$asx(this._grid.columns) - 1;
-      for (i = 0; i < rows.length; ++i) {
-        t1 = rows[i];
-        ranges.push(B.Range$(t1, 0, t1, lastCell));
+      this._isRightCanvas = J.get$classes$x(this.$$activeCanvas).readClasses$0().contains$1(0, "grid-canvas-right");
+      if (J.$gt$n(this.options.$index(0, "frozenColumn"), -1) && this._isRightCanvas === true) {
+        t1 = J.get$contentEdge$x(H.IterableMixinWorkaround_firstWhere(this._grid.$$canvas, new V.CellRangeSelector_handleDragInit_closure0(), null));
+        this._columnOffset = J.get$offsetWidth$x(t1._element) + t1._addOrSubtractToBoxModel$2($.get$_WIDTH(), "content");
       }
-      return ranges;
+      J.stopImmediatePropagation$0$x(e);
+    }, "call$2", "get$handleDragInit", 4, 0, 32, 3, 70],
+    handleDragStart$2: [function(e, dd) {
+      var cell = this._grid.getCellFromEvent$1(e);
+      if (!J.$eq(this.onBeforeCellRangeSelected.notify$1(cell), false))
+        if (this._grid.canCellBeSelected$2(cell.$index(0, "row"), cell.$index(0, "cell")) === true) {
+          this._dragging = true;
+          J.stopImmediatePropagation$0$x(e);
+        }
+      if (this._dragging !== true)
+        return;
+      this._grid.setFocus$0();
+      dd.set$range(P.LinkedHashMap_LinkedHashMap$_literal(["start", cell, "end", P.LinkedHashMap_LinkedHashMap$_empty(null, null)], null, null));
+      return this._decorator.show$1(0, B.Range$(cell.$index(0, "row"), cell.$index(0, "cell"), null, null));
+    }, "call$2", "get$handleDragStart", 4, 0, 32, 3, 70],
+    handleDrag$2: [function(e, dd) {
+      var end, t1, t2, t3;
+      if (this._dragging !== true)
+        return;
+      J.stopImmediatePropagation$0$x(e);
+      end = this._grid.getCellFromPoint$2(e.get$pageX().$sub(0, J.get$left$x(J.get$offset$x(this.$$activeCanvas))), e.get$pageY().$sub(0, J.get$top$x(J.get$offset$x(this.$$activeCanvas))));
+      if (this._grid.canCellBeSelected$2(end.$index(0, "row"), end.$index(0, "cell")) !== true)
+        return;
+      dd.get$range().set$end(end);
+      t1 = this._decorator;
+      t2 = dd.get$range();
+      t2 = t2.get$start(t2).get$row();
+      t3 = dd.get$range();
+      t1.show$1(0, B.Range$(t2, t3.get$start(t3).get$cell(), end.$index(0, "row"), end.$index(0, "cell")));
+    }, "call$2", "get$handleDrag", 4, 0, 32, 3, 70],
+    handleDragEnd$2: [function(e, dd) {
+      var t1, t2;
+      if (this._dragging !== true)
+        return;
+      this._dragging = false;
+      J.stopImmediatePropagation$0$x(e);
+      t1 = this._decorator;
+      t2 = t1._elem;
+      if (t2 != null) {
+        J.remove$0$ax(t2);
+        t1._elem = null;
+      }
+      t1 = dd.get$range();
+      t1 = t1.get$start(t1).get$row();
+      t2 = dd.get$range();
+      this.onCellRangeSelected.notify$1(P.LinkedHashMap_LinkedHashMap$_literal(["range", B.Range$(t1, t2.get$start(t2).get$cell(), dd.get$range().get$end().get$row(), dd.get$range().get$end().get$cell())], null, null));
+    }, "call$2", "get$handleDragEnd", 4, 0, 32, 3, 70]
+  },
+  CellRangeSelector_handleDragInit_closure: {
+    "^": "Closure:26;",
+    call$1: function(e) {
+      return J.get$classes$x(e).readClasses$0().contains$1(0, "grid-canvas-top");
     },
-    getRowsRange$2: function(from, to) {
-      var rows, i, t1;
-      rows = [];
-      for (i = from; t1 = J.getInterceptor$n(i), t1.$le(i, to); i = t1.$add(i, 1))
-        rows.push(i);
-      for (i = to; t1 = J.getInterceptor$n(i), t1.$lt(i, from); i = t1.$add(i, 1))
-        rows.push(i);
-      return rows;
+    $isFunction: true
+  },
+  CellRangeSelector_handleDragInit_closure0: {
+    "^": "Closure:26;",
+    call$1: function(e) {
+      return J.get$classes$x(e).readClasses$0().contains$1(0, "grid-canvas-left");
     },
-    handleActiveCellChange$2: [function(e, data) {
+    $isFunction: true
+  },
+  SelectionModel: {
+    "^": "Object;"
+  },
+  CellSelectionModel: {
+    "^": "SelectionModel;_grid,_canvas,_ranges,_selection$_selector,_options,_defaults,onSelectedRangesChanged",
+    destroy$0: function() {
+      var t1, t2;
+      t1 = this._grid.onActiveCellChanged;
+      t2 = this.get$_handleActiveCellChange();
+      C.JSArray_methods.remove$1(t1.handlers, t2);
+      t2 = this._grid.onKeyDown;
+      t1 = this.get$_handleKeyDown();
+      C.JSArray_methods.remove$1(t2.handlers, t1);
+      t1 = this._selection$_selector;
+      t2 = this.get$_handleCellRangeSelected();
+      C.JSArray_methods.remove$1(t1.onCellRangeSelected.handlers, t2);
+      t2 = this.get$_handleBeforeCellRangeSelected();
+      C.JSArray_methods.remove$1(t1.onBeforeCellRangeSelected.handlers, t2);
+      C.JSArray_methods.remove$1(this._grid.plugins, t1);
+      t1._handler.unsubscribeAll$0();
+    },
+    _removeInvalidRanges$1: function(ranges) {
+      var result, i, r;
+      result = [];
+      for (i = 0; i < ranges.length; ++i) {
+        r = ranges[i];
+        if (this._grid.canCellBeSelected$2(r.get$fromRow(), r.get$fromCell()) === true && this._grid.canCellBeSelected$2(r.get$toRow(), r.get$toCell()) === true)
+          result.push(r);
+      }
+      return result;
+    },
+    _handleBeforeCellRangeSelected$2: [function(e, args) {
+      if (this._grid.options.$index(0, "editorLock").isActive$0() === true) {
+        J.stopPropagation$0$x(e);
+        return false;
+      }
+    }, "call$2", "get$_handleBeforeCellRangeSelected", 4, 0, 32, 3, 31],
+    _handleCellRangeSelected$2: [function(e, args) {
+      var t1 = this._removeInvalidRanges$1(args.get$range());
+      this._ranges = t1;
+      this.onSelectedRangesChanged.notify$1(t1);
+    }, "call$2", "get$_handleCellRangeSelected", 4, 0, 32, 3, 31],
+    _handleActiveCellChange$2: [function(e, args) {
       var t1;
-      if (this._options.$index(0, "selectActiveRow") === true && J.$index$asx(data, "row") != null) {
-        t1 = J.getInterceptor$asx(data);
-        t1 = [B.Range$(t1.$index(data, "row"), 0, t1.$index(data, "row"), J.get$length$asx(this._grid.columns) - 1)];
+      if (this._options.$index(0, "selectActiveCell") === true) {
+        t1 = J.getInterceptor$asx(args);
+        t1 = t1.$index(args, "row") != null && t1.$index(args, "cell") != null;
+      } else
+        t1 = false;
+      if (t1) {
+        t1 = J.getInterceptor$asx(args);
+        t1 = this._removeInvalidRanges$1([B.Range$(t1.$index(args, "row"), t1.$index(args, "cell"), null, null)]);
         this._ranges = t1;
         this.onSelectedRangesChanged.notify$1(t1);
       }
-    }, "call$2", "get$handleActiveCellChange", 4, 0, 91, 2, 41],
-    handleKeyDown$2: [function(e, args) {
-      var activeRow, t1, selectedRows, $top, t2, bottom, active;
-      activeRow = this._grid.getActiveCell$0();
-      if (activeRow != null) {
+    }, "call$2", "get$_handleActiveCellChange", 4, 0, 77, 3, 31],
+    _handleKeyDown$2: [function(e, args) {
+      var active, t1, ranges, last, dRow, dCell, dirRow, dirCell, t2, t3, t4, t5, new_last, viewRow, viewCell;
+      active = this._grid.getActiveCell$0();
+      if (active != null) {
         t1 = J.getInterceptor$x(e);
         if (t1.get$shiftKey(e) === true)
           if (t1.get$ctrlKey(e) !== true)
             if (t1.get$altKey(e) !== true)
-              if (t1.get$metaKey(e) !== true)
-                t1 = t1.get$which(e) === 38 || t1.get$which(e) === 40;
-              else
-                t1 = false;
+              t1 = t1.get$which(e) === 37 || t1.get$which(e) === 39 || t1.get$which(e) === 38 || t1.get$which(e) === 40;
             else
               t1 = false;
           else
@@ -17368,127 +17012,60 @@ var $$ = Object.create(null);
       } else
         t1 = false;
       if (t1) {
-        selectedRows = this.rangesToRows$1(this._ranges);
-        C.JSArray_methods.checkMutable$1(selectedRows, "sort");
-        H.IterableMixinWorkaround_sortList(selectedRows, new V.RowSelectionModel_handleKeyDown_closure());
-        if (selectedRows.length === 0)
-          selectedRows = [activeRow.$index(0, "row")];
-        t1 = selectedRows.length;
-        if (0 >= t1)
-          return H.ioore(selectedRows, 0);
-        $top = selectedRows[0];
-        t2 = t1 - 1;
-        if (t2 < 0)
-          return H.ioore(selectedRows, t2);
-        bottom = selectedRows[t2];
+        ranges = this._ranges;
+        if (ranges.length === 0)
+          ranges.push(B.Range$(active.$index(0, "row"), active.$index(0, "cell"), null, null));
+        if (0 >= ranges.length)
+          return H.ioore(ranges, 0);
+        last = ranges.pop();
+        if (!J.contains$2$asx(last, active.$index(0, "row"), active.$index(0, "cell")))
+          last = B.Range$(active.$index(0, "row"), active.$index(0, "cell"), null, null);
+        dRow = J.$sub$n(last.get$toRow(), last.get$fromRow());
+        dCell = J.$sub$n(last.get$toCell(), last.get$fromCell());
+        dirRow = J.$eq(active.$index(0, "row"), last.get$fromRow()) ? 1 : -1;
+        dirCell = J.$eq(active.$index(0, "cell"), last.get$fromCell()) ? 1 : -1;
         t1 = J.getInterceptor$x(e);
-        if (t1.get$which(e) === 40)
-          if (J.$lt$n(activeRow.$index(0, "row"), bottom) || J.$eq($top, bottom)) {
-            bottom = J.$add$ns(bottom, 1);
-            active = bottom;
-          } else {
-            $top = J.$add$ns($top, 1);
-            active = $top;
-          }
-        else if (J.$lt$n(activeRow.$index(0, "row"), bottom)) {
-          bottom = J.$sub$n(bottom, 1);
-          active = bottom;
-        } else {
-          $top = J.$sub$n($top, 1);
-          active = $top;
-        }
-        t2 = J.getInterceptor$n(active);
-        if (t2.$ge(active, 0) && t2.$lt(active, this._grid.data.length)) {
-          this._grid.scrollRowIntoView$1(active);
-          t2 = this.rowsToRanges$1(this.getRowsRange$2($top, bottom));
-          this._ranges = t2;
-          this._ranges = t2;
-          this.onSelectedRangesChanged.notify$1(t2);
-        }
+        if (t1.get$which(e) === 37)
+          dCell = J.$sub$n(dCell, dirCell);
+        else if (t1.get$which(e) === 39)
+          dCell = J.$add$ns(dCell, dirCell);
+        else if (t1.get$which(e) === 38)
+          dRow = J.$sub$n(dRow, dirRow);
+        else if (t1.get$which(e) === 40)
+          dRow = J.$add$ns(dRow, dirRow);
+        t2 = active.$index(0, "row");
+        t3 = active.$index(0, "cell");
+        t4 = active.$index(0, "row");
+        if (typeof dRow !== "number")
+          return H.iae(dRow);
+        t4 = J.$add$ns(t4, dirRow * dRow);
+        t5 = active.$index(0, "cell");
+        if (typeof dCell !== "number")
+          return H.iae(dCell);
+        new_last = B.Range$(t2, t3, t4, J.$add$ns(t5, dirCell * dCell));
+        if (this._removeInvalidRanges$1([new_last]).length > 0) {
+          ranges.push(new_last);
+          viewRow = dirRow > 0 ? new_last.toRow : new_last.fromRow;
+          viewCell = dirCell > 0 ? new_last.toCell : new_last.fromCell;
+          this._grid.scrollRowIntoView$2(viewRow, false);
+          this._grid.scrollCellIntoView$3(viewRow, viewCell, false);
+        } else
+          ranges.push(last);
+        t2 = this._removeInvalidRanges$1(ranges);
+        this._ranges = t2;
+        this.onSelectedRangesChanged.notify$1(t2);
         t1.preventDefault$0(e);
         t1.stopPropagation$0(e);
       }
     }, function(e) {
-      return this.handleKeyDown$2(e, null);
-    }, "handleKeyDown$1", "call$2", "call$1", "get$handleKeyDown", 2, 2, 92, 17, 2, 42],
-    handleClick$2: [function(e, args) {
-      var evt, t1, domEvt, cell, selection, idx, t2, t3, t4, last, from, to, i;
-      evt = !!J.getInterceptor(e).$isMouseEvent ? B.EventData_EventData$fromDom(e) : e;
-      t1 = J.getInterceptor$x(evt);
-      P.print(C.JSString_methods.$add(C.JSString_methods.$add("handle from:", new H.TypeImpl(H.getRuntimeTypeString(this), null).toString$0(0)) + " ", J.toString$0(t1.get$target(evt))));
-      domEvt = evt.get$domEvent();
-      cell = this._grid.getCellFromEvent$1(evt);
-      if (cell == null || this._grid.canCellBeActive$2(cell.$index(0, "row"), cell.$index(0, "cell")) !== true)
-        return false;
-      selection = this.rangesToRows$1(this._ranges);
-      idx = H.Lists_indexOf(selection, cell.$index(0, "row"), 0, selection.length);
-      t2 = J.getInterceptor$x(domEvt);
-      if (t2.get$ctrlKey(domEvt) !== true && t2.get$shiftKey(domEvt) !== true && t2.get$metaKey(domEvt) !== true)
-        return false;
-      else if (this._grid.options.$index(0, "multiSelect") === true) {
-        t3 = idx === -1;
-        if (t3)
-          t4 = t2.get$ctrlKey(domEvt) === true || t2.get$metaKey(domEvt) === true;
-        else
-          t4 = false;
-        if (t4) {
-          selection.push(cell.$index(0, "row"));
-          this._grid.setActiveCell$2(cell.$index(0, "row"), cell.$index(0, "cell"));
-        } else {
-          if (!t3)
-            t3 = t2.get$ctrlKey(domEvt) === true || t2.get$metaKey(domEvt) === true;
-          else
-            t3 = false;
-          if (t3) {
-            C.JSArray_methods.retainWhere$1(selection, new V.RowSelectionModel_handleClick_closure(cell));
-            this._grid.setActiveCell$2(cell.$index(0, "row"), cell.$index(0, "cell"));
-          } else if (selection.length > 0 && t2.get$shiftKey(domEvt) === true) {
-            last = C.JSArray_methods.get$last(selection);
-            from = P.min(cell.$index(0, "row"), last);
-            to = P.max(cell.$index(0, "row"), last);
-            selection = [];
-            for (i = from; i <= to; ++i)
-              if (i !== last)
-                selection.push(i);
-            selection.push(last);
-            this._grid.setActiveCell$2(cell.$index(0, "row"), cell.$index(0, "cell"));
-          }
-        }
-      }
-      t2 = this.rowsToRanges$1(selection);
-      this._ranges = t2;
-      this._ranges = t2;
-      this.onSelectedRangesChanged.notify$1(t2);
-      t1.stopImmediatePropagation$0(evt);
-      return true;
-    }, function(e) {
-      return this.handleClick$2(e, null);
-    }, "handleClick$1", "call$2", "call$1", "get$handleClick", 2, 2, 93, 17, 2, 42],
-    RowSelectionModel$1: function(options) {
+      return this._handleKeyDown$2(e, null);
+    }, "_handleKeyDown$1", "call$2", "call$1", "get$_handleKeyDown", 2, 2, 78, 16, 3, 31],
+    CellSelectionModel$1: function(options) {
       var t1 = P.LinkedHashMap_LinkedHashMap(null, null, null, null, null);
-      t1.addAll$1(0, this._defaults);
-      this._options = t1;
       t1.addAll$1(0, options);
-    },
-    static: {RowSelectionModel$: function(options) {
-        var t1 = new V.RowSelectionModel(null, [], new B.EventHandler([]), false, null, P.LinkedHashMap_LinkedHashMap$_literal(["selectActiveRow", true], null, null), new B.Event([]));
-        t1.RowSelectionModel$1(options);
-        return t1;
-      }}
-  },
-  RowSelectionModel_handleKeyDown_closure: {
-    "^": "Closure:38;",
-    call$2: function(x, y) {
-      return J.$sub$n(x, y);
-    },
-    $isFunction: true
-  },
-  RowSelectionModel_handleClick_closure: {
-    "^": "Closure:27;cell_0",
-    call$1: function(item) {
-      return !J.$eq(item, this.cell_0.$index(0, "row"));
-    },
-    $isFunction: true
+      this._options = t1;
+      t1.$indexSet(0, "selectActiveCell", true);
+    }
   }
 }],
 ["slick.util", "package:slickdart/slick_util.dart", , M, {
@@ -17513,9 +17090,6 @@ $$ = null;
 // Runtime type support
 ;(function() {
   var TRUE = !0, _;
-  _ = W.Node;
-  _.$isNode = TRUE;
-  _.$isObject = TRUE;
   _ = P.$int;
   _.$is$int = TRUE;
   _.$isComparable = TRUE;
@@ -17524,6 +17098,9 @@ $$ = null;
   _ = P.$double;
   _.$isComparable = TRUE;
   _.$asComparable = [P.num];
+  _.$isObject = TRUE;
+  _ = W.Node;
+  _.$isNode = TRUE;
   _.$isObject = TRUE;
   W.StyleSheet.$isObject = TRUE;
   W.CssRule.$isObject = TRUE;
@@ -17545,10 +17122,9 @@ $$ = null;
   _.$isElement = TRUE;
   _.$isNode = TRUE;
   _.$isObject = TRUE;
+  P.Match.$isObject = TRUE;
   P.Object.$isObject = TRUE;
-  _ = Z.Column;
-  _.$isColumn = TRUE;
-  _.$isObject = TRUE;
+  Z.Column.$isObject = TRUE;
   _ = P.Symbol;
   _.$isSymbol = TRUE;
   _.$isObject = TRUE;
@@ -17561,25 +17137,25 @@ $$ = null;
   _ = P.StreamSubscription;
   _.$isStreamSubscription = TRUE;
   _.$isObject = TRUE;
-  W.HttpRequest.$isObject = TRUE;
   H.RawReceivePortImpl.$isObject = TRUE;
   H._IsolateEvent.$isObject = TRUE;
   H._IsolateContext.$isObject = TRUE;
-  _ = B.EventData;
-  _.$isEventData = TRUE;
-  _.$isObject = TRUE;
-  _ = P.Map;
-  _.$isMap = TRUE;
-  _.$isObject = TRUE;
-  _ = W.KeyboardEvent;
-  _.$isKeyboardEvent = TRUE;
-  _.$isEvent0 = TRUE;
-  _.$isObject = TRUE;
   _ = P.bool;
   _.$isbool = TRUE;
   _.$isObject = TRUE;
   _ = P.StackTrace;
   _.$isStackTrace = TRUE;
+  _.$isObject = TRUE;
+  _ = W.KeyboardEvent;
+  _.$isKeyboardEvent = TRUE;
+  _.$isEvent0 = TRUE;
+  _.$isObject = TRUE;
+  _ = W.MouseEvent;
+  _.$isMouseEvent = TRUE;
+  _.$isEvent0 = TRUE;
+  _.$isObject = TRUE;
+  _ = P.Map;
+  _.$isMap = TRUE;
   _.$isObject = TRUE;
   _ = P._BufferingStreamSubscription;
   _.$is_BufferingStreamSubscription = TRUE;
@@ -17591,10 +17167,6 @@ $$ = null;
   _.$is_BufferingStreamSubscription = TRUE;
   _.$is_EventSink = TRUE;
   _.$isStreamSubscription = TRUE;
-  _.$isObject = TRUE;
-  _ = W.MouseEvent;
-  _.$isMouseEvent = TRUE;
-  _.$isEvent0 = TRUE;
   _.$isObject = TRUE;
   _ = W.Event0;
   _.$isEvent0 = TRUE;
@@ -17625,8 +17197,8 @@ $$ = null;
   _.$isComparable = TRUE;
   _.$asComparable = [null];
   _.$isObject = TRUE;
-  _ = P.Timer;
-  _.$isTimer = TRUE;
+  _ = B.EventData;
+  _.$isEventData = TRUE;
   _.$isObject = TRUE;
   _ = P.List;
   _.$isList = TRUE;
@@ -17634,8 +17206,8 @@ $$ = null;
   _ = B.Range;
   _.$isRange = TRUE;
   _.$isObject = TRUE;
-  _ = P.Function;
-  _.$isFunction = TRUE;
+  _ = P.Timer;
+  _.$isTimer = TRUE;
   _.$isObject = TRUE;
 })();
 ;
@@ -17806,15 +17378,6 @@ J.addEventListener$3$x = function(receiver, a0, a1, a2) {
 J.append$1$x = function(receiver, a0) {
   return J.getInterceptor$x(receiver).append$1(receiver, a0);
 };
-J.attached$0$x = function(receiver) {
-  return J.getInterceptor$x(receiver).attached$0(receiver);
-};
-J.attributeChanged$3$x = function(receiver, a0, a1, a2) {
-  return J.getInterceptor$x(receiver).attributeChanged$3(receiver, a0, a1, a2);
-};
-J.clear$0$ax = function(receiver) {
-  return J.getInterceptor$ax(receiver).clear$0(receiver);
-};
 J.compareTo$1$ns = function(receiver, a0) {
   return J.getInterceptor$ns(receiver).compareTo$1(receiver, a0);
 };
@@ -17829,9 +17392,6 @@ J.createFragment$2$treeSanitizer$x = function(receiver, a0, a1) {
 };
 J.createFragment$3$treeSanitizer$validator$x = function(receiver, a0, a1, a2) {
   return J.getInterceptor$x(receiver).createFragment$3$treeSanitizer$validator(receiver, a0, a1, a2);
-};
-J.detached$0$x = function(receiver) {
-  return J.getInterceptor$x(receiver).detached$0(receiver);
 };
 J.elementAt$1$ax = function(receiver, a0) {
   return J.getInterceptor$ax(receiver).elementAt$1(receiver, a0);
@@ -17878,6 +17438,9 @@ J.get$className$x = function(receiver) {
 J.get$classes$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$classes(receiver);
 };
+J.get$contentEdge$x = function(receiver) {
+  return J.getInterceptor$x(receiver).get$contentEdge(receiver);
+};
 J.get$cssRules$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$cssRules(receiver);
 };
@@ -17904,6 +17467,9 @@ J.get$height$x = function(receiver) {
 };
 J.get$id$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$id(receiver);
+};
+J.get$isNotEmpty$asx = function(receiver) {
+  return J.getInterceptor$asx(receiver).get$isNotEmpty(receiver);
 };
 J.get$iterator$ax = function(receiver) {
   return J.getInterceptor$ax(receiver).get$iterator(receiver);
@@ -17932,6 +17498,9 @@ J.get$name$x = function(receiver) {
 J.get$nodes$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$nodes(receiver);
 };
+J.get$offset$x = function(receiver) {
+  return J.getInterceptor$x(receiver).get$offset(receiver);
+};
 J.get$offsetHeight$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$offsetHeight(receiver);
 };
@@ -17940,9 +17509,6 @@ J.get$offsetWidth$x = function(receiver) {
 };
 J.get$onClick$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$onClick(receiver);
-};
-J.get$onContextMenu$x = function(receiver) {
-  return J.getInterceptor$x(receiver).get$onContextMenu(receiver);
 };
 J.get$onKeyDown$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$onKeyDown(receiver);
@@ -17980,14 +17546,8 @@ J.get$parentNode$x = function(receiver) {
 J.get$position$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$position(receiver);
 };
-J.get$responseText$x = function(receiver) {
-  return J.getInterceptor$x(receiver).get$responseText(receiver);
-};
 J.get$selectorText$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$selectorText(receiver);
-};
-J.get$sheet$x = function(receiver) {
-  return J.getInterceptor$x(receiver).get$sheet(receiver);
 };
 J.get$style$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$style(receiver);
@@ -18000,6 +17560,9 @@ J.get$target$x = function(receiver) {
 };
 J.get$top$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$top(receiver);
+};
+J.get$topLeft$x = function(receiver) {
+  return J.getInterceptor$x(receiver).get$topLeft(receiver);
 };
 J.get$value$x = function(receiver) {
   return J.getInterceptor$x(receiver).get$value(receiver);
@@ -18019,17 +17582,8 @@ J.getComputedStyle$0$x = function(receiver) {
 J.getPropertyValue$1$x = function(receiver, a0) {
   return J.getInterceptor$x(receiver).getPropertyValue$1(receiver, a0);
 };
-J.init$2$x = function(receiver, a0, a1) {
-  return J.getInterceptor$x(receiver).init$2(receiver, a0, a1);
-};
 J.insert$2$ax = function(receiver, a0, a1) {
   return J.getInterceptor$ax(receiver).insert$2(receiver, a0, a1);
-};
-J.insertRule$2$x = function(receiver, a0, a1) {
-  return J.getInterceptor$x(receiver).insertRule$2(receiver, a0, a1);
-};
-J.join$1$ax = function(receiver, a0) {
-  return J.getInterceptor$ax(receiver).join$1(receiver, a0);
 };
 J.matches$1$x = function(receiver, a0) {
   return J.getInterceptor$x(receiver).matches$1(receiver, a0);
@@ -18091,9 +17645,6 @@ J.set$innerHtml$x = function(receiver, value) {
 J.set$left$x = function(receiver, value) {
   return J.getInterceptor$x(receiver).set$left(receiver, value);
 };
-J.set$name$x = function(receiver, value) {
-  return J.getInterceptor$x(receiver).set$name(receiver, value);
-};
 J.set$outline$x = function(receiver, value) {
   return J.getInterceptor$x(receiver).set$outline(receiver, value);
 };
@@ -18127,6 +17678,9 @@ J.set$value$x = function(receiver, value) {
 J.set$width$x = function(receiver, value) {
   return J.getInterceptor$x(receiver).set$width(receiver, value);
 };
+J.set$zIndex$x = function(receiver, value) {
+  return J.getInterceptor$x(receiver).set$zIndex(receiver, value);
+};
 J.setInnerHtml$1$x = function(receiver, a0) {
   return J.getInterceptor$x(receiver).setInnerHtml$1(receiver, a0);
 };
@@ -18139,9 +17693,6 @@ J.setProperty$2$x = function(receiver, a0, a1) {
 J.setProperty$3$x = function(receiver, a0, a1, a2) {
   return J.getInterceptor$x(receiver).setProperty$3(receiver, a0, a1, a2);
 };
-J.split$1$s = function(receiver, a0) {
-  return J.getInterceptor$s(receiver).split$1(receiver, a0);
-};
 J.startsWith$1$s = function(receiver, a0) {
   return J.getInterceptor$s(receiver).startsWith$1(receiver, a0);
 };
@@ -18151,14 +17702,11 @@ J.stopImmediatePropagation$0$x = function(receiver) {
 J.stopPropagation$0$x = function(receiver) {
   return J.getInterceptor$x(receiver).stopPropagation$0(receiver);
 };
-J.sublist$1$ax = function(receiver, a0) {
-  return J.getInterceptor$ax(receiver).sublist$1(receiver, a0);
-};
-J.sublist$2$ax = function(receiver, a0, a1) {
-  return J.getInterceptor$ax(receiver).sublist$2(receiver, a0, a1);
-};
 J.substring$1$s = function(receiver, a0) {
   return J.getInterceptor$s(receiver).substring$1(receiver, a0);
+};
+J.toInt$0$n = function(receiver) {
+  return J.getInterceptor$n(receiver).toInt$0(receiver);
 };
 J.toList$0$ax = function(receiver) {
   return J.getInterceptor$ax(receiver).toList$0(receiver);
@@ -18176,8 +17724,6 @@ J.trim$0$s = function(receiver) {
   return J.getInterceptor$s(receiver).trim$0(receiver);
 };
 C.CssStyleDeclaration_methods = W.CssStyleDeclaration.prototype;
-C.HttpRequest_methods = W.HttpRequest.prototype;
-C.JGrid_methods = U.JGrid.prototype;
 C.JSArray_methods = J.JSArray.prototype;
 C.JSDouble_methods = J.JSDouble.prototype;
 C.JSInt_methods = J.JSInt.prototype;
@@ -18341,7 +17887,6 @@ C.List_empty = Isolate.makeConstantList([]);
 C.List_wSV = H.setRuntimeTypeInfo(Isolate.makeConstantList(["bind", "if", "ref", "repeat", "syntax"]), [P.String]);
 C.List_yrN = H.setRuntimeTypeInfo(Isolate.makeConstantList(["A::href", "AREA::href", "BLOCKQUOTE::cite", "BODY::background", "COMMAND::icon", "DEL::cite", "FORM::action", "IMG::src", "INPUT::src", "INS::cite", "Q::cite", "VIDEO::poster"]), [P.String]);
 C.Symbol_call = new H.Symbol0("call");
-C.Type_chs = H.createRuntimeType('JGrid');
 $.IsolateNatives_enableSpawnWorker = null;
 $.RawReceivePortImpl__nextFreeId = 1;
 $.Primitives_mirrorFunctionCacheName = "$cachedFunction";
@@ -18372,15 +17917,13 @@ $.Device__isIE = null;
 $.Device__isFirefox = null;
 $.Device__isWebKit = null;
 $.Device__cachedCssPrefix = null;
-$._styleElement = null;
 $.scrollbarDimensions = null;
 $.maxSupportedCssHeight = null;
-$.mapTypeToInterceptor = [C.Type_chs, U.JGrid, {created: U.JGrid$created}];
 Isolate.$lazy($, "thisScript", "IsolateNatives_thisScript", "get$IsolateNatives_thisScript", function() {
   return H.IsolateNatives_computeThisScript();
 });
 Isolate.$lazy($, "workerIds", "IsolateNatives_workerIds", "get$IsolateNatives_workerIds", function() {
-  return H.setRuntimeTypeInfo(new P.Expando(null), [P.$int]);
+  return new P.Expando(null);
 });
 Isolate.$lazy($, "noSuchMethodPattern", "TypeErrorDecoder_noSuchMethodPattern", "get$TypeErrorDecoder_noSuchMethodPattern", function() {
   return H.TypeErrorDecoder_extractPattern(H.TypeErrorDecoder_provokeCallErrorOn({toString: function() {
@@ -18474,7 +18017,8 @@ Isolate.$lazy($, "_treeSanitizer", "_treeSanitizer", "get$_treeSanitizer", funct
 });
 // Native classes
 
-init.metadata = ["object",
+init.metadata = [{func: "void_", void: true},
+"object",
 "sender",
 "e",
 {func: "dynamic__String", args: [P.String]},
@@ -18485,9 +18029,7 @@ init.metadata = ["object",
 "arg2",
 "arg3",
 "arg4",
-{func: "args0"},
 {func: "void__void_", void: true, args: [{func: "void_", void: true}]},
-{func: "void_", void: true},
 {func: "void__dynamic", void: true, args: [null]},
 "value",
 {func: "void__dynamic__StackTrace", void: true, args: [null], opt: [P.StackTrace]},
@@ -18506,21 +18048,15 @@ init.metadata = ["object",
 "element",
 "attributeName",
 "context",
-"receiver",
-{func: "args4", args: [null, null, null, null]},
-"name",
-"oldValue",
-"newValue",
-{func: "int_", ret: P.$int},
+"args",
 {func: "args2", args: [null, null]},
+{func: "int_", ret: P.$int},
+{func: "args0"},
 {func: "dynamic__String_dynamic", args: [P.String, null]},
 {func: "dynamic__dynamic_String", args: [null, P.String]},
-"data",
-"args",
-{func: "dynamic__EventData_Map", args: [B.EventData, P.Map]},
-"col",
 "_",
 {func: "dynamic__void_", args: [{func: "void_", void: true}]},
+"data",
 {func: "void__Object__StackTrace", void: true, args: [P.Object], opt: [P.StackTrace]},
 {func: "dynamic__dynamic__dynamic", args: [null], opt: [null]},
 {func: "bool_", ret: P.bool},
@@ -18529,25 +18065,12 @@ init.metadata = ["object",
 {func: "void__dynamic_StackTrace", void: true, args: [null, P.StackTrace]},
 "arg",
 "each",
-"key",
 {func: "dynamic__Symbol_dynamic", args: [P.Symbol, null]},
 {func: "String__int", ret: P.String, args: [P.$int]},
-"xhr",
 {func: "dynamic__String_String", args: [P.String, P.String]},
 "attr",
 {func: "void__Node", void: true, args: [W.Node]},
 "s",
-"item",
-"line",
-{func: "dynamic__Map", args: [P.Map]},
-{func: "dynamic__dynamic_Map", args: [null, P.Map]},
-"evt",
-{func: "args5", args: [null, null, null, null, null]},
-"row",
-"cell",
-"columnDef",
-"dataContext",
-{func: "dynamic__MouseEvent", args: [W.MouseEvent]},
 {func: "void__MouseEvent", void: true, args: [W.MouseEvent]},
 "event",
 {func: "dynamic__KeyboardEvent", args: [W.KeyboardEvent]},
@@ -18556,6 +18079,10 @@ init.metadata = ["object",
 {func: "void___Timer", void: true, opt: [P.Timer]},
 {func: "void___Event", void: true, opt: [W.Event0]},
 {func: "String__int_int_dynamic__dynamic_dynamic", ret: P.String, args: [P.$int, P.$int, null], opt: [null, null]},
+"row",
+"cell",
+"columnDef",
+"dataContext",
 {func: "void__Event", void: true, args: [W.Event0]},
 {func: "dynamic__Event", args: [W.Event0]},
 {func: "Map__int_int_int", ret: P.Map, args: [P.$int, P.$int, P.$int]},
@@ -18563,11 +18090,12 @@ init.metadata = ["object",
 "dd",
 {func: "void__dynamic__dynamic", void: true, args: [null], opt: [null]},
 {func: "dynamic__Element", args: [W.Element]},
-{func: "dynamic__Map0", args: [[P.Map, P.String, null]]},
+{func: "dynamic__MouseEvent", args: [W.MouseEvent]},
+{func: "dynamic__Map", args: [[P.Map, P.String, null]]},
 {func: "dynamic__int", args: [P.$int]},
-{func: "dynamic__dynamic_Map0", args: [null, [P.Map, P.String, null]]},
-{func: "dynamic__KeyboardEvent__Map", args: [W.KeyboardEvent], opt: [[P.Map, P.String, null]]},
-{func: "bool__dynamic__Map", ret: P.bool, args: [null], opt: [[P.Map, P.String, null]]},
+"item",
+{func: "dynamic__EventData_Map", args: [B.EventData, [P.Map, P.String, null]]},
+{func: "dynamic__KeyboardEvent__dynamic", args: [W.KeyboardEvent], opt: [null]},
 ];
 $ = null;
 Isolate = Isolate.$finishIsolateConstructor(Isolate);
@@ -18914,11 +18442,11 @@ init.dispatchPropertyName = init.getIsolateTag("dispatch_record");
   init.currentScript = currentScript;
   if (typeof dartMainRunner === "function") {
     dartMainRunner(function(a) {
-      H.startRootIsolate(A.main$closure(), a);
+      H.startRootIsolate(V.main$closure(), a);
     }, []);
   } else {
     (function(a) {
-      H.startRootIsolate(A.main$closure(), a);
+      H.startRootIsolate(V.main$closure(), a);
     })([]);
   }
 });
@@ -18926,4 +18454,4 @@ init.dispatchPropertyName = init.getIsolateTag("dispatch_record");
 // END invoke [main].
 })()
 
-//# sourceMappingURL=cust.dart.js.map
+//# sourceMappingURL=EditorSample.dart.js.map
