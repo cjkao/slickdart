@@ -1,7 +1,7 @@
 slickdart
 =========
 
-slick grid port, for mobile,desktop devices
+slick grid clone, for mobile,desktop devices
 
 ** Sort performance is not expected in javascript version
 
@@ -23,10 +23,11 @@ Known Constraint
 * using keyboard navigation on non-editable cell and goes out of viewport will not
   immediate update screen until it on editable area
 * Let forzen column editable cause display unsync in un-frozen area   
+
 TODO
 ========================
 
-- [ ] ease of use
+- [ ] ease of use, 
 - [ ] Column reorder
 - [ ] adjust row height via mouse
 - [x] efficent dynamic row height on frozen column
@@ -45,14 +46,16 @@ when calculate numVisibleRows, when we apply dynamic row height, minimal dynamic
 Current design: 
 - put '_height' on row object to specify pixel height  
 - add {'dynamicHeight': true} option to turn on it  
+- on sorting or change data, using resetDynHeight() to re-calculate height
 
 Mobile Device
 ==============================
-- Lumia 925  => very fast scrolling on vertical and horizontal 
-- HTC One (M7) Chrome => very fast scrolling on both vertical and horizontal
+- Lumia 925  => fast scrolling on vertical and horizontal 
+- HTC One (M7) Chrome => fast scrolling on both vertical and horizontal
 - HTC One (M7) Firefox => smooth but slower than chrome
-- HTC One (M7) Content Shell => very fast
-- IPAD2 => very fast
+- HTC One (M7) Content Shell => fast
+- IPAD2 => fast
+- Black Berry => fast
 
 Customer Element
 ==============================
@@ -61,4 +64,4 @@ Compitable with angular.dart
 
 MetaData
 =============================
-Only support row css styles, see example: metadata.dart
+Only support row css styles, see example: metadata.dart, add dynamic height recalculate
