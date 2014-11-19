@@ -5,7 +5,7 @@ description: Basic grid component port from SlickGrid with dynamic row height, f
 homepage: https://cjkao.github.io/slickdart
 dependencies:
   browser: any
-  logging: ">=0.8.0"
+  logging: ">=0.8.0 <=1.0.0"
 dev_dependencies:
   unittest: any
   dnd: any

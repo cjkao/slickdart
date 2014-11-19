@@ -1,14 +1,44 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
-
+String searchStr='';
+List data=[];
 void main() {
-  var g=init();
-  g.init();
+  grid.SlickGrid sg=makeGrid();
+  sg.init();
+  document.querySelector('#search').onInput.listen( (Event ke){
+    searchStr=ke.currentTarget.value;
+    sg.invalidate();
+    sg.render();
+  });
+  document.querySelector('#filter').onClick.listen( (Event ke){
+    List newList=data.where( (Map z) {
+       if (z.values.any((_) => _ is String && _.contains(searchStr))) return true;
+       return false;
+      }).toList();
+      if(newList.length>0){
+
+        sg.invalidate();
+        sg.data..clear()..addAll(newList);
+        sg.resetDynHeight();
+        //sg.init();
+        sg.render();
+      }else{
+        //show no data
+      }
+  });
+
  // print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
 }
 Map getMeta(int row){
-    if (row % 2 == 1) {
+    Map item=data[row];
+    bool exist=item.values.any((_)=> searchStr.length>0 && _ is String && _.contains(searchStr) );
+    if(exist){
+      return {
+                "cssClasses": "highlight"
+             };
+    }else
+    if (row%2==5) {
         return {
 //          "columns": {
 //            "duration": {
@@ -48,17 +78,17 @@ AlertFormatter(int row,int cell,int value,grid.Column columnDef,Map dataRow) {
   }
 }
 
-grid.SlickGrid init(){
+grid.SlickGrid makeGrid(){
   Element el =querySelector('#grid');
   List column = new grid.ColumnList.fromMap([
      {'field': "title", 'sortable': true, 'width':20 },
      {'field': "percentComplete",'width':120,  'formatter': AlertFormatter },
-     {'field': "book", 'sortable': true },
+     {'field': "book", 'sortable': true ,'editor': 'TextEditor' },
      {'field': "finish"},
      {'field': "effortDriven", 'sortable': true },
      {'field': "duration", 'sortable': true },
      {'field': "start", 'sortable': true }]);
-  List data=[];
+
   for (var i = 0; i < 1500; i++) {
     data.add( {
       'title':  i+1,
@@ -67,7 +97,7 @@ grid.SlickGrid init(){
       'start': "01/01/20${i}",
       'finish': "01/05/2009",
       'finish1': "01/05/2009 $i",
-      'book': "01/05/20$i",
+      'book': "$i${new math.Random().nextInt(5)}",
       'effortDriven': (i % 5 == 0)
     });
     if(i%2==0){
@@ -78,8 +108,7 @@ grid.SlickGrid init(){
   Map opt = {'explicitInitialization': false,
              'multiColumnSort': false,
              'dynamicHeight': true,
-             'frozenColumn': 0,
-//                             'frozenRow':0,
+             'frozenColumn': 0
   };
 
 
