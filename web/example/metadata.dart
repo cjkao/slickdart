@@ -2,7 +2,7 @@ import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 String searchStr='';
-List data=[];
+List srcData=[];
 void main() {
   grid.SlickGrid sg=makeGrid();
   sg.init();
@@ -12,16 +12,15 @@ void main() {
     sg.render();
   });
   document.querySelector('#filter').onClick.listen( (Event ke){
-    List newList=data.where( (Map z) {
+    List newList=srcData.where( (Map z) {
        if (z.values.any((_) => _ is String && _.contains(searchStr))) return true;
        return false;
       }).toList();
       if(newList.length>0){
-
-        sg.invalidate();
+        print('list len: ${newList.length}');
         sg.data..clear()..addAll(newList);
         sg.resetDynHeight();
-        //sg.init();
+        sg.invalidate();
         sg.render();
       }else{
         //show no data
@@ -30,31 +29,6 @@ void main() {
 
  // print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
 }
-Map getMeta(int row){
-    Map item=data[row];
-    bool exist=item.values.any((_)=> searchStr.length>0 && _ is String && _.contains(searchStr) );
-    if(exist){
-      return {
-                "cssClasses": "highlight"
-             };
-    }else
-    if (row%2==5) {
-        return {
-//          "columns": {
-//            "duration": {
-//              "colspan": 3
-//            }
-//          }
-        };
-      } else {
-        return {
-//          "columns": {
-//            0: {  "colspan": "*"    }
-//          },
-          "cssClasses": "not-edit"
-        };
-      }
-  }
 AlertFormatter(int row,int cell,int value,grid.Column columnDef,Map dataRow) {
   if(dataRow['_height']!=null && dataRow['_height']>70){
     return '''
@@ -68,13 +42,9 @@ AlertFormatter(int row,int cell,int value,grid.Column columnDef,Map dataRow) {
         </div>
         ''';
   }else{
-    if(value>5){
-      return '<span class="label label-success">Success</span>';
-
-    }else{
-
-      return '<span class="label label-default">Default</span>';
-    }
+    return value>5
+      ? '<span class="label label-success">Success</span>'
+      : '<span class="label label-default">Default</span>';
   }
 }
 
@@ -90,7 +60,7 @@ grid.SlickGrid makeGrid(){
      {'field': "start", 'sortable': true }]);
 
   for (var i = 0; i < 1500; i++) {
-    data.add( {
+    srcData.add( {
       'title':  i+1,
       'duration': 'd ${i*100}',
       'percentComplete': new math.Random().nextInt(10) ,
@@ -101,7 +71,7 @@ grid.SlickGrid makeGrid(){
       'effortDriven': (i % 5 == 0)
     });
     if(i%2==0){
-      data[i]['_height']=50 + new math.Random().nextInt(100);
+      srcData[i]['_height']=50 + new math.Random().nextInt(100);
     }else{
     }
   }
@@ -110,13 +80,38 @@ grid.SlickGrid makeGrid(){
              'dynamicHeight': true,
              'frozenColumn': 0
   };
+  grid.SlickGrid sg;
+  List tdata= []..addAll(srcData);
+  Map getMeta(int row){
+          Map item=sg.data[row];
+          bool exist=item.values.any((_)=> searchStr.length>0 && _ is String && _.contains(searchStr) );
+          if(exist){
+            return {
+                      "cssClasses": "highlight"
+                   };
+          }else
+          if (row%2==5) {
+              return {
+//          "columns": {
+//            "duration": {
+//              "colspan": 3
+//            }
+//          }
+              };
+            } else {
+              return {
+//          "columns": {
+//            0: {  "colspan": "*"    }
+//          },
+                "cssClasses": "not-edit"
+              };
+            }
+        }
 
-
-
-  grid.SlickGrid sg= new grid.SlickGrid(el,new grid.MetaList(data,getMeta),column,opt);
+  sg= new grid.SlickGrid(el,new grid.MetaList(tdata,getMeta),column,opt);
   sg.onSort.subscribe( (e, args) {
     grid.Column col = args['sortCol'];
-    data.sort( (dataRow1, dataRow2) {
+    sg.data.sort( (dataRow1, dataRow2) {
         var field = col.field;
         var sign = args['sortAsc'] ? 1 : -1;
         dynamic value1 = dataRow1[field], value2 = dataRow2[field];
@@ -126,8 +121,10 @@ grid.SlickGrid makeGrid(){
         }
       return 0;
     });
+    sg.resetDynHeight();
     sg.invalidate();
     sg.render();
   });
+
   return sg;
 }

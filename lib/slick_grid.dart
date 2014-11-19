@@ -930,7 +930,17 @@ class SlickGrid {
         finishInitialization();
       }
     }
-
+  /**
+   * when add or remove row or change row height, we should re-calculate it's height
+   * TODO add/remove single row, should we do it?
+   */
+  void resetDynHeight(){
+    _getViewportHeight();
+    if(options['dynamicHeight']==true){
+            this.yLookup = new heightIdx.Root(data,options['rowHeight'] );
+    }
+    resizeCanvas();
+  }
   void finishInitialization() {
     if (!initialized) {
       initialized = true;
