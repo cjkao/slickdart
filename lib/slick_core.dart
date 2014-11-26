@@ -99,13 +99,6 @@ class Event {
    * @param fn {Function} Event handler to be removed.
    */
   bool unsubscribe (Function fn) => handlers.remove(fn);
-//  {
-//    for (var i = handlers.length - 1; i >= 0; i--) {
-//      if (handlers[i] == fn) {
-//        handlers.splice(i, 1);
-//      }
-//    }
-//  };
 
   /***
    * Fires an event notifying all subscribers.
@@ -124,9 +117,7 @@ class Event {
     if(e==null) e = new EventData();
    // scope = scope || this;
     var returnValue;
-    //print('evt:' + e.toString() + ' arg:' + args.toString());
     for (int i = 0; i < handlers.length && !(e is EventData && (e.isPropagationStopped() || e.isImmediatePropagationStopped())); i++) {
-      //print('hand:' + handlers[i].toString());
       returnValue = Function.apply(handlers[i],[e,args]);
     }
 
