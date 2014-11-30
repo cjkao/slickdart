@@ -60,7 +60,9 @@ Mobile Device
 Customer Element
 ==============================
 Initial support customer element, see example: cust.dart
-Compitable with angular.dart
+Compitable with angular.dart : 
+- fix sorting
+- add customize option
 
 MetaData
 =============================

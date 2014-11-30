@@ -68,7 +68,7 @@ class JGrid extends HtmlElement {
     //   Timer t=new Timer(new Duration(milliseconds:10),()=> grid.finishInitialization());
   }
   void detached() {
-    grid.unSubscribe();
+    if(grid!=null) grid.unSubscribe();
   }
   factory JGrid(text) => new Element.tag(GRID_TAG);
 
