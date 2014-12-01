@@ -1450,15 +1450,15 @@ class SlickGrid {
       el.text='-';
       headerColumnWidthDiff = headerColumnHeightDiff = 0;
       if (el.style.boxSizing != "border-box"  ) {
-          headerColumnWidthDiff += num.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),(src)=>0);
-          headerColumnWidthDiff += num.parse(el.getComputedStyle().borderRightWidth.replaceAll('px',''),(src)=>0);
-          headerColumnWidthDiff += num.parse(el.getComputedStyle().paddingLeft.replaceAll('px',''),(src)=>0);
-          headerColumnWidthDiff += num.parse(el.getComputedStyle().paddingRight.replaceAll('px',''),(src)=>0);
+          headerColumnWidthDiff += num.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),(src)=>0).round();
+          headerColumnWidthDiff += num.parse(el.getComputedStyle().borderRightWidth.replaceAll('px',''),(src)=>0).round();
+          headerColumnWidthDiff += num.parse(el.getComputedStyle().paddingLeft.replaceAll('px',''),(src)=>0).round();
+          headerColumnWidthDiff += num.parse(el.getComputedStyle().paddingRight.replaceAll('px',''),(src)=>0).round();
 
-          headerColumnHeightDiff += num.parse(el.getComputedStyle().borderTopWidth.replaceAll('px',''),(src)=>0);
-          headerColumnHeightDiff += num.parse(el.getComputedStyle().borderBottomWidth.replaceAll('px',''),(src)=>0);
-          headerColumnHeightDiff += num.parse(el.getComputedStyle().paddingTop.replaceAll('px',''),(src)=>0);
-          headerColumnHeightDiff += num.parse(el.getComputedStyle().paddingBottom.replaceAll('px',''),(src)=>0);
+          headerColumnHeightDiff += num.parse(el.getComputedStyle().borderTopWidth.replaceAll('px',''),(src)=>0).round();
+          headerColumnHeightDiff += num.parse(el.getComputedStyle().borderBottomWidth.replaceAll('px',''),(src)=>0).round();
+          headerColumnHeightDiff += num.parse(el.getComputedStyle().paddingTop.replaceAll('px',''),(src)=>0).round();
+          headerColumnHeightDiff += num.parse(el.getComputedStyle().paddingBottom.replaceAll('px',''),(src)=>0).round();
       }
       el.remove();
       var r=_createElem($canvas.first, clz:'slick-row');
@@ -1467,15 +1467,15 @@ class SlickGrid {
 
       cellWidthDiff = cellHeightDiff = 0;
       if (el.style.boxSizing != "border-box") {
-        cellWidthDiff += num.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),(src)=>0);
-        cellWidthDiff += num.parse(el.getComputedStyle().borderRightWidth.replaceAll('px',''),(src)=>0);
-        cellWidthDiff += num.parse(el.getComputedStyle().paddingLeft.replaceAll('px',''),(src)=>0);
-        cellWidthDiff += num.parse(el.getComputedStyle().paddingRight.replaceAll('px',''),(src)=>0);
+        cellWidthDiff += num.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),(src)=>0).round();
+        cellWidthDiff += num.parse(el.getComputedStyle().borderRightWidth.replaceAll('px',''),(src)=>0).round();
+        cellWidthDiff += num.parse(el.getComputedStyle().paddingLeft.replaceAll('px',''),(src)=>0).round();
+        cellWidthDiff += num.parse(el.getComputedStyle().paddingRight.replaceAll('px',''),(src)=>0).round();
 
-        cellHeightDiff += num.parse(el.getComputedStyle().borderTopWidth.replaceAll('px',''),(src)=>0);
-        cellHeightDiff += num.parse(el.getComputedStyle().borderBottomWidth.replaceAll('px',''),(src)=>0);
-        cellHeightDiff += num.parse(el.getComputedStyle().paddingTop.replaceAll('px',''),(src)=>0);
-        cellHeightDiff += num.parse(el.getComputedStyle().paddingBottom.replaceAll('px',''),(src)=>0);
+        cellHeightDiff += num.parse(el.getComputedStyle().borderTopWidth.replaceAll('px',''),(src)=>0).round();
+        cellHeightDiff += num.parse(el.getComputedStyle().borderBottomWidth.replaceAll('px',''),(src)=>0).round();
+        cellHeightDiff += num.parse(el.getComputedStyle().paddingTop.replaceAll('px',''),(src)=>0).round();
+        cellHeightDiff += num.parse(el.getComputedStyle().paddingBottom.replaceAll('px',''),(src)=>0).round();
       }
       r.remove();
 

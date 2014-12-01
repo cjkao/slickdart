@@ -67,3 +67,8 @@ Compitable with angular.dart :
 MetaData
 =============================
 Only support row css styles, see example: metadata.dart, add dynamic height recalculate
+
+Filter View
+========================================
+Use FilteredList.class in slick_util.dart to wrap data
+Example: ColumnFilter.dart
