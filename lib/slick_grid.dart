@@ -3007,9 +3007,9 @@ class SlickGrid {
           (row == activeRow ? " active" : "") +
           (row % 2 == 1 ? " odd" : " even");
 
-      if(data is core.MetaList){
+      if(data is MetaList){
         //implement metadata interface
-        Map metadata = (data as core.MetaList).getMetaData(row);
+        Map metadata = (data as MetaList).getMetaData(row);
         if(metadata.containsKey("cssClasses")){
           rowCss += " " + metadata['cssClasses'];
         }

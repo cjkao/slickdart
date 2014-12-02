@@ -93,10 +93,10 @@ class CellRangeSelector extends IPlugin{
 
    // _canvas = _grid.getCanvasNode();
     _handler
-    .subscribe(_grid.onDragInit, handleDragInit)
-      .subscribe(_grid.onDragStart, handleDragStart)
-        .subscribe(_grid.onDrag, handleDrag)
-        .subscribe(_grid.onDragEnd, handleDragEnd);
+      ..subscribe(_grid.onDragInit, handleDragInit)
+      ..subscribe(_grid.onDragStart, handleDragStart)
+      ..subscribe(_grid.onDrag, handleDrag)
+      ..subscribe(_grid.onDragEnd, handleDragEnd);
     }
 
     destroy() {

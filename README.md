@@ -60,10 +60,19 @@ Mobile Device
 Customer Element
 ==============================
 Initial support customer element, see example: cust.dart
-Compitable with angular.dart : 
-  - fix sorting
-  - add customize option
 
+Compitable with angular.dart
+  - must specify height of cj-grid
+  - accept customize option
+```dart
+import 'slick_custom.dart'
+registerElem();
+```      
+```html
+<cj-grid></cj-grid>
+```
+  
+  
 MetaData
 =============================
 Only support row css styles, see example: metadata.dart, add dynamic height recalculate

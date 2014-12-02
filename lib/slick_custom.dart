@@ -39,6 +39,8 @@ class JGrid extends HtmlElement {
    background: white;
    display: block;
 }
+
+
 </style>
 <div id='grid'></div>""";
   }

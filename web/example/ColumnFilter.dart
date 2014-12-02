@@ -1,9 +1,8 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
-import 'package:slickdart/slick_util.dart';
 import 'dart:math' as math;
 String searchStr='';
-FilteredList srcData=new FilteredList();
+grid.FilteredList srcData=new grid.FilteredList();
 void main() {
   grid.SlickGrid sg=makeGrid();
   sg.init();

@@ -35,17 +35,6 @@ main() {
  * enable column sort
  */
 List<Column> getColDefs(List<Column> cols) {
-//  var cols= new ColumnList.fromMap(
-//      [ { 'field': "dtitle",    'name': "Title1",       'sortable': true                          },
-//        { 'field': "duration",  'sortable': true,'width': 80, 'formatter': LinkFormatter          },
-//        { 'field': "pc2",       'editor': 'TextEditor', 'sortable': true                          },
-//        { 'field': "finish"                                                                       },
-//        { 'field': "Querter",   'editor': new SelectListEditor({1:'1',2:'2',3:'3',4:'4'})         },
-//        { 'field': "Querter2",  'editor': new SelectListEditor({'1':'1','2':'2','3':'3','4':'4'}) },
-//        { 'field': "YesNo",     'editor': 'CheckboxEditor',    'formatter': CheckmarkFormatter    },
-//        { 'field': "pc",        'editor': 'TextEditor',   'id': "%_2"                             },
-//        { 'field': "effortDriven",  'width': 300  }
-//      ]);
   List<Column> newCols = cols.map((col) => new Column.fromColumn(col)..sortable=true).toList();
   CheckboxSelectColumn checkboxCol = new CheckboxSelectColumn({
     'cssClass': "slick-cell-checkboxsel"

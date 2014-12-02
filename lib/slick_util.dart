@@ -52,40 +52,46 @@ class FilteredList extends ListBase{
 
 }
 
-//
-//class Throttler{
-//
-//  Duration delay;
-//  var callback;
-//  //List args;
-//  bool noTrailing;
-//
-//  Throttler(this.delay, this.callback, [this.noTrailing=false]);
-//
-//  var timeoutId=null;
-//
-//  DateTime lastExec = new DateTime.now();
-//
-//  void throttle(args) {
-//
-//    Duration elapsed = new DateTime.now().difference(lastExec);
-//
-//    void exec() {
-//      lastExec = new DateTime.now();
-//      callback(args);
-//    }
-//
-//    if(elapsed.compareTo(delay) >= 0) {
-//      exec();
-//    }
-//    //cancel the timeout scheduled for trailing callback
-//    if(timeoutId != null)
-//      timeoutId.cancel();
-//
-//    if( noTrailing == false) {
-//      //there should be a trailing callback, so schedule one
-//      //buggy here, should be 'delay - elasped' but dart async only supports const Duration for delay
-//      timeoutId = new Timer(delay, exec);
-//    }
-//  }
-//}
+
+
+
+/**
+ * meta data interface for data
+ * Meta data is a list wrappper that provide getMetaData when need override style in row rendering
+ */
+abstract class IMetaData{
+  Map getMetaData(int rowId);
+  void setMetaData(Function metaFunc);
+}
+class MetaList<T> extends ListBase<T> with IMetaData{
+  Function _func;
+  List<T> innerList;
+  MetaList(this.innerList, [this._func]){
+
+  }
+
+  Map getMetaData(int rowId){
+    return _func(rowId);
+  }
+  void setMetaData(_) => _func = _;
+
+  int get length => innerList.length;
+
+  void set length(int length) {
+        innerList.length = length;
+  }
+  void operator[]=(int index, T value) {
+    innerList[index] = value;
+  }
+  T operator [](int index) => innerList[index];
+
+  // Though not strictly necessary, for performance reasons
+  // you should implement add and addAll.
+
+  void add(T value) => innerList.add(value);
+
+  void addAll(Iterable<T> all) => innerList.addAll(all);
+
+
+
+}
