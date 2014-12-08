@@ -56,7 +56,9 @@ class JGrid extends HtmlElement {
    * List based data,
    */
   void setData(List data){
-    grid.data.clear();
+    if(data!=grid.data){
+      grid.data.clear();
+    }
     grid.data=data;
     //grid.data.addAll(data);
     grid.invalidate();
