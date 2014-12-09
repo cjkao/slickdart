@@ -194,8 +194,11 @@ abstract class SelectionModel{
   List<core.Range> getSelectedRanges();
   core.Event onSelectedRangesChanged = new core.Event();
 }
+/**
+ * Cell selection
+ */
 class CellSelectionModel extends SelectionModel{
-     CellSelectionModel(Map options){
+     CellSelectionModel([Map options= const {}]){
        _options = new Map.from(options);
        _options['selectActiveCell']=true;
      }

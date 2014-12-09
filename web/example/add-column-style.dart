@@ -4,7 +4,11 @@ import 'package:slickdart/slick.dart';
 import 'package:slickdart/parser.dart';
 Map getMeta(int row) {
   var rdata=csv.data[row];
+
   if (rdata['gss_code'] == filterStr) {
+    gw0.grid.setCellCssStyles('bold_test',{
+          row:{'UNITID':'bold', 'school_id':'bold'}
+      });
     return {
       "cssClasses": "highlight"
     };
@@ -25,11 +29,15 @@ main() {
     csv.columns[0]
         ..width = 14
         ..name = 'id';
+    Map opt = {  'multiColumnSort': true,
+                 'editable': false,
+      };
     gw0 = document.querySelector("$GRID_TAG.second");
-    gw0.init(new MetaList(csv.data, getMeta), cols);
-    gw0.grid.setSelectionModel(new CellSelectionModel());
+    gw0.init(new MetaList(csv.data, getMeta), cols, option:opt);
+    gw0.grid.setSelectionModel(new CellSelectionModel(opt));
+    gw0.grid.setCellCssStyles("fixed", { 3: {'year': 'blur'}});
   });
-  querySelector('.inputgs').onChange.listen((_) {
+  querySelector('.inputgs').onKeyUp.listen((_) {
     filterStr=_.target.value;
     gw0.grid.invalidate();
   });

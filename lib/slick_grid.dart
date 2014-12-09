@@ -234,14 +234,15 @@ class SlickGrid {
 
   List<IPlugin> plugins = [];
   /**
-   * css name =>
+   * customize all cell style when need
+   * css_key =>
    * { row id :
-   *    { column Id: string name  }
+   *    { string_column_Id: string_css_class_name  }
    * }
    *
    *
    */
-  Map<String,Map<int,Map<String,String>>> cellCssClasses = {};
+  Map<String,Map<int,Map<String,String>>> _cellCssClasses = {};
 
   Map columnsById = {};
   List sortColumns = [];
@@ -343,24 +344,26 @@ class SlickGrid {
   }
 
   /**
-   * hash
+   * render by cell style on demand
+   * @param key: a unique id
+   * @param hash
    * {
-   *   11: {columnName : css_class_name }
-   *   12: {... }
+   *   row_id: { columnFieldName : css_class_name },
+   *   12: {... },
    *   13: {... }
    * }
    *
    *
    */
   setCellCssStyles(String key, Map<int,Map<String,String>> hash) {
-    Map prevHash = cellCssClasses[key];
+    Map prevHash = _cellCssClasses[key];
 
-    cellCssClasses[key] = hash;
-    updateCellCssStylesOnRenderedRows(hash, prevHash);
+    _cellCssClasses[key] = hash;
+    _updateCellCssStylesOnRenderedRows(hash, prevHash);
 
     trigger(onCellCssStylesChanged, { "key": key, "hash": hash });
   }
-  updateCellCssStylesOnRenderedRows(Map<int,Map<String,String>> addedHash,Map<int,Map<String,String>> removedHash) {
+  _updateCellCssStylesOnRenderedRows(Map<int,Map<String,String>> addedHash,Map<int,Map<String,String>> removedHash) {
     Element node;
     String columnId;
     Map<String,String> addedRowHash, removedRowHash;
@@ -3066,9 +3069,9 @@ class SlickGrid {
       }
 
       // TODO:  merge them together in the setter
-      for (var key in cellCssClasses.keys) {
-        if (cellCssClasses[key].containsKey(row) && cellCssClasses[key][row].containsKey(m.id)) {
-          cellCss += (" " + cellCssClasses[key][row][m.id]);
+      for (var key in _cellCssClasses.keys) {
+        if (_cellCssClasses[key].containsKey(row) && _cellCssClasses[key][row].containsKey(m.id)) {
+          cellCss += (" " + _cellCssClasses[key][row][m.id]);
         }
       }
       String style='';

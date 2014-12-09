@@ -66,8 +66,8 @@ class JGrid extends HtmlElement {
 
   }
   void attached() {
-    print('attached');
-    print(shadowRoot.host.clientWidth);
+    log.finer('attached');
+    log.finest(shadowRoot.host.clientWidth);
     shadowRoot.host.onContextMenu.listen(_cjContextMenu);
     //   Timer t=new Timer(new Duration(milliseconds:10),()=> grid.finishInitialization());
   }
