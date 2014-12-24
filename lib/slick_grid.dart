@@ -16,7 +16,7 @@ import 'row_height.dart' as heightIdx;
  * plug-in interface
  */
 abstract class IPlugin{
-  init(SlickGrid grid);
+   init(SlickGrid grid);
   void destroy();
 }
 

@@ -28,7 +28,7 @@ class Basics {
   void _onDragEnd(MouseEvent event) {
     Element dragTarget = event.target;
     dragTarget.classes.remove('moving');
-    var cols = document.queryAll('.slick-resizable-handle');
+    var cols = document.querySelector('.slick-resizable-handle');
     for (var col in cols) {
       col.classes.remove('over');
     }

@@ -1,6 +1,6 @@
 library slick.editor;
 import 'dart:html';
-import 'slick.dart' as grid;
+import 'slick.dart';
 
 abstract class Editor{
   EditorParm _ep;
@@ -44,10 +44,10 @@ abstract class Editor{
 
 class EditorParm{
   Element activeCellNode;
-  grid.SlickGrid grid;
+  SlickGrid grid;
   Map<String,dynamic> gridPosition;
     Map<String,dynamic> position;
-    grid.Column columnDef;
+    Column columnDef;
     Function commitChanges;
     Function cancelChanges;
 

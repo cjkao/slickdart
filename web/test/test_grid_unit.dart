@@ -38,7 +38,7 @@ void main() {
 
   test('disableSelection', (){
     var g=init();
-    g.disableSelection(querySelector('#grid2'));
+    g.disableSelection([querySelector('#grid2')]);
   });
 
 

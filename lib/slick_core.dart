@@ -1,6 +1,6 @@
 library slick.core;
 import 'dart:html' as html;
-import 'dart:collection';
+//import 'dart:collection';
 //import 'dart:convert';
 //import 'dart:math' as math;
 //import 'dart:mirrors';

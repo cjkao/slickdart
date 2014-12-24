@@ -136,7 +136,7 @@ class CellRangeSelector extends IPlugin{
         }
       }
       if (!_dragging) {
-        return;
+        return null;
       }
 
       _grid.setFocus(); //no _grid.focus, may from drag plugin

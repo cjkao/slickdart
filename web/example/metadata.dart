@@ -7,7 +7,7 @@ void main() {
   grid.SlickGrid sg=makeGrid();
   sg.init();
   document.querySelector('#search').onInput.listen( (Event ke){
-    searchStr=ke.currentTarget.value;
+    searchStr=(ke.currentTarget as InputElement).value;
     sg.invalidate();
     sg.render();
   });
