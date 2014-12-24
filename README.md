@@ -43,7 +43,7 @@ Dynamic Row Height
 ===============================
 limitation: visible row:
 when calculate numVisibleRows, when we apply dynamic row height, minimal dynamic row height must >= single row hight
-Current design: 
+Current design
   - put '_height' on row object to specify pixel height  
   - add {'dynamicHeight': true} option to turn on it  
   - on sorting or change data, using resetDynHeight() to re-calculate height

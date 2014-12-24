@@ -949,6 +949,7 @@ class SlickGrid {
       initialized = true;
 //      print(container.getBoundingClientRect().width);
       viewportW = core.Dimension.getCalcWidth(container);
+      assert(viewportW>0);
       _getViewportHeight();
 //      viewportW = int.parse(container.getComputedStyle().width.replaceAll('px', ''));
       measureCellPaddingAndBorder();
@@ -1452,6 +1453,7 @@ class SlickGrid {
       el = _createElem($headers.first, clz:'ui-state-default slick-header-column', style:{'visibility':'hidden'});
       el.text='-';
       headerColumnWidthDiff = headerColumnHeightDiff = 0;
+      assert(el.getComputedStyle().paddingTop.length !='0px');
       if (el.style.boxSizing != "border-box"  ) {
           headerColumnWidthDiff += num.parse(el.getComputedStyle().borderLeftWidth.replaceAll('px',''),(src)=>0).round();
           headerColumnWidthDiff += num.parse(el.getComputedStyle().borderRightWidth.replaceAll('px',''),(src)=>0).round();

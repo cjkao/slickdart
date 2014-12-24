@@ -1,6 +1,7 @@
 library slick.cust.el;
 import 'slick.dart';
 import 'dart:html';
+import 'dart:async';
 const GRID_TAG = 'cj-grid';
 StyleElement _styleElement;
 registerElem() {
@@ -33,6 +34,7 @@ class JGrid extends HtmlElement {
 @import "packages/slickdart/slick_default_theme.css"; 
 </style>
 <style>
+
 #grid{
    height: 100%;
    width: 100%;
@@ -45,11 +47,21 @@ class JGrid extends HtmlElement {
 <div id='grid'></div>""";
   }
   void init(List data, List<Column> colDefs, {Map option}) {
+    assert(shadowRoot.lastChild!=null);
     grid = _prepareGrid(shadowRoot.lastChild, colDefs, opt:option);
     grid.init();
    grid.data.clear();
    grid.data=data;
-    grid.finishInitialization();
+   log.finest("height in shadow: ${ (shadowRoot.lastChild as Element).getBoundingClientRect().height}");
+   new Timer.periodic(new Duration(milliseconds: 100), (Timer t){
+     double h= (shadowRoot.lastChild as Element).getBoundingClientRect().height;
+     log.finest('after: $h');
+     if(h>0){
+       grid.finishInitialization();
+       t.cancel();
+     }
+//     print();
+   });
     grid.onSort.subscribe(_defaultSort);
   }
   /**
@@ -62,7 +74,7 @@ class JGrid extends HtmlElement {
     grid.data=data;
     //grid.data.addAll(data);
     grid.invalidate();
-    grid.render();
+    //grid.render();
 
   }
   void attached() {
@@ -136,7 +148,7 @@ class JGrid extends HtmlElement {
           return 0;
         });
         sgrid.invalidate();
-        sgrid.render();
+        //sgrid.render();
       }
 
 }
