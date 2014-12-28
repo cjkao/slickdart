@@ -2,7 +2,7 @@ import 'dart:html';
 //import 'dart:math' as math;
 import 'package:slickdart/slick_custom.dart';
 import 'package:slickdart/slick.dart';
-import 'package:slickdart/parser.dart';
+//import 'package:slickdart/parser.dart';
 main() {
   registerElem();
   HttpRequest.getString('gss1983_Code.csv').then((data) {

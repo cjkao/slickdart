@@ -9,13 +9,11 @@ void main() {
   document.querySelector('#search').onInput.listen( (Event ke){
     searchStr=(ke.currentTarget as InputElement).value;
     sg.invalidate();
-    sg.render();
   });
   document.querySelector('#filter').onClick.listen( (Event ke){
         srcData.keyword=  {'start':searchStr};
         sg.resetDynHeight();
         sg.invalidate();
-        sg.render();
   });
 
 }
@@ -102,7 +100,6 @@ grid.SlickGrid makeGrid(){
     });
     sg.resetDynHeight();
     sg.invalidate();
-    sg.render();
   });
 
   return sg;

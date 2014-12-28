@@ -1,17 +1,18 @@
 library slick.grid;
-import 'slick_core.dart' as core;
-import 'slick_editor.dart' as editor;
-import 'slick_selectionmodel.dart';
-import 'slick_util.dart';
 import 'dart:html';
 import 'dart:math' as math;
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'package:logging/logging.dart';
+import 'slick_core.dart' as core;
+import 'slick_editor.dart' as editor;
+import 'slick_selectionmodel.dart';
+import 'slick_util.dart';
 import 'slick_dnd.dart';
 import 'slick_column.dart';
 import 'row_height.dart' as heightIdx;
-
+Logger _log = new Logger('slickgrid');
 /**
  * plug-in interface
  */
@@ -26,17 +27,17 @@ int maxSupportedCssHeight;  // browser's breaking point
 
 
 //tailer for html style
-var _treeSanitizer = new NullTreeSanitizer();
+var _treeSanitizer = new _NullTreeSanitizer();
 /**
  * Sanitizer which does nothing.
  */
-class NullTreeSanitizer implements NodeTreeSanitizer {
+class _NullTreeSanitizer implements NodeTreeSanitizer {
   void sanitizeTree(Node node) {
   }
 }
-class RowCache{
+class _RowCache{
   int columnCount;
-  RowCache (this.rowNode,columnCount){
+  _RowCache (this.rowNode,columnCount){
     cellColSpans=new List.filled(columnCount,1);
   }
   //rowNode[0] => frozend column
@@ -65,7 +66,7 @@ class SlickGrid {
   List data;
   List<Column> columns;
   Map options;
-  StreamSubscription<Event> _ancestorScrollSubscribe;
+ // StreamSubscription<Event> _ancestorScrollSubscribe;
   List _subscriptionList=[];
 
   core.Event onScroll = new core.Event();
@@ -175,7 +176,7 @@ class SlickGrid {
   DivElement $focusSink, $focusSink2;
   List $headerScroller = [];
   List<Element> $headers = [];
-  List $headerRow = [];
+  List<Element> $headerRow = [];
   DivElement  $headerRowSpacerL, $headerRowSpacerR;
   List $headerRowScroller = [];
   List<Element> $topPanelScroller= [];
@@ -218,7 +219,7 @@ class SlickGrid {
   var serializedEditorValue;
   Map editController;
 
-  Map<int,RowCache> rowsCache = {};
+  Map<int,_RowCache> rowsCache = {};
   int renderedRows = 0;
   //minimal rows need to render
   int numVisibleRows;
@@ -509,7 +510,7 @@ class SlickGrid {
    Map<String,int> getRenderedRange([int viewportTop, int viewportLeft]) {
     Map<String,int> vrange = getVisibleRange(viewportTop, viewportLeft);
     Map<String,int> outRange = {}..addAll(vrange);
-    log.finest('vis range:${vrange}');
+    _log.finest('vis range:${vrange}');
     int buffer= (vrange['bottom'] - vrange['top']) *2;
     outRange['top'] -= buffer;
     outRange['bottom'] += buffer;
@@ -538,7 +539,7 @@ class SlickGrid {
 
     outRange['leftPx'] = math.max(0, outRange['leftPx']);
     outRange['rightPx'] = math.min(canvasWidth, outRange['rightPx']);
-    log.finer('adjust range:${outRange}');
+    _log.finest('adjust range:${outRange}');
     return outRange;
   }
 
@@ -1015,6 +1016,7 @@ class SlickGrid {
       );
 //TODO fix me
 //      ..onContextMenu.listen(handleContextMenu)
+
       $canvas.forEach((_)=> _
       ..onDragStart.listen(handleDragStart)
       ..onDrag.listen(handleDrag)
@@ -1229,13 +1231,13 @@ class SlickGrid {
             $target.attributes['unselectable'] = 'on';
             $target.style.userSelect = 'none';
     //for IE, not tested
-            ElementStream<Event> stream =$target.onSelectStart;
-            stream.matches('.ui').listen(
-                (Event e){
-                  log.finer('nonselect');
-                  e.preventDefault();
-                  e.stopImmediatePropagation();
-                }, onDone : ()=> log.finer('done'));
+//            ElementStream<Event> stream =$target.onSelectStart;
+//            stream.matches('.ui').listen(
+//                (Event e){
+//                  _log.finest('nonselect');
+//                  e.preventDefault();
+//                  e.stopImmediatePropagation();
+//                }, onDone : ()=> _log.finest('done'));
 
           }
       });
@@ -1284,9 +1286,9 @@ class SlickGrid {
    //   _ancestorScrollSubscribe = this.$viewportBottomL.onScroll.listen(handleActiveCellPositionChange);
     }
 
-    unbindAncestorScrollEvents() {
-      _ancestorScrollSubscribe.cancel();
-    }
+//    unbindAncestorScrollEvents() {
+//      _ancestorScrollSubscribe.cancel();
+//    }
 
     updateColumnHeader(String columnId,String title, toolTip) {
       if (!initialized) { return; }
@@ -1430,7 +1432,7 @@ class SlickGrid {
 
         if (options['showHeaderRow']) {
           Element headerRowCell =  this._createElem($headerRowTarget,clz:'ui-state-default slick-headerrow-column l$i r$i');
-          headerRowCell.dataset['column']=JSON.encode(m);
+          //headerRowCell.dataset['column']=JSON.encode(m);
           //$headerRowTarget.append(headerRowCell);
 
           trigger(onHeaderRowCellRendered, {
@@ -1934,7 +1936,7 @@ class SlickGrid {
     }
 
     void removeRowFromCache(int row) {
-      RowCache cacheEntry = rowsCache[row];
+      _RowCache cacheEntry = rowsCache[row];
       //$canvas.children.remove(cacheEntry.rowNode);
 
       cacheEntry.rowNode[0].parent.children.remove(cacheEntry.rowNode[0]);
@@ -1989,7 +1991,7 @@ class SlickGrid {
     }
 
     void updateRow(row) {
-      RowCache cacheEntry = rowsCache[row];
+      _RowCache cacheEntry = rowsCache[row];
       if (cacheEntry==null) {
         return;
       }
@@ -2304,7 +2306,7 @@ class SlickGrid {
      * for unrendered cells
      */
     _cleanUpAndRenderCells(Map<String,int> range) {
-      RowCache cacheEntry;
+      _RowCache cacheEntry;
       List<String> stringArray = [];
       Queue processedRows = new Queue();
       var cellsAdded;
@@ -2387,7 +2389,7 @@ class SlickGrid {
     }
 
     void ensureCellNodesInRowsCache(row) {
-      RowCache cacheEntry = rowsCache[row];
+      _RowCache cacheEntry = rowsCache[row];
       if (cacheEntry!=null && cacheEntry.rowNode !=null) {
         if (cacheEntry.cellRenderQueue.length>0) {
           Element lastChild = cacheEntry.rowNode.last.lastChild;
@@ -2415,7 +2417,7 @@ class SlickGrid {
        }
 
       int totalCellsRemoved = 0;
-      RowCache cacheEntry = rowsCache[row];
+      _RowCache cacheEntry = rowsCache[row];
 
       // Remove cells outside the range.
       List cellsToRemove = [];
@@ -2514,6 +2516,7 @@ class SlickGrid {
      }
 
     Map<String,int> getCellFromEvent(core.EventData e) {
+      assert(! (e.target is Text));
       Element elem=e.target;
 //      var $expcell = elem.matchesWithAncestors('.slick-cell');
 
@@ -2907,7 +2910,7 @@ class SlickGrid {
       int dataLength = getDataLength();
       while (postProcessFromRow <= postProcessToRow) {
         int row = (vScrollDir >= 0) ? postProcessFromRow++ : postProcessToRow--;
-        RowCache cacheEntry = rowsCache[row];
+        _RowCache cacheEntry = rowsCache[row];
         if (cacheEntry==null || row >= dataLength) {
           continue;
         }
@@ -2957,7 +2960,7 @@ class SlickGrid {
 
         // Create an entry right away so that appendRowHtml() can
         // start populatating it.
-        rowsCache[i] = new RowCache(null,this.columns.length);
+        rowsCache[i] = new _RowCache(null,this.columns.length);
 
         appendRowHtml(stringArrayL,stringArrayR, i, range, dataLength);
         if (activeCellNode !=null && activeRow == i) {

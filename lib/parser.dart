@@ -1,5 +1,4 @@
-import 'slick_column.dart';
-import 'slick_util.dart';
+part of slick;
 /**
  *
  * convert csv to map,
@@ -23,7 +22,7 @@ class CsvAdapter {
   CsvAdapter(String csv,[this.charWidth=8, this.widthBase=10]) {
     strs = csv.split('\r');
     if (strs.length > 1) {
-      strs[0].split(',').forEach((item) =>    log.finest(item));
+      strs[0].split(',').forEach((item) =>    _log.finest(item));
       var list =
           strs[0].split(',').map((String item) => {
         'field': item.replaceAll('"', ''),

@@ -2,7 +2,8 @@ library slick.column;
 import 'dart:collection';
 import 'dart:html';
 import 'dart:convert';
-import 'slick.dart';
+//import 'slick.dart';
+import 'slick_grid.dart';
 import 'slick_core.dart' as core;
 class ColumnList  extends ListBase<Column> {
     ColumnList(){
@@ -72,8 +73,8 @@ class Column{
 
 
   bool get cannotTriggerInsert => _src['cannotTriggerInsert'];
-  void set asyncPostRender(item) { _src['asyncPostRender'] = item;}
-  void set toolTip(item) {_src['toolTip']=item;}
+  void set asyncPostRender(item) => _src['asyncPostRender'] = item;
+  void set toolTip(item) => _src['toolTip']=item;
   void set cannotTriggerInsert(item){ _src['cannotTriggerInsert']= item;}
   void set defaultSortAsc(item) {_src['defaultSortAsc']=item;}
   void set editor(Function item) {_src['editor']=item;}

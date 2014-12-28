@@ -2,6 +2,8 @@ library slick.cust.el;
 import 'slick.dart';
 import 'dart:html';
 import 'dart:async';
+import 'package:logging/logging.dart';
+Logger _log = new Logger('slick_cust');
 const GRID_TAG = 'cj-grid';
 StyleElement _styleElement;
 registerElem() {
@@ -40,6 +42,7 @@ class JGrid extends HtmlElement {
    width: 100%;
    background: white;
    display: block;
+   minHeight:100px;
 }
 
 
@@ -52,10 +55,10 @@ class JGrid extends HtmlElement {
     grid.init();
    grid.data.clear();
    grid.data=data;
-   log.finest("height in shadow: ${ (shadowRoot.lastChild as Element).getBoundingClientRect().height}");
+   _log.finest("height in shadow: ${ (shadowRoot.lastChild as Element).getBoundingClientRect().height}");
    new Timer.periodic(new Duration(milliseconds: 100), (Timer t){
      double h= (shadowRoot.lastChild as Element).getBoundingClientRect().height;
-     log.finest('after: $h');
+     _log.finest('after: $h');
      if(h>0){
        grid.finishInitialization();
        t.cancel();
@@ -78,8 +81,8 @@ class JGrid extends HtmlElement {
 
   }
   void attached() {
-    log.finer('attached');
-    log.finest(shadowRoot.host.clientWidth);
+    _log.finer('attached');
+    _log.finest(shadowRoot.host.clientWidth);
     shadowRoot.host.onContextMenu.listen(_cjContextMenu);
     //   Timer t=new Timer(new Duration(milliseconds:10),()=> grid.finishInitialization());
   }

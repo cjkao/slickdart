@@ -81,7 +81,7 @@ class EventData{
  */
 class Event {
   List<Function> handlers = [];
-
+  //StreamController sc;
   /***
    * Adds an event handler to be called when the event is fired.
    * <p>Event handler will receive two arguments - an <code>EventData</code> and the <code>data</code>

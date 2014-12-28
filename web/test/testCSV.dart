@@ -1,6 +1,7 @@
 import 'package:unittest/unittest.dart';
 import 'dart:convert';
-import 'package:slickdart/parser.dart';
+import 'package:slickdart/slick.dart';
+//import 'package:slickdart/parser.dart';
 import 'dart:async';
 import 'dart:io';
 main() {

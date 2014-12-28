@@ -2,13 +2,14 @@ library slick.util;
 import 'dart:html';
 import 'dart:collection';
 import 'package:logging/logging.dart';
-Logger log = new Logger('JGrid');
+Logger _log = new Logger('slick_util');
 /** TODO add scope
  * find element's cloest parent of target css selector rule
  * ancestorClzName : query condition
  *
  */
 Element findClosestAncestor(Element element, String cssSelector, [String scope]) {
+  assert(element is Element);
   if (element == null) return null;
   do {
     if (element.matches(cssSelector)) return element;
@@ -22,7 +23,7 @@ Element findClosestAncestor(Element element, String cssSelector, [String scope])
  */
 class FilteredList extends ListBase{
   List _srcList, _viewList;
-  Map _filter=null;
+  Map _filter={};
 
   FilteredList([this._srcList]){
       if(_srcList==null) _srcList=new List();
@@ -34,22 +35,62 @@ class FilteredList extends ListBase{
    * {column: condition}
    */
   set keyword(Map m){
+    if(m==null) return;
     _filter =m;
     _viewList=[];
-    if(m==null) return;
-    _srcList.fold(_viewList, (init,val){
-            var item = _filter.keys.firstWhere((k){
-              return val[k] is String ? val[k].contains(_filter[k]) : val[k] == _filter[k]; }
-              , orElse: ()=>null);
-            if(item!=null) _viewList.add(val);
-            return _viewList;
-    });
+    _foldHelper();
   }
-  operator [](index) => _filter==null ? _srcList[index] : _viewList[index];
+  void setKeyword(String key, String val){
+    _viewList=[];
+    if(val.length==0){
+      _filter.remove(key);
+    }else{
+      _filter[key]=val;
+    }
+    _foldHelper();
+  }
+  _foldHelper(){
+    _srcList.fold(_viewList, (init,val){
+                var item = _filter.keys.firstWhere((k){
+                  if(val[k] is String){
+                    return val[k].contains(_filter[k]) ;
+                  }else{
+                    try{
+                      var _num=num.parse(_filter[k]);
+                      return  val[k] == _num;
+                    }catch(e){
+                      return false;
+                    }
+                  }
+                  //return val[k] is String ? val[k].contains(_filter[k]) : val[k] == _filter[k];
+                  }
+                  , orElse: ()=>null);
+                if(item!=null) _viewList.add(val);
+                return _viewList;
+        });
+  }
+  operator [](index) => _filter.length==0 ? _srcList[index] : _viewList[index];
   operator []=(index,value) => _srcList.add(value);
-  get length => _filter==null ? _srcList.length : _viewList.length;
+  get length => _filter.length==0 ? _srcList.length : _viewList.length;
   set length(val){}
+  add(val){
+    _srcList.add(val);
+  }
+  addAll(val){
+    _srcList.addAll(val);
+  }
+  clear(){
+    _srcList.clear();
+    _viewList.clear();
+  }
 
+
+  void sort([int compare(a, b)]) {
+    if(_viewList!=null && _viewList.length>0)
+     _viewList.sort(compare);
+    else
+    _srcList.sort(compare);
+  }
 }
 
 

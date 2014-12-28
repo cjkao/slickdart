@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'package:slickdart/slick_custom.dart';
 import 'package:slickdart/slick.dart';
-import 'package:slickdart/parser.dart';
+//import 'package:slickdart/parser.dart';
 Map getMeta(int row) {
   var rdata=csv.data[row];
 
