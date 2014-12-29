@@ -870,10 +870,12 @@ class SlickGrid {
       $headerRowScroller..add($headerRowScrollerL)..add($headerRowScrollerR);
 
       $headerRowSpacerL = _createElem($headerRowScrollerL,style:{'display':'block','height':'1px','position':'absolute','top':'0','left':'0'})
-                           ..style.width = "${getCanvasWidth() + scrollbarDimensions['width']}px";
+                           ..style.width = "${getCanvasWidth() + scrollbarDimensions['width']}px"
+                           ..style.zIndex='10';
 
       $headerRowSpacerR = _createElem($headerRowScrollerR,style:{'display':'block','height':'1px','position':'absolute','top':'0','left':'0'})
-          ..style.width = "${getCanvasWidth() + scrollbarDimensions['width']}px";
+          ..style.width = "${getCanvasWidth() + scrollbarDimensions['width']}px"
+          ..style.zIndex='10';
 
       $headerRowL = _createElem($headerRowScrollerL,clz:'slick-headerrow-columns slick-headerrow-columns-left' );
       $headerRowR = _createElem($headerRowScrollerR,clz:'slick-headerrow-columns slick-headerrow-columns-right');
