@@ -37,21 +37,22 @@ class FilteredList extends ListBase{
   set keyword(Map m){
     if(m==null) return;
     _filter =m;
-    _viewList=[];
-    _foldHelper();
+    _viewList=_foldHelper();
   }
   void setKeyword(String key, String val){
-    _viewList=[];
+    //_viewList=[];
     if(val.length==0){
       _filter.remove(key);
     }else{
       _filter[key]=val;
     }
-    _foldHelper();
+    _viewList=_foldHelper();
   }
   _foldHelper(){
-    _srcList.fold(_viewList, (init,val){
-                var item = _filter.keys.firstWhere((k){
+    List tList=[];
+    return new UnmodifiableListView(_srcList.fold(tList, (init,val){
+                //_filter.keys.every(test)
+                var test = _filter.keys.every((k){
                   if(val[k] is String){
                     return val[k].contains(_filter[k]) ;
                   }else{
@@ -63,11 +64,11 @@ class FilteredList extends ListBase{
                     }
                   }
                   //return val[k] is String ? val[k].contains(_filter[k]) : val[k] == _filter[k];
-                  }
-                  , orElse: ()=>null);
-                if(item!=null) _viewList.add(val);
-                return _viewList;
-        });
+                  });
+                //  , orElse: ()=>null);
+                if(test) tList.add(val);
+                return tList;
+        }));
   }
   operator [](index) => _filter.length==0 ? _srcList[index] : _viewList[index];
   operator []=(index,value) => _srcList.add(value);
@@ -81,15 +82,15 @@ class FilteredList extends ListBase{
   }
   clear(){
     _srcList.clear();
-    _viewList.clear();
+    _viewList=_foldHelper();
   }
 
 
   void sort([int compare(a, b)]) {
-    if(_viewList!=null && _viewList.length>0)
-     _viewList.sort(compare);
-    else
     _srcList.sort(compare);
+    if(_viewList!=null && _viewList.length>0)
+     _viewList=_foldHelper();
+//    else
   }
 }
 

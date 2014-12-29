@@ -785,7 +785,7 @@ class SlickGrid {
     if(style!=null)
       style.forEach((key,value)=> div.style.setProperty(key, value));
     div.classes.addAll(clz.split(' '));
-    div.tabIndex=tabIndex;
+    if(tabIndex>0) div.tabIndex=tabIndex;
     if(hideFocus) div.attributes['hideFocus']='true';
     if(parentNode!=null){
       parentNode.append(div);
@@ -1431,7 +1431,8 @@ class SlickGrid {
         });
 
         if (options['showHeaderRow']) {
-          Element headerRowCell =  this._createElem($headerRowTarget,clz:'ui-state-default slick-headerrow-column l$i r$i');
+          Element headerRowCell =  this._createElem($headerRowTarget,
+              clz:'ui-state-default slick-headerrow-column l$i r$i', tabIndex:i);
           //headerRowCell.dataset['column']=JSON.encode(m);
           //$headerRowTarget.append(headerRowCell);
 
