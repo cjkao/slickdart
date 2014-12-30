@@ -42,10 +42,36 @@
           </div>
         </div>
         <div class="row">
+
           <div class="col-md-8">
+          Turn on header row by given 2 options
+          <pre>
+  Map opt = {
+     'showHeaderRow': true,
+     'headerRowHeight': 25
+  };
+          </pre>
+          Add handler to render  header cell
+          <pre>
+  sg.onHeaderRowCellRendered.subscribe((cj.EventData e,Map args) {
+    Element headerEl=  args['node'];
+    headerEl.children.clear();
+    cj.Column col  = args['column'];
+    InputElement inputEl= new InputElement();
+    inputEl.dataset['columnId'] = col.field;
+    headerEl.append(inputEl);
+    inputEl.onKeyUp.listen( (KeyboardEvent ke){
+            data.setKeyword(col.field,inputEl.value);
+            sg.invalidate();
+      });
+  });
+
+          </pre>
+          </div>
+          <div class="col-md-12">
             <div id="grid" ></div>
           </div>
-          <div class="col-md-4"><span>selected row:</span><span class='right-pane'></span></div>
+
         </div>
         <div class='row'>
           <div class='col-md-2'>

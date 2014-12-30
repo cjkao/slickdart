@@ -22,7 +22,7 @@ void main() {
     grid.data.clear();
     grid.data.addAll(_data);
     grid.invalidate();
-    grid.render();
+//    grid.render();
   });
 }
 
@@ -37,8 +37,8 @@ cj.SlickGrid init(){
                  new cj.Column.fromMap ({'id': "%_2", 'name': "(number)", 'field': "pc", 'editor':'TextEditor'}),
                  new cj.Column.fromMap ({'id': "effort", 'name': "(bool)", 'field': "effortDriven", 'width':300})
                  ];
-  cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
-  column.insert(0,checkboxCol.getColumnDefinition());
+  //cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
+ // column.insert(0,checkboxCol.getColumnDefinition());
   cj.FilteredList data=new cj.FilteredList();
   for (var i = 0; i < 5; i++) {
     data.add( {
@@ -61,14 +61,11 @@ cj.SlickGrid init(){
   };
   cj.SlickGrid sg= new cj.SlickGrid(el,data,column,opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
-  sg.registerPlugin(checkboxCol);
   sg.registerPlugin(new AutoTooltips());
 
-  //sg.setSelectionModel(new CellSelectionModel(sg.options));
-  //args: {rows:[...], grid: SlickGrid }
-  sg.onSelectedRowsChanged.subscribe((cj.EventData e,Map args){
-          querySelector('.right-pane')..children.clear()..appendText((args['rows'] as List).join(' '));
-  });
+//  sg.onSelectedRowsChanged.subscribe((cj.EventData e,Map args){
+//          querySelector('.right-pane')..children.clear()..appendText((args['rows'] as List).join(' '));
+//  });
 
 
   sg.onHeaderRowCellRendered.subscribe((cj.EventData e,Map args) {
@@ -85,14 +82,13 @@ cj.SlickGrid init(){
               sg.invalidate();
         });
 
-      });
+    });
 
 
 
 
   sg.onSort.subscribe( (e, args) {
     var cols = args['sortCols'];
-//{sortCol: {name: Title1, resizable: true, sortable: true, minWidth: 30, rerenderOnResize: false, headerCssClass: null, defaultSortAsc: true, focusable: true, selectable: true, cannotTriggerInsert: false, width: 80, id: title, field: title}, sortAsc: true}
     data.sort( (dataRow1, dataRow2) {
       for (var i = 0, l = cols.length; i < l; i++) {
         var field = cols[i]['sortCol']['field'];

@@ -24,9 +24,10 @@ Known Constraint
   immediate update screen until it on editable area
 * Let forzen column editable cause display unsync in un-frozen area   
 
+
 TODO
 ========================
-
+- [ ] checkbox focus need revalidate 
 - [ ] ease of use, 
 - [ ] Column reorder
 - [ ] adjust row height via mouse
@@ -37,7 +38,6 @@ TODO
 - [x] Frozen column, also editable
 - [x] Resize column
 - [x] auto tooltip
-
 
 Dynamic Row Height
 ===============================
@@ -81,3 +81,9 @@ Filter View
 ========================================
 Use FilteredList.class in slick_util.dart to wrap data
 Example: ColumnFilter.dart
+
+
+Header Row
+========================================
+Not to mix with checkbox select column 
+Example: headerRow.dart
