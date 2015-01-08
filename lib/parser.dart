@@ -11,7 +11,7 @@ class CsvAdapter {
   int widthBase = 10;
   List<Column> _cols;
   List<Map> _data;
-  List strs;
+
   List<Map> get data => _data;
   List<Column> get columns => _cols;
   /**
@@ -20,11 +20,11 @@ class CsvAdapter {
    * csv csv string, including column name at first line
    */
   CsvAdapter(String csv,[this.charWidth=8, this.widthBase=10]) {
-    strs = csv.split('\r');
-    if (strs.length > 1) {
-      strs[0].split(',').forEach((item) =>    _log.finest(item));
+    List _strs = csv.split('\r');
+    if (_strs.length > 1) {
+      _strs[0].split(',').forEach((item) =>    _log.finest(item));
       var list =
-          strs[0].split(',').map((String item) => {
+          _strs[0].split(',').map((String item) => {
         'field': item.replaceAll('"', ''),
         'width': widthBase + item.length * charWidth,
         'id': item,
@@ -34,10 +34,14 @@ class CsvAdapter {
     }
 
     //estimate width from next 10 lines
-    strs.sublist(1, strs.length > 10 ? 10 : strs.length).forEach((line) => updateMaxLen(line.split(",")));
-    _data=makeData();
+    _strs.sublist(1, _strs.length > 10 ? 10 : _strs.length).forEach((line) => _updateMaxLen(line.split(",")));
+    _data=makeData(_strs);
   }
-  updateMaxLen(List<String> fields) {
+
+  /**
+   * replace max len of column
+   */
+  _updateMaxLen(List<String> fields) {
     for (int i = 0, len = fields.length; i < len; i++) {
       int newWidth = fields[i].length * charWidth + widthBase;
       if (_cols[i]['width'] < newWidth) {
@@ -46,17 +50,23 @@ class CsvAdapter {
     }
   }
   /**
-   * list of lines to map
+   *  ignore first line
+   *  @return list of lines to map
+   * [{row1},{row2}...]
    */
-  makeData(){
-    return strs.sublist(1).map((line) => toDataMap(line.split(','))).toList();
+  makeData(List strs){
+    return strs.sublist(1).map((line) => _toDataMap(line.split(','))).toList();
   }
-  Map toDataMap(List<String> fields){
+  Map _toDataMap(List<String> fields){
     Map m={};
     for(int i=0,len=_cols.length; i<len;i++){
       m[_cols[i].field] = fields[i];
     }
     return m;
   }
+
+}
+
+class MapAdapter{
 
 }

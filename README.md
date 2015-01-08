@@ -28,7 +28,7 @@ Known Constraint
 TODO
 ========================
 - [ ] checkbox focus need revalidate 
-- [ ] ease of use, 
+- [ ] ease of use, (Map adapter, auto column declare, width calculation and sorting)
 - [ ] Column reorder
 - [ ] adjust row height via mouse
 - [x] efficent dynamic row height on frozen column

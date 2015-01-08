@@ -6,7 +6,6 @@ void main() {
   cj.SlickGrid  grid=init();
   grid.init();
   querySelector('#reset').onClick.listen((e){
-//    List _data=[];
     cj.FilteredList _data=new cj.FilteredList();
     for (var i = 0; i < 50000; i++) {
       _data.add( {
