@@ -2487,9 +2487,10 @@ class SlickGrid {
                    scrollRowIntoView(cell['row'], false);
                }
                setActiveCellInternal(getCellNode(cell['row'], cell['cell']));
+           }else{
+               scrollRowIntoView(cell['row'], false);
+               setActiveCellInternal(getCellNode(cell['row'], cell['cell']));
            }
-//           scrollRowIntoView(cell['row'], false);
-//           setActiveCellInternal(getCellNode(cell['row'], cell['cell']));
          }
        }
      }
