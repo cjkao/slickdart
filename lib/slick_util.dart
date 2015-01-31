@@ -3,7 +3,7 @@ import 'dart:html';
 import 'dart:math';
 import 'dart:collection';
 import 'package:logging/logging.dart';
-Logger _log = new Logger('slick_util');
+Logger _log = new Logger('slick.util');
 /** TODO add scope
  * find element's cloest parent of target css selector rule
  * ancestorClzName : query condition

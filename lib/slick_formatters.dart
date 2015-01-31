@@ -1,4 +1,4 @@
-library slick.formatter;
+part of slick;
 
 PercentCompleteFormatter(row, cell, value, columnDef, dataContext) {
   if (value == null || value == "") {

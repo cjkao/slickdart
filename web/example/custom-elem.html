@@ -15,23 +15,44 @@
     }
 
  /* Slick.Editors.Text, Slick.Editors.Date */
-    cj-grid /deep/ input.editor-text {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      margin: 0;
-      background: transparent;
-      outline: 0;
-      padding: 0;
 
 
+    cj-grid /deep/ .slick-header-column {
+        border-color: transparent #CCCCCC #CCCCCC transparent;
+        border-style: solid solid solid solid;
+        border-width: 1px 1px 0 0px;
     }
+
+    cj-grid /deep/ .slick-header-column.ui-state-default {
+        font: 9pt arial, sans-serif;
+        color: black;
+        background-color: #F3F3F3;
+        border-top: 1px solid #CCCCCC;
+        border-bottom: 1px solid #CCCCCC;
+        background-image:none;
+    }
+
+    cj-grid /deep/ .slick-header-column.ui-state-default.ui-state-hover {
+        background-color: #E3F3FF;
+    }
+    cj-grid /deep/ .slick-header-column.slick-header-column-sorted {
+        background-color: #F3F3AF;
+    }
+
+    cj-grid /deep/ .slick-column-name {
+        margin-right: 14px;
+        display: block;
+        text-align: center;
+    }
+
+
+
     </style>
     <script src="packages/web_components/platform.js"></script>
     <script src="packages/web_components/dart_support.js"></script>
   </head>
   <body>
-    <script type="application/dart" src="cust.dart"></script>
+    <script type="application/dart" src="custom-elem.dart"></script>
     <script src="packages/browser/dart.js"></script>
     <div class='container'>
       <div class='row'>To inspect dart object, open console, select cj-grid,

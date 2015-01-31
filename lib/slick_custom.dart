@@ -3,7 +3,7 @@ import 'slick.dart';
 import 'dart:html';
 import 'dart:async';
 import 'package:logging/logging.dart';
-Logger _log = new Logger('slick_cust');
+Logger _log = new Logger('slick.cust');
 const GRID_TAG = 'cj-grid';
 StyleElement _styleElement;
 registerElem() {
@@ -56,14 +56,20 @@ class JGrid extends HtmlElement {
    grid.data.clear();
    grid.data=data;
    _log.finest("height in shadow: ${ (shadowRoot.lastChild as Element).getBoundingClientRect().height}");
+   int maxTry=100;
+   int tryCnt=0;
    new Timer.periodic(new Duration(milliseconds: 100), (Timer t){
      double h= (shadowRoot.lastChild as Element).getBoundingClientRect().height;
      _log.finest('after: $h');
-     if(h>0){
+     tryCnt++;
+     if(h>0 ){
        grid.finishInitialization();
        t.cancel();
      }
-//     print();
+     if(tryCnt>maxTry){
+       _log.severe("no element height within shadowdom");
+       t.cancel();
+     }
    });
     grid.onSort.subscribe(_defaultSort);
   }

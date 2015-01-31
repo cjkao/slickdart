@@ -4,6 +4,8 @@ import 'slick_core.dart' as core;
 import 'slick_grid.dart';
 //import 'dart:collection';
 import 'dart:math' as math;
+import 'package:logging/logging.dart';
+Logger _log = new Logger('cj.grid.select');
 
 
 void clearTextSelections() {
@@ -473,7 +475,7 @@ class RowSelectionModel extends SelectionModel{
     }else{
       evt=e;
     }
-    print('handle from:' + this.runtimeType.toString() +' ' + evt.target.toString());
+    _log.finest('handle from:' + this.runtimeType.toString() +' ' + evt.target.toString());
     MouseEvent domEvt=evt.domEvent;
 
     Map<String,int> cell = _grid.getCellFromEvent(evt);

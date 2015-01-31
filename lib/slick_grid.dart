@@ -12,7 +12,7 @@ import 'slick_util.dart';
 import 'slick_dnd.dart';
 import 'slick_column.dart';
 import 'row_height.dart' as heightIdx;
-Logger _log = new Logger('slickgrid');
+Logger _log = new Logger('cj.grid');
 /**
  * plug-in interface
  */
@@ -144,7 +144,7 @@ class SlickGrid {
                 'selectedCellCssClass': "selected",
                 'multiSelect': true,
                 'enableTextSelectionOnCells': false,
-                'dataItemColumnValueExtractor': null,
+                'dataItemColumnValueExtractor': null, //function to extract value
                 'fullWidthRows': false,
                 'multiColumnSort': false,
                 'defaultFormatter': defaultFormatter,
@@ -398,7 +398,7 @@ class SlickGrid {
 
   Map<String,CssStyleRule> getColumnCssRules(idx) {
     if (stylesheet==null) {
-     //print( container.style);
+     //_log.finest( container.style);
       List<CssStyleSheet> sheets = document.styleSheets;
       if(container.parent==null){ //shadowRoot
         stylesheet=((container.parentNode as ShadowRoot).firstChild as StyleElement).sheet;
@@ -950,7 +950,7 @@ class SlickGrid {
   void finishInitialization() {
     if (!initialized) {
       initialized = true;
-//      print(container.getBoundingClientRect().width);
+//      _log.finest(container.getBoundingClientRect().width);
       viewportW = core.Dimension.getCalcWidth(container);
       assert(viewportW>0);
       _getViewportHeight();
@@ -1407,7 +1407,7 @@ class SlickGrid {
 
         header.append(spanEl);
         header.style.width = (m['width'] - headerColumnWidthDiff).toString() + 'px';
-        header.attributes['id']= uid + m.id;
+        header.attributes['id']= '$uid${m.id}';
         if(m.toolTip!=null) header.attributes['title']=m.toolTip;
         //header.dataset['column']=JSON.encode(m._src);
         _headExt[header] = m;
@@ -1562,12 +1562,12 @@ class SlickGrid {
         resizeItem.draggable=true;
         resizeItem.onDragStart.listen((MouseEvent e){
           int i=columnElements.indexOf((e.target as Element).parent);
-          print('drag begin');
+          _log.finest('drag begin');
           if (!getEditorLock().commitCurrentEdit()) {
             return false;
           }
           pageX = e.page.x;
-          print('pageX $pageX');
+          _log.finest('pageX $pageX');
           resizeItem.parent.classes.add("slick-header-column-active");
           var shrinkLeewayOnRight = null, stretchLeewayOnRight = null;
           // lock each column's width option to current width
@@ -1626,7 +1626,7 @@ class SlickGrid {
         });
 
         resizeItem.onDrag.listen((MouseEvent e){
-          //print('dragging ${e.page.x}');
+          //_log.finest('dragging ${e.page.x}');
           if(e.page.x==0) {  //TODO found onDrag end still trigger onDrag and with page.x=0, is it bug?
             e.preventDefault();
             return;
@@ -1648,11 +1648,11 @@ class SlickGrid {
                   x = 0;
                 }
               }
-              //print('apply5 ${c.width} ${maxPageX} ${minPageX} ${d} ${c.previousWidth} ${actualMinWidth}');
+              //_log.finest('apply5 ${c.width} ${maxPageX} ${minPageX} ${d} ${c.previousWidth} ${actualMinWidth}');
             }
 
             if (options['forceFitColumns']) {
-              print('apply4');
+              _log.finest('apply4');
               x = -d;
               for (j = i + 1; j < columnElements.length; j++) {
                 c = columns[j];
@@ -1668,7 +1668,7 @@ class SlickGrid {
               }
             }
           } else { // stretch column
-            //print('apply3');
+            //_log.finest('apply3');
             x = d;
             for (j = i; j >= 0; j--) {
               c = columns[j];
@@ -1684,7 +1684,7 @@ class SlickGrid {
             }
 
             if (options['forceFitColumns']) {
-             // print('apply1');
+             // _log.finest('apply1');
               x = -d;
               for (j = i + 1; j < columnElements.length; j++) {
                 c = columns[j];
@@ -1703,13 +1703,13 @@ class SlickGrid {
           }
           applyColumnHeaderWidths();
           if (options['syncColumnCellResize']!=null && options['syncColumnCellResize']==true) {
-            //print('apply');
+            //_log.finest('apply');
             applyColumnWidths();
           }
-         // print('onDraging leave' + columnElements[i].borderEdge.width.toString());
+         // _log.finest('onDraging leave' + columnElements[i].borderEdge.width.toString());
         });
         resizeItem.onDragEnd.listen((MouseEvent e){
-          print('drag End ${e.page.x}' );
+          _log.finest('drag End ${e.page.x}' );
           int i=columnElements.indexOf((e.target as Element).parent);
           var newWidth;
           item.parent.classes.remove("slick-header-column-active");
@@ -1764,10 +1764,10 @@ class SlickGrid {
       for (var i = 0; i < columns.length; i++) {
         var m = columns[i] = new Column.fromColumn(columnDefaults).merge(columns[i]);
         columnsById[m.id] = i;
-        if (m.minWidth && m.width < m.minWidth) {
+        if ( m.width < m.minWidth) { //m.minWidth &&
           m.width = m.minWidth;
         }
-        if (m.maxWidth && m.width > m.maxWidth) {
+        if (m.maxWidth!=null && m.width > m.maxWidth) {
           m.width = m.maxWidth;
         }
       }
@@ -2113,7 +2113,7 @@ class SlickGrid {
      * scroll viewport to target y axis
      */
     void scrollTo(int y) {
-     // print('scroll to ${y}');
+     // _log.finest('scroll to ${y}');
       y = math.max(y, 0);
       y = math.min(y, th - viewportH + (viewportHasHScroll ? scrollbarDimensions['height'] : 0));
 
@@ -2124,7 +2124,7 @@ class SlickGrid {
       int newScrollTop = y - offset;
 
       if (offset != oldOffset) {//not possible here
-        print('clean');
+        _log.finest('clean');
         var range = getVisibleRange(newScrollTop);
         cleanupRows(range);
         updateRowPositions();
@@ -2146,7 +2146,7 @@ class SlickGrid {
 //        $viewport.scrollTop = (lastRenderedScrollTop = scrollTop = prevScrollTop = newScrollTop);
         //$viewportL.scrollTop=$viewport.scrollTop;
         trigger(this.onViewportChanged, {});
-        print('viewChange');
+        _log.finest('viewChange');
       }
     }
     void cleanupRows(Map<String,int> rangeToKeep) {
@@ -2907,7 +2907,7 @@ class SlickGrid {
       if (h_postrender!=null) h_postrender.cancel();
 //      clearTimeout(h_postrender);
       h_postrender = new Timer( new Duration (milliseconds:options['asyncPostRenderDelay'] ),asyncPostProcessRows);
-      print (h_postrender.isActive);
+      _log.finest (h_postrender.isActive);
     }
 
     asyncPostProcessRows() {
@@ -3035,9 +3035,9 @@ class SlickGrid {
       }
 
       var colspan;
-      Column m;
+      //Column m;
       for (var i = 0, ii = columns.length; i < ii; i++) {
-        m = columns[i];
+       //Column m = columns[i];
         colspan = 1;
         if (columnPosRight[math.min(ii - 1, i + colspan - 1)] > range['leftPx']) {
           if (columnPosLeft[i] > range['rightPx']) {
@@ -3289,7 +3289,7 @@ class SlickGrid {
 
 
       //scount++;
-      //print('s event ${scount}' + new DateTime.now().toString() );
+      //_log.finest('s event ${scount}' + new DateTime.now().toString() );
        _handleScroll(false);
     }
     _handleScroll(bool isMouseWheel) {
@@ -3303,7 +3303,7 @@ class SlickGrid {
         if (scrollLeft > maxScrollDistanceX) {
             scrollLeft = maxScrollDistanceX;
         }
-      //  print('pre scroll top: ${prevScrollTop}');
+      //  _log.finest('pre scroll top: ${prevScrollTop}');
         int vScrollDist = (scrollTop - prevScrollTop).abs();
         int hScrollDist = (scrollLeft - prevScrollLeft).abs();
 
@@ -3344,7 +3344,7 @@ class SlickGrid {
 
             // switch virtual pages if needed
             if (vScrollDist < viewportH) {
-               // print('v scr dist: ${vScrollDist} ${viewportH}');
+               // _log.finest('v scr dist: ${vScrollDist} ${viewportH}');
                 scrollTo(scrollTop + offset);
             }
             //no chance to use page
@@ -3395,7 +3395,7 @@ class SlickGrid {
 
 //      $style =  container.createFragment("<style type='text/css' rel='stylesheet' />", treeSanitizer : _treeSanitizer).children.first;
       if(container.parent ==null){
-        print('it is shadow');
+        _log.finest('it is shadow');
         (container.parentNode as ShadowRoot).children.insert(0,$style);
       }else{
         querySelector('head').append($style);
@@ -3449,7 +3449,7 @@ class SlickGrid {
      }
 
      void handleHeaderClick(Event e) {
-       print('header clicked');
+       _log.finest('header clicked');
        Element header = findClosestAncestor(e.target,'.slick-header-column',".slick-header-columns");
        core.EventData evt = new core.EventData.fromDom(e);
        Column c;
@@ -3934,7 +3934,7 @@ class SlickGrid {
 
 
       void handleMouseEnter(MouseEvent e) {
-        //print('handle');
+        //_log.finest('handle');
         core.EventData evt = new core.EventData.fromDom(e);
         trigger(onMouseEnter, {}, evt);
       }
