@@ -119,7 +119,7 @@ Example: gdoc-header.dart
   grid.registerPlugin(headerMenuPlugin);
 ```
 ```html
-	<link rel="stylesheet" href="packages/slickdart/css/plugins-common.css" type="text/css" />
-    <link rel="stylesheet" href="packages/slickdart/css/plugins-gdoc-style.css" type="text/css" />
-    <link rel="stylesheet" href="packages/slickdart/css/slick.headermenu.css" type="text/css" />
+<link rel="stylesheet" href="packages/slickdart/css/plugins-common.css" type="text/css" />
+<link rel="stylesheet" href="packages/slickdart/css/plugins-gdoc-style.css" type="text/css" />
+<link rel="stylesheet" href="packages/slickdart/css/slick.headermenu.css" type="text/css" />
 ```
