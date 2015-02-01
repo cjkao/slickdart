@@ -27,9 +27,10 @@ Known Constraint
 
 TODO
 ========================
+- [ ] header column menu within shadowdom
 - [ ] checkbox focus need revalidate 
 - [ ] ease of use, (Map adapter, auto column declare, width calculation and sorting)
-- [ ] Column reorder
+- [ ] column reorder
 - [ ] adjust row height via mouse
 - [x] efficent dynamic row height on frozen column
   - sort column should re-calcule height
@@ -59,7 +60,7 @@ Mobile Device
 
 Customer Element
 ==============================
-Initial support customer element, see example: cust.dart
+Initial support customer element, see example: custom-elem.dart
 
 Compitable with angular.dart
   - must specify height of cj-grid
@@ -87,3 +88,8 @@ Header Row
 ========================================
 Not to mix with checkbox select column 
 Example: headerRow.dart
+
+Dropdown Menu on Header Column
+=======================================
+No shadow dom
+Example: gdoc-header.dart
