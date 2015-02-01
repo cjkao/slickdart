@@ -65,7 +65,7 @@ class SlickGrid {
   //each item will render as row
   List data;
   List<Column> columns;
-  Map options;
+  Map options={};
  // StreamSubscription<Event> _ancestorScrollSubscribe;
   List _subscriptionList=[];
 
@@ -114,7 +114,8 @@ class SlickGrid {
    * @param data List of object
    * @param columns column definition
    */
-  SlickGrid(this.container, this.data, this.columns, this.options){
+  SlickGrid(this.container, this.data, this.columns, Map options){
+    
     defaults = {
              //   '_renderLatency': 150,   //mobile device should put larger lantency
 //                '_scrollerDistToRender':200,
@@ -154,6 +155,8 @@ class SlickGrid {
                 'frozenBottom':false,
                 'dynamicHeight':false  //enable or disable yPos lookup for rendering
     };
+    this.options.addAll(defaults);
+    this.options.addAll(options);
   }
   Map<String,dynamic> defaults ;
   Column columnDefaults= new Column();
@@ -800,19 +803,19 @@ class SlickGrid {
     // calculate these only once and share between grid instances
     if(maxSupportedCssHeight == null) maxSupportedCssHeight = getMaxSupportedCssHeight();
     if(scrollbarDimensions ==null)scrollbarDimensions = measureScrollbar();
-    defaults.forEach( (k,v) =>
-        options.putIfAbsent(k, ()=> v)
-    );
+//    defaults.forEach( (k,v) =>
+//        options.putIfAbsent(k, ()=> v)
+//    );
     validateAndEnforceOptions();
     columnDefaults.width = options['defaultColumnWidth'];
 
     columnsById = {};
 
     for (int i = 0; i < columns.length; i++) {
-      var tmp = new Column.fromColumn(columnDefaults);
+      //var tmp = new Column.fromColumn(columnDefaults);
 
-      tmp.merge(columns[i]);
-      Column m = columns[i] = tmp;
+      //tmp.merge(columns[i]);
+      Column m = columns[i];// = tmp;
       columnsById[m.id] = i;
       if (m['minWidth']!=null && m['width'] < m['minWidth']) {
         m.width = m.minWidth;
@@ -1291,8 +1294,11 @@ class SlickGrid {
 //    unbindAncestorScrollEvents() {
 //      _ancestorScrollSubscribe.cancel();
 //    }
-
-    updateColumnHeader(String columnId,String title, toolTip) {
+    /**
+     * [title] String in normal case, InputElement if using checkboxSelector
+     * 
+     */
+    updateColumnHeader(String columnId,var title, toolTip) {
       if (!initialized) { return; }
       int idx = getColumnIndex(columnId);
       if (idx == null) {
@@ -1308,6 +1314,7 @@ class SlickGrid {
         }
         if (toolTip != null) {
           columns[idx].toolTip = toolTip;
+          $header.attributes['title']=toolTip;
         }
 
         trigger(this.onBeforeHeaderCellDestroy, {
@@ -1315,8 +1322,14 @@ class SlickGrid {
           "column": columnDef
         });
 
-        $header.attributes.putIfAbsent('title', () => toolTip);
-        $header.children.first.innerHtml=title;
+       // $header.attributes.putIfAbsent('title', () => toolTip);
+        $header.children.first..children.clear()..append(title);
+//        if(title is Element){
+//         
+//        }else{
+//          $header.children.first.innerHtml=title;  
+//        }
+        
 
         trigger(this.onHeaderCellRendered, {
           "node": $header,
@@ -1737,7 +1750,7 @@ class SlickGrid {
       return evt.notify(args, e, this);
     }
     void validateAndEnforceOptions() {
-      if (options['autoHeight'] ) {
+      if (options['autoHeight']!=null ) {
         options['leaveSpaceForNewRows'] = false;
       }
     }
@@ -1767,7 +1780,7 @@ class SlickGrid {
 
       this.columnsById = {};
       for (var i = 0; i < columns.length; i++) {
-        var m = columns[i] = new Column.fromColumn(columnDefaults).merge(columns[i]);
+        var m = columns[i];//new Column.fromColumn(columnDefaults).merge(columns[i]);
         columnsById[m.id] = i;
         if ( m.width < m.minWidth) { //m.minWidth &&
           m.width = m.minWidth;
@@ -1794,8 +1807,9 @@ class SlickGrid {
       return options;
     }
 
-    void setOptions(args) {
-      if (!getEditorLock().commitCurrentEdit()) {
+    void setOptions(Map args) {
+      core.EditorLock editLock=getEditorLock();
+      if (editLock!=null && !editLock.commitCurrentEdit()) {
         return;
       }
 
@@ -1809,8 +1823,8 @@ class SlickGrid {
       validateAndEnforceOptions();
 
       setFrozenOptions();
-      setScroller();
-      setColumns(columns); // TODO: Is this necessary?
+//      setScroller();
+//      setColumns(columns); // TODO: Is this necessary?
 //      $viewport.style.overflowY =  options['autoHeight']  ? "hidden" : "auto";
 //      $viewportL.style.overflowY =  options['autoHeight']  ? "hidden" : "auto";
       render();

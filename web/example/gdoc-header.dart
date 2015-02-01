@@ -8,7 +8,8 @@ List tmpCol=[];
 void main() {
   cj.SlickGrid  grid=setup();
   grid.init();
-  
+  grid.setOptions({});
+
   //print(g.$canvas.getBoundingClientRect());
   querySelector('#hideCol').onClick.listen((e){
     if(columnList.length==1) return;
@@ -71,7 +72,7 @@ cj.SlickGrid setup(){
   cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   columnList.insert(0,checkboxCol.getColumnDefinition());
   List data=[];
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 500; i++) {
     data.add( {
       'dtitle':  'Str' + new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100),
@@ -92,14 +93,18 @@ cj.SlickGrid setup(){
   };
   cj.SlickGrid sg= new cj.SlickGrid(el,data,columnList,opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
-
-
+  
   sg.registerPlugin(checkboxCol);
   sg.registerPlugin(new AutoTooltips());
 
   HeaderMenu headerMenuPlugin=new HeaderMenu({});
+  /**
+   * args: grid, column , columnMenu
+   */
   headerMenuPlugin.onBeforeMenuShow.subscribe((e, args) {
-       // var menu = args.menu;
+   // return false;
+    List<MenuItem> menuList = args['menu'];
+    menuList.add(new MenuItem.forMap(title:'item1', command:'alert'));
         // We can add or modify the menu here, or cancel it by returning false.
 //        var i = menu.items.length;
 //        menu.items.push({
@@ -132,9 +137,6 @@ cj.SlickGrid setup(){
         var field = cols[i]['sortCol']['field'];
         var sign = cols[i]['sortAsc'] ? 1 : -1;
         dynamic value1 = dataRow1[field], value2 = dataRow2[field];
-        if(field=='dtitle') {
-          return value1 == value2 ? 0 : (int.parse(value1) > int.parse(value2) ? 1: -1)* sign;
-        }
         var result = (value1 == value2 ? 0 : (value1.compareTo(value2)>0 ? 1 : -1)) * sign;
         if (result != 0) {
           return result;

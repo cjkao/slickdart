@@ -172,10 +172,11 @@ class HeaderMenu  extends IPlugin{
       if(column.header.length==0) return;
       // Let the user modify the menu or cancel altogether,
       // or provide alternative menu implementation.
+      List<MenuItem> menuList = column.header['menu']['items'].map((_) => new MenuItem(_)).toList();
       if (onBeforeMenuShow.notify({
           "grid": _grid,
           "column": column,
-          "menu": this
+          "menu": menuList
         }, e) == false) {
         return;
       }
@@ -186,7 +187,7 @@ class HeaderMenu  extends IPlugin{
         _grid.container.children.add(_$menu);
       }
       _$menu.children.clear();
-      List<MenuItem> menuList = column.header['menu']['items'].map((_) => new MenuItem(_)).toList();
+      
 
       // Construct the menu items.
       for (var i = 0; i < menuList.length; i++) {
@@ -280,6 +281,13 @@ class MenuItem{
     if(_opt['command']==null) _opt['command']='';
     if(_opt['title']==null) _opt['title']='';
     if(_opt['disabled']==null) _opt['disabled']=false;
+  }
+  factory MenuItem.forMap({String title, String command:'', bool disabled:false,
+                            String iconCssClass,String iconImage, String tooltip }){
+    return new MenuItem({
+      'title': title, 'command': command, 'disabled':disabled,
+      'iconCssClass': iconCssClass, 'iconImage':iconImage, 'tooltip':tooltip
+    });
   }
   String get title =>        _opt['title'];
   bool get disabled =>     _opt['disabled'];

@@ -66,7 +66,10 @@ class Column {
   //unique id for differeicent from same field name
   String get id => _src['id'];// "range"
   int get minWidth => _src['minWidth'];//: 30
-  String get name => _src['name']; //: "Range"
+  /**
+   * [name] could be string or element
+   */
+  get name => _src['name']; //: "Range"
   bool get rerenderOnResize => _src['rerenderOnResize'];
   bool get resizable => _src['resizable'];
   bool get selectable => _src['selectable'];
@@ -119,7 +122,7 @@ class Column {
   void set minWidth(int item) {
     _src['minWidth'] = item;
   }//: 30
-  void set name(String item) {
+  void set name(var item) {
     _src['name'] = item;
   } //: "Range"
   void set rerenderOnResize(bool item) {
@@ -202,10 +205,14 @@ class CheckboxSelectColumn extends Column with IPlugin {
     'columnId': "_checkbox_selector",
     'cssClass': null,
     'toolTip': "Select/Deselect All",
-    'width': 30
+    'width': 30,
+    'name': new Element.html('<input type="checkbox"></input>')
   };
   SlickGrid _grid;
   var _handler = new core.EventHandler();
+  
+ 
+  
   Map<int, bool> _selectedRowsLookup = {};
   /**
    * change for shadow dom element initialize
@@ -253,9 +260,9 @@ class CheckboxSelectColumn extends Column with IPlugin {
     _grid.render();
 
     if (selectedRows.length > 0 && selectedRows.length == _grid.getDataLength()) {
-      _grid.updateColumnHeader(_options['columnId'], "<input type='checkbox' checked='checked'>", _options['toolTip']);
+      _grid.updateColumnHeader(_options['columnId'], new Element.html("<input type='checkbox' checked='checked'>"), _options['toolTip']);
     } else {
-      _grid.updateColumnHeader(_options['columnId'], "<input type='checkbox'>", _options['toolTip']);
+      _grid.updateColumnHeader(_options['columnId'], new Element.html("<input type='checkbox'>"), _options['toolTip']);
     }
   }
 
@@ -336,7 +343,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
     }
   }
 
-  getColumnDefinition() {
+  CheckboxSelectColumn getColumnDefinition() {
     InputElement elem = new InputElement();
     elem.type = 'checkbox';
     this._src.addAll({
