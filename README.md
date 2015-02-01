@@ -93,3 +93,33 @@ Dropdown Menu on Header Column
 =======================================
 No shadow dom
 Example: gdoc-header.dart
+
+```dart
+  //add menu
+  column.header = {'menu': {
+          'items': [
+            {
+              'iconImage': "../images/sort-asc.gif",
+              'title': "Sort Ascending",
+              'command': "sort-asc"
+            }]
+  }};
+  HeaderMenu headerMenuPlugin=new HeaderMenu({});
+  headerMenuPlugin.onBeforeMenuShow.subscribe((e, args) {
+    List<MenuItem> menuList = args['menu'];
+  });
+  headerMenuPlugin.onCommand.subscribe((e, args) {
+      if(args['command']=='hide'){
+        if(columnList.remove(args['column'])){
+          tmpCol.add(args['column']);
+        };
+        args['grid'].setColumns(columnList);
+      }
+  });
+  grid.registerPlugin(headerMenuPlugin);
+```
+```html
+	<link rel="stylesheet" href="packages/slickdart/css/plugins-common.css" type="text/css" />
+    <link rel="stylesheet" href="packages/slickdart/css/plugins-gdoc-style.css" type="text/css" />
+    <link rel="stylesheet" href="packages/slickdart/css/slick.headermenu.css" type="text/css" />
+```

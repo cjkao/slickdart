@@ -37,7 +37,7 @@ cj.SlickGrid setup(){
                  ];
   
   
-  
+  //append column menu
   for (var i = 0; i < columnList.length; i++) {
      columnList[i].header = {'menu': {
           'items': [
@@ -107,15 +107,14 @@ cj.SlickGrid setup(){
     menuList.add(
         new MenuItem.forMap(title:'item1', command:'alert'));
     });
-    headerMenuPlugin.onCommand.subscribe((e, args) {
-        if(args['command']=='hide'){
-          if(columnList.remove(args['column'])){
-            tmpCol.add(args['column']);
-          };
-          args['grid'].setColumns(columnList);
-        }
-        //window.alert("Command: " + args['command']);
-    });
+  headerMenuPlugin.onCommand.subscribe((e, args) {
+      if(args['command']=='hide'){
+        if(columnList.remove(args['column'])){
+          tmpCol.add(args['column']);
+        };
+        args['grid'].setColumns(columnList);
+      }
+  });
   sg.registerPlugin(headerMenuPlugin);
   
   
