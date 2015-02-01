@@ -45,6 +45,9 @@ class ColumnList extends ListBase<Column> {
 
   void addAll(Iterable<Column> all) => innerList.addAll(all);
 }
+/**
+ * Column configuration
+ */
 class Column {
   Column() {
     _src.addAll(_columnDefaults);
@@ -72,7 +75,14 @@ class Column {
   int get maxWidth => _src['maxWidth'];
   String get field => _src['field'];
   get validator => _src['validator'];
-
+  //for header menu plugin
+  Map get header{
+    if(_src['header'] ==null){
+      _src['header'] = {};
+      return _src['header'];
+    }
+    return _src['header'];
+  }
 
   bool get cannotTriggerInsert => _src['cannotTriggerInsert'];
   void set asyncPostRender(item) => _src['asyncPostRender'] = item;
@@ -133,6 +143,9 @@ class Column {
   void set field(String item) {
     _src['field'] = item;
   }
+  void set header(Map _) {
+    _src['header'] = _;
+  }
 
   factory Column.fromMap(Map<String, dynamic> src) {
     Column c = new Column();
@@ -168,6 +181,7 @@ class Column {
     'resizable': true,
     'sortable': false,
     'minWidth': 30,
+    'width':80,
     'rerenderOnResize': false,
     'headerCssClass': null,
     'defaultSortAsc': true,

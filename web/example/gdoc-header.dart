@@ -2,6 +2,7 @@ import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
 import 'package:slickdart/plugin/autotooltip.dart';
+import 'package:slickdart/plugin/header_menu.dart';
 List columnList;
 List tmpCol=[];
 void main() {
@@ -33,13 +34,47 @@ cj.SlickGrid setup(){
                  new cj.Column.fromMap ({ 'name': "PC2",    'field': "pc", 'editor':'TextEditor'}),
                  new cj.Column.fromMap ({ 'name': "effort", 'field': "effortDriven", 'width':300})
                  ];
+  
+  
+  
+  for (var i = 0; i < columnList.length; i++) {
+     columnList[i].header = {'menu': {
+          'items': [
+            {
+              'iconImage': "../images/sort-asc.gif",
+              'title': "Sort Ascending",
+              'command': "sort-asc"
+            },
+            {
+              'iconImage': "../images/sort-desc.gif",
+              'title': "Sort Descending",
+              'command': "sort-desc"
+            },
+            {
+              'title': "Hide Column",
+              'command': "hide",
+              'disabled': true,
+              'tooltip': "Can't hide this column"
+            },
+            {
+              'iconCssClass': "icon-help",
+              'title': "Help",
+              'command': "help"
+            }
+          ]
+        }
+     };
+      
+  }
+  
+  
   cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   columnList.insert(0,checkboxCol.getColumnDefinition());
   List data=[];
   for (var i = 0; i < 5; i++) {
     data.add( {
-      'dtitle':  new math.Random().nextInt(100).toString(),
-      'duration': new math.Random().nextInt(100).toString(),
+      'dtitle':  'Str' + new math.Random().nextInt(100).toString(),
+      'duration': new math.Random().nextInt(100),
       'pc2': new math.Random().nextInt(10) * 100,
       'pc': (new math.Random().nextInt(10) * 100).toString(),
       'start': "01/01/2009",
@@ -62,8 +97,31 @@ cj.SlickGrid setup(){
   sg.registerPlugin(checkboxCol);
   sg.registerPlugin(new AutoTooltips());
 
+  HeaderMenu headerMenuPlugin=new HeaderMenu({});
+  headerMenuPlugin.onBeforeMenuShow.subscribe((e, args) {
+       // var menu = args.menu;
+        // We can add or modify the menu here, or cancel it by returning false.
+//        var i = menu.items.length;
+//        menu.items.push({
+//          title: "Menu item " + i,
+//          command: "item" + i
+//        });
+      });
+      headerMenuPlugin.onCommand.subscribe((e, args) {
+        window.alert("Command: " + args.command);
+      });
+  sg.registerPlugin(headerMenuPlugin);
+  
+  
+  
+  
+  
+  
+  
+  
+  
   sg.onSelectedRowsChanged.subscribe((cj.EventData e,Map args){
-          querySelector('.right-pane')..children.clear()..appendText((args['rows'] as List).join(' '));
+        //  querySelector('.right-pane')..children.clear()..appendText((args['rows'] as List).join(' '));
   });
 
   sg.onSort.subscribe( (e, args) {

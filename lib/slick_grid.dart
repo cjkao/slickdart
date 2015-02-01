@@ -1757,6 +1757,11 @@ class SlickGrid {
          }
       }
     }
+    
+    List<Column> getColumns() => columns;
+    
+
+    
     setColumns(List<Column> columnDefinitions) {
       columns = columnDefinitions;
 
