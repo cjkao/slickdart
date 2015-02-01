@@ -3,6 +3,7 @@ import 'slick.dart';
 import 'dart:html';
 import 'dart:async';
 import 'package:logging/logging.dart';
+import 'plugin/header_menu.dart';
 Logger _log = new Logger('slick.cust');
 const GRID_TAG = 'cj-grid';
 StyleElement _styleElement;
@@ -19,12 +20,14 @@ _setupBlockElement() {
     sheet.insertRule(rule, 0);
   }
 }
+
 /**
  * shadow root does not work well in firefox!
  * consider shadowroot an optional approach
  */
 class JGrid extends HtmlElement {
   ShadowRoot shadowRoot;
+ // List _tmpCols=[];
   SlickGrid grid;
   JGrid.created() : super.created() {
     shadowRoot = this.createShadowRoot();
@@ -35,6 +38,18 @@ class JGrid extends HtmlElement {
 <style>
 @import "packages/slickdart/slick_default_theme.css"; 
 </style>
+
+<!--
+<style>
+@import "packages/slickdart/css/plugins-common.css"; 
+</style>
+<style>
+@import "packages/slickdart/css/plugins-gdoc-style.css"; 
+</style>
+<style>
+@import "packages/slickdart/css/slick.headermenu.css"; 
+</style>
+-->
 <style>
 
 #grid{
@@ -51,7 +66,50 @@ class JGrid extends HtmlElement {
   }
   void init(List data, List<Column> colDefs, {Map option}) {
     assert(shadowRoot.lastChild!=null);
+    
+//    
+//    for (var i = 0; i < colDefs.length; i++) {
+//        colDefs[i].header = {'menu': {
+//              'items': [
+//                {
+//                  'title': "Hide Column",
+//                  'command': "hide",
+//                }
+//              ]
+//            }
+//         };
+//          
+//      }
+//    
+    
+    
+    
     grid = _prepareGrid(shadowRoot.lastChild, colDefs, opt:option);
+    
+    
+    
+    
+//    HeaderMenu headerMenuPlugin=new HeaderMenu({});
+//      /**
+//       * args: grid, column , columnMenu
+//       */
+//      headerMenuPlugin.onBeforeMenuShow.subscribe((e, args) {
+//       // return false;
+//        List<MenuItem> menuList = args['menu'];
+//        menuList.add(
+//            new MenuItem.forMap(title:'item1', command:'alert'));
+//        });
+//        headerMenuPlugin.onCommand.subscribe((e, args) {
+//            if(args['command']=='hide'){
+//              if(colDefs.remove(args['column'])){
+//                _tmpCols.add(args['column']);
+//              };
+//              args['grid'].setColumns(colDefs);
+//            }
+//        });
+//        grid.registerPlugin(headerMenuPlugin);
+    
+    
     grid.init();
    grid.data.clear();
    grid.data=data;

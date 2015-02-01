@@ -28,7 +28,7 @@ body, BUTTON {
     font: 9pt arial, sans-serif;
     color: black;
     background-color: #F3F3F3;
-    border-top: 1px solid #CCCCCC;
+    border-top: 0;
     border-bottom: 1px solid #CCCCCC;
 }
 

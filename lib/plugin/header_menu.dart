@@ -5,6 +5,8 @@ import '../slick_column.dart';
 import '../slick_util.dart';
 import '../slick_core.dart' as core;
 import 'dart:async';
+import 'package:logging/logging.dart';
+Logger _log = new Logger('log.headermenu');
 /***
    * A plugin to add drop-down menus to column headers.
    *
@@ -80,6 +82,9 @@ class HeaderMenu  extends IPlugin{
     HeaderMenu(this._opt){
       
     }
+    /**
+     * We can add or modify the menu here, or cancel it by returning false
+     */
     core.Event onBeforeMenuShow = new core.Event();
     core.Event onCommand = new core.Event();
     void set buttonCssClass (_) => _opt['buttonCssClass'] = _;
@@ -104,7 +109,7 @@ class HeaderMenu  extends IPlugin{
       _grid.setColumns(_grid.getColumns());
 
       // Hide the menu on outside click.
-      _clickStream=document.body.onMouseDown.listen(handleBodyMouseDown);
+      _clickStream=document.body.onClick.listen(_handleBodyClick);
     }
 
 
@@ -115,9 +120,12 @@ class HeaderMenu  extends IPlugin{
     }
 
 
-    handleBodyMouseDown(MouseEvent e) {
+    _handleBodyClick(MouseEvent e) {
       if (_$menu!=null && _$menu != e.target) { // && !$.contains($menu[0], e.target)
-        hideMenu();
+       // new Future.delayed(new Duration(milliseconds:50),(){
+          hideMenu();
+          _log.finest('click');
+        //});
       }
     }
 
@@ -193,12 +201,13 @@ class HeaderMenu  extends IPlugin{
       for (var i = 0; i < menuList.length; i++) {
         var item = menuList[i];
 
-        var $li = new Element.html("<div class='slick-header-menuitem'></div>")
+        var $li = new Element.html("<div class='slick-header-menuitem'></div>");
           //     ..dataset["command"]= item.command
-          ..onClick.listen( handleMenuItemClickFun(menuItemClick,column,item));
+         // ..onClick.listen( handleMenuItemClickFun(menuItemClick,column,item));
           _$menu.children.add($li);
+          $li.onClick.listen(handleMenuItemClickFun(menuItemClick,column,item));
 
-        if (item.disabled!=null) {
+        if (item.disabled) {
           $li.classes.add("slick-header-menuitem-disabled");
         }
 
@@ -225,8 +234,8 @@ class HeaderMenu  extends IPlugin{
 
 
       // Position the menu.
-      _$menu.style.top= '${ (e.target as Element).getBoundingClientRect().height}px';
-      _$menu.style.left= '${(e.target as Element).getBoundingClientRect().left}px';
+      _$menu.style.top= '${ (e.target as Element).marginEdge.height}px';
+      _$menu.style.left= '${(e.target as Element).marginEdge.left}px';
 //        .offset({ top: $(this).offset().top + $(this).height(), left: $(this).offset().left });
 
 
@@ -239,13 +248,10 @@ class HeaderMenu  extends IPlugin{
       e.stopPropagation();
     }
 
-    handleMenuItemClickFun(Function f,Column column,MenuItem item) => (MouseEvent e) => f(column,item,e);
+    handleMenuItemClickFun(Function f,Column column,MenuItem item) => (e) => f(column,item,e);
     menuItemClick(Column column,MenuItem item,MouseEvent e) {
-    //  var command = (e.target as Element).dataset["command"];
-//      column.header['menu']
-//      var columnDef = $(this).data("column");
-//      var item = $(this).data("item");
-      //HeaderMenuOption item= this.menuList.firstWhere((_)=> _.command=command);
+      _log.finest('click:${column.name} ${item.command}');
+      
       if (item.disabled) {
         return;
       }
@@ -265,7 +271,9 @@ class HeaderMenu  extends IPlugin{
       e.preventDefault();
       e.stopPropagation();
     }
-  
+//    clickTest(e){
+//      print('menu item click: ${e.target}');
+//    }
 }
 /**
  *  *    title:        Menu item text.

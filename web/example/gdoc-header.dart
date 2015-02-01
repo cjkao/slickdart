@@ -54,13 +54,13 @@ cj.SlickGrid setup(){
             {
               'title': "Hide Column",
               'command': "hide",
-              'disabled': true,
-              'tooltip': "Can't hide this column"
             },
             {
               'iconCssClass': "icon-help",
               'title': "Help",
-              'command': "help"
+              'disabled': true,
+              'command': "help",
+              'tooltip': "No Help"
             }
           ]
         }
@@ -104,17 +104,18 @@ cj.SlickGrid setup(){
   headerMenuPlugin.onBeforeMenuShow.subscribe((e, args) {
    // return false;
     List<MenuItem> menuList = args['menu'];
-    menuList.add(new MenuItem.forMap(title:'item1', command:'alert'));
-        // We can add or modify the menu here, or cancel it by returning false.
-//        var i = menu.items.length;
-//        menu.items.push({
-//          title: "Menu item " + i,
-//          command: "item" + i
-//        });
-      });
-      headerMenuPlugin.onCommand.subscribe((e, args) {
-        window.alert("Command: " + args.command);
-      });
+    menuList.add(
+        new MenuItem.forMap(title:'item1', command:'alert'));
+    });
+    headerMenuPlugin.onCommand.subscribe((e, args) {
+        if(args['command']=='hide'){
+          if(columnList.remove(args['column'])){
+            tmpCol.add(args['column']);
+          };
+          args['grid'].setColumns(columnList);
+        }
+        //window.alert("Command: " + args['command']);
+    });
   sg.registerPlugin(headerMenuPlugin);
   
   
@@ -137,6 +138,7 @@ cj.SlickGrid setup(){
         var field = cols[i]['sortCol']['field'];
         var sign = cols[i]['sortAsc'] ? 1 : -1;
         dynamic value1 = dataRow1[field], value2 = dataRow2[field];
+        
         var result = (value1 == value2 ? 0 : (value1.compareTo(value2)>0 ? 1 : -1)) * sign;
         if (result != 0) {
           return result;
@@ -186,17 +188,6 @@ cj.SlickGrid setup(){
 //            }
 //
 //            var dataView = new Slick.Data.DataView();
-//
-//            grid = new Slick.Grid("#grid", dataView, columns, options);
-//
-//            grid.setSelectionModel(new Slick.CellSelectionModel());
-//
-//
-//
-//            dataView.onRowsChanged.subscribe(function (e, args) {
-//                grid.invalidateRows(args.rows);
-//                grid.render();
-//            });
 //
 //            dataView.beginUpdate();
 //            dataView.setItems(data);
