@@ -3,6 +3,7 @@ import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
 import 'package:slickdart/plugin/autotooltip.dart';
 import 'package:slickdart/plugin/header_menu.dart';
+import 'package:slickdart/slick_editor.dart';
 List columnList;
 List tmpCol=[];
 void main() {
@@ -28,12 +29,12 @@ void main() {
 cj.SlickGrid setup(){
   Element el =querySelector('#grid');
   columnList = [
-                 new cj.Column.fromMap ({ 'name': "Title1", 'field': "dtitle", 'sortable': true }),
-                 new cj.Column.fromMap ({'width':120,       'field': "duration", 'sortable': true ,'editor': 'TextEditor'}),
-                 new cj.Column.fromMap ({ 'name': "percent",'field': "pc2", 'sortable': true,'editor': 'TextEditor' }),
-                 new cj.Column.fromMap ({ 'name': "finish", 'field': "finish"}),
-                 new cj.Column.fromMap ({ 'name': "PC2",    'field': "pc", 'editor':'TextEditor'}),
-                 new cj.Column.fromMap ({ 'name': "effort", 'field': "effortDriven", 'width':300})
+                 new cj.Column.fromMap ({ 'name': "Title1", 'field': "dtitle", 'sortable': true , 'minWidth':70, 'maxWidth':100}),
+                 new cj.Column.fromMap ({'width':120,       'field': "duration", 'sortable': true ,'editor': new NumberEditor() ,'minWidth':80, 'maxWidth':200}),
+                 new cj.Column.fromMap ({ 'name': "percent",'field': "pc2", 'sortable': true,'editor': new NumberEditor() ,'minWidth':90, 'maxWidth':200}),
+                 new cj.Column.fromMap ({ 'name': "finish", 'field': "finish", 'minWidth':100, 'maxWidth':200}),
+                 new cj.Column.fromMap ({ 'name': "String field",    'field': "pc", 'editor':'TextEditor', 'minWidth':110, 'maxWidth':200}),
+                 new cj.Column.fromMap ({ 'name': "effort", 'field': "effortDriven", 'width':150, 'minWidth':120, 'maxWidth':200})
                  ];
   
   
@@ -89,7 +90,8 @@ cj.SlickGrid setup(){
              'autoEdit': true,
              'frozenColumn':0,
              'enableCellNavigation': true,
-             'enableColumnReorder': false,
+             'enableColumnReorder': false
+         //    'forceFitColumns':true
   };
   cj.SlickGrid sg= new cj.SlickGrid(el,data,columnList,opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
@@ -150,7 +152,19 @@ cj.SlickGrid setup(){
   return sg;
 }
 
-
+class NumberEditor extends TextEditor{
+  NumberEditor([_ep]) :super(_ep);
+  
+  void applyValue(item, state){
+    try{
+      int val=int.parse(state);
+      super.applyValue(item,val);
+    }catch(e){
+      
+    }
+    
+  }
+}
 //
 //
 //

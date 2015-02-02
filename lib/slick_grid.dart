@@ -581,7 +581,7 @@ class SlickGrid {
     if(h_render!=null && h_render.isActive) h_render.cancel();
     h_render = null;
   }
-
+  //for forceFitColumns
   void autosizeColumns() {
     var i,
     widths = [],
