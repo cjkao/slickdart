@@ -1952,9 +1952,9 @@ class SlickGrid {
 //      rowsCache.clear();
       List tmp=rowsCache.keys.toList(growable: false);
       tmp.forEach((item) => removeRowFromCache(item)) ;
-      if (this.selectionModel!=null && this.selectedRows.length>0) {
-        this.setSelectedRows([]);
-      }
+//      if (this.selectionModel!=null && this.selectedRows.length>0) {
+//        this.setSelectedRows([]);
+//      }
     }
 
     void removeRowFromCache(int row) {
