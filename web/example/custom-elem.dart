@@ -10,9 +10,9 @@ main() {
     var cols = getColDefs(csv.columns);
     cols[1]..width=20..name='id';
     csv.columns[0]..width=14..name='id';
-    JGrid gw0 = document.querySelector("$GRID_TAG.second");
+    JGrid gw0 = document.querySelector("$GRID_TAG.first");
     gw0.init(new MetaList(csv.data.sublist(1, 20),getMeta), cols);
-    JGrid gw1 = document.querySelector("$GRID_TAG.first");
+    JGrid gw1 = document.querySelector("$GRID_TAG.second");
     gw1.init(csv.data, csv.columns);
     var opts={ 'multiColumnSort': true  };
     (document.querySelector("$GRID_TAG.third") as JGrid)..init(csv.data,  csv.columns,option:opts );

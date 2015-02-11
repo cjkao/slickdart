@@ -3,13 +3,13 @@ import 'slick.dart';
 import 'dart:html';
 import 'dart:async';
 import 'package:logging/logging.dart';
-import 'plugin/header_menu.dart';
+//import 'plugin/header_menu.dart';
 Logger _log = new Logger('slick.cust');
 const GRID_TAG = 'cj-grid';
 StyleElement _styleElement;
 registerElem() {
   document.registerElement(GRID_TAG, JGrid);
-  _setupBlockElement();
+  _setupBlockElement(); //for safari
 }
 _setupBlockElement() {
   if (_styleElement == null) {
@@ -39,7 +39,7 @@ class JGrid extends HtmlElement {
 @import "packages/slickdart/slick_default_theme.css"; 
 </style>
 
-<!--
+<!-- 
 <style>
 @import "packages/slickdart/css/plugins-common.css"; 
 </style>
@@ -49,15 +49,18 @@ class JGrid extends HtmlElement {
 <style>
 @import "packages/slickdart/css/slick.headermenu.css"; 
 </style>
+
 -->
 <style>
-
+:host {
+        display: block;
+      }
 #grid{
    height: 100%;
    width: 100%;
    background: white;
    display: block;
-   minHeight:100px;
+   min-height:100px;
 }
 
 
@@ -116,7 +119,7 @@ class JGrid extends HtmlElement {
    _log.finest("height in shadow: ${ (shadowRoot.lastChild as Element).getBoundingClientRect().height}");
    int maxTry=100;
    int tryCnt=0;
-   new Timer.periodic(new Duration(milliseconds: 100), (Timer t){
+   new Timer.periodic(new Duration(milliseconds: 100), (Timer t){  //look for better solution
      double h= (shadowRoot.lastChild as Element).getBoundingClientRect().height;
      _log.finest('after: $h');
      tryCnt++;
