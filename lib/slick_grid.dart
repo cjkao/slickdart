@@ -768,10 +768,14 @@ class SlickGrid {
 //      $viewport.style.height = '$viewportH' + 'px';
 //      $viewportL.style.height = '$viewportH' + 'px';
 //    }
-
+    
+    /* this looks like duplicate code from line #761.
+     * It is very hard to tell if this is outside of the last closing }
+     
     if (options['forceFitColumns']==true ) {
       autosizeColumns();
     }
+    * */
 
     updateRowCount();
     handleScroll();
