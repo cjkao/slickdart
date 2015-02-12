@@ -65,6 +65,7 @@ class SlickGrid {
   //each item will render as row
   List data;
   List<Column> columns;
+  List<Column> allColumns;
   Map options={};
  // StreamSubscription<Event> _ancestorScrollSubscribe;
   List _subscriptionList=[];
@@ -114,8 +115,8 @@ class SlickGrid {
    * @param data List of object
    * @param columns column definition
    */
-  SlickGrid(this.container, this.data, this.columns, Map options){
-    
+  SlickGrid(this.container, this.data, this.allColumns, Map options){
+    this.columns = new List<Column>.from(this.allColumns.where((c) => c.visible));
     defaults = {
              //   '_renderLatency': 150,   //mobile device should put larger lantency
 //                '_scrollerDistToRender':200,
@@ -1780,7 +1781,9 @@ class SlickGrid {
 
     
     setColumns(List<Column> columnDefinitions) {
-      columns = columnDefinitions;
+      allColumns = columnDefinitions;
+      columns = new List<Column>.from(columnDefinitions.where((c) => c.visible));
+      //columns = columnDefinitions;
 
       this.columnsById = {};
       for (var i = 0; i < columns.length; i++) {

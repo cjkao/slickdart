@@ -61,6 +61,8 @@ class Column {
   String get headerCssClass => _src['headerCssClass'];
   String get cssClass => _src['cssClass'];
   int get previousWidth => _src['previousWidth'];
+  //visible
+  bool get visible => _src['visible'];
 
   String get toolTip => _src['toolTip'];
   //unique id for differeicent from same field name
@@ -149,6 +151,9 @@ class Column {
   void set header(Map _) {
     _src['header'] = _;
   }
+  void set visible(bool item) {
+    _src['visible'] = item;
+  }
 
   factory Column.fromMap(Map<String, dynamic> src) {
     Column c = new Column();
@@ -190,7 +195,8 @@ class Column {
     'defaultSortAsc': true,
     'focusable': true,
     'selectable': true,
-    'cannotTriggerInsert': false
+    'cannotTriggerInsert': false,
+    'visible': true
   };
   String toString() {
     return _src.toString();
