@@ -55,9 +55,9 @@ grid.SlickGrid init(){
       'effortDriven': (i % 5 == 0)
     });
   }
-  grid.GridOptions opt = new grid.GridOptions()
-                                ..explicitInitialization= false
-                                ..multiColumnSort= false;
+  var opt = new grid.GridOptions()
+                ..explicitInitialization= false
+                ..multiColumnSort= false;
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,[],opt);
 //  sg.onSort.subscribe( (e, args) {
 //    grid.Column col = args['sortCol'];
