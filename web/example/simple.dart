@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
+
 import 'dart:math' as math;
 
 void main() {
@@ -54,10 +55,10 @@ grid.SlickGrid init(){
       'effortDriven': (i % 5 == 0)
     });
   }
-  Map opt = {'explicitInitialization': false,
-             'multiColumnSort': false
-  };
-  grid.SlickGrid sg= new grid.SlickGrid(el,data,[],opt);
+  var opt = new grid.GridOptions()
+                ..explicitInitialization= false
+                ..multiColumnSort= false;
+  grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,[],opt);
 //  sg.onSort.subscribe( (e, args) {
 //    grid.Column col = args['sortCol'];
 //    data.sort( (dataRow1, dataRow2) {

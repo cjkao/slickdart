@@ -8,12 +8,14 @@ import 'slick_grid.dart';
 import 'slick_core.dart' as core;
 import 'package:logging/logging.dart';
 Logger _log = new Logger('slick.util');
-
+/**
+ * create columns from list of map object
+ */
 class ColumnList extends ListBase<Column> {
   ColumnList();
   /**
-     * must attribute: 'field'
-     */
+   * must attribute: 'field'
+   */
   factory ColumnList.fromMap(List<Map> mList) {
     ColumnList cols = new ColumnList();
     mList.forEach((Map k) {
@@ -154,7 +156,10 @@ class Column {
   void set visible(bool item) {
     _src['visible'] = item;
   }
-
+  /**
+   * [field] is attribute name in map object 
+   * [name] is display name on column header
+   */
   factory Column.fromMap(Map<String, dynamic> src) {
     Column c = new Column();
     if (src['id'] == null) {

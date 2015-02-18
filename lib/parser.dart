@@ -67,6 +67,6 @@ class CsvAdapter {
 
 }
 
-class MapAdapter{
-
-}
+//class MapAdapter{
+//
+//}

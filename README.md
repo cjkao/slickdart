@@ -3,7 +3,7 @@ slickdart
 
 slick grid clone, for mobile,desktop devices
 
-** Sort performance is not expected in javascript version
+** Sort performance is not fast as javascript version
 
 Parameter Description
 =======================
@@ -39,6 +39,20 @@ TODO
 - [x] Frozen column, also editable
 - [x] Resize column
 - [x] auto tooltip
+
+
+
+GridOptions
+===============================
+Grid Options have it's own class instead of Map object,
+Can be ignore on construction
+```dart
+var opt = new GridOptions()
+		        ..explicitInitialization= false
+		        ..multiColumnSort= false;
+var grid = new SlickGrid.fromOpt(el,data,[],opt);
+```
+
 
 Dynamic Row Height
 ===============================

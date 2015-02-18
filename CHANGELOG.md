@@ -1,3 +1,11 @@
+#Version 0.1.1 
+- move grid options to GridOptions (simplify grid preparation)
+- quick way to add “visibility” to columns. (thx to Alex Lopez)
+- add default border of grid in customer element type (may cause style broken change)
+
+#Version 0.1.0+9 (2015/2/10)
+- add add drop-down menus for header column (light dom only) , see example/gdoc-header.dart
+
 #Version 0.1.0+9 (2015/2/1)
 - add add drop-down menus for header column (light dom only) , see example/gdoc-header.dart
 

@@ -5,30 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="bootstrap.css" rel="stylesheet" media="screen">
     <style>
+    /*
     cj-grid{
-      height:200px;
+     height:200px;
       border:1px solid black;
       margin:4px;
     }
     cj-grid.first, cj-grid.third{
       display: inline-block;
     }
+    */
+    .second,.third{
+ /*   border: 1px solid; */
+    display: inline-block;  
+    }
 
- /* Slick.Editors.Text, Slick.Editors.Date */
+ /* style component using css */
+    cj-grid.third {
+       height:300px;
+       width:300px;
+    }
+    cj-grid.forth {
+       height:600px;
+       width:800px;
+     /*  border:1px solid gray;*/
+    }
 
 
     cj-grid /deep/ .slick-header-column {
-        border-color: transparent #CCCCCC #CCCCCC transparent;
+       /* border-color: transparent #CCCCCC #CCCCCC transparent;
         border-style: solid solid solid solid;
-        border-width: 1px 1px 0 0px;
+        border-width: 1px 1px 0 0px;*/
     }
 
     cj-grid /deep/ .slick-header-column.ui-state-default {
         font: 9pt arial, sans-serif;
         color: black;
         background-color: #F3F3F3;
-        border-top: 1px solid #CCCCCC;
-        border-bottom: 1px solid #CCCCCC;
+       /* border-top: 1px solid #CCCCCC;  */
+       /* border-bottom: 1px solid #CCCCCC;*/
         background-image:none;
     }
 
@@ -48,7 +63,7 @@
 
 
     </style>
-    <script src="packages/web_components/platform.js"></script>
+    <script src="packages/web_components/webcomponents.min.js"></script>
     <script src="packages/web_components/dart_support.js"></script>
   </head>
   <body>
@@ -71,7 +86,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">Panel 1, bind surface</div>
             <div class="panel-body">
-              <cj-grid style='width:200px;' class='second'></cj-grid>
+              <cj-grid style='width:200px; height:400px;' class='first'></cj-grid>
             </div>
           </div>
 
@@ -81,14 +96,14 @@
          <div class="panel panel-default">
             <div class="panel-heading">Panel 2</div>
             <div class="panel-body">
-              <cj-grid style='width:300px;' class='first'></cj-grid>
-              <cj-grid style='width:400px;' class='third'></cj-grid>
+              <cj-grid style='width:300px; height:200px;' class='second'></cj-grid>
+              <cj-grid class='third'></cj-grid>
             </div>
           </div>
         </div>
       </div>
       <div class='row'>
-        <div class='col-md-7'>  <cj-grid style='width:600px;' class='forth'></cj-grid></div>
+        <div class='col-md-7'>  <cj-grid class='forth'></cj-grid></div>
         <div class='col-md-5'> <div class='right-pane'></div></div>
       </div>
     </div>
