@@ -68,6 +68,11 @@ class SlickGrid {
   List<Column> allColumns;
   Map get options => _options.toJson();
   GridOptions _options=new GridOptions();
+  
+  //Warning!!!, for compare value, not for change value
+  //update options => [setOptions]
+  GridOptions get gridOptions => _options;
+  
  // StreamSubscription<Event> _ancestorScrollSubscribe;
   List _subscriptionList=[];
 
