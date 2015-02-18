@@ -6,31 +6,16 @@ import 'package:slickdart/slick_selectionmodel.dart';
 void main() {
   grid.SlickGrid  g=init();
   g.init();
-//  querySelector('#reset').onClick.listen((e){
-//    List _data=[];
-//    for (var i = 0; i < 50000; i++) {
-//      _data.add( {
-//        'dtitle':  new math.Random().nextInt(1000).toString(),
-//        'duration': new math.Random().nextInt(1000).toString(),
-//        'pc': i
-//      });
-//    }
-//    g.data.clear();
-//    g.data.addAll(_data);
-//    g.invalidate();
-//    g.render();
-//
-//  });
 }
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
   List column = [
-                 new grid.Column.fromMap ({ 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
-                 new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
-                 new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
-                 new grid.Column.fromMap ({'field': "City", 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})})
-                 ];
+       new grid.Column.fromMap ({ 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
+       new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
+       new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
+       new grid.Column.fromMap ({'field': "City", 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})})
+  ];
   List data=[];
   for (var i = 0; i < 50; i++) {
     data.add( {

@@ -3,6 +3,8 @@ import 'dart:html';
 import 'dart:math';
 import 'dart:collection';
 import 'package:logging/logging.dart';
+import 'slick_core.dart' as core;
+import 'dart:convert';
 Logger _log = new Logger('slick.util');
 /** TODO add scope
  * find element's cloest parent of target css selector rule
@@ -125,9 +127,6 @@ class FilteredList extends ListBase{
   void fillRange(int start, int end, [fillValue]) => _srcList.fillRange(start, end, fillValue);
   void replaceRange(int start, int end, Iterable replacement) => _srcList.replaceRange(start, end, replacement);
   Map asMap() => _srcList.asMap();
-
-
-
 }
 
 
@@ -169,7 +168,153 @@ class MetaList<T> extends ListBase<T> with IMetaData{
   void add(T value) => innerList.add(value);
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
-
-
-
 }
+
+// code hint for setup grid
+
+// code hint for setup grid
+class GridOptions{
+  bool     explicitInitialization         = false;
+  int      rowHeight                      = 25;
+  int      defaultColumnWidth             = 80;
+  bool     enableAddRow                   = false;
+  bool     leaveSpaceForNewRows           = false;
+  bool     editable                       = false;
+  bool     autoEdit                       = true;
+  bool     enableCellNavigation           = true;
+  bool     enableColumnReorder            = true;
+  bool     asyncEditorLoading             = false;
+  int      asyncEditorLoadDelay           = 100;
+  bool     forceFitColumns                = false;
+  bool     enableAsyncPostRender          = false;
+  int      asyncPostRenderDelay           = 50;
+  bool     autoHeight                     = false;
+  var      editorLock                     = core.GlobalEditorLock;
+  bool     showHeaderRow                  = false;
+  int      headerRowHeight                = 25;
+  bool     showTopPanel                   = false;
+  int      topPanelHeight                 = 25;
+  var      formatterFactory               = null;
+  var      editorFactory                  = null;
+  String   cellFlashingCssClass           = "flashing";
+  String   selectedCellCssClass           = "selected";
+  bool     multiSelect                    = true;
+  bool     enableTextSelectionOnCells     = false;
+  Function dataItemColumnValueExtractor   = null; //function to extract value
+  //true: canvas width or all column width, false: all column sum width
+  bool     fullWidthRows                  = false;
+  bool     multiColumnSort                = false;
+  Function defaultFormatter               = _defaultFormatter;
+  bool     forceSyncScrolling             = false;
+  int      frozenColumn                   = -1;   //frozen index
+  int      frozenRow                      = -1;
+  bool     frozenBottom                   = false;
+  bool     dynamicHeight                  = false;  //enable or disable yPos lookup for rendering=
+  bool     syncColumnCellResize           = false;
+  //for commit current editor 
+  Function editCommandHandler             = null;
+  GridOptions([Map opt]){//adapt map config
+    if(opt!=null){
+      _processMap(opt);
+    }
+  }
+  operator[](String key){
+    
+  }
+  //duplicate configura,
+  Map toJson(){
+    return {
+      'explicitInitialization'        : this.explicitInitialization       ,                                   
+      'rowHeight'                     : this.rowHeight                    ,          
+      'defaultColumnWidth'            : this.defaultColumnWidth           ,                   
+      'enableAddRow'                  : this.enableAddRow                 ,             
+      'leaveSpaceForNewRows'          : this.leaveSpaceForNewRows         ,                                        
+      'editable'                      : this.editable                     ,                            
+      'autoEdit'                      : this.autoEdit                     ,                            
+      'enableCellNavigation'          : this.enableCellNavigation         ,                                        
+      'enableColumnReorder'           : this.enableColumnReorder          ,                                       
+      'asyncEditorLoading'            : this.asyncEditorLoading           ,                                      
+      'asyncEditorLoadDelay'          : this.asyncEditorLoadDelay         ,                                        
+      'forceFitColumns'               : this.forceFitColumns              ,                                   
+      'enableAsyncPostRender'         : this.enableAsyncPostRender        ,                                         
+      'asyncPostRenderDelay'          : this.asyncPostRenderDelay         ,                                        
+      'autoHeight'                    : this.autoHeight                   ,                              
+      'editorLock'                    : this.editorLock                   ,                              
+      'showHeaderRow'                 : this.showHeaderRow                ,                                 
+      'headerRowHeight'               : this.headerRowHeight              ,                                   
+      'showTopPanel'                  : this.showTopPanel                 ,                                
+      'topPanelHeight'                : this.topPanelHeight               ,                                  
+      'formatterFactory'              : this.formatterFactory             ,                                    
+      'editorFactory'                 : this.editorFactory                ,                                 
+      'cellFlashingCssClass'          : this.cellFlashingCssClass         ,                                        
+      'selectedCellCssClass'          : this.selectedCellCssClass         ,                                        
+      'multiSelect'                   : this.multiSelect                  ,                               
+      'enableTextSelectionOnCells'    : this.enableTextSelectionOnCells   ,                                              
+      'dataItemColumnValueExtractor'  : this.dataItemColumnValueExtractor ,                                                
+      'fullWidthRows'                 : this.fullWidthRows                ,                                 
+      'multiColumnSort'               : this.multiColumnSort              ,                                   
+      'defaultFormatter'              : this.defaultFormatter             ,                                    
+      'forceSyncScrolling'            : this.forceSyncScrolling           ,                                      
+      'frozenColumn'                  : this.frozenColumn                 ,                                
+      'frozenRow'                     : this.frozenRow                    ,                             
+      'frozenBottom'                  : this.frozenBottom                 ,                                
+      'dynamicHeight'                 : this.dynamicHeight                ,                                   
+      'syncColumnCellResize'          : this.syncColumnCellResize         ,
+      'editCommandHandler'            : this.editCommandHandler
+      
+    };
+  }
+  addAll(Map opt){
+    _processMap(opt);
+  }
+  _processMap(Map opt){
+      if(opt['explicitInitialization']        != null ) this.explicitInitialization         = opt['explicitInitialization']       ;                                   
+      if(opt['rowHeight']                     != null ) this.rowHeight                      = opt['rowHeight']                    ;          
+      if(opt['defaultColumnWidth']            != null ) this.defaultColumnWidth             = opt['defaultColumnWidth']           ;                   
+      if(opt['enableAddRow']                  != null ) this.enableAddRow                   = opt['enableAddRow']                 ;             
+      if(opt['leaveSpaceForNewRows']          != null ) this.leaveSpaceForNewRows           = opt['leaveSpaceForNewRows']         ;                                        
+      if(opt['editable']                      != null ) this.editable                       = opt['editable']                     ;                            
+      if(opt['autoEdit']                      != null ) this.autoEdit                       = opt['autoEdit']                     ;                            
+      if(opt['enableCellNavigation']          != null ) this.enableCellNavigation           = opt['enableCellNavigation']         ;                                        
+      if(opt['enableColumnReorder']           != null ) this.enableColumnReorder            = opt['enableColumnReorder']          ;                                       
+      if(opt['asyncEditorLoading']            != null ) this.asyncEditorLoading             = opt['asyncEditorLoading']           ;                                      
+      if(opt['asyncEditorLoadDelay']          != null ) this.asyncEditorLoadDelay           = opt['asyncEditorLoadDelay']         ;                                        
+      if(opt['forceFitColumns']               != null ) this.forceFitColumns                = opt['forceFitColumns']              ;                                   
+      if(opt['enableAsyncPostRender']         != null ) this.enableAsyncPostRender          = opt['enableAsyncPostRender']        ;                                         
+      if(opt['asyncPostRenderDelay']          != null ) this.asyncPostRenderDelay           = opt['asyncPostRenderDelay']         ;                                        
+      if(opt['autoHeight']                    != null ) this.autoHeight                     = opt['autoHeight']                   ;                              
+      if(opt['editorLock']                    != null ) this.editorLock                     = opt['editorLock']                   ;                              
+      if(opt['showHeaderRow']                 != null ) this.showHeaderRow                  = opt['showHeaderRow']                ;                                 
+      if(opt['headerRowHeight']               != null ) this.headerRowHeight                = opt['headerRowHeight']              ;                                   
+      if(opt['showTopPanel']                  != null ) this.showTopPanel                   = opt['showTopPanel']                 ;                                
+      if(opt['topPanelHeight']                != null ) this.topPanelHeight                 = opt['topPanelHeight']               ;                                  
+      if(opt['formatterFactory']              != null ) this.formatterFactory               = opt['formatterFactory']             ;                                    
+      if(opt['editorFactory']                 != null ) this.editorFactory                  = opt['editorFactory']                ;                                 
+      if(opt['cellFlashingCssClass']          != null ) this.cellFlashingCssClass           = opt['cellFlashingCssClass']         ;                                        
+      if(opt['selectedCellCssClass']          != null ) this.selectedCellCssClass           = opt['selectedCellCssClass']         ;                                        
+      if(opt['multiSelect']                   != null ) this.multiSelect                    = opt['multiSelect']                  ;                               
+      if(opt['enableTextSelectionOnCells']    != null ) this.enableTextSelectionOnCells     = opt['enableTextSelectionOnCells']   ;                                              
+      if(opt['dataItemColumnValueExtractor']  != null ) this.dataItemColumnValueExtractor   = opt['dataItemColumnValueExtractor'] ;                                                
+      if(opt['fullWidthRows']                 != null ) this.fullWidthRows                  = opt['fullWidthRows']                ;                                 
+      if(opt['multiColumnSort']               != null ) this.multiColumnSort                = opt['multiColumnSort']              ;                                   
+      if(opt['defaultFormatter']              != null ) this.defaultFormatter               = opt['defaultFormatter']             ;                                    
+      if(opt['forceSyncScrolling']            != null ) this.forceSyncScrolling             = opt['forceSyncScrolling']           ;                                      
+      if(opt['frozenColumn']                  != null ) this.frozenColumn                   = opt['frozenColumn']                 ;                                
+      if(opt['frozenRow']                     != null ) this.frozenRow                      = opt['frozenRow']                    ;                             
+      if(opt['frozenBottom']                  != null ) this.frozenBottom                   = opt['frozenBottom']                 ;                                
+      if(opt['dynamicHeight']                 != null ) this.dynamicHeight                  = opt['dynamicHeight']                ;
+      if(opt['syncColumnCellResize']          != null ) this.syncColumnCellResize           = opt['syncColumnCellResize']         ;
+      if(opt['editCommandHandler'  ]          != null ) this.editCommandHandler             = opt['editCommandHandler']         ;
+      
+//      editCommandHandler
+      
+  }
+}
+
+String _defaultFormatter(int row,int  cell,dynamic value,[ columnDef, dataContext]) {
+     if (value == null) {
+       return "";
+     }
+     if(value is num || value is bool) return value.toString();
+     return HTML_ESCAPE.convert(value);
+   }

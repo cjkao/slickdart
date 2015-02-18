@@ -113,15 +113,15 @@ class CellRangeSelector extends IPlugin{
        _columnOffset = 0;
        _isBottomCanvas = $activeCanvas.classes.contains( 'grid-canvas-bottom' );
 
-       if ( options['frozenRow'] > -1 && _isBottomCanvas ) {
-           _rowOffset = ( options['frozenBottom'] )
+       if ( _grid.gridOptions.frozenRow > -1 && _isBottomCanvas ) {
+           _rowOffset = ( _grid.gridOptions.frozenBottom )
                ? $activeCanvas.contentEdge.height
                : _grid.$canvas.firstWhere((e)=> e.classes.contains('grid-canvas-top')).contentEdge.height;
        }
 
        _isRightCanvas = $activeCanvas.classes.contains( 'grid-canvas-right' );
 
-       if ( options['frozenColumn'] > -1 && _isRightCanvas ) {
+       if ( _grid.gridOptions.frozenColumn > -1 && _isRightCanvas ) {
            _columnOffset =
                _grid.$canvas.firstWhere((e)=> e.classes.contains('grid-canvas-left')).contentEdge.width;
 //               $('.grid-canvas-left').width();
@@ -489,7 +489,7 @@ class RowSelectionModel extends SelectionModel{
     if (!domEvt.ctrlKey && !domEvt.shiftKey && !domEvt.metaKey) {
       return false;
     }
-    else if (_grid.getOptions()['multiSelect']) {
+    else if (_grid.gridOptions.multiSelect) {
       if (idx == -1 && (domEvt.ctrlKey || domEvt.metaKey)) {
         selection.add(cell['row']);
         _grid.setActiveCell(cell['row'], cell['cell']);

@@ -51,11 +51,10 @@ grid.SlickGrid init(){
     }else{
     }
   }
-  Map opt = {'explicitInitialization': false,
-             'multiColumnSort': false,
-             'dynamicHeight': true
-  };
-  grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
+  grid.GridOptions opt= new grid.GridOptions()..explicitInitialization=false
+             ..multiColumnSort=false
+             ..dynamicHeight  =true;
+  grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
   sg.onSort.subscribe( (e, args) {
     grid.Column col = args['sortCol'];
     data.sort( (dataRow1, dataRow2) {

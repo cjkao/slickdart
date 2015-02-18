@@ -7,6 +7,8 @@ import 'package:logging/logging.dart';
 Logger _log = new Logger('slick.cust');
 const GRID_TAG = 'cj-grid';
 StyleElement _styleElement;
+
+//publish [GRID_TAG] as custom element
 registerElem() {
   document.registerElement(GRID_TAG, JGrid);
   _setupBlockElement(); //for safari
@@ -61,6 +63,7 @@ class JGrid extends HtmlElement {
    background: white;
    display: block;
    min-height:100px;
+   border : 1px solid gray;
 }
 
 
@@ -113,7 +116,7 @@ class JGrid extends HtmlElement {
 //        grid.registerPlugin(headerMenuPlugin);
     
     
-    grid.init();
+   grid.init();
    grid.data.clear();
    grid.data=data;
    _log.finest("height in shadow: ${ (shadowRoot.lastChild as Element).getBoundingClientRect().height}");
