@@ -6,13 +6,14 @@ homepage: https://cjkao.github.io/slickdart
 dependencies:
   browser: any
   logging: '>=0.8.0 <=2.0.0'
-  polymer: any
+
 dev_dependencies:
+  polymer: any
   dnd: any
   unittest: any
   web_components: any
   initialize: any
   datepicker: any
   pubviz: any
-transformers:
-- polymer
+#transformers:
+#- polymer
