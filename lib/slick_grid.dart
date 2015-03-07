@@ -68,11 +68,11 @@ class SlickGrid {
   List<Column> allColumns;
   Map get options => _options.toJson();
   GridOptions _options=new GridOptions();
-  
+
   //Warning!!!, for compare value, not for change value
   //update options => [setOptions]
   GridOptions get gridOptions => _options;
-  
+
  // StreamSubscription<Event> _ancestorScrollSubscribe;
   List _subscriptionList=[];
 
@@ -125,14 +125,17 @@ class SlickGrid {
     this.columns = new List<Column>.from(this.allColumns.where((c) => c.visible));
     this._options.addAll(options);
   }
-  
+  /**
+   * construct from GridOption class
+   */
   SlickGrid.fromOpt(this.container, this.data, this.allColumns, [GridOptions options]){
       this.columns = new List<Column>.from(this.allColumns.where((c) => c.visible));
       this._options=options;
   }
-  
-  Map<String,dynamic> defaults ;
+
+ // Map<String,dynamic> defaults ;
   Column columnDefaults= new Column();
+
   heightIdx.Node yLookup=null;
 // scroller
   int th;   // virtual height
@@ -566,24 +569,24 @@ class SlickGrid {
 
     for (i = 0; i < columns.length; i++) {
       c = columns[i];
-      widths.add(c['width']);
-      total += c['width'];
-      if (c['resizable']!=null) {
-        shrinkLeeway += c['width'] - math.max(c['minWidth'], absoluteColumnMinWidth);
+      widths.add(c.width);
+      total += c.width;
+      if (c.resizable) {
+        shrinkLeeway += c.width - math.max(c.minWidth, absoluteColumnMinWidth);
       }
     }
 
     // shrink
     prevTotal = total;
-    while (total > availWidth && shrinkLeeway) {
+    while (total > availWidth && shrinkLeeway>0) {
       double shrinkProportion = (total - availWidth) / shrinkLeeway;
       for (i = 0; i < columns.length && total > availWidth; i++) {
         c = columns[i];
         int width = widths[i];
-        if (c['resizable']!=null || width <= c['minWidth'] || width <= absoluteColumnMinWidth) {
+        if (!c.resizable || width <= c.minWidth || width <= absoluteColumnMinWidth) {
           continue;
         }
-        var absMinWidth = math.max(c['minWidth'], absoluteColumnMinWidth);
+        var absMinWidth = math.max(c.minWidth, absoluteColumnMinWidth);
         int shrinkSize = (shrinkProportion * (width - absMinWidth)).floor();
         if (shrinkSize==0) shrinkSize= 1;
         shrinkSize = math.min(shrinkSize, width - absMinWidth);
@@ -603,11 +606,11 @@ class SlickGrid {
       double growProportion = availWidth / total;
       for (i = 0; i < columns.length && total < availWidth; i++) {
         c = columns[i];
-        if (c['resizable'] !=null || c['maxWidth'] <= c['width']) {
+        if (!c.resizable || c.maxWidth <= c.width) {
           continue;
         }
-        int cWidth= (c['maxWidth'] - c['width']) == 0 ?   1000000 : ( c['maxWidth'] - c['width']);
-        int growSize = math.min((growProportion * c['width']).floor() - c['width'], cWidth);
+        int cWidth= (c.maxWidth - c.width) == 0 ?   1000000 : ( c.maxWidth - c.width);
+        int growSize = math.min((growProportion * c.width).floor() - c.width, cWidth);
         if (growSize==0) growSize= 1;
         total += growSize;
         widths[i] += growSize;
@@ -620,7 +623,7 @@ class SlickGrid {
 
     bool reRender = false;
     for (i = 0; i < columns.length; i++) {
-      if (columns[i]['rerenderOnResize']!=null && columns[i].width != widths[i]) {
+      if (columns[i].rerenderOnResize && columns[i].width != widths[i]) {
         reRender = true;
       }
       columns[i].width = widths[i];
@@ -741,10 +744,10 @@ class SlickGrid {
 //      $viewport.style.height = '$viewportH' + 'px';
 //      $viewportL.style.height = '$viewportH' + 'px';
 //    }
-    
+
     /* this looks like duplicate code from line #761.
      * It is very hard to tell if this is outside of the last closing }
-     
+
     if (_options.forceFitColumns==true ) {
       autosizeColumns();
     }
@@ -1273,7 +1276,7 @@ class SlickGrid {
 //    }
     /**
      * [title] String in normal case, InputElement if using checkboxSelector
-     * 
+     *
      */
     updateColumnHeader(String columnId,var title, toolTip) {
       if (!initialized) { return; }
@@ -1302,11 +1305,11 @@ class SlickGrid {
        // $header.attributes.putIfAbsent('title', () => toolTip);
         $header.children.first..children.clear()..append(title);
 //        if(title is Element){
-//         
+//
 //        }else{
-//          $header.children.first.innerHtml=title;  
+//          $header.children.first.innerHtml=title;
 //        }
-        
+
 
         trigger(this.onHeaderCellRendered, {
           "node": $header,
@@ -1747,11 +1750,11 @@ class SlickGrid {
          }
       }
     }
-    
-    List<Column> getColumns() => columns;
-    
 
-    
+    List<Column> getColumns() => columns;
+
+
+
     setColumns(List<Column> columnDefinitions) {
       allColumns = columnDefinitions;
       columns = new List<Column>.from(columnDefinitions.where((c) => c.visible));
@@ -1781,14 +1784,14 @@ class SlickGrid {
         handleScroll();
       }
     }
-    //read only 
+    //read only
     Map getOptions() {
       return _options.toJson();
     }
 
     /**
      * modify options and let grid reflect the change
-     */    
+     */
     void setOptions(Map args) {
       core.EditorLock editLock=getEditorLock();
       if (editLock!=null && !editLock.commitCurrentEdit()) {

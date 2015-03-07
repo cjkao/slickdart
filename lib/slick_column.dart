@@ -157,7 +157,7 @@ class Column {
     _src['visible'] = item;
   }
   /**
-   * [field] is attribute name in map object 
+   * [field] is attribute name in map object
    * [name] is display name on column header
    */
   factory Column.fromMap(Map<String, dynamic> src) {
@@ -195,6 +195,7 @@ class Column {
     'sortable': false,
     'minWidth': 30,
     'width':80,
+    'maxWidth': 100000000000000000000,
     'rerenderOnResize': false,
     'headerCssClass': null,
     'defaultSortAsc': true,
@@ -221,9 +222,9 @@ class CheckboxSelectColumn extends Column with IPlugin {
   };
   SlickGrid _grid;
   var _handler = new core.EventHandler();
-  
- 
-  
+
+
+
   Map<int, bool> _selectedRowsLookup = {};
   /**
    * change for shadow dom element initialize

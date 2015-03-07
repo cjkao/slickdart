@@ -5,7 +5,7 @@ import 'slick.dart';
 abstract class Editor{
   EditorParm _ep;
   Element $input;
-  get editorParm => _ep;
+  EditorParm get editorParm => _ep;
   void set editorParm (EditorParm m) {
     _ep = m;
 
@@ -225,3 +225,6 @@ class SelectListEditor extends Editor {
   }
 
 }
+
+
+

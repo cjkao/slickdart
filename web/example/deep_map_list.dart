@@ -36,11 +36,11 @@ grid.SlickGrid init(){
       'effortDriven': (i % 5 == 0)
     });
   }
-  Map opt = {'explicitInitialization': false,
-             'multiColumnSort': false,
-             'dataItemColumnValueExtractor':mapExtract
-  };
-  grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
+  grid.GridOptions opt = new grid.GridOptions()
+                              ..explicitInitialization= false
+                              ..multiColumnSort= false
+                              ..dataItemColumnValueExtractor=mapExtract;
+  grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
   return sg;
 }
 mapExtract(Map data, grid.Column col){

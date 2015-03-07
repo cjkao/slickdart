@@ -3,9 +3,21 @@ import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 import 'package:slickdart/slick_editor.dart';
 import 'package:slickdart/slick_selectionmodel.dart';
+//import 'package:bootjack_datepicker/bootjack_datepicker.dart';
+//import 'package:datepicker/components/date_input.dart';
+import 'package:polymer/polymer.dart';
 void main() {
+  initPolymer().run(() {
+    // The rest of the code in the main method.
   grid.SlickGrid  g=init();
   g.init();
+  Polymer.onReady.then((_) {
+    
+    //XDateInput item = new Element.tag('date-input');
+    //document.querySelector('body').append(item);
+  });
+});
+//  Calendar.use();
 }
 
 grid.SlickGrid init(){
@@ -13,8 +25,9 @@ grid.SlickGrid init(){
   List column = [
        new grid.Column.fromMap ({ 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
        new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
+       new grid.Column.fromMap ({'field': "StartDate", 'editor': new DateEditor()}),
        new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
-       new grid.Column.fromMap ({'field': "City", 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})})
+       new grid.Column.fromMap ({'field': "City", 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})}),
   ];
   List data=[];
   for (var i = 0; i < 50; i++) {
@@ -22,14 +35,20 @@ grid.SlickGrid init(){
       'dtitle':  new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100).toString(),
       'pc': new math.Random().nextInt(10) * 100,
-      'City': "NY"
+      'City': "NY",
+      'StartDate': '2012/01/31'
     });
   }
-  Map opt = {'explicitInitialization': false,
-             'multiColumnSort': true,
-             'editable': true,
-  };
-  grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
+//  Map opt = {'explicitInitialization': false,
+//             'multiColumnSort': true,
+//             'editable': true,
+//  };
+  grid.GridOptions opt=new grid.GridOptions()
+      ..forceFitColumns=false
+      ..editable=true
+      ..multiColumnSort=true
+      ..enableColumnReorder=true;
+  grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
 
   sg.setSelectionModel(new CellSelectionModel(sg.options));
 
@@ -59,4 +78,60 @@ grid.SlickGrid init(){
     sg.render();
   });
   return sg;
+}
+
+
+
+
+/**
+ * default select option
+ * data type: accept int and string type from src data
+ * display name: always string
+ */
+class DateEditor extends Editor {
+
+  Map _opts;
+
+  Map validate() {
+      return {
+        'valid': true,
+        'msg': null
+      };
+    }
+  void destroy()=>   $input.remove();
+  void focus()=>  $input.focus();
+  set editorParm (EditorParm m) {
+    super.editorParm=m;
+//    $input = new Element.html('<div class="calendar" data-date="2013/09/16" data-format="yyyy/MM/dd"></div>');
+//    $input = new DivElement()..classes.add('calendar')..dataset['date']='2013/09/15'..dataset['format']='yyyy/MM/dd';
+    $input = new Element.tag('date-input');
+    $input.attributes['inputmaxlength']='5';
+   // $input.attributes['value']= m.
+    //_opts.forEach((key,dispVal)=>  $input.children.add(new OptionElement()..value='$key'..text=dispVal));
+    editorParm.activeCellNode.append($input);
+//    $input.classes.add('editor-select');
+    $input..attributes['hidefocus'] = 'true';
+    $input.focus();
+//    Calendar.wire($input);
+  }
+
+  /**
+   * opt: { option_value: option_display_name,....}
+   */
+  DateEditor([this._opts]);
+
+  loadValue(item) {
+    super.loadValue(item);
+    $input.attributes['value']= (item[this.editorParm.columnDef.field] as String)..replaceAll('/', '-');
+  }
+  String serializeValue() {
+    return '2013/09/16';
+  }
+  void applyValue(item, state){
+  }
+
+  isValueChanged() {
+    return true;
+  }
+
 }
