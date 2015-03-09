@@ -185,6 +185,7 @@ class GridOptions{
   bool     enableColumnReorder            = true;
   bool     asyncEditorLoading             = false;
   int      asyncEditorLoadDelay           = 100;
+  //when true,force maximum column width to sum of total column width
   bool     forceFitColumns                = false;
   bool     enableAsyncPostRender          = false;
   int      asyncPostRenderDelay           = 50;

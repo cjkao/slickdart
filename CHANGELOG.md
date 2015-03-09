@@ -1,3 +1,6 @@
+#Version 0.1.1+1
+- fix forceFitColumn
+
 #Version 0.1.1 
 - move grid options to GridOptions (simplify grid preparation)
 - quick way to add “visibility” to columns. (thx to Alex Lopez)

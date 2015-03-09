@@ -25,10 +25,18 @@ packages:
     description: collection
     source: hosted
     version: "1.1.0"
+  crypto:
+    description: crypto
+    source: hosted
+    version: "0.9.0"
   csslib:
     description: csslib
     source: hosted
     version: "0.11.0+2"
+  datepicker:
+    description: datepicker
+    source: hosted
+    version: "0.3.2"
   dnd:
     description: dnd
     source: hosted
@@ -37,10 +45,22 @@ packages:
     description: html5lib
     source: hosted
     version: "0.12.0"
+  http:
+    description: http
+    source: hosted
+    version: "0.11.1+3"
+  http_parser:
+    description: http_parser
+    source: hosted
+    version: "0.0.2+5"
   initialize:
     description: initialize
     source: hosted
     version: "0.2.0"
+  intl:
+    description: intl
+    source: hosted
+    version: "0.12.0+3"
   logging:
     description: logging
     source: hosted
@@ -49,14 +69,42 @@ packages:
     description: matcher
     source: hosted
     version: "0.11.4"
+  observe:
+    description: observe
+    source: hosted
+    version: "0.13.0"
   path:
     description: path
     source: hosted
     version: "1.3.1"
+  petitparser:
+    description: petitparser
+    source: hosted
+    version: "1.3.6"
+  polymer:
+    description: polymer
+    source: hosted
+    version: "0.15.5+3"
+  polymer_expressions:
+    description: polymer_expressions
+    source: hosted
+    version: "0.13.1"
   pool:
     description: pool
     source: hosted
     version: "1.0.1"
+  pub_semver:
+    description: pub_semver
+    source: hosted
+    version: "1.1.0"
+  pubviz:
+    description: pubviz
+    source: hosted
+    version: "2.2.2+2"
+  smoke:
+    description: smoke
+    source: hosted
+    version: "0.2.1+1"
   source_maps:
     description: source_maps
     source: hosted
@@ -69,6 +117,14 @@ packages:
     description: stack_trace
     source: hosted
     version: "1.1.1"
+  string_scanner:
+    description: string_scanner
+    source: hosted
+    version: "0.1.3"
+  template_binding:
+    description: template_binding
+    source: hosted
+    version: "0.14.0+1"
   unittest:
     description: unittest
     source: hosted
@@ -85,3 +141,7 @@ packages:
     description: web_components
     source: hosted
     version: "0.10.1"
+  yaml:
+    description: yaml
+    source: hosted
+    version: "2.1.2"

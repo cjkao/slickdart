@@ -3,12 +3,14 @@ import 'slick.dart';
 import 'dart:html';
 import 'dart:async';
 import 'package:logging/logging.dart';
+//import 'package:initialize/initialize.dart';
 //import 'plugin/header_menu.dart';
 Logger _log = new Logger('slick.cust');
 const GRID_TAG = 'cj-grid';
 StyleElement _styleElement;
 
 //publish [GRID_TAG] as custom element
+//@initMethod
 registerElem() {
   document.registerElement(GRID_TAG, JGrid);
   _setupBlockElement(); //for safari
