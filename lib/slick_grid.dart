@@ -210,7 +210,8 @@ class SlickGrid {
   int scrollLeft = 0;
 
   SelectionModel selectionModel;
-  List selectedRows = [];
+  //selected row index
+  List<int> selectedRows = [];
 
   List<IPlugin> plugins = [];
   /**
