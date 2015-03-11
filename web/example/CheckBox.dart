@@ -6,7 +6,6 @@ import 'package:slickdart/slick_column.dart';
 void main() {
   grid.SlickGrid  g=init();
   g.init();
- // print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
   querySelector
   ('#reset').onClick.listen((e){
     List _data=[];
@@ -23,11 +22,7 @@ void main() {
     g.invalidate();
     g.render();
 
-    //print(g.data);
   });
-//  query('#reset').onClick.listen((e){
-//    print(g.data);
-//  });
 }
 
 grid.SlickGrid init(){
@@ -62,17 +57,13 @@ grid.SlickGrid init(){
     print(rsm.getSelectedRows().length);
   });
   sg.setSelectionModel(rsm);
-//  sg.onClick.subscribe((var e,data){
-//
-//  });
   sg.registerPlugin(checkboxCol);
-
   //sg.setSelectionModel(new CellSelectionModel(sg.options));
 
 
   sg.onSort.subscribe( (e, args) {
+    var sRows= sg.getSelectedRows().map((id)=> data[id]).toList();
     var cols = args['sortCols'];
-//{sortCol: {name: Title1, resizable: true, sortable: true, minWidth: 30, rerenderOnResize: false, headerCssClass: null, defaultSortAsc: true, focusable: true, selectable: true, cannotTriggerInsert: false, width: 80, id: title, field: title}, sortAsc: true}
     data.sort( (dataRow1, dataRow2) {
       for (var i = 0, l = cols.length; i < l; i++) {
         var field = cols[i]['sortCol']['field'];
@@ -88,6 +79,8 @@ grid.SlickGrid init(){
       }
       return 0;
     });
+    var sRowIdx=sRows.map((item)=> data.indexOf(item));
+    sg.setSelectedRows(sRowIdx.toList());
     sg.invalidate();
     sg.render();
   });
