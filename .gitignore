@@ -2,3 +2,7 @@ build/
 .pub/
 .pub-cache/
 packages/**
+
+pubspec.lock
+
+pubspec.lock

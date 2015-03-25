@@ -34,6 +34,10 @@ class FilteredList extends ListBase{
       if(_srcList==null) _srcList=new List();
 
   }
+  //Constructor from a Map
+  FilteredList.fromMap(Map map){
+    _srcList = map == null ? new List() : new List.from(map.values);
+  }
   /**
    * create new view base on filter,
    * string is partial matching
