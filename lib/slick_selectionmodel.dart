@@ -5,6 +5,7 @@ import 'slick_grid.dart';
 //import 'dart:collection';
 import 'dart:math' as math;
 import 'package:logging/logging.dart';
+import 'slick_column.dart' show CheckboxSelectColumn;
 Logger _log = new Logger('cj.grid.select');
 
 
@@ -512,11 +513,15 @@ class RowSelectionModel extends SelectionModel{
         selection.add(last);
         _grid.setActiveCell(cell['row'], cell['cell']);
       }
+      evt.stopImmediatePropagation();
     }
 
     _ranges = rowsToRanges(selection);
     setSelectedRanges(_ranges);
-    evt.stopImmediatePropagation();
+    if(!(_grid.columns[args['cell']] is CheckboxSelectColumn)){
+      
+      evt.stopImmediatePropagation();
+    }
 
     return true;
   }

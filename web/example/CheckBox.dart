@@ -45,14 +45,20 @@ grid.SlickGrid init(){
       'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
     });
   }
-  Map opt = {'explicitInitialization': false,
-             'multiColumnSort': true,
-             'editable': true,
-             'autoEdit': false,
-             'frozenColumn': 1
-  };
-  grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
-  RowSelectionModel rsm=new RowSelectionModel({'selectActiveRow':false});
+//  Map opt = {'explicitInitialization': false,
+//             'multiColumnSort': false,
+//             'editable': true,
+//             'autoEdit': false,
+//             'frozenColumn': 1
+//  };
+  var opt = new grid.GridOptions()
+                  ..explicitInitialization= false
+                  ..multiColumnSort= false
+                  ..multiSelect=false
+                  ..autoEdit=false
+                  ..frozenColumn=1;
+  grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
+  RowSelectionModel rsm=new RowSelectionModel({'selectActiveRow':true});
   sg.onSelectedRowsChanged.subscribe((var e, args){
     print(rsm.getSelectedRows().length);
   });
