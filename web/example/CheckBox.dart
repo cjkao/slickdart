@@ -60,7 +60,7 @@ grid.SlickGrid init(){
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
   RowSelectionModel rsm=new RowSelectionModel({'selectActiveRow':true});
   sg.onSelectedRowsChanged.subscribe((var e, args){
-    print(rsm.getSelectedRows().length);
+    rsm.getSelectedRows().forEach(print);
   });
   sg.setSelectionModel(rsm);
   sg.registerPlugin(checkboxCol);
