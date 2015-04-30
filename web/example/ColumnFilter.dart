@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
+import 'package:slickdart/slick_selectionmodel.dart';
 String searchStr='';
 grid.FilteredList srcData=new grid.FilteredList();
 void main() {
@@ -47,7 +48,7 @@ grid.SlickGrid makeGrid(){
      {'field': "duration", 'sortable': true },
      {'field': "start", 'sortable': true }]);
 
-  for (var i = 0; i < 1500; i++) {
+  for (var i = 0; i < 500; i++) {
     srcData.add( {
       'title':  i+1,
       'duration': 'd ${i*100}',
@@ -62,11 +63,13 @@ grid.SlickGrid makeGrid(){
     }else{
     }
   }
-  Map opt = {'explicitInitialization': false,
-             'multiColumnSort': false,
-             'dynamicHeight': true,
-             'frozenColumn': 0
-  };
+  
+  
+  var opt = new grid.GridOptions()
+                  ..explicitInitialization= false
+                  ..multiColumnSort= false
+                  ..dynamicHeight=true
+                  ..frozenColumn=0;  
   grid.SlickGrid sg;
   Map getMeta(int row){
           Map item=sg.data[row];
@@ -85,7 +88,14 @@ grid.SlickGrid makeGrid(){
           }
         }
 
-  sg= new grid.SlickGrid(el,new grid.MetaList(srcData,getMeta),column,opt);
+  sg= new grid.SlickGrid.fromOpt(el,new grid.MetaList(srcData,getMeta),column,opt);
+  
+  RowSelectionModel rsm=new RowSelectionModel({'selectActiveRow':true});
+    sg.onSelectedRowsChanged.subscribe((var e, args){
+      rsm.getSelectedRows().forEach(print);
+    });
+    sg.setSelectionModel(rsm);
+  
   sg.onSort.subscribe( (e, args) {
     grid.Column col = args['sortCol'];
     sg.data.sort( (dataRow1, dataRow2) {

@@ -1,3 +1,7 @@
+#Version 0.1.1+2
+- fix RowSelectionModel + CheckboxSelectioncolumn with maximum single selected row
+- can be test on CheckBox.dart
+
 #Version 0.1.1+1
 - fix forceFitColumn
 

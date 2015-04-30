@@ -2684,7 +2684,7 @@ class SlickGrid {
 
     scrollRowIntoView(int row, [doPaging]) {
       int rowTopDist = _options.dynamicHeight ? this.yLookup.getPosition(row+1) : row * _options.rowHeight;
-      int rowBottomDist = _options.dynamicHeight ? this.yLookup.getPosition(row+2) : (row + 1) * _options.rowHeight;
+      //int rowBottomDist = _options.dynamicHeight ? this.yLookup.getPosition(row+2) : (row + 1) * _options.rowHeight;
 
       var rowAtTop = rowTopDist;
       var rowAtBottom = rowTopDist - viewportH + (viewportHasHScroll ? scrollbarDimensions['height'] : 0);

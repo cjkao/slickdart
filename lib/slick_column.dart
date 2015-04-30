@@ -240,7 +240,11 @@ class CheckboxSelectColumn extends Column with IPlugin {
 
   init(SlickGrid grid) {
     _grid = grid;
-    _handler.subscribe(_grid.onSelectedRowsChanged, handleSelectedRowsChanged).subscribe(_grid.onClick, handleClick).subscribe(_grid.onHeaderClick, handleHeaderClick).subscribe(_grid.onKeyDown, handleKeyDown);
+    _handler.subscribe(_grid.onSelectedRowsChanged, handleSelectedRowsChanged)
+            .subscribe(_grid.onClick, handleClick)
+            .subscribe(_grid.onHeaderClick, handleHeaderClick)
+            .subscribe(_grid.onKeyDown, handleKeyDown);
+    
   }
   CheckboxSelectColumn(options) {
     _options = new Map.from(_defaults);
@@ -301,6 +305,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
     } else {
       evt = new core.EventData.fromDom(e);
     }
+    
     _log.finest('handle from:' + this.runtimeType.toString() + ' ' + evt.target.toString());
 //     var target= e.target ;
     // clicking on a row select checkbox
@@ -319,13 +324,17 @@ class CheckboxSelectColumn extends Column with IPlugin {
   }
 //TODO fixme
   toggleRowSelection(int row) {
-    List list = _grid.getSelectedRows();
-    if (_selectedRowsLookup.containsKey(row)) {
-      list.remove(row);
-    } else {
-      list.add(row);
+    if(_grid.gridOptions.multiSelect==false){
+      _grid.setSelectedRows([row]);
+    }else{
+      List list = _grid.getSelectedRows();
+      if (_selectedRowsLookup.containsKey(row)) {
+        list.remove(row);
+      } else {
+        list.add(row);
+      }
+      _grid.setSelectedRows(list);
     }
-    _grid.setSelectedRows(list);
   }
   /**
    * change all row to selected state
@@ -333,6 +342,14 @@ class CheckboxSelectColumn extends Column with IPlugin {
    */
   handleHeaderClick(core.EventData evt, Map args) {
     MouseEvent e = evt.domEvent;
+    
+    if(_grid.gridOptions.multiSelect==false){
+      e.preventDefault();
+      return;
+    }
+    
+    
+    
     if ((args['column'] as Column).id == _options['columnId'] && e.target is CheckboxInputElement) {
       // if editing, try to commit
       if (_grid.getEditorLock().isActive() && !_grid.getEditorLock().commitCurrentEdit()) {
@@ -354,7 +371,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
       e.stopImmediatePropagation();
     }
   }
-
+ 
   CheckboxSelectColumn getColumnDefinition() {
     InputElement elem = new InputElement();
     elem.type = 'checkbox';
