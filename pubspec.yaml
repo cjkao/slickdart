@@ -8,11 +8,11 @@ dependencies:
   logging: any
 
 dev_dependencies:
-  polymer: any
-  dnd: any
+#  polymer: any
+#  dnd: any
   unittest: any
-  web_components: any
-  initialize: any
+#  web_components: any
+#  initialize: any
   datepicker: any
 #  pubviz: any
 #transformers:
