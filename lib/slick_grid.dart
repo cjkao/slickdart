@@ -12,7 +12,7 @@ import 'slick_util.dart';
 import 'slick_dnd.dart';
 import 'slick_column.dart';
 import 'row_height.dart' as heightIdx;
-Logger _log = new Logger('cj.grid');
+final Logger _log = new Logger('cj.grid');
 /**
  * plug-in interface
  */
@@ -768,7 +768,8 @@ class SlickGrid {
     DivElement div=new DivElement();
     if(style!=null)
       style.forEach((key,value)=> div.style.setProperty(key, value));
-    div.classes.addAll(clz.split(' '));
+    if(clz.trim().length>0)
+      div.classes.addAll(clz.split(' '));
     if(tabIndex>0) div.tabIndex=tabIndex;
     if(hideFocus) div.attributes['hideFocus']='true';
     if(parentNode!=null){
@@ -1407,7 +1408,9 @@ class SlickGrid {
         _headExt[header] = m;
 
         if (m['headerCssClass'] !=null) header.classes.add(m['headerCssClass']);
-        header.classes.add(m['headerCssClass'] == null ? '': m['headerCssClass'] );
+        if(m['headerCssClass'] != null){
+          header.classes.add(m['headerCssClass'] );
+        }
         $headerTarget.append(header);
         if (_options.enableColumnReorder ==true || m['sortable'] == true) {
           header.onMouseEnter.listen(onMouseEnter);

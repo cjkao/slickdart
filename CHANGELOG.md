@@ -1,3 +1,10 @@
+#Version 0.1.1+4
+- adapt css change in dart 1.10
+- a noticable perfomance degrade in Chrome 42.02311.90 when have large horzontal columns2
+#Version 0.1.1+3
+- fix RowSelectionModel + dynamic height + column filter
+- can be test on ColumnFilter.dart
+
 #Version 0.1.1+2
 - fix RowSelectionModel + CheckboxSelectioncolumn with maximum single selected row
 - can be test on CheckBox.dart
