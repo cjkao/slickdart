@@ -2179,7 +2179,8 @@ class SlickGrid {
 //////////////////////////////////////////////////////////////////////////////////////////////
     // IEditor implementation for the editor lock
 
-    commitCurrentEdit() {
+   bool commitCurrentEdit() {
+      if(activeRow ==null) return false;
       var item = getDataItem(activeRow);
       var column = columns[activeCell];
 

@@ -57,6 +57,7 @@ grid.SlickGrid init(){
     print(args['column']);
   });
   sg.onSort.subscribe( (e, args) {
+    sg.commitCurrentEdit();
     var cols = args['sortCols'];
 //{sortCol: {name: Title1, resizable: true, sortable: true, minWidth: 30, rerenderOnResize: false, headerCssClass: null, defaultSortAsc: true, focusable: true, selectable: true, cannotTriggerInsert: false, width: 80, id: title, field: title}, sortAsc: true}
     data.sort( (dataRow1, dataRow2) {
