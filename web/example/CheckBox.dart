@@ -56,7 +56,7 @@ grid.SlickGrid init(){
                   ..multiColumnSort= false
                   ..multiSelect=false
                   ..autoEdit=false
-                  ..frozenColumn=1;
+                  ..frozenColumn=2;
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
   RowSelectionModel rsm=new RowSelectionModel({'selectActiveRow':true});
   sg.onSelectedRowsChanged.subscribe((var e, args){

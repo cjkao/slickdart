@@ -42,6 +42,10 @@ classes should alter those!
 .slick-header-column-sorted {
   font-style: italic;
 }
+.slick-header-column{
+  box-shadow: inset 0 -1px  0 0 rgb(128, 128, 128);
+}
+
 
 .slick-sort-indicator {
   display: inline-block;
@@ -170,6 +174,9 @@ classes should alter those!
 
 .slick-pane-header {
 	display: block;
+	z-index:10;
+	
+	/*border-bottom: 1px solid black;*/
 }
 
 .slick-header {
@@ -198,15 +205,31 @@ classes should alter those!
 	 /*-webkit-transform: translateZ(0);*/
 	 -webkit-overflow-scrolling: touch;
 }
+
+/*
+.slick-viewport.slick-viewport-top.slick-viewport-left .slick-row .slick-cell:last-child{
+  border-right:1px solid rgba(255, 255, 255, 0);
+}
+
+*/
+
 .slick-header-column, .slick-row, .slick-cell,.slick-cell:after{
     box-sizing: content-box;    /* fix bootstrap*/
 }
 [hidden] { display: none; } /* polyfill ie10*/
 
 .slick-pane-left{
-  box-shadow: 1px 0 1px rgb(128, 128, 128);
-  z-index: 3;
+   
+  box-shadow: 1px 0 0 0 rgb(128, 128, 128);
+  
+  z-index: 5; 
 }
+
+
+
+
+
+
 .slick-pane.slick-pane-top.slick-pane-right{
   z-index: 1;
 }

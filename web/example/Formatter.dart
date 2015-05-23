@@ -40,9 +40,9 @@ grid.SlickGrid init(){
                 // new grid.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"})
                  ];
   List data=[];
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 50000; i++) {
     data.add( {
-      'dtitle':  new math.Random().nextInt(100).toString(),
+      'dtitle':  i.toString(),
       'duration': new math.Random().nextInt(100).toString(),
       'pc': new math.Random().nextInt(100),
 //      'start': "01/01/2009",

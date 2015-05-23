@@ -14,12 +14,31 @@ classes should alter those!
 
 
 .slick-header-column {
+  background-color: rgb(237,237,237);
+  /*
   background: url('images/header-columns-bg.gif') repeat-x center bottom;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ddd), color-stop(1, #fff));
+  background: -ms-linear-gradient(bottom, #eee, #fff);
+  background: -moz-linear-gradient(center bottom, #eee 0, #fff 100%);
+  background: -o-linear-gradient(#fff, #eee);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0);
+  */
+  
   border-right: 1px solid silver;
 }
 
 .slick-header-column:hover, .slick-header-column-active {
+  
+ /* 
   background: white url('images/header-columns-over-bg.gif') repeat-x center bottom;
+  */
+  
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #BDF), color-stop(1, #eee));
+  background: -ms-linear-gradient(bottom, #eee, #fff);
+  background: -moz-linear-gradient(center bottom, #eee 0, #fff 100%);
+  background: -o-linear-gradient(#fff, #eee);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0);
+  
 }
 
 .slick-headerrow {

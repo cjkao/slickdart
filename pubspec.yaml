@@ -8,7 +8,7 @@ dependencies:
   logging: any
 
 dev_dependencies:
-#  polymer: any
+  polymer: any
 #  dnd: any
   unittest: any
 #  web_components: any
@@ -16,4 +16,5 @@ dev_dependencies:
   datepicker: any
 #  pubviz: any
 #transformers:
-#- polymer
+#- polymer:
+#    entry_points: web/example/EditorSample.html

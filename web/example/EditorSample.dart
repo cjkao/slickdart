@@ -5,13 +5,13 @@ import 'package:slickdart/slick_editor.dart';
 import 'package:slickdart/slick_selectionmodel.dart';
 //import 'package:bootjack_datepicker/bootjack_datepicker.dart';
 //import 'package:datepicker/components/date_input.dart';
-import 'package:polymer/polymer.dart';
+//import 'package:polymer/polymer.dart';
 void main() {
 //  initPolymer().run(() {
     // The rest of the code in the main method.
+//    Polymer.onReady.then((_) {
   grid.SlickGrid  g=init();
   g.init();
-//  Polymer.onReady.then((_) {
     
     //XDateInput item = new Element.tag('date-input');
     //document.querySelector('body').append(item);
@@ -104,8 +104,10 @@ class DateEditor extends Editor {
     super.editorParm=m;
 //    $input = new Element.html('<div class="calendar" data-date="2013/09/16" data-format="yyyy/MM/dd"></div>');
 //    $input = new DivElement()..classes.add('calendar')..dataset['date']='2013/09/15'..dataset['format']='yyyy/MM/dd';
-    $input = new Element.tag('date-input');
-    $input.attributes['inputmaxlength']='5';
+    $input = new DateInputElement(); //
+//    $input =  new Element.tag('date-input');    
+//    $input
+    //$input.attributes['inputmaxlength']='5';
    // $input.attributes['value']= m.
     //_opts.forEach((key,dispVal)=>  $input.children.add(new OptionElement()..value='$key'..text=dispVal));
     editorParm.activeCellNode.append($input);
@@ -122,7 +124,7 @@ class DateEditor extends Editor {
 
   loadValue(item) {
     super.loadValue(item);
-    $input.attributes['value']= (item[this.editorParm.columnDef.field] as String)..replaceAll('/', '-');
+    $input.attributes['value']= (item[this.editorParm.columnDef.field] as String).replaceAll('/', '-');
   }
   String serializeValue() {
     return '2013/09/16';
