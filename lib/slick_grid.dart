@@ -1440,12 +1440,17 @@ class SlickGrid {
             "column": m
           });
         }
-        new DragAndDrop($headerRowTarget).install();
+       // new DragAndDrop($headerRowTarget).install();
       }
-//      new DragAndDrop($headerRowTarget).install();
       setSortColumns(sortColumns);
       setupColumnResize();
       if (_options.enableColumnReorder) {
+        if(_options.frozenColumn>-1){
+          new DragAndDrop($headerR).install();
+          
+        }else{
+          new DragAndDrop($headerL).install();
+        }
         setupColumnReorder();
       }
     }
@@ -1709,7 +1714,8 @@ class SlickGrid {
           _log.finest('drag End ${e.page.x}' );
           int i=columnElements.indexOf((e.target as Element).parent);
           var newWidth;
-          item.parent.classes.remove("slick-header-column-active");
+          columnElements[i].classes.remove("slick-header-column-active");
+//          item.parent.classes.remove("slick-header-column-active");
           for (j = 0; j < columnElements.length; j++) {
             c = columns[j];
             newWidth = columnElements[j].borderEdge.width;
