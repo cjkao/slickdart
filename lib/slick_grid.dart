@@ -64,8 +64,8 @@ class SlickGrid {
   Element container;
   //each item will render as row
   List data;
-  List<Column> columns;
-  List<Column> allColumns;
+  List<Column> columns;     // columns that are visible
+  List<Column> allColumns;  //all columns
   Map get options => _options.toJson();
   GridOptions _options=new GridOptions();
 
@@ -134,9 +134,9 @@ class SlickGrid {
   }
 
  // Map<String,dynamic> defaults ;
-  Column columnDefaults= new Column();
+  Column _columnDefaults= new Column();
 
-  heightIdx.Node yLookup=null;
+  heightIdx.Node _yLookup=null;
 // scroller
   int th;   // virtual height
   int h;    // real scrollable height
@@ -152,7 +152,7 @@ class SlickGrid {
   bool initialized = false;
   var uid = "slickgrid_" + new math.Random().nextInt(10000000).toString();
 
-  DivElement $focusSink, $focusSink2;
+  DivElement _$focusSink, _$focusSink2;
   List $headerScroller = [];
   List<Element> $headers = [];
   List<Element> $headerRow = [];
@@ -224,12 +224,15 @@ class SlickGrid {
    *
    */
   Map<String,Map<int,Map<String,String>>> _cellCssClasses = {};
-
+  /**
+   * Column ID to column object
+   * if id no specify, using field instead
+   */
   Map columnsById = {};
   List sortColumns = [];
   //cache column left,right pos to determine which cell to render
-  List<int> columnPosLeft = [];
-  List<int> columnPosRight = [];
+  List<int> _columnPosLeft = [];
+  List<int> _columnPosRight = [];
 
 
   // async call handles
@@ -297,11 +300,11 @@ class SlickGrid {
  //
 
 
-  /////////////////////////////one line accessoe
+  /////////////////////////////one line accesser
   int getDataLength()=>data.length;
-  int getColumnIndex(id) =>columnsById[id];
+  int getColumnIndex(String id) =>columnsById[id];
   List getSortColumns() => sortColumns;
-
+  List<Column> getColumns() => columns;
   handleSelectedRangesChanged(core.EventData e, List<core.Range> ranges) {
     selectedRows = [];
     var hash = {};
@@ -404,7 +407,7 @@ class SlickGrid {
       columnCssRulesR = [];
       List<CssStyleRule> cssRules = stylesheet.cssRules;
 
-      var matches, columnIdx;
+      //var matches, columnIdx;
       RegExp reg=new RegExp(r"\.l(\d+)");
       RegExp regR=new RegExp(r'\.r(\d+)');
       for (int i = 0; i < cssRules.length; i++) {
@@ -789,23 +792,20 @@ class SlickGrid {
 //        options.putIfAbsent(k, ()=> v)
 //    );
     validateAndEnforceOptions();
-    columnDefaults.width = _options.defaultColumnWidth;
-
-    columnsById = {};
-
-    for (int i = 0; i < columns.length; i++) {
-      //var tmp = new Column.fromColumn(columnDefaults);
-
-      //tmp.merge(columns[i]);
-      Column m = columns[i];// = tmp;
-      columnsById[m.id] = i;
-      if (m['minWidth']!=null && m['width'] < m['minWidth']) {
-        m.width = m.minWidth;
-      }
-      if (m['maxWidth']!=null && m['width'] > m['maxWidth']) {
-        m.width = m.maxWidth;
-      }
-    }
+    _columnDefaults.width = _options.defaultColumnWidth;
+    updateColumnIndex();
+//    columnsById = {};
+//
+//    for (int i = 0; i < columns.length; i++) {
+//      Column m = columns[i];// = tmp;
+//      columnsById[m.id] = i;
+//      if (m['minWidth']!=null && m['width'] < m['minWidth']) {
+//        m.width = m.minWidth;
+//      }
+//      if (m['maxWidth']!=null && m['width'] > m['maxWidth']) {
+//        m.width = m.maxWidth;
+//      }
+//    }
 
     editController = {
                       "commitCurrentEdit": commitCurrentEdit,
@@ -821,15 +821,15 @@ class SlickGrid {
     if (! new RegExp(r'relative|absolute|fixed').hasMatch(container.style.position )){
       container.style.position= "relative";
     }
-    $focusSink = new DivElement();
-    $focusSink.attributes['hideFocus']='true';
-    $focusSink.style..position='fixed'
+    _$focusSink = new DivElement();
+    _$focusSink.attributes['hideFocus']='true';
+    _$focusSink.style..position='fixed'
         ..width='0'
         ..height='0'
         ..top='0'
         ..left='0'
         ..outline='0';
-    container.append($focusSink);
+    container.append(_$focusSink);
 
     $paneHeaderL = _createElem(container,clz:'slick-pane slick-pane-header slick-pane-left', tabIndex:0);
     $paneHeaderR = _createElem(container,clz:'slick-pane slick-pane-header slick-pane-right', tabIndex:0);
@@ -914,8 +914,8 @@ class SlickGrid {
 
 
 
-      $focusSink2 = $focusSink.clone(true);
-      container.append($focusSink2);
+      _$focusSink2 = _$focusSink.clone(true);
+      container.append(_$focusSink2);
 
       if (_options.explicitInitialization!=true) {
         finishInitialization();
@@ -928,22 +928,26 @@ class SlickGrid {
   void resetDynHeight(){
     _getViewportHeight();
     if(_options.dynamicHeight==true){
-            this.yLookup = new heightIdx.Root(data,_options.rowHeight );
+            this._yLookup = new heightIdx.Root(data,_options.rowHeight );
     }
     resizeCanvas();
   }
   void finishInitialization() {
     if (!initialized) {
+      viewportW = core.Dimension.getCalcWidth(container);
+      if(viewportW==0) {
+        new Future.delayed(new Duration(milliseconds:100),finishInitialization);
+        return;
+      }
+      assert(viewportW>0);
       initialized = true;
 //      _log.finest(container.getBoundingClientRect().width);
-      viewportW = core.Dimension.getCalcWidth(container);
-      assert(viewportW>0);
       _getViewportHeight();
 //      viewportW = int.parse(container.getComputedStyle().width.replaceAll('px', ''));
       measureCellPaddingAndBorder();
 
       if(_options.dynamicHeight==true){
-        this.yLookup = new heightIdx.Root(data,_options.rowHeight );
+        this._yLookup = new heightIdx.Root(data,_options.rowHeight );
       }
 
 
@@ -994,8 +998,8 @@ class SlickGrid {
       $headerScroller.forEach((_)=> _.querySelectorAll('.slick-header-column').onMouseEnter.listen(handleHeaderMouseEnter));
       $headerScroller.forEach((_)=> _.querySelectorAll('.slick-header-column').onMouseLeave.listen(handleHeaderMouseLeave));
       $headerRowScroller.forEach((_)=> _.onScroll.listen(handleHeaderRowScroll));
-      $focusSink.onKeyDown.listen(handleKeyDown);
-      $focusSink2.onKeyDown.listen(handleKeyDown);
+      _$focusSink.onKeyDown.listen(handleKeyDown);
+      _$focusSink2.onKeyDown.listen(handleKeyDown);
 
       $canvas.forEach((_)=> _..onKeyDown.listen(handleKeyDown)
       ..onClick.listen(handleClick)
@@ -1343,7 +1347,9 @@ class SlickGrid {
 //      var $header = $headerRow.children[idx];
 //      return $header;
     }
-
+    /**
+     * create Column headers using [columns]
+     */
     createColumnHeaders() {
       void onMouseEnter(MouseEvent e) {
         Element el =e.currentTarget;
@@ -1403,6 +1409,7 @@ class SlickGrid {
         header.append(spanEl);
         header.style.width = (m['width'] - headerColumnWidthDiff).toString() + 'px';
         header.attributes['id']= '$uid${m.id}';
+        header.dataset['id']=m.id;
         if(m.toolTip!=null) header.attributes['title']=m.toolTip;
         //header.dataset['column']=JSON.encode(m._src);
         _headExt[header] = m;
@@ -1446,10 +1453,9 @@ class SlickGrid {
       setupColumnResize();
       if (_options.enableColumnReorder) {
         if(_options.frozenColumn>-1){
-          new DragAndDrop($headerR).install();
-          
+          new DragAndDrop(this,$headerR).install();
         }else{
-          new DragAndDrop($headerL).install();
+          new DragAndDrop(this,$headerL).install();
         }
         setupColumnReorder();
       }
@@ -1747,12 +1753,12 @@ class SlickGrid {
 
     void updateColumnCaches() {
       // Pre-calculate cell boundaries.
-      columnPosLeft = [];
-      columnPosRight = [];
+      _columnPosLeft = [];
+      _columnPosRight = [];
       int x = 0;
       for (int i = 0, ii = columns.length; i < ii; i++) {
-        columnPosLeft.insert(i, x);
-        columnPosRight.insert(i,x + columns[i].width);
+        _columnPosLeft.insert(i, x);
+        _columnPosRight.insert(i,x + columns[i].width);
         if (_options.frozenColumn== i) {
              x = 0;
          } else {
@@ -1761,15 +1767,11 @@ class SlickGrid {
       }
     }
 
-    List<Column> getColumns() => columns;
-
-
-
-    setColumns(List<Column> columnDefinitions) {
-      allColumns = columnDefinitions;
-      columns = new List<Column>.from(columnDefinitions.where((c) => c.visible));
-      //columns = columnDefinitions;
-
+    
+  /**
+   * map column elem id to sequence index(nth column in grid)  
+   */  
+  void  updateColumnIndex(){
       this.columnsById = {};
       for (var i = 0; i < columns.length; i++) {
         var m = columns[i];//new Column.fromColumn(columnDefaults).merge(columns[i]);
@@ -1781,6 +1783,16 @@ class SlickGrid {
           m.width = m.maxWidth;
         }
       }
+    }
+    /**
+     * [columnDefinitions] all columns
+     */
+    setColumns(List<Column> columnDefinitions) {
+      allColumns = columnDefinitions;
+      columns = new List<Column>.from(columnDefinitions.where((c) => c.visible));
+      //columns = columnDefinitions;
+      updateColumnIndex();
+      
 
       updateColumnCaches();
 
@@ -1846,7 +1858,7 @@ class SlickGrid {
       if (_options.frozenRow > -1) {
           hasFrozenRows = true;
           if(_options.dynamicHeight){
-            frozenRowsHeight = this.yLookup.getPosition(_options.frozenRow+1);
+            frozenRowsHeight = this._yLookup.getPosition(_options.frozenRow+1);
           }else{
             frozenRowsHeight = ( _options.frozenRow ) * _options.rowHeight;
           }
@@ -2108,7 +2120,7 @@ class SlickGrid {
      */
     int getRowTop(int row) {
       if(_options.dynamicHeight==true){
-        int pos=yLookup.getPosition(row);
+        int pos=_yLookup.getPosition(row);
         return pos;
       }else{
         return _options.rowHeight * row - offset;
@@ -2117,7 +2129,7 @@ class SlickGrid {
 
     int getRowFromPosition(y) {
       if(_options.dynamicHeight==true){
-        int rowIdx=yLookup.getRowId(y);
+        int rowIdx=_yLookup.getRowId(y);
         return rowIdx;
       }else{
         return ((y + offset) / _options.rowHeight).floor();
@@ -2343,7 +2355,7 @@ class SlickGrid {
             // TODO:  shorten this loop (index? heuristics? binary search?)
             for (int cell = 0, ii = columns.length; cell < ii; cell++) {
               // Cells to the right are outside the range.
-              if (columnPosLeft[cell] > range['rightPx']) {
+              if (_columnPosLeft[cell] > range['rightPx']) {
                 break;
               }
               // Already rendered.
@@ -2353,7 +2365,7 @@ class SlickGrid {
                 continue;
               }
               colspan = 1;
-              if (columnPosRight[math.min(ii - 1, cell + colspan - 1)] > range['leftPx']  ||
+              if (_columnPosRight[math.min(ii - 1, cell + colspan - 1)] > range['leftPx']  ||
               _options.frozenColumn>=cell
               ) {
                 appendCellHtml(stringArray, row, cell, colspan, d);
@@ -2445,8 +2457,8 @@ class SlickGrid {
 //            continue;
 //        }
         var colspan = cacheEntry.cellColSpans[i];
-        if (columnPosLeft[i] > range['rightPx'] ||
-          columnPosRight[math.min(columns.length - 1, i + colspan - 1)] < range['leftPx']) {
+        if (_columnPosLeft[i] > range['rightPx'] ||
+          _columnPosRight[math.min(columns.length - 1, i + colspan - 1)] < range['leftPx']) {
           if (!(row == activeRow && i == activeCell)) {
             cellsToRemove.add(i);
           }
@@ -2528,9 +2540,9 @@ class SlickGrid {
 
     void setFocus() {
        if (tabbingDirection == -1) {
-         $focusSink.focus();
+         _$focusSink.focus();
        } else {
-         $focusSink2.focus();
+         _$focusSink2.focus();
        }
      }
 
@@ -2620,7 +2632,7 @@ class SlickGrid {
 
     int getFrozenRowOffset(row) {
       int distY = _options.dynamicHeight
-                    ? this.yLookup.getPosition(actualFrozenRow +1)
+                    ? this._yLookup.getPosition(actualFrozenRow +1)
                     : actualFrozenRow * _options.rowHeight ;
 
        int offset =
@@ -2693,7 +2705,7 @@ class SlickGrid {
 
 
     scrollRowIntoView(int row, [doPaging]) {
-      int rowTopDist = _options.dynamicHeight ? this.yLookup.getPosition(row+1) : row * _options.rowHeight;
+      int rowTopDist = _options.dynamicHeight ? this._yLookup.getPosition(row+1) : row * _options.rowHeight;
       //int rowBottomDist = _options.dynamicHeight ? this.yLookup.getPosition(row+2) : (row + 1) * _options.rowHeight;
 
       var rowAtTop = rowTopDist;
@@ -2712,7 +2724,7 @@ class SlickGrid {
     }
 
      void scrollRowToTop(int row) {
-       int distToMove = _options.dynamicHeight ? this.yLookup.getPosition(row+1) : row * _options.rowHeight;
+       int distToMove = _options.dynamicHeight ? this._yLookup.getPosition(row+1) : row * _options.rowHeight;
       scrollTo(distToMove);
       render();
     }
@@ -2788,8 +2800,8 @@ class SlickGrid {
       }
 
       var colspan = getColspan(row, cell);
-      int left = columnPosLeft[cell],
-        right = columnPosRight[cell + (colspan > 1 ? colspan - 1 : 0)],
+      int left = _columnPosLeft[cell],
+        right = _columnPosRight[cell + (colspan > 1 ? colspan - 1 : 0)],
         scrollRight = scrollLeft + viewportW;
 
       if (left < scrollLeft) {
@@ -3054,8 +3066,8 @@ class SlickGrid {
       for (var i = 0, ii = columns.length; i < ii; i++) {
        //Column m = columns[i];
         colspan = 1;
-        if (columnPosRight[math.min(ii - 1, i + colspan - 1)] > range['leftPx']) {
-          if (columnPosLeft[i] > range['rightPx']) {
+        if (_columnPosRight[math.min(ii - 1, i + colspan - 1)] > range['leftPx']) {
+          if (_columnPosLeft[i] > range['rightPx']) {
             // All columns to the right are outside the range.
             break;
           }
@@ -3209,7 +3221,7 @@ class SlickGrid {
 
       int oldH = h;
       if(_options.dynamicHeight==true){ //total length must match, or we may not able to scroll to last row
-        th = yLookup.height;
+        th = _yLookup.height;
       }else{
         th = math.max(_options.rowHeight * numberOfRows, viewportH - scrollbarDimensions['height']);
       }
@@ -3911,6 +3923,8 @@ class SlickGrid {
         var editorStr=column['editor'];
         if(editorStr is String){
           switch(editorStr){
+            case 'IntEditor':
+              return new editor.IntEditor(editorParm)..editorParm=editorParm;
             case 'TextEditor':
               return new editor.TextEditor(editorParm)..editorParm=editorParm;
             case 'CheckboxEditor':

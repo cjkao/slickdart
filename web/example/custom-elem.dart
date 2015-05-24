@@ -57,4 +57,3 @@ Map getMeta(int row){
           }else return {};
         }
 
-//  sg= new grid.SlickGrid(el,new grid.MetaList(tdata,getMeta),column,opt);

@@ -186,7 +186,7 @@ class GridOptions{
   bool     editable                       = false;
   bool     autoEdit                       = true;
   bool     enableCellNavigation           = true;
-  bool     enableColumnReorder            = true;
+  bool     enableColumnReorder            = false;
   bool     asyncEditorLoading             = false;
   int      asyncEditorLoadDelay           = 100;
   //when true,force maximum column width to sum of total column width

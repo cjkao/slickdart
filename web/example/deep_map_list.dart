@@ -5,21 +5,23 @@ import 'dart:math' as math;
 void main() {
   var g=init();
   g.init();
+//  g.invalidate();
+//    g.render();
 }
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
   List column = [
      new grid.Column.fromMap ({            'name': "id",                 'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'width':120,'name': "percentComplete2",   'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({            'name': "start3",             'field': "start", 'sortable': true }),
+     new grid.Column.fromMap ({'width':120,'name': "PercentComplete2",   'field': "percentComplete", 'sortable': true }),
+     new grid.Column.fromMap ({            'name': "Start",             'field': "start", 'sortable': true }),
      new grid.Column.fromMap ({                                          'field': "finish"}),
-     new grid.Column.fromMap ({            'name': "5Title1",            'field': "title", 'sortable': true }),
-     new grid.Column.fromMap ({'width':120,'name': "6complete",          'field': "percentComplete", 'sortable': true }),
-     new grid.Column.fromMap ({            'name': "7start",             'field': "start", 'sortable': true }),
-     new grid.Column.fromMap ({            'name': "8finish",            'field': "finish"}),
-     new grid.Column.fromMap ({            'name': "9finish",            'field': "finish"}),
-     new grid.Column.fromMap ({            'name': "10 Title1",          'field': "title", 'sortable': true }),
+     new grid.Column.fromMap ({            'name': "TitleA",            'field': "title", 'sortable': true }),
+     new grid.Column.fromMap ({'width':120,'name': "Complete",          'field': "percentComplete", 'sortable': true }),
+     new grid.Column.fromMap ({            'name': "Start A",             'field': "start", 'sortable': true }),
+     new grid.Column.fromMap ({            'name': "Finish A",            'field': "finish"}),
+     new grid.Column.fromMap ({            'name': "Finish B",            'field': "finish"}),
+     new grid.Column.fromMap ({            'name': "Title C",          'field': "title", 'sortable': true }),
   ];
   List data=[];
   for (var i = 0; i < 500; i++) {
@@ -39,10 +41,12 @@ grid.SlickGrid init(){
   grid.GridOptions opt = new grid.GridOptions()
                               ..explicitInitialization= false
                               ..multiColumnSort= false
+                              ..enableColumnReorder = true
                               ..dataItemColumnValueExtractor=mapExtract;
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
   return sg;
 }
 mapExtract(Map data, grid.Column col){
-    //col.extract(data);
+  if(col.field=='start') return data['a'];
+  return data[col.field];
 }

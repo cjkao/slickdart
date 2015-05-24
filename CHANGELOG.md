@@ -1,3 +1,9 @@
+#Version 0.1.2 (2015/05/25)
+- enable column reorder on non-frozen columns
+- no reorder by default , set _optoins.enableColumnReorder = true to turn on it
+- duplicated field may cause reorder fail 
+- add simple integer editor
+
 #Version 0.1.1+4
 - adapt css change in dart 1.10
 - a noticable perfomance degrade in Chrome 42.02311.90 when have large horzontal columns2

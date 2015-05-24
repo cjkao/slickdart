@@ -22,7 +22,7 @@ abstract class Editor{
    */
   String serializeValue();
   /**
-   * update value to target attribute of row object
+   * write value back to target row object
    */
   void applyValue(item, state){
     item[_ep.columnDef.field] = state;
@@ -123,6 +123,49 @@ class TextEditor extends InputEditor{
       return (!($input.value == "" && defaultValue == null)) && ($input.value != defaultValue);
     }
   }
+
+
+
+class IntEditor extends InputEditor{
+  set editorParm (EditorParm m) {
+      super.editorParm=m;
+      $input = new InputElement(type:'number');
+      $input.pattern='[-+]?[0-9]*';
+      $input.classes.add('editor-text');
+      _ep.activeCellNode.append($input);
+      $input..onKeyDown.matches(".nav").
+      listen((KeyboardEvent e){
+        if(e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT){
+          e.stopImmediatePropagation();
+        }
+      })
+      ..focus()
+      ..select();
+  }
+    IntEditor([_ep]) :super(_ep);
+
+    String getValue() {
+      return $input.value;
+    }
+    /**
+     * item: a row of data
+     */
+    void loadValue(item) {
+      super.loadValue(item);
+      $input.value ='$defaultValue';
+      $input.defaultValue = '$defaultValue';
+      $input.select();
+    }
+    void applyValue(item, state){
+      item[_ep.columnDef.field] = int.parse(state, onError:(_)=>   item[_ep.columnDef.field] );
+    }
+    String serializeValue() => $input.value;
+    bool isValueChanged() {
+      return (!($input.value == "" && defaultValue == null)) && ($input.value != defaultValue);
+    }
+  }
+
+
 /**
  * source data type: bool
  */

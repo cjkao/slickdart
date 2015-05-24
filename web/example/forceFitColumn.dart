@@ -81,6 +81,7 @@ grid.SlickGrid initGrow(){
   }
   var opt = new grid.GridOptions()
                 ..explicitInitialization= false
+                ..enableColumnReorder = true
                 ..multiColumnSort= false..forceFitColumns=true;
   List columns = [
          new grid.Column.fromMap ({            'name': "NoResize1",                 'field': "title", 'resizable': false }),

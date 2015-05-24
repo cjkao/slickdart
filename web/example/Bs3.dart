@@ -7,57 +7,49 @@ void main() {
   grid.init();
   //print(g.$canvas.getBoundingClientRect());
   querySelector('#reset').onClick.listen((e){
-    List _data=[];
-    for (var i = 0; i < 50000; i++) {
-      _data.add( {
-        'dtitle':  new math.Random().nextInt(100).toString(),
-         'duration': new math.Random().nextInt(100).toString(),
-         'pc2': new math.Random().nextInt(10) * 100,
-         'pc': (new math.Random().nextInt(10) * 100).toString(),
-         'start': "01/01/2009",
-         'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
-         'effortDriven': (i % 5 == 0)
-      });
-    }
+    grid.data.addAll(makeData(50000));
     grid.data.clear();
-    grid.data.addAll(_data);
     grid.invalidate();
 
   });
 }
 
+List makeData(int len){
+  List _data=[];
+  for (var i = 0; i < len; i++) {
+        _data.add( {
+          'dtitle':  new math.Random().nextInt(100).toString(),
+           'duration': new math.Random().nextInt(100),
+           'percent': '${i%100}%' ,
+           'pc': (new math.Random().nextInt(10) * 100).toString(),
+           'start': "01/01/2009",
+           'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
+           'effortDriven': (i % 5 == 0)
+        });
+      }
+  return _data;
+}
 cj.SlickGrid init(){
   Element el =querySelector('#grid');
   List column = [
 
-                 new cj.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true }),
-                 new cj.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true ,'editor': 'TextEditor'}),
-                 new cj.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc2", 'sortable': true,'editor': 'TextEditor' }),
-                 new cj.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"}),
-                 new cj.Column.fromMap ({'id': "%_2", 'name': "PC2", 'field': "pc", 'editor':'TextEditor'}),
-                 new cj.Column.fromMap ({'id': "effort", 'name': "effort", 'field': "effortDriven", 'width':300})
+                 new cj.Column.fromMap ({'name': "FIXED", 'field': "dtitle", 'sortable': true }),
+                 new cj.Column.fromMap ({'width':120,'name': "A", 'field': "duration", 'sortable': true ,'editor': 'IntEditor'}),
+                 new cj.Column.fromMap ({'field': "percent", 'name':'B', 'sortable': true,'editor': 'TextEditor' }),
+                 new cj.Column.fromMap ({'id': "start", 'name': "C", 'field': "finish"}),
+                 new cj.Column.fromMap ({'id': "%_2", 'name': "D", 'field': "pc", 'editor':'TextEditor'}),
+                 new cj.Column.fromMap ({'id': "effort", 'name': "E", 'field': "effortDriven", 'width':300})
                  ];
   cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   column.insert(0,checkboxCol.getColumnDefinition());
-  List data=[];
-  for (var i = 0; i < 5; i++) {
-    data.add( {
-      'dtitle':  new math.Random().nextInt(100).toString(),
-      'duration': new math.Random().nextInt(100).toString(),
-      'pc2': new math.Random().nextInt(10) * 100,
-      'pc': (new math.Random().nextInt(10) * 100).toString(),
-      'start': "01/01/2009",
-      'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
-      'effortDriven': (i % 5 == 0)
-    });
-  }
+  
   Map opt = {'explicitInitialization': false,
              'multiColumnSort': true,
              'editable': true,
              'autoEdit': true,
              'frozenColumn':1
   };
-  cj.SlickGrid sg= new cj.SlickGrid(el,data,column,opt);
+  cj.SlickGrid sg= new cj.SlickGrid(el,makeData(500),column,opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
   sg.registerPlugin(checkboxCol);
   sg.registerPlugin(new AutoTooltips());
@@ -71,7 +63,7 @@ cj.SlickGrid init(){
   sg.onSort.subscribe( (e, args) {
     var cols = args['sortCols'];
 //{sortCol: {name: Title1, resizable: true, sortable: true, minWidth: 30, rerenderOnResize: false, headerCssClass: null, defaultSortAsc: true, focusable: true, selectable: true, cannotTriggerInsert: false, width: 80, id: title, field: title}, sortAsc: true}
-    data.sort( (dataRow1, dataRow2) {
+    sg.getData().sort( (dataRow1, dataRow2) {
       for (var i = 0, l = cols.length; i < l; i++) {
         var field = cols[i]['sortCol']['field'];
         var sign = cols[i]['sortAsc'] ? 1 : -1;

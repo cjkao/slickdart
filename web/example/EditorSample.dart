@@ -46,6 +46,7 @@ grid.SlickGrid init(){
   grid.GridOptions opt=new grid.GridOptions()
       ..forceFitColumns=false
       ..editable=true
+      ..enableColumnReorder = true
       ..multiColumnSort=true
       ..enableColumnReorder=true;
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);

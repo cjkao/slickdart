@@ -163,7 +163,7 @@ class Column {
   factory Column.fromMap(Map<String, dynamic> src) {
     Column c = new Column();
     if (src['id'] == null) {
-      src['id'] = '${src['field']}.${new math.Random().nextInt(100000)}';
+      src['id'] = '${src['field']}-${new math.Random().nextInt(100000)}';
     }
     if (src['name'] == null) {
       src['name'] = '${src['field']}';

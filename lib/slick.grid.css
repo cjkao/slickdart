@@ -198,15 +198,14 @@ classes should alter those!
 	width:10000px
 }
 
+
+/*
 .slick-viewport {
 	position: relative;
 	outline: 0;
 	width: 100%;
-	 /*-webkit-transform: translateZ(0);*/
 	 -webkit-overflow-scrolling: touch;
 }
-
-/*
 .slick-viewport.slick-viewport-top.slick-viewport-left .slick-row .slick-cell:last-child{
   border-right:1px solid rgba(255, 255, 255, 0);
 }
@@ -232,4 +231,12 @@ classes should alter those!
 
 .slick-pane.slick-pane-top.slick-pane-right{
   z-index: 1;
+}
+
+.slick-header-column.over-right {
+  border-right: 2px solid #F00;
+}
+
+.slick-header-column.over-left {
+  border-left: 2px solid #F00;
 }
