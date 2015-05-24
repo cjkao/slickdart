@@ -25,15 +25,15 @@ grid.SlickGrid init(){
   List column = [
        new grid.Column.fromMap ({ 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
        new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
-       new grid.Column.fromMap ({'field': "StartDate", 'editor': new DateEditor()}),
+       new grid.Column.fromMap ({'field': "StartDate", 'width':140,'editor': new DateEditor()}),
        new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
-       new grid.Column.fromMap ({'field': "City", 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})}),
+       new grid.Column.fromMap ({'name':'List Editor','field': "City",'width':100, 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})}),
   ];
   List data=[];
   for (var i = 0; i < 50; i++) {
     data.add( {
       'dtitle':  new math.Random().nextInt(100).toString(),
-      'duration': new math.Random().nextInt(100).toString(),
+      'duration': new math.Random().nextInt(100),
       'pc': new math.Random().nextInt(10) * 100,
       'City': "NY",
       'StartDate': '2012/01/31'
