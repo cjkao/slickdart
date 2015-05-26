@@ -92,7 +92,7 @@ grid.SlickGrid init(){
  */
 class DateEditor extends Editor {
 
-  Map _opts;
+ // Map _opts;
 
   Map validate() {
       return {
@@ -122,7 +122,7 @@ class DateEditor extends Editor {
   /**
    * opt: { option_value: option_display_name,....}
    */
-  DateEditor([this._opts]);
+  DateEditor();
 
   loadValue(item) {
     super.loadValue(item);

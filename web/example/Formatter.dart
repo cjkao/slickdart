@@ -45,8 +45,6 @@ grid.SlickGrid init(){
       'dtitle':  i.toString(),
       'duration': new math.Random().nextInt(100).toString(),
       'pc': new math.Random().nextInt(100),
-//      'start': "01/01/2009",
-//      'finish': (new math.Random().nextInt(10)+10).toString() + "/05/2013",
       'effortDriven': (i % 5 == 0)
     });
   }

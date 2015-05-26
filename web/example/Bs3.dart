@@ -42,14 +42,14 @@ cj.SlickGrid init(){
                  ];
   cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   column.insert(0,checkboxCol.getColumnDefinition());
+  var opt = new cj.GridOptions()..explicitInitialization=false
+                                ..multiColumnSort=true
+                                ..editable=true
+                                ..autoEdit=true
+                                ..frozenColumn = 1
+                                ..enableColumnReorder=true;
   
-  Map opt = {'explicitInitialization': false,
-             'multiColumnSort': true,
-             'editable': true,
-             'autoEdit': true,
-             'frozenColumn':1
-  };
-  cj.SlickGrid sg= new cj.SlickGrid(el,makeData(500),column,opt);
+  cj.SlickGrid sg= new cj.SlickGrid.fromOpt(el,makeData(500),column,opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
   sg.registerPlugin(checkboxCol);
   sg.registerPlugin(new AutoTooltips());
