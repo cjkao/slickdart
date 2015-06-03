@@ -3,9 +3,8 @@ import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
 import 'package:slickdart/plugin/autotooltip.dart';
 void main() {
-  cj.SlickGrid  grid=init();
+  cj.SlickGrid  grid=prepareGrid();
   grid.init();
-  //print(g.$canvas.getBoundingClientRect());
   querySelector('#reset').onClick.listen((e){
     grid.data.addAll(makeData(50000));
     grid.data.clear();
@@ -18,7 +17,7 @@ List makeData(int len){
   List _data=[];
   for (var i = 0; i < len; i++) {
         _data.add( {
-          'dtitle':  new math.Random().nextInt(100).toString(),
+          'title':  new math.Random().nextInt(100).toString(),
            'duration': new math.Random().nextInt(100),
            'percent': '${i%100}%' ,
            'pc': (new math.Random().nextInt(10) * 100).toString(),
@@ -29,16 +28,16 @@ List makeData(int len){
       }
   return _data;
 }
-cj.SlickGrid init(){
+
+cj.SlickGrid prepareGrid(){
   Element el =querySelector('#grid');
   List column = [
-
-                 new cj.Column.fromMap ({'name': "FIXED", 'field': "dtitle", 'sortable': true }),
-                 new cj.Column.fromMap ({'width':120,'name': "A", 'field': "duration", 'sortable': true ,'editor': 'IntEditor'}),
-                 new cj.Column.fromMap ({'field': "percent", 'name':'B', 'sortable': true,'editor': 'TextEditor' }),
-                 new cj.Column.fromMap ({'id': "start", 'name': "C", 'field': "finish"}),
-                 new cj.Column.fromMap ({'id': "%_2", 'name': "D", 'field': "pc", 'editor':'TextEditor'}),
-                 new cj.Column.fromMap ({'id': "effort", 'name': "E", 'field': "effortDriven", 'width':300})
+                 new cj.Column.fromMap ({'field': "title",        'name': "FIXED",  'sortable': true }),
+                 new cj.Column.fromMap ({'field': "duration",     'name': "A",'width':120, 'sortable': true ,'editor': 'IntEditor'}),
+                 new cj.Column.fromMap ({'field': "percent",      'name': 'B', 'sortable': true,'editor': 'TextEditor' }),
+                 new cj.Column.fromMap ({'field': "finish",       'name': "C" }),
+                 new cj.Column.fromMap ({'field': "pc",           'name': "D",  'editor':'TextEditor'}),
+                 new cj.Column.fromMap ({'field': "effortDriven", 'name': "E",  'width':200})
                  ];
   cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   column.insert(0,checkboxCol.getColumnDefinition());

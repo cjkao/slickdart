@@ -1,3 +1,7 @@
+#Version 0.1.2+1 (2015/06/04)
+- hot fix for popup window(angular ui) to embed grid cause chrome 42,43 crash.
+ 
+
 #Version 0.1.2 (2015/05/25)
 - enable column reorder on non-frozen columns
 - no reorder by default , set _optoins.enableColumnReorder = true to turn on it
