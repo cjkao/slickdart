@@ -2,6 +2,7 @@ library slick.cust.el;
 import 'slick.dart';
 import 'dart:html';
 import 'dart:async';
+import 'dart:js';
 import 'package:logging/logging.dart';
 //import 'package:initialize/initialize.dart';
 //import 'plugin/header_menu.dart';
@@ -16,6 +17,9 @@ registerElem() {
   document.registerElement(GRID_TAG, JGrid);
   _setupBlockElement(); //for safari
 }
+//download can be disable from here
+//StreamSubscription contextSubscription; 
+
 _setupBlockElement() {
   if (_styleElement == null) {
     _styleElement = new StyleElement();
@@ -23,9 +27,34 @@ _setupBlockElement() {
     CssStyleSheet sheet = _styleElement.sheet;
     final rule = '$GRID_TAG { display:block; }';  //force element to have column width from css
     sheet.insertRule(rule, 0);
+    _addContext();
   }
 }
-
+_addContext(){
+  if(document.head.querySelector('script.grid-download')==null){
+    ScriptElement se=new ScriptElement();
+    se.classes.add('grid-download');
+    se.type='text/javascript';
+    se.text='''
+function setClipboard(data, elem, hideMenu){
+          var client = new ZeroClipboard( elem );    
+          client.on( 'ready', function(event) {
+            client.on( 'copy', function(event) {
+              event.clipboardData.setData('text/plain', data);
+            } );    
+            client.on( 'aftercopy', function(event) {
+                hideMenu();
+            } );
+          } );    
+          client.on( 'error', function(event) {
+            // console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
+            ZeroClipboard.destroy();
+          } );
+      }
+''';
+    document.head.children.add(se);
+  }
+}
 /**
  * shadow root does not work well in firefox!
  * consider shadowroot an optional approach
@@ -34,10 +63,10 @@ class JGrid extends HtmlElement {
   ShadowRoot shadowRoot;
  // List _tmpCols=[];
   SlickGrid grid;
+  Element rmenu;  
   JGrid.created() : super.created() {
-    shadowRoot = this.createShadowRoot();
-//import cause crash in chrome 42,43
-    shadowRoot.innerHtml = """
+  shadowRoot = this.createShadowRoot()
+  ..innerHtml = """
 <style>
  .slick-header.ui-state-default,.slick-headerrow.ui-state-default{width:100%;overflow:hidden;border-left:0}
  .slick-header-columns,.slick-headerrow-columns{position:relative;white-space:nowrap;cursor:default;overflow:hidden}
@@ -75,10 +104,15 @@ class JGrid extends HtmlElement {
    display: block;
    min-height:100px;
    border : 1px solid gray;
+   position:absolute;
+}
+#rmenu{
+   position: absolute;
 }
 .show {
     z-index:1000;
-    position: absolute;
+   
+    width:100px;
     background-color:#F0F0F0;
     border: 1px solid gray;
     padding: 2px;
@@ -97,36 +131,33 @@ class JGrid extends HtmlElement {
 .show li:hover { text-decoration: underline !important;
   background-color:lightgray;
  }
+.show a{ cursor:pointer;}
 </style>
+
+<div id='grid'></div>
 <div class="hide" id="rmenu">
             <ul>
-                <li>
-                    <a href="http://www.google.com">download</a>
-                </li>
-
-                <li>
-                    <a href="http://localhost:8080/login">Localhost</a>
-                </li>
-
-                <li>
-                    <a href="C:\">C</a>
-                </li>
+                <li><a class='download'>Download</a></li>
+                <li><a class='copy'>Copy</a></li>
             </ul>
         </div>
-<div id='grid'></div>""";
+""";
   }
+  /**
+   * build grid object, defer init till shadow dom constructed
+   */
   void init(List data, List<Column> colDefs, {Map option}) {
-   
-    assert(shadowRoot.lastChild!=null);
-    grid = _prepareGrid(shadowRoot.lastChild, colDefs, opt:option);
+   Element elGrid=shadowRoot.querySelector('#grid');
+   assert(elGrid!=null);
+   grid = _prepareGrid(elGrid, colDefs, opt:option);
    grid.init();
    grid.data.clear();
    grid.data=data;
-   _log.finest("height in shadow: ${ (shadowRoot.lastChild as Element).getBoundingClientRect().height}");
+   _log.finest("height in shadow: ${ elGrid.getBoundingClientRect().height}");
    int maxTry=100;
    int tryCnt=0;
    new Timer.periodic(new Duration(milliseconds: 100), (Timer t){  //look for better solution
-     double h= (shadowRoot.lastChild as Element).getBoundingClientRect().height;
+     double h= elGrid.getBoundingClientRect().height;
      _log.finest('after: $h');
      tryCnt++;
      if(h>0 ){
@@ -139,15 +170,11 @@ class JGrid extends HtmlElement {
      }
    });
     grid.onSort.subscribe(_defaultSort);
-   
+    _setupContextMenu();
     //prepare listener for context menu
-    var rmenu=shadowRoot.querySelector("#rmenu");
-    rmenu.onMouseLeave.listen((_)=> rmenu.classes..clear()..add('hide')     );
-         
-    
   }
   /**
-   * List based data,
+   * List based data
    */
   void setData(List data){
     if(data!=grid.data){
@@ -160,14 +187,42 @@ class JGrid extends HtmlElement {
   void attached() {
     _log.finer('attached');
     _log.finest(shadowRoot.host.clientWidth);
-    shadowRoot.host.onContextMenu.listen(_cjContextMenu);
-    //   Timer t=new Timer(new Duration(milliseconds:10),()=> grid.finishInitialization());
+    
   }
   void detached() {
     if(grid!=null) grid.unSubscribe();
   }
   factory JGrid(text) => new Element.tag(GRID_TAG);
-
+  
+  _setupContextMenu(){
+    String downloadName=this.getAttribute('download');
+    if(downloadName==null)return;
+    
+    
+    //inject javascript
+    
+    
+    rmenu=this.shadowRoot.querySelector("#rmenu");
+    rmenu.onMouseLeave.listen((_){
+      new Timer(new Duration(milliseconds: 5000), () {
+        rmenu.classes..clear()..add('hide');  
+      });
+    });
+    shadowRoot.host.onContextMenu.listen(_cjContextMenu);
+      //  if(this.getAttribute('download')!=null){
+    var downloadLink=rmenu.querySelector('a.download');
+    downloadLink.onClick.listen((_){
+      List<Column> cols=new List.from(grid.columns);
+       cols.removeWhere((col)=> col is CheckboxSelectColumn);
+       String data= cols.map((col)=> '"${col.name}"').join(',') + "\r\n";
+       data+=grid.data.map((_){
+         return cols.map((col)=> '"${_[col.field]}"').join(",");
+       }).join("\r\n");
+       downloadLink.setAttribute('href', 'data:text/csv;base64,' + window.btoa(data));
+       downloadLink.setAttribute('download', downloadName);
+       rmenu.classes..clear()..add('hide'); 
+    });
+  }
 
   SlickGrid _prepareGrid(Element el, List<Column> colDefs, {Map opt}) {
     //Element el =querySelector('#grid');
@@ -193,18 +248,32 @@ class JGrid extends HtmlElement {
         }));
       }
     });
-
-
-
     return sg;
   }
+  
+  //StreamSubscription _downloadSubscription;
   //context menu to export as csv
   _cjContextMenu (MouseEvent e){
       //window.alert('hi');
-     var rmenu=shadowRoot.querySelector("#rmenu");
-      rmenu.classes..clear()..add("show");  
-      rmenu.style.top =  '${e.offset.y}px';
-      rmenu.style.left = '${e.offset.x}px';
+     rmenu.classes..clear()..add("show");  
+     var bound=rmenu.getBoundingClientRect();
+     
+     rmenu.style.top =  '${e.client.y- this.getBoundingClientRect().top}px';
+     rmenu.style.left = '${e.client.x- this.getBoundingClientRect().left}px';
+      
+//     rmenu.style.top =  '${e.client.y}px';
+//     rmenu.style.left = '${e.client.x}px';
+
+     
+     var copyLink=rmenu.querySelector('a.copy');
+     List<Column> cols=new List.from(grid.columns);
+     cols.removeWhere((col)=> col is CheckboxSelectColumn);
+     String data= cols.map((col)=> '"${col.name}"').join(',') + "\r\n";
+     data+=grid.data.map((_){
+       return cols.map((col)=> '"${_[col.field]}"').join(",");
+     }).join("\r\n");
+      
+     context.callMethod('setClipboard',[ data, copyLink, ()=> rmenu.classes..clear()..add('hide')] );
     //  rmenu.onMouseLeave.listen((_)=> rmenu.classes..clear()..add('hide')     );
       e.stopPropagation();
       e.preventDefault();

@@ -77,7 +77,7 @@ class ModalDemoEmbeddedTemplate implements ScopeAware {
 </div>
 <div class="modal-body">
   
-  <cj-grid class='first'></cj-grid>
+  <cj-grid class='first' download='f.csv'></cj-grid>
 
 </div>
 <div class="modal-footer">

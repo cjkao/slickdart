@@ -22,5 +22,5 @@ dev_dependencies:
 #transformers:
 #- polymer:
 #    entry_points: web/example/EditorSample.html
-#transformers:
-#- angular
+transformers:
+- angular
