@@ -2042,6 +2042,7 @@ class SlickGrid {
             viewportH= height - paddingTop - paddingBottom
                               - headerScrollerHeight - vboxDelta
                               - topPanelHeight - headerRowHeight;
+            headerRowH=headerRowHeight;
          }
 
         numVisibleRows = (viewportH / _options.rowHeight).ceil();

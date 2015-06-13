@@ -1,3 +1,7 @@
+#Version 0.1.2+2 (2015/06/13)
+- fix header_row, sample case: light-dom-height.html
+
+
 #Version 0.1.2+1 (2015/06/04)
 - hot fix for popup window(angular ui) to embed grid cause chrome 42,43 crash.
  

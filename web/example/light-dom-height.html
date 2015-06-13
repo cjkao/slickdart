@@ -9,25 +9,18 @@
      <link rel="stylesheet" href="packages/slickdart/slick_default_theme.css" type="text/css"/>
      <link rel="stylesheet" href="simple.css" type="text/css"/>
      <style>
-     
-     
+      body{
+      height: 100vh;
+      margin:0;
+      }     
      </style>
-     <!--
-     <script src="packages/web_components/webcomponents.min.js"></script>
-    <script src="packages/web_components/dart_support.js"></script>
-    -->
   </head>
   <body>
-<date-input value="2014-02-01"></date-input>
-<div style="width:600px;height:90vh;">
-        <div class="grid-header" style="width:100%">
-            <label>EDITOR EXAMPLE</label>
-        </div>
+<div style="width:100vw;height:100%;">
         <div id="grid" style="width:100%;height:100%;"></div>
-        <button id='reset'>reset</button>
       </div>
 
-    <script type="application/dart" src="EditorSample.dart"></script>
+    <script type="application/dart" src="light-dom-height.dart"></script>
     <script src="packages/browser/dart.js"></script>
     <script src="ga.js"></script>
   </body>
