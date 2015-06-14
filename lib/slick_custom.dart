@@ -107,7 +107,7 @@ class JGrid extends HtmlElement {
    position:absolute;
 }
 #rmenu{
-   position: absolute;
+   position: fixed;
 }
 .show {
     z-index:1000;
@@ -132,15 +132,24 @@ class JGrid extends HtmlElement {
   background-color:lightgray;
  }
 .show a{ cursor:pointer;}
+.overlay{
+   position:relative;
+   height:0;
+   widht:0;
+}
 </style>
 
-<div id='grid'></div>
-<div class="hide" id="rmenu">
-            <ul>
-                <li><a class='download'>Download</a></li>
-                <li><a class='copy'>Copy</a></li>
-            </ul>
-        </div>
+  <div class='overlay'>
+    <div class="hide" id="rmenu">
+        <ul>
+            <li class='li-download'><a class='download'>Download</a></li>
+            <li class='li-copy'><a class='copy'>Copy</a></li>
+        </ul>
+     </div>
+     <div class='calendar'></div>
+  </div>
+  <div id='grid'>
+  </div>
 """;
   }
   /**
@@ -194,35 +203,8 @@ class JGrid extends HtmlElement {
   }
   factory JGrid(text) => new Element.tag(GRID_TAG);
   
-  _setupContextMenu(){
-    String downloadName=this.getAttribute('download');
-    if(downloadName==null)return;
-    
-    
-    //inject javascript
-    
-    
-    rmenu=this.shadowRoot.querySelector("#rmenu");
-    rmenu.onMouseLeave.listen((_){
-      new Timer(new Duration(milliseconds: 5000), () {
-        rmenu.classes..clear()..add('hide');  
-      });
-    });
-    shadowRoot.host.onContextMenu.listen(_cjContextMenu);
-      //  if(this.getAttribute('download')!=null){
-    var downloadLink=rmenu.querySelector('a.download');
-    downloadLink.onClick.listen((_){
-      List<Column> cols=new List.from(grid.columns);
-       cols.removeWhere((col)=> col is CheckboxSelectColumn);
-       String data= cols.map((col)=> '"${col.name}"').join(',') + "\r\n";
-       data+=grid.data.map((_){
-         return cols.map((col)=> '"${_[col.field]}"').join(",");
-       }).join("\r\n");
-       downloadLink.setAttribute('href', 'data:text/csv;base64,' + window.btoa(data));
-       downloadLink.setAttribute('download', downloadName);
-       rmenu.classes..clear()..add('hide'); 
-    });
-  }
+  
+  
 
   SlickGrid _prepareGrid(Element el, List<Column> colDefs, {Map opt}) {
     //Element el =querySelector('#grid');
@@ -253,16 +235,61 @@ class JGrid extends HtmlElement {
   
   //StreamSubscription _downloadSubscription;
   //context menu to export as csv
+//  Timer _rightClickTimer;
+  _setupContextMenu(){
+    String downloadName=this.getAttribute('download');
+    if(downloadName==null)return;
+    
+    Element elGrid=shadowRoot.querySelector('#grid');
+    
+    elGrid.onClick.listen((_)=> rmenu.classes..clear()..add('hide'));
+    //inject javascript
+    
+    rmenu=this.shadowRoot.querySelector("#rmenu");
+    rmenu.querySelector('.li-copy').onMouseOver.listen((_){
+      rmenu.querySelectorAll('li').style.backgroundColor='';
+      rmenu.querySelector('.li-copy').style.backgroundColor='lightgray';
+    });
+    rmenu.querySelector('.li-download').onMouseOver.listen((_){
+          rmenu.querySelectorAll('li').style.backgroundColor='';
+          rmenu.querySelector('.li-download').style.backgroundColor='lightgray';
+    });
+    shadowRoot.host.onContextMenu.listen(_cjContextMenu);
+      //  if(this.getAttribute('download')!=null){
+    var downloadLink=rmenu.querySelector('a.download');
+    downloadLink.onClick.listen((_){
+      List<Column> cols=new List.from(grid.columns);
+       cols.removeWhere((col)=> col is CheckboxSelectColumn);
+       String data= cols.map((col)=> '"${col.name}"').join(',') + "\r\n";
+       data+=grid.data.map((_){
+         return cols.map((col)=> '"${_[col.field]}"').join(",");
+       }).join("\r\n");
+       downloadLink.setAttribute('href', 'data:text/csv;base64,' + window.btoa(data));
+       downloadLink.setAttribute('download', downloadName);
+       rmenu.classes..clear()..add('hide'); 
+    });
+  }
+  
+  
   _cjContextMenu (MouseEvent e){
-      //window.alert('hi');
      rmenu.classes..clear()..add("show");  
      var bound=rmenu.getBoundingClientRect();
+//      print('mouse client:${e.client.x}  page:${e.page.x} offset:${e.offset.x}');
+//      print('shadow host client :${shadowRoot.host.getBoundingClientRect().left}');
+//      print('shadow host padding left :${shadowRoot.host.paddingEdge.left}');
+//      print('show host parent padding style ${shadowRoot.host.parent.paddingEdge.left}');
+      rmenu.style.position='absolute';
+//     rmenu.style.top =  '${e.client.y- this.getBoundingClientRect().top}px';
+//     rmenu.style.left = '${e.client.x- this.getBoundingClientRect().left}px';
+     rmenu.style.top =  '${e.client.y- bound.top}px';
+    rmenu.style.left = '${e.client.x- bound.left}px';
      
-     rmenu.style.top =  '${e.client.y- this.getBoundingClientRect().top}px';
-     rmenu.style.left = '${e.client.x- this.getBoundingClientRect().left}px';
       
+//     rmenu.style.position='fixed';
 //     rmenu.style.top =  '${e.client.y}px';
 //     rmenu.style.left = '${e.client.x}px';
+//     rmenu.style.top =  '${e.client.y - this.getBoundingClientRect().top }px';
+//     rmenu.style.left = '${e.client.x - hostBox.left}px';
 
      
      var copyLink=rmenu.querySelector('a.copy');
@@ -280,6 +307,13 @@ class JGrid extends HtmlElement {
       //write menu box.
       //open data uri
   }
+  
+  
+  
+  
+  
+  
+  
   /**
    * args:  sortCols, grid : slickgrid
    */

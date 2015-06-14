@@ -916,11 +916,13 @@ class SlickGrid {
 
       _$focusSink2 = _$focusSink.clone(true);
       container.append(_$focusSink2);
-
+      
       if (_options.explicitInitialization!=true) {
         finishInitialization();
       }
     }
+  
+  
   /**
    * when add or remove row or change row height, we should re-calculate it's height
    * TODO add/remove single row, should we do it?
