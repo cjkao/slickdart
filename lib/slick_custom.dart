@@ -126,12 +126,15 @@ class JGrid extends HtmlElement {
     display: none;
 }
 
-.show li{ list-style: none; }
-.show li { border: 0 !important; text-decoration: none; }
-.show li:hover { text-decoration: underline !important;
-  background-color:lightgray;
+.show li{ list-style: none;
+    cursor:pointer;
  }
-.show a{ cursor:pointer;}
+.show li { border: 0 !important; text-decoration: none; }
+
+.show li a{ 
+   color:black;
+   text-decoration:none;
+}
 .overlay{
    position:relative;
    height:0;
@@ -143,7 +146,7 @@ class JGrid extends HtmlElement {
     <div class="hide" id="rmenu">
         <ul>
             <li class='li-download'><a class='download'>Download</a></li>
-            <li class='li-copy'><a class='copy'>Copy</a></li>
+            <li class='li-copy'>Copy</li>
         </ul>
      </div>
      <div class='calendar'></div>
@@ -273,17 +276,10 @@ class JGrid extends HtmlElement {
   
   _cjContextMenu (MouseEvent e){
      rmenu.classes..clear()..add("show");  
-     var bound=rmenu.getBoundingClientRect();
-//      print('mouse client:${e.client.x}  page:${e.page.x} offset:${e.offset.x}');
-//      print('shadow host client :${shadowRoot.host.getBoundingClientRect().left}');
-//      print('shadow host padding left :${shadowRoot.host.paddingEdge.left}');
-//      print('show host parent padding style ${shadowRoot.host.parent.paddingEdge.left}');
+     var bound=this.getBoundingClientRect();
       rmenu.style.position='absolute';
-//     rmenu.style.top =  '${e.client.y- this.getBoundingClientRect().top}px';
-//     rmenu.style.left = '${e.client.x- this.getBoundingClientRect().left}px';
      rmenu.style.top =  '${e.client.y- bound.top}px';
     rmenu.style.left = '${e.client.x- bound.left}px';
-     
       
 //     rmenu.style.position='fixed';
 //     rmenu.style.top =  '${e.client.y}px';
@@ -292,7 +288,7 @@ class JGrid extends HtmlElement {
 //     rmenu.style.left = '${e.client.x - hostBox.left}px';
 
      
-     var copyLink=rmenu.querySelector('a.copy');
+     var copyLink=rmenu.querySelector('.li-copy');
      List<Column> cols=new List.from(grid.columns);
      cols.removeWhere((col)=> col is CheckboxSelectColumn);
      String data= cols.map((col)=> '"${col.name}"').join(',') + "\r\n";
