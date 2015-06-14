@@ -137,3 +137,18 @@ Example: gdoc-header.dart
 <link rel="stylesheet" href="packages/slickdart/css/plugins-gdoc-style.css" type="text/css" />
 <link rel="stylesheet" href="packages/slickdart/css/slick.headermenu.css" type="text/css" />
 ```
+  
+Copy or Download Grid (only available in custom element: cj-grid)
+==========================================
+Right click on grid that show download or copy option,
+Example: angular/popup.dart, custom-elem.dart
+
+Follow steps:
+1. include zero-clipboard script
+2. add "download" attribute to grid tag
+```javascript
+    <script src="packages/slickdart/plugin/copy/ZeroClipboard.min.js"></script>
+```
+```html
+  <cj-grid download='f.csv'></cj-grid>
+```

@@ -10,6 +10,12 @@ import 'package:angular/application_factory.dart';
 import 'package:angular_ui/angular_ui.dart';
 
 main() async{
+  document.querySelector('body').onClick.listen((event){
+    var x = event.client.x;
+       var y = event.client.y;
+       var coords = "X coords: $x ,Y coords: $y";
+       document.getElementById("demo").innerHtml= coords;
+  });
   registerElem();
   applicationFactory()
     .addModule(new AngularUIModule()) // The angular-ui module
