@@ -11,6 +11,7 @@ main() {
     cols[1]..width=20..name='id';
     csv.columns[0]..width=14..name='id';
     JGrid gw0 = document.querySelector("$GRID_TAG.first");
+    gw0.attributes['download']="f.csv";
     gw0.init(new MetaList(csv.data.sublist(1, 20),getMeta), cols);
     JGrid gw1 = document.querySelector("$GRID_TAG.second");
     gw1.init(csv.data, csv.columns);
