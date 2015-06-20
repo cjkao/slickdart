@@ -2263,15 +2263,20 @@ class SlickGrid {
     }
     /**
      * selection row model
+     * return list of index of row in data
      */
-    List getSelectedRows() {
+    List<int> getSelectedRows() {
       if (selectionModel==null) {
         throw "Selection model is not set";
       }
       return selectedRows;
     }
-
-    void setSelectedRows(rows) {
+    /**
+     * update selected rows,
+     * to unset all selected items, set [rows] to empty List
+     * 
+     */
+    void setSelectedRows(List<int> rows) {
       if (selectionModel==null) {
         throw "Selection model is not set";
       }
