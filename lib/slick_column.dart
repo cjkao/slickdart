@@ -209,7 +209,7 @@ class Column {
   }
 }
 /**
- * Virtual column that add to first column, including header
+ * Virtual column that add to first column, including header as checkbox column
  */
 class CheckboxSelectColumn extends Column with IPlugin {
   Map _options;
@@ -322,19 +322,25 @@ class CheckboxSelectColumn extends Column with IPlugin {
       evt.stopImmediatePropagation();
     }
   }
-//TODO fixme
+  /**
+   * consider mutiple and single selection case
+   */
   toggleRowSelection(int row) {
+    List list = _grid.getSelectedRows();
     if(_grid.gridOptions.multiSelect==false){
-      _grid.setSelectedRows([row]);
+      if(_grid.getSelectedRows().contains(row)){
+        list.remove(row);
+      }else{
+        list..clear()..add(row);
+      }
     }else{
-      List list = _grid.getSelectedRows();
       if (_selectedRowsLookup.containsKey(row)) {
         list.remove(row);
       } else {
         list.add(row);
       }
-      _grid.setSelectedRows(list);
     }
+    _grid.setSelectedRows(list);
   }
   /**
    * change all row to selected state

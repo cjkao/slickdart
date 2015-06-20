@@ -9,14 +9,17 @@
   </head>
   <body>
 
-<div style="width:600px;">
+<div style="width:600px; height:600px">
+        <button id='reset'>reset to 50k row</button>
+        <button id='del'>del row</button>
+        <input type='checkbox' id='check-multi'>mutiple select
+        <p> use shift key to select consecutive rows
+        <p> use cmd key or checkbox to select mutiple rows
         <div class="grid-header" style="width:100%">
             <label>No multiple select case</label>
         </div>
-        <div id="grid" style="width:100%;height:500px;"></div>
-        <button id='reset'>reset</button>
+        <div id="grid" style="width:100%;height:90%;border:1px solid gray"></div>
 </div>
-
     <script type="application/dart" src="CheckBox.dart"></script>
     <script src="packages/browser/dart.js"></script>
     <script src="ga.js"></script>
