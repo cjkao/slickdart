@@ -6,10 +6,8 @@ void main() {
   cj.SlickGrid  grid=prepareGrid();
   grid.init();
   querySelector('#reset').onClick.listen((e){
-    grid.data.addAll(makeData(50000));
-    grid.data.clear();
+    grid.data=makeData(50000);
     grid.invalidate();
-
   });
 }
 
