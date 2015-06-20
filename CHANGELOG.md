@@ -1,3 +1,9 @@
+#Version 0.1.3+1 (2015/06/21)
+- reset data will clear selected row, see CheckBox.html
+
+#Version 0.1.3
+- Copy and Download, sample case: angular/popup.html, first grid of custom-elem.html
+
 #Version 0.1.2+2 (2015/06/13)
 - fix header_row, sample case: light-dom-height.html
 
