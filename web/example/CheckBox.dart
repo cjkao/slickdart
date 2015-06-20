@@ -16,9 +16,8 @@ void main() {
         'pc': i
       });
     }
-    g.data.clear();
-    g.setSelectedRows([]);
-    g.data.addAll(_data);
+//    g.data.clear();
+    g.data=_data;
     g.invalidate();
     g.render();
   });
