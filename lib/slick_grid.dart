@@ -56,7 +56,9 @@ class _RowCache{
   // end of the row.
   Queue<int> cellRenderQueue =new Queue<int>();
 }
-
+/**
+ * Grid that inheritance from SlickGrid
+ */
 class SlickGrid {
   //attach column to header element
   Expando<Column> _headExt= new Expando<Column>();
@@ -64,6 +66,9 @@ class SlickGrid {
   Element container;
   //each item will render as row
   List _data;
+  /**
+   * setter to data, if apply new, all exist selected row are removed
+   */
   set data(_) {
     if(selectionModel!=null){
       this.setSelectedRows([]);
@@ -207,7 +212,7 @@ class SlickGrid {
 
   Map<int,_RowCache> _rowsCache = {};
   int renderedRows = 0;
-  //minimal rows need to render
+  /** for fixed row hight that get visible row,  */
   int numVisibleRows;
   int prevScrollTop = 0;
   int scrollTop = 0;
@@ -1723,7 +1728,7 @@ class SlickGrid {
       return evt.notify(args, e, this);
     }
     void validateAndEnforceOptions() {
-      if (_options.autoHeight!=null ) {
+      if (_options.autoHeight==true ) {
         _options.leaveSpaceForNewRows = false;
       }
     }
@@ -3039,7 +3044,7 @@ class SlickGrid {
         }
       }
       var frozenRowOffset = getFrozenRowOffset(row);
-      var rHeight=_data[row]['_height']!=null ?  "height:${_data[row]['_height']}px" : '';
+      var rHeight= (_data.length > row && _data[row]['_height']!=null) ?  "height:${_data[row]['_height']}px" : '';
       String rowHtml = """<div class='ui-widget-content ${rowCss}' style='top: ${getRowTop(row) - frozenRowOffset}px;  ${rHeight }'>""";
       stringArrayL.add(rowHtml);
       if (_options.frozenColumn> -1) {
@@ -3096,7 +3101,7 @@ class SlickGrid {
         }
       }
       String style='';
-      if(_data[row]['_height']!=null){
+      if(_data.length>row && _data[row]['_height']!=null){
         style="style='height:${_data[row]['_height']-this._cellHeightDiff}px'";
       }
       stringArray.add("<div class='${cellCss}' ${style}>");
@@ -3190,7 +3195,8 @@ class SlickGrid {
 
       int dataLengthIncludingAddNew = getDataLengthIncludingAddNew();
       int numberOfRows = dataLengthIncludingAddNew +
-          (_options.leaveSpaceForNewRows ? numVisibleRows - 1 : 0);
+          (_options.leaveSpaceForNewRows ?  1 : 0);
+          //(_options.leaveSpaceForNewRows ? numVisibleRows - 1 : 0);
 
       bool oldViewportHasVScroll = viewportHasVScroll;
       // with autoHeight, we do not need to accommodate the vertical scroll bar

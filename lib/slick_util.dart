@@ -176,20 +176,36 @@ class MetaList<T> extends ListBase<T> with IMetaData{
 
 // code hint for setup grid
 
-// code hint for setup grid
+/**
+ * Grid Configuration
+ * Example:
+ *   var opt = new GridOptions()..explicitInitialization=false
+                                ..multiColumnSort=true
+                                ..editable=true
+                                ..autoEdit=true
+                                ..frozenColumn = 1
+                                ..enableColumnReorder=true;
+  
+     var sg= new SlickGrid.fromOpt(el,makeData(500),column,opt);
+ * 
+ * 
+ */
 class GridOptions{
   bool     explicitInitialization         = false;
   int      rowHeight                      = 25;
   int      defaultColumnWidth             = 80;
+  /** extra one row  on end of data row, the new added row have renedered cells */
   bool     enableAddRow                   = false;
+  /** true, add a blank empty row hight space after last rendered row */
   bool     leaveSpaceForNewRows           = false;
   bool     editable                       = false;
   bool     autoEdit                       = true;
   bool     enableCellNavigation           = true;
+  /** drag and drop column to reorder rendered column */
   bool     enableColumnReorder            = false;
   bool     asyncEditorLoading             = false;
   int      asyncEditorLoadDelay           = 100;
-  //when true,force maximum column width to sum of total column width
+  /** when true,force maximum column width to sum of total column width */
   bool     forceFitColumns                = false;
   bool     enableAsyncPostRender          = false;
   int      asyncPostRenderDelay           = 50;
@@ -206,12 +222,14 @@ class GridOptions{
   bool     multiSelect                    = true;
   bool     enableTextSelectionOnCells     = false;
   Function dataItemColumnValueExtractor   = null; //function to extract value
-  //true: canvas width or all column width, false: all column sum width
+  /** true: canvas width or all column width, false: all column sum width */
   bool     fullWidthRows                  = false;
   bool     multiColumnSort                = false;
   Function defaultFormatter               = _defaultFormatter;
   bool     forceSyncScrolling             = false;
+  /** frozen column index, 0 base */
   int      frozenColumn                   = -1;   //frozen index
+  /** frozen row index , 0 base */
   int      frozenRow                      = -1;
   bool     frozenBottom                   = false;
   bool     dynamicHeight                  = false;  //enable or disable yPos lookup for rendering=
