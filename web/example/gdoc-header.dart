@@ -84,16 +84,27 @@ cj.SlickGrid setup(){
       'effortDriven': (i % 5 == 0)
     });
   }
-  Map opt = {'explicitInitialization': false,
-             'multiColumnSort': true,
-             'editable': true,
-             'autoEdit': true,
-             'frozenColumn':0,
-             'enableCellNavigation': true,
-             'enableColumnReorder': false
-         //    'forceFitColumns':true
-  };
-  cj.SlickGrid sg= new cj.SlickGrid(el,data,columnList,opt);
+  cj.GridOptions opt=new cj.GridOptions(); 
+  opt..explicitInitialization=false
+     ..multiColumnSort=true
+     ..editable=true
+     ..autoEdit=true
+     ..frozenColumn=1
+     ..enableCellNavigation = true
+     ..enableColumnReorder = true
+     ..leaveSpaceForNewRows =true
+     ;
+//  Map opt = {'explicitInitialization': false,
+//             'multiColumnSort': true,
+//             'editable': true,
+//             'autoEdit': true,
+//             'frozenColumn':1,
+//             'enableCellNavigation': true,
+//             'enableColumnReorder': false
+//             
+//         //    'forceFitColumns':true
+//  };
+  cj.SlickGrid sg= new cj.SlickGrid.fromOpt(el,data,columnList,opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
   
   sg.registerPlugin(checkboxCol);
@@ -165,120 +176,4 @@ class NumberEditor extends TextEditor{
     
   }
 }
-//
-//
-//
-//var grid;
-//        var columns = [
-//            { id: "id", name: "Id", field: "id", width: 80 },
-//            { id: "title", name: "Title", field: "title", editor: Slick.Editors.Text, width: 180 },
-//            { id: "duration", name: "Duration", field: "duration", width: 100 },
-//            { id: "pc", name: "% Complete", field: "percentComplete", width: 100 },
-//            { id: "start", name: "Start", field: "start", width: 80 },
-//            { id: "finish", name: "Finish", field: "finish", width: 80 },
-//            { id: "effort-driven", name: "Effort Driven", field: "effortDriven", width: 120 }
-//        ];
-//
-//        var options = {
-//            enableCellNavigation: true,
-//            enableColumnReorder: false,
-//            explicitInitialization: true,
-//            editable: true
-//        };
-//
-//        $(function () {
-//            var data = [];
-//            for (var i = 0; i < 500; i++) {
-//                data[i] = {
-//                    id: i,
-//                    title: "Task " + i,
-//                    duration: i % 20 + " days",
-//                    percentComplete: Math.round(Math.random() * 100),
-//                    start: "01/01/2009",
-//                    finish: "01/05/2009",
-//                    effortDriven: (i % 5 == 0)
-//                };
-//            }
-//
-//            var dataView = new Slick.Data.DataView();
-//
-//            dataView.beginUpdate();
-//            dataView.setItems(data);
-//            dataView.setFilter(filter);
-//            dataView.endUpdate();
-//
-//            var filterPlugin = new Ext.Plugins.HeaderFilter({});
-//
-//            filterPlugin.onFilterApplied.subscribe(function () {
-//                dataView.refresh();
-//                grid.resetActiveCell();
-//
-//                var status;
-//
-//                if (dataView.getLength() === dataView.getItems().length) {
-//                    status = "";
-//                } else {
-//                    status = dataView.getLength() + ' OF ' + dataView.getItems().length + ' RECORDS FOUND';
-//                }
-//                $('#status-label').text(status);
-//            });
-//
-//            filterPlugin.onCommand.subscribe(function (e, args) {
-//                var comparer = function (a, b) {
-//                    return a[args.column.field] > b[args.column.field];
-//                };
-//
-//                switch (args.command) {
-//                    case "sort-asc":
-//                        dataView.sort(comparer, true);
-//                        break;
-//                    case "sort-desc":
-//                        dataView.sort(comparer, false);
-//                        break;
-//                }
-//            });
-//
-//            grid.registerPlugin(filterPlugin);
-//
-//            var overlayPlugin = new Ext.Plugins.Overlays({ decoratorWidth: 1});
-//
-//            overlayPlugin.onFillUpDown.subscribe(function (e, args) {
-//                var column = grid.getColumns()[args.range.fromCell];
-//
-//                if (!column.editor) {
-//                    return;
-//                }
-//
-//                var value = dataView.getItem(args.range.fromRow)[column.field];
-//
-//                dataView.beginUpdate();
-//
-//                for (var i = args.range.fromRow + 1; i <= args.range.toRow; i++) {
-//                    dataView.getItem(i)[column.field] = value;
-//                    grid.invalidateRow(i);
-//                }
-//
-//                dataView.endUpdate();
-//                grid.render();
-//            });
-//
-//            grid.registerPlugin(overlayPlugin);
-//
-//            grid.init();
-//
-//            function filter(item) {
-//                var columns = grid.getColumns();
-//
-//                var value = true;
-//
-//                for (var i = 0; i < columns.length; i++) {
-//                    var col = columns[i];
-//                    var filterValues = col.filterValues;
-//
-//                    if (filterValues && filterValues.length > 0) {
-//                        value = value & _.contains(filterValues, item[col.field]);
-//                    }
-//                }
-//                return value;
-//            }
-//        });
+

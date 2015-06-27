@@ -67,7 +67,9 @@ class Column {
   bool get visible => _src['visible'];
 
   String get toolTip => _src['toolTip'];
-  //unique id for differeicent from same field name
+  /** unique id for differeicent from same field name 
+   *  for pick up Column element
+   */
   String get id => _src['id'];// "range"
   int get minWidth => _src['minWidth'];//: 30
   /**

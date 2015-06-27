@@ -573,7 +573,9 @@ class SlickGrid {
     if(h_render!=null && h_render.isActive) h_render.cancel();
     h_render = null;
   }
-  //for forceFitColumns
+  /**
+   * for forceFitColumns
+   */
   void autosizeColumns() {
     var i,
     widths = [],
@@ -794,6 +796,9 @@ class SlickGrid {
   }
   /**
    * main entry point to init the element to grid
+   * 2 step initialize
+   * 1. construct elements
+   * 2. link element to event listeners
    */
   void init() {
 
@@ -946,6 +951,9 @@ class SlickGrid {
     }
     resizeCanvas();
   }
+  /**
+   * wire event listeners
+   */
   void finishInitialization() {
     if (!initialized) {
       viewportW = core.Dimension.getCalcWidth(container);
@@ -1342,6 +1350,7 @@ class SlickGrid {
       return $headerRow;
     }
     /**
+     * [columnId] is field name or [Column].id
      * element of column
      */
     Element getHeaderRowColumn(columnId) {
@@ -2358,7 +2367,7 @@ class SlickGrid {
               if (_columnPosRight[math.min(ii - 1, cell + colspan - 1)] > range['leftPx']  ||
               _options.frozenColumn>=cell
               ) {
-                appendCellHtml(stringArray, row, cell, colspan, d);
+                _appendCellHtml(stringArray, row, cell, colspan, d);
                 cellsAdded++;
               }
               cell += (colspan > 1 ? colspan - 1 : 0);
@@ -2724,7 +2733,7 @@ class SlickGrid {
       scrollTo((getRowFromPosition(scrollTop) + deltaRows) * _options.rowHeight);
       render();
 
-      if (_options.enableCellNavigation!=null && activeRow != null) {
+      if (_options.enableCellNavigation==true && activeRow != null) {
         int row = activeRow + deltaRows;
         int dataLengthIncludingAddNew = getDataLengthIncludingAddNew();
         if (row >= dataLengthIncludingAddNew) {
@@ -2983,7 +2992,7 @@ class SlickGrid {
         // start populatating it.
         _rowsCache[i] = new _RowCache(null,this.columns.length);
 
-        appendRowHtml(stringArrayL,stringArrayR, i, range, dataLength);
+        _appendRowHtml(stringArrayL,stringArrayR, i, range, dataLength);
         if (activeCellNode !=null && activeRow == i) {
           needToReselectCell = true;
         }
@@ -3026,9 +3035,10 @@ class SlickGrid {
 
     }
     /**
-     * row render loop
+     * row render loop,
+     * [row] may exceed number of [_data] element
      */
-    appendRowHtml(List<String> stringArrayL,List<String> stringArrayR, int row, Map<String,int> range,int dataLength) {
+    _appendRowHtml(List<String> stringArrayL,List<String> stringArrayR, int row, Map<String,int> range,int dataLength) {
       var d = getDataItem(row);
       var dataLoading = row < dataLength && d==null;
       String rowCss = "slick-row" +
@@ -3062,13 +3072,13 @@ class SlickGrid {
             break;
           }
           if (( _options.frozenColumn> -1 ) && ( i > _options.frozenColumn)) {
-              appendCellHtml(stringArrayR, row, i, colspan, d);
+              _appendCellHtml(stringArrayR, row, i, colspan, d);
           } else {
-              appendCellHtml(stringArrayL, row, i, colspan, d);
+              _appendCellHtml(stringArrayL, row, i, colspan, d);
           }
 
         }else if (( _options.frozenColumn> -1 ) && ( i <= _options.frozenColumn)) {
-          appendCellHtml(stringArrayL, row, i, colspan,d);
+          _appendCellHtml(stringArrayL, row, i, colspan,d);
         }
 
         if (colspan > 1) {
@@ -3086,7 +3096,7 @@ class SlickGrid {
      * stringArray: output value
      * item : data item
      */
-    appendCellHtml(List<String> stringArray,int row,int cell,int colspan, var item) {
+    _appendCellHtml(List<String> stringArray,int row,int cell,int colspan, var item) {
       Column m = columns[cell];
       String cellCss = "slick-cell l$cell r" + math.min(columns.length - 1, cell + colspan - 1).toString() +
           (m.cssClass!=null ? " " + m.cssClass : "");

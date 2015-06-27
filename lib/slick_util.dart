@@ -196,10 +196,17 @@ class GridOptions{
   int      defaultColumnWidth             = 80;
   /** extra one row  on end of data row, the new added row have renedered cells */
   bool     enableAddRow                   = false;
-  /** true, add a blank empty row hight space after last rendered row */
+  /** true, add a blank empty row hight space after last rendered row 
+   *  default: false
+   */
   bool     leaveSpaceForNewRows           = false;
   bool     editable                       = false;
+  /** single click on editable cell will load editor */
   bool     autoEdit                       = true;
+  /**  keyboard up,down,left,right, page up , page down
+   *  set to false also disable edit mode
+   *  default: true
+   */
   bool     enableCellNavigation           = true;
   /** drag and drop column to reorder rendered column */
   bool     enableColumnReorder            = false;
