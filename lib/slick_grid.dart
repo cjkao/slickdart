@@ -1136,8 +1136,10 @@ class SlickGrid {
       return HTML_ESCAPE.convert(value);
     }
 
-
-    void getHeadersWidth() {
+    /**
+     * update sum of header width on left and right 
+     */
+    void updateHeadersWidth() {
       headersWidth = headersWidthL = headersWidthR = 0;
 //      int headersWidth = 0;
       for (int i = 0, ii = columns.length; i < ii; i++) {
@@ -1188,7 +1190,7 @@ class SlickGrid {
       widthChanged = canvasWidth != oldCanvasWidth || canvasWidthL != oldCanvasWidthL || canvasWidthR != oldCanvasWidthR;
       if (widthChanged || _options.frozenColumn>-1  || hasFrozenRows) {
         $canvasTopL.style.width ='${canvasWidthL}px';
-        getHeadersWidth();
+        updateHeadersWidth();
         $headerL.style.width = "${headersWidthL}px";
         $headerR.style.width = "${headersWidthR}px";
         if (_options.frozenColumn> -1) {
@@ -1396,7 +1398,7 @@ class SlickGrid {
       });
       $headerL.children.clear();
       $headerR.children.clear();
-      getHeadersWidth();
+      updateHeadersWidth();
       $headerL.style.width = '${headersWidthL}px';
       $headerR.style.width ='${headersWidthR}px';
      // hItem.style.width =getHeadersWidth().toString() + 'px';
@@ -3317,7 +3319,7 @@ class SlickGrid {
 
 
       //scount++;
-      //_log.finest('s event ${scount}' + new DateTime.now().toString() );
+      _log.finer('s event ${scount}' + new DateTime.now().toString() );
        _handleScroll(false);
     }
     _handleScroll(bool isMouseWheel) {
@@ -3375,24 +3377,12 @@ class SlickGrid {
                // _log.finest('v scr dist: ${vScrollDist} ${viewportH}');
                 scrollTo(scrollTop + offset);
             }
-            //no chance to use page
-//            else {
-//                var oldOffset = offset;
-//                if (h == viewportH) {
-//                    page = 0;
-//                } else {
-//                    page = math.min(n - 1, (scrollTop * ((th - viewportH) / (h - viewportH)) * (1 / ph)).floor());
-//                }
-//                offset = (page * cj).round();
-//                if (oldOffset != offset) {
-//                    invalidateAllRows();
-//                }
-//            }
         }
 
         if (hScrollDist>0 || vScrollDist >0) {
             if (h_render!=null) {
                 h_render.cancel();
+                _log.finest("cancel scroll");
                 h_render=null;
             }
             //how many distance is enought to scroll?
@@ -3403,6 +3393,7 @@ class SlickGrid {
                         (lastRenderedScrollLeft - scrollLeft).abs() < viewportW)) {
                     render();
                 } else {
+                  _log.finest("new timer");
                     h_render=new Timer(new Duration(milliseconds:50),render);
                    // h_render = setTimeout(render, 50);
                 }
