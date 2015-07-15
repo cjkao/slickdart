@@ -43,6 +43,10 @@ cj.SlickGrid prepareGrid(){
                                 ..multiColumnSort=true
                                 ..editable=true
                                 ..autoEdit=true
+                                ..enableAddRow=true
+                                ..leaveSpaceForNewRows=true
+                                //..showTopPanel=true
+                                //..topPanelHeight=50
                                 ..frozenColumn = 1
                                 ..enableColumnReorder=true;
   
