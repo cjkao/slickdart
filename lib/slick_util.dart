@@ -219,6 +219,7 @@ class GridOptions{
   bool     autoHeight                     = false;
   var      editorLock                     = core.GlobalEditorLock;
   bool     showHeaderRow                  = false;
+  /** a row before data row and frozen row , after top panel, not header*/
   int      headerRowHeight                = 25;
   bool     showTopPanel                   = false;
   int      topPanelHeight                 = 25;
@@ -233,13 +234,21 @@ class GridOptions{
   bool     fullWidthRows                  = false;
   bool     multiColumnSort                = false;
   Function defaultFormatter               = _defaultFormatter;
+  /** force viewport render row on scrolling
+   *  false: delegate to timer also cause empty view port on long scrolling 
+   *  default: false
+   */
   bool     forceSyncScrolling             = false;
   /** frozen column index, 0 base */
   int      frozenColumn                   = -1;   //frozen index
   /** frozen row index , 0 base */
   int      frozenRow                      = -1;
   bool     frozenBottom                   = false;
-  bool     dynamicHeight                  = false;  //enable or disable yPos lookup for rendering=
+  /** enable or disable [yPos] lookup for rendering */
+  bool     dynamicHeight                  = false; 
+  /**
+   * render cells on column resize, low performance
+   */
   bool     syncColumnCellResize           = false;
   //for commit current editor 
   Function editCommandHandler             = null;
