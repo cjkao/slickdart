@@ -52,7 +52,7 @@ grid.SlickGrid init(){
      new grid.Column.fromMap ({'id': "%2", 'name': "16 start", 'field': "start", 'sortable': true })
   ];
   List data=[];
-  for (var i = 0; i < 1500; i++) {
+  for (var i = 0; i < 105000; i++) {
     data.add( {
       'title':  i+1,
       'duration': 'd ${i*100}',

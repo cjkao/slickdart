@@ -50,6 +50,7 @@ grid.SlickGrid init(){
   Map opt = {'explicitInitialization': false,
              'multiColumnSort': false,
              'topPanelHeight': 25,
+             'enableColumnReorder' : false,
              'frozenColumn': 0,
              'frozenRow': 1,
   };

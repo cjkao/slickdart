@@ -67,7 +67,9 @@ class Column {
   bool get visible => _src['visible'];
 
   String get toolTip => _src['toolTip'];
-  //unique id for differeicent from same field name
+  /** unique id for differeicent from same field name 
+   *  for pick up Column element
+   */
   String get id => _src['id'];// "range"
   int get minWidth => _src['minWidth'];//: 30
   /**
@@ -163,7 +165,7 @@ class Column {
   factory Column.fromMap(Map<String, dynamic> src) {
     Column c = new Column();
     if (src['id'] == null) {
-      src['id'] = '${src['field']}.${new math.Random().nextInt(100000)}';
+      src['id'] = '${src['field']}-${new math.Random().nextInt(100000)}';
     }
     if (src['name'] == null) {
       src['name'] = '${src['field']}';
@@ -209,7 +211,7 @@ class Column {
   }
 }
 /**
- * Virtual column that add to first column, including header
+ * Virtual column that add to first column, including header as checkbox column
  */
 class CheckboxSelectColumn extends Column with IPlugin {
   Map _options;
@@ -322,19 +324,25 @@ class CheckboxSelectColumn extends Column with IPlugin {
       evt.stopImmediatePropagation();
     }
   }
-//TODO fixme
+  /**
+   * consider mutiple and single selection case
+   */
   toggleRowSelection(int row) {
+    List list = _grid.getSelectedRows();
     if(_grid.gridOptions.multiSelect==false){
-      _grid.setSelectedRows([row]);
+      if(_grid.getSelectedRows().contains(row)){
+        list.remove(row);
+      }else{
+        list..clear()..add(row);
+      }
     }else{
-      List list = _grid.getSelectedRows();
       if (_selectedRowsLookup.containsKey(row)) {
         list.remove(row);
       } else {
         list.add(row);
       }
-      _grid.setSelectedRows(list);
     }
+    _grid.setSelectedRows(list);
   }
   /**
    * change all row to selected state

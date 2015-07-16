@@ -1,3 +1,30 @@
+#Version 0.1.3+1 (2015/06/21)
+- reset data will clear selected row, see CheckBox.html
+
+#Version 0.1.3
+- Copy and Download, sample case: angular/popup.html, first grid of custom-elem.html
+
+#Version 0.1.2+2 (2015/06/13)
+- fix header_row, sample case: light-dom-height.html
+
+
+#Version 0.1.2+1 (2015/06/04)
+- hot fix for popup window(angular ui) to embed grid cause chrome 42,43 crash.
+ 
+
+#Version 0.1.2 (2015/05/25)
+- enable column reorder on non-frozen columns
+- no reorder by default , set _optoins.enableColumnReorder = true to turn on it
+- duplicated field may cause reorder fail 
+- add simple integer editor
+
+#Version 0.1.1+4
+- adapt css change in dart 1.10
+- a noticable perfomance degrade in Chrome 42.02311.90 when have large horzontal columns2
+#Version 0.1.1+3
+- fix RowSelectionModel + dynamic height + column filter
+- can be test on ColumnFilter.dart
+
 #Version 0.1.1+2
 - fix RowSelectionModel + CheckboxSelectioncolumn with maximum single selected row
 - can be test on CheckBox.dart

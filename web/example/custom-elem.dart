@@ -11,13 +11,8 @@ main() {
     cols[1]..width=20..name='id';
     csv.columns[0]..width=14..name='id';
     JGrid gw0 = document.querySelector("$GRID_TAG.first");
+    gw0.attributes['download']="f.csv";
     gw0.init(new MetaList(csv.data.sublist(1, 20),getMeta), cols);
-    JGrid gw1 = document.querySelector("$GRID_TAG.second");
-    gw1.init(csv.data, csv.columns);
-    var opts={ 'multiColumnSort': true  };
-    (document.querySelector("$GRID_TAG.third") as JGrid)..init(csv.data,  csv.columns,option:opts );
-    (document.querySelector("$GRID_TAG.forth") as JGrid)..init(csv.data, csv.columns, option:{'frozenRow':1});
-
     gw0.grid.setSelectionModel(new RowSelectionModel({
       'selectActiveRow': false
     }));
@@ -26,6 +21,13 @@ main() {
           ..children.clear()
           ..appendText((args['rows'] as List).join(' '));
     });
+    
+    JGrid gw1 = document.querySelector("$GRID_TAG.second");
+    gw1.init(csv.data, csv.columns);
+    var opts={ 'multiColumnSort': true  };
+    (document.querySelector("$GRID_TAG.third") as JGrid)..init(csv.data,  csv.columns,option:opts );
+    (document.querySelector("$GRID_TAG.forth") as JGrid)..init(csv.data, csv.columns, option:{'frozenRow':1});
+
   });
 //load other grid fron internet
 //
@@ -57,4 +59,3 @@ Map getMeta(int row){
           }else return {};
         }
 
-//  sg= new grid.SlickGrid(el,new grid.MetaList(tdata,getMeta),column,opt);

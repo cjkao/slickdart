@@ -43,7 +43,7 @@ class Node {
     } else {
       //root may cover all
       Node leaf=new Leaf();
-      int defHeight=0;
+      //int defHeight=0;
       if(node==root){
         leaf=root;
       }else{
@@ -87,7 +87,7 @@ class Node {
     }else{ //leaf
       //begin hight + each item length in block to target rowid
       int targetHeight=beginHeight;
-      int nextRowId=rowId+1;
+      //int nextRowId=rowId+1;
       List arr=(this as Leaf).root.rows;
       for(int i=startRow;i<rowId;i++){
         targetHeight += (arr[i]['_height']!=null? arr[i]['_height'] : (this as Leaf).root.defaultHeight);

@@ -67,6 +67,7 @@ grid.SlickGrid makeGrid(){
   
   var opt = new grid.GridOptions()
                   ..explicitInitialization= false
+                  ..multiSelect=false
                   ..multiColumnSort= false
                   ..dynamicHeight=true
                   ..frozenColumn=0;  

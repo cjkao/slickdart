@@ -3,21 +3,9 @@ import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 import 'package:slickdart/slick_editor.dart';
 import 'package:slickdart/slick_selectionmodel.dart';
-//import 'package:bootjack_datepicker/bootjack_datepicker.dart';
-//import 'package:datepicker/components/date_input.dart';
-//import 'package:polymer/polymer.dart';
 void main() {
-//  initPolymer().run(() {
-    // The rest of the code in the main method.
-//    Polymer.onReady.then((_) {
   grid.SlickGrid  g=init();
   g.init();
-    
-    //XDateInput item = new Element.tag('date-input');
-    //document.querySelector('body').append(item);
-//  });
-//});
-//  Calendar.use();
 }
 
 grid.SlickGrid init(){
@@ -39,10 +27,6 @@ grid.SlickGrid init(){
       'StartDate': '2012/01/31'
     });
   }
-//  Map opt = {'explicitInitialization': false,
-//             'multiColumnSort': true,
-//             'editable': true,
-//  };
   grid.GridOptions opt=new grid.GridOptions()
       ..forceFitColumns=false
       ..editable=true
@@ -54,13 +38,11 @@ grid.SlickGrid init(){
   sg.setSelectionModel(new CellSelectionModel(sg.options));
 
   sg.onBeforeEditCell.subscribe((e,args){
-    //swap editor here
     print(args['column']);
   });
   sg.onSort.subscribe( (e, args) {
     sg.commitCurrentEdit();
     var cols = args['sortCols'];
-//{sortCol: {name: Title1, resizable: true, sortable: true, minWidth: 30, rerenderOnResize: false, headerCssClass: null, defaultSortAsc: true, focusable: true, selectable: true, cannotTriggerInsert: false, width: 80, id: title, field: title}, sortAsc: true}
     data.sort( (dataRow1, dataRow2) {
       for (var i = 0, l = cols.length; i < l; i++) {
         var field = cols[i]['sortCol']['field'];
@@ -104,19 +86,10 @@ class DateEditor extends Editor {
   void focus()=>  $input.focus();
   set editorParm (EditorParm m) {
     super.editorParm=m;
-//    $input = new Element.html('<div class="calendar" data-date="2013/09/16" data-format="yyyy/MM/dd"></div>');
-//    $input = new DivElement()..classes.add('calendar')..dataset['date']='2013/09/15'..dataset['format']='yyyy/MM/dd';
     $input = new DateInputElement(); //
-//    $input =  new Element.tag('date-input');    
-//    $input
-    //$input.attributes['inputmaxlength']='5';
-   // $input.attributes['value']= m.
-    //_opts.forEach((key,dispVal)=>  $input.children.add(new OptionElement()..value='$key'..text=dispVal));
     editorParm.activeCellNode.append($input);
-//    $input.classes.add('editor-select');
     $input..attributes['hidefocus'] = 'true';
     $input.focus();
-//    Calendar.wire($input);
   }
 
   /**
