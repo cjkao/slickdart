@@ -14,7 +14,7 @@ dev_dependencies:
 #  dnd: any
   angular: any
   angular_ui: any
-  unittest: any
+  test: any
   web_components: any
 #  initialize: any
 #  datepicker: any
