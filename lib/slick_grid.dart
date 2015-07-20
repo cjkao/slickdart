@@ -658,6 +658,10 @@ class SlickGrid {
     viewportW = core.Dimension.getCalcWidth(container);
        // container.style.width; //parseFloat($.css($container[0], "width", true));
   }
+  /**
+   * When window scroll bar added to document and grid div container is percentage,
+   * we need to redraw canvas to reflect change of viewport size
+   */
   void resizeCanvas([Event e]) {
     if (!initialized) { return; }
     paneTopH = 0;
@@ -666,13 +670,6 @@ class SlickGrid {
     viewportBottomH = 0;
     getViewportWidth();
     _getViewportHeight();
-
-
-//    if (_options.autoHeight==true) {
-//      viewportH = _options.rowHeight * getDataLengthIncludingAddNew();
-//    } else {
-//      viewportH = getViewportHeight();
-//    }
 // Account for Frozen Rows
      if (hasFrozenRows) {
          if (_options.frozenBottom) {
@@ -755,13 +752,6 @@ class SlickGrid {
      if (_options.forceFitColumns==true) {
          autosizeColumns();
      }
-
-//    viewportW = core.Dimension.getCalcWidth(container);
-////    viewportW =  double.parse(container.getComputedStyle().width.replaceAll("px", '')).ceil() ;//parseFloat($.css($container[0], "width", true));
-//    if (_options.autoHeight==false) {
-//      $viewport.style.height = '$viewportH' + 'px';
-//      $viewportL.style.height = '$viewportH' + 'px';
-//    }
 
     /* this looks like duplicate code from line #761.
      * It is very hard to tell if this is outside of the last closing }
