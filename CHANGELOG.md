@@ -1,3 +1,6 @@
+#Version 0.1.3+2 (2015/07/21)
+- sort indicator in custom-elem, add cols attribute for sort event object on single column sort
+
 #Version 0.1.3+1 (2015/06/21)
 - reset data will clear selected row, see CheckBox.html
 
