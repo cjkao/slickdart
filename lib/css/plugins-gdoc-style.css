@@ -38,7 +38,7 @@ body, BUTTON {
 
 .slick-column-name {
     margin-right: 14px;
-    display: block;
+   /* display: block; */
     text-align: center;
 }
 
