@@ -3177,7 +3177,10 @@ class SlickGrid {
             trigger(onSort, {
               'multiColumnSort': false,
               'sortCol': column,
-              'sortAsc': sortOpts['sortAsc']}, evt);
+              'sortAsc': sortOpts['sortAsc'],
+              'sortCols': [{'sortCol': column, 'sortAsc':sortOpts['sortAsc'] }]
+              }, evt);
+              
           } else {
             trigger(onSort, {
               'multiColumnSort': true,
