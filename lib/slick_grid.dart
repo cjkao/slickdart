@@ -8,6 +8,7 @@ import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'slick_editor.dart' as editor;
 import 'slick_selectionmodel.dart';
+//import 'slick_formatters.dart';
 import 'slick_util.dart';
 import 'slick_dnd.dart';
 import 'slick_column.dart';
@@ -136,6 +137,7 @@ class SlickGrid {
   SlickGrid(this.container, this._data, this.allColumns, [Map options]){
     this.columns = new List<Column>.from(this.allColumns.where((c) => c.visible));
     this._options.addAll(options);
+    _storeFormatter();
   }
   /**
    * construct from GridOption class
@@ -143,8 +145,18 @@ class SlickGrid {
   SlickGrid.fromOpt(this.container, this._data, this.allColumns, [GridOptions options]){
       this.columns = new List<Column>.from(this.allColumns.where((c) => c.visible));
       this._options=options;
+      _storeFormatter();
   }
-
+  /**
+   * append formatter to option's internal formatter factory
+   * replace formatter instance to grid's in
+   */
+  _storeFormatter(){
+    allColumns.where((_)=> _.formatter!=null).forEach((_){
+      _options.formatterFactory[_.id] = _.formatter;
+      _.formatter = _.id;
+    });
+  }
  // Map<String,dynamic> defaults ;
   Column _columnDefaults= new Column();
 
@@ -1118,7 +1130,7 @@ class SlickGrid {
 
 
 
-    String defaultFormatter(int row,int  cell,dynamic value,[ columnDef, dataContext]) {
+    String defaultFormatter(int row,int  cell,dynamic value,[Column columnDef, dataContext]) {
       if (value == null) {
         return "";
       }
@@ -2690,8 +2702,13 @@ class SlickGrid {
      * column Column object
      * @return function object
      */
-    Function getFormatter(int row, Column column) {
-        return  column.formatter !=null ? column.formatter : _options.defaultFormatter;
+    TFormatter getFormatter(int row, Column column) {
+        if(column.formatter==null) return _options.defaultFormatter;
+          
+        if(column.formatter is String){//fecth it from formatterFactorys 
+          return _options.formatterFactory[column.id];
+        }else //this only happen when suppply a new column is not from grid constructor
+           return  column.formatter;
     }
 
 
@@ -2889,7 +2906,7 @@ class SlickGrid {
         activeCellNode.classes.removeAll(['editable','invalid']);
         if (d!=null) {
           var column = columns[activeCell];
-          var formatter = getFormatter(activeRow, column);
+          TFormatter formatter = getFormatter(activeRow, column);
           activeCellNode.setInnerHtml( formatter(activeRow, activeCell, getDataItemValueForColumn(d, column), column, d),
               treeSanitizer: _treeSanitizer);
           invalidatePostProcessingResults(activeRow);

@@ -172,6 +172,7 @@ class MetaList<T> extends ListBase<T> with IMetaData{
   void add(T value) => innerList.add(value);
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
+  void sort([int compare(a, b)]) =>innerList.sort(compare);
 }
 
 // code hint for setup grid
@@ -223,7 +224,7 @@ class GridOptions{
   int      headerRowHeight                = 25;
   bool     showTopPanel                   = false;
   int      topPanelHeight                 = 25;
-  var      formatterFactory               = null;
+  var      formatterFactory               = {};
   var      editorFactory                  = null;
   String   cellFlashingCssClass           = "flashing";
   String   selectedCellCssClass           = "selected";
