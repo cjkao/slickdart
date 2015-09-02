@@ -1892,7 +1892,9 @@ class SlickGrid {
           }
       }
   }
-
+  /**
+   * TOP-L, scroll X :   frozen Col =>  (frozen row, no frozen row), no frozen col => (frozen row, no frozen row) 
+   */
   setOverflow() {
     $viewportTopL.style.overflowX= ( _options.frozenColumn> -1 )    ?  hasFrozenRows ==true ? 'hidden' : 'scroll' :  hasFrozenRows ==true ? 'hidden' : 'auto';
     $viewportTopL.style.overflowY= ( _options.frozenColumn> -1 )    ?  hasFrozenRows ==true ? 'hidden' : 'hidden' :  hasFrozenRows ==true ? 'scroll' : 'auto';
@@ -1902,8 +1904,9 @@ class SlickGrid {
 
     $viewportBottomL.style.overflowX= ( _options.frozenColumn> -1 ) ?  hasFrozenRows ==true ? 'hidden' : 'auto'   :  hasFrozenRows ==true ? 'auto'   : 'auto';
     $viewportBottomL.style.overflowY= ( _options.frozenColumn> -1 ) ?  hasFrozenRows ==true ? 'hidden' : 'hidden' :  hasFrozenRows ==true ? 'scroll' : 'auto';
-
-    $viewportBottomR.style.overflowX= ( _options.frozenColumn> -1 ) ?  hasFrozenRows ==true ? 'scroll' : 'auto'   :  hasFrozenRows ==true ? 'auto'   : 'auto';
+    
+  // main canvas for frozen column & row
+    $viewportBottomR.style.overflowX= ( _options.frozenColumn> -1 ) ?  hasFrozenRows ==true ? 'auto'   : 'auto'   :  hasFrozenRows ==true ? 'auto'   : 'auto';
     $viewportBottomR.style.overflowY= ( _options.frozenColumn> -1 ) ?  hasFrozenRows ==true ? 'auto'   : 'auto'   :  hasFrozenRows ==true ? 'auto'   : 'auto';
 
   }
@@ -3262,7 +3265,7 @@ class SlickGrid {
         } else {
             $canvasTopL.style.height ='${_h}px';
            if (_options.frozenColumn> -1) {
-                $canvasTopR.style.height = '${_h}px';
+                $canvasTopR.style.height = '${_h+25}px';
            }
         }
         scrollTop = $viewportScrollContainerY.scrollTop;

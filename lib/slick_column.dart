@@ -158,6 +158,7 @@ class Column {
   }
   void set width(int item) {
     _src['width'] = item;
+//    print("set width $field $item");
   }
   void set maxWidth(int item) {
     _src['maxWidth'] = item;

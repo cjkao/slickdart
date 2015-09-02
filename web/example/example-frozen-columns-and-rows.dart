@@ -21,15 +21,15 @@ grid.SlickGrid init(){
      {'field': "finish",    'name': "9finish"},
      {'field': "title",     'name': "10 Title1",  'sortable': true },
      {'field': "percentComplete",'width':120, 'name': "11 percentComplete",  'sortable': true },
-     {'field': "start",     'name': "12 start", 'sortable': true },
-     {'field': "finish",    'name': "13 finish"},
-     {'field': "title",     'name': "14 Title1", 'sortable': true },
-     {'field': "percentComplete", 'width':120, 'name': "15 percentComplete",  'sortable': true },
-     {'field': "start",     'name': "16 start",  'sortable': true },
-     {'field': "finish1",   'name': "17 finish"},
-     {'field': "finish2",   'name': "18 finish" },
-     {'field': "finish3",   'name': "19 finish"},
-     {'field': "finish4",   'name': "20 finish" }
+     {'field': "start",     'name': "12 start", 'sortable': true }
+//     {'field': "finish",    'name': "13 finish"},
+//     {'field': "title",     'name': "14 Title1", 'sortable': true },
+//     {'field': "percentComplete", 'width':120, 'name': "15 percentComplete",  'sortable': true },
+//     {'field': "start",     'name': "16 start",  'sortable': true },
+//     {'field': "finish1",   'name': "17 finish"},
+//     {'field': "finish2",   'name': "18 finish" },
+//     {'field': "finish3",   'name': "19 finish"},
+//     {'field': "finish4",   'name': "20 finish" }
   ]);
   List data=[];
   for (var i = 0; i < 300; i++) {
@@ -52,7 +52,7 @@ grid.SlickGrid init(){
              'topPanelHeight': 25,
              'enableColumnReorder' : false,
              'frozenColumn': 0,
-             'frozenRow': 1,
+             'frozenRow': -1,
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
   sg.registerPlugin(new AutoTooltips());
