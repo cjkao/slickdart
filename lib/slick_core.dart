@@ -114,7 +114,7 @@ class Event {
    *      If not specified, the scope will be set to the <code>Event</code> instance.
    */
   notify(args, [dynamic e, scope]) {
-    if(e==null) e = new EventData();
+    e ??= new EventData();
    // scope = scope || this;
     var returnValue;
     for (int i = 0; i < handlers.length && !(e is EventData && (e.isPropagationStopped() || e.isImmediatePropagationStopped())); i++) {
@@ -280,7 +280,7 @@ class NonDataItem {
  * @constructor
  */
 class Group extends NonDataItem {
-  bool __group = true;
+ // bool __group = true;
 
   /**
    * Grouping level, starting with 0.
@@ -374,7 +374,7 @@ class Group extends NonDataItem {
  * @constructor
  */
 class GroupTotals extends NonDataItem{
-  bool __groupTotals = true;
+//  bool __groupTotals = true;
 
   /***
    * Parent Group.

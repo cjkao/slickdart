@@ -495,13 +495,9 @@ class SlickGrid {
    * @return top row id ~ buttom row id, left to right pixel for current view
    */
   Map<String,int> getVisibleRange([int viewportTop, int viewportLeft]) {
-    if (viewportTop == null) {
-      viewportTop = scrollTop;
-    }
-    if (viewportLeft == null) {
-      viewportLeft = scrollLeft;
-    }
-
+    viewportTop ??= scrollTop;
+    viewportLeft ??= scrollLeft;
+   
     return {
       'top': getRowFromPosition(viewportTop),
       'bottom': getRowFromPosition(viewportTop + viewportH) + 1,
