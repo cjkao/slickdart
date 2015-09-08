@@ -96,10 +96,7 @@ class Column {
   get validator => _src['validator'];
   //for header menu plugin
   Map get header{
-    if(_src['header'] ==null){
-      _src['header'] = {};
-      return _src['header'];
-    }
+    _src['header'] ??= {};
     return _src['header'];
   }
 

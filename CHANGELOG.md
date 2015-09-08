@@ -1,3 +1,7 @@
+#Version 0.1.3+4 (2015/09/07)
+- polymer element embed grid (not slick custom element), and stylesheet fall into shadowdom
+
+
 #Version 0.1.3+2 (2015/07/21)
 - sort indicator in custom-elem, add cols attribute for sort event object on single column sort
 

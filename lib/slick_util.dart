@@ -31,8 +31,7 @@ class FilteredList extends ListBase{
   Map _filter={};
 
   FilteredList([this._srcList]){
-      if(_srcList==null) _srcList=new List();
-
+      _srcList ??=new List();
   }
   //Constructor from a Map
   FilteredList.fromMap(Map map){

@@ -61,6 +61,7 @@ class _RowCache{
  * Grid that inheritance from SlickGrid
  */
 class SlickGrid {
+  final _style_id='init-style';
   //attach column to header element
   Expando<Column> _headExt= new Expando<Column>();
   //root container of grid
@@ -407,8 +408,9 @@ class SlickGrid {
     if (stylesheet==null) {
      //_log.finest( container.style);
       List<CssStyleSheet> sheets = document.styleSheets;
-      if(container.parent==null){ //shadowRoot
-        stylesheet=((container.parentNode as ShadowRoot).firstChild as StyleElement).sheet;
+      if(container.parent==null){ //shadowRoot   && (container.parentNode as ShadowRoot).firstChild is StyleElement
+//        stylesheet=((container.parentNode as ShadowRoot).firstChild as StyleElement).sheet;
+        stylesheet=((container.parentNode as ShadowRoot).querySelector('style#$_style_id') as StyleElement).sheet;
        // stylesheet = container.parentNode.firstChild as CssStyleSheet;
       }else{
         for (int i = 0; i < sheets.length; i++) {
@@ -495,13 +497,9 @@ class SlickGrid {
    * @return top row id ~ buttom row id, left to right pixel for current view
    */
   Map<String,int> getVisibleRange([int viewportTop, int viewportLeft]) {
-    if (viewportTop == null) {
-      viewportTop = scrollTop;
-    }
-    if (viewportLeft == null) {
-      viewportLeft = scrollLeft;
-    }
-
+    viewportTop ??= scrollTop;
+    viewportLeft ??= scrollLeft;
+   
     return {
       'top': getRowFromPosition(viewportTop),
       'bottom': getRowFromPosition(viewportTop + viewportH) + 1,
@@ -3421,7 +3419,7 @@ class SlickGrid {
     // todo dynmic height , remove height
     void createCssRules() {
        $style=new StyleElement();
-
+       $style.id=_style_id;
 //      $style =  container.createFragment("<style type='text/css' rel='stylesheet' />", treeSanitizer : _treeSanitizer).children.first;
       if(container.parent ==null){
         _log.finest('it is shadow');
