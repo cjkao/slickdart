@@ -705,7 +705,7 @@ class SlickGrid {
 
      if (_options.autoHeight==true) {
          if (_options.frozenColumn> -1) {
-             container.style.height = '${paneTopH + int.parse($headerScrollerL.style.height.replaceFirst("px", ""))}px';
+             container.style.height = '${paneTopH + int.parse($headerScrollerL.style.height.replaceFirst("px", ""), onError: (_)=>0)}px';
          }
          $paneTopL.style.position= 'relative';
      }
@@ -1834,10 +1834,10 @@ class SlickGrid {
 
     int getVBoxDelta(Element $el) {
       int delta =
-      int.parse($el.getComputedStyle().borderTopWidth.replaceAll("px", ''))
-       + int.parse($el.getComputedStyle().borderBottomWidth.replaceAll('px', ''))
-       +  int.parse($el.getComputedStyle().paddingTop.replaceAll('px', ''))
-       +  int.parse($el.getComputedStyle().paddingBottom.replaceAll('px', ''));
+      int.parse($el.getComputedStyle().borderTopWidth.replaceAll("px", ''), onError: (_)=>0)
+       + int.parse($el.getComputedStyle().borderBottomWidth.replaceAll('px', ''), onError: (_)=>0)
+       +  int.parse($el.getComputedStyle().paddingTop.replaceAll('px', ''), onError: (_)=>0)
+       +  int.parse($el.getComputedStyle().paddingBottom.replaceAll('px', ''), onError: (_)=>0);
       return delta;
     }
 
@@ -2058,8 +2058,8 @@ class SlickGrid {
         } else {
             CssStyleDeclaration csd = container.getComputedStyle();
             int height=core.Dimension.getCalcHeight(container);
-            int paddingTop = int.parse(csd.paddingTop.replaceAll('px', ''));
-            int paddingBottom = int.parse(csd.paddingBottom.replaceAll('px', ''));
+            int paddingTop = int.parse(csd.paddingTop.replaceAll('px', ''), onError: (_)=>0);
+            int paddingBottom = int.parse(csd.paddingBottom.replaceAll('px', ''), onError: (_)=>0);
             int headerScrollerHeight = core.Dimension.getCalcHeight($headerScroller.first);
             int vboxDelta =  getVBoxDelta($headerScroller.first) ;
             int topPanelHeight = _options.showTopPanel ==true ?  _options.topPanelHeight + getVBoxDelta($topPanelScroller.first) : 0;
