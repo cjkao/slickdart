@@ -153,6 +153,7 @@ class JGrid extends HtmlElement {
   </div>
   <div id='grid'>
   </div>
+  <content></content>
 """;
   }
   /**
@@ -184,6 +185,8 @@ class JGrid extends HtmlElement {
     grid.onSort.subscribe(_defaultSort);
     _setupContextMenu();
     //prepare listener for context menu
+    _extractDistributeNodeStyle();
+    
   }
   /**
    * List based data
@@ -194,8 +197,29 @@ class JGrid extends HtmlElement {
     }
     grid.data=data;
     grid.invalidate();
-
   }
+  /**
+   * apply style with style string
+   * example string:  .slick-pane-top .slick-row {   background-color: #a9F9FF;    }
+   */
+  void setStyle(List<String> s){
+    final styleSheet = shadowRoot.styleSheets[0];
+    styleSheet.insertRule(s,0);
+  }
+  /**
+   * move style tag from external to shadowdom
+   */
+  _extractDistributeNodeStyle(){
+    List<Node> els=(this.shadowRoot.querySelector("content") as ContentElement).getDistributedNodes();
+        els.where((_){
+           return _.nodeName=='STYLE';
+        }).forEach((_){
+          //print(_); 
+          shadowRoot.append(_);
+        });
+  }
+  
+  
   void attached() {
     _log.finer('attached');
     _log.finest(shadowRoot.host.clientWidth);

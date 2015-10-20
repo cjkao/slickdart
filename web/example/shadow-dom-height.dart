@@ -11,6 +11,9 @@ main() async {
   cols[1]..width=20..name='id';
   csv.columns[0]..width=14..name='id';
   JGrid gw0 = document.querySelector("$GRID_TAG");
+  
+//  gw0.setStyle(""".slick-pane-top .slick-row {   background-color: #a9F9FF;    }""");
+//  gw0.setStyle(""".slick-pane-top .slick-row {   color: #11FF11;    }""");
   var opts = {
     'showHeaderRow': true,
     'headerRowHeight': 25,

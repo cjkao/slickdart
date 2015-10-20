@@ -13,12 +13,6 @@
        height:90vh;
        width:90vw;
     }
-    cj-grid /deep/ .slick-pane-top .slick-row {
-        background-color: #a9F9FF;
-    }
-
-
-
 
     </style>
     
@@ -28,7 +22,12 @@
   <body>
     <script type="application/dart" src="shadow-dom-height.dart"></script>
     <script src="packages/browser/dart.js"></script>
-    <cj-grid  class='first'></cj-grid>
+    <cj-grid  class='first'>
+        <style>
+        .slick-pane-top .slick-row {   background-color: #a9F9FF;    }
+        .slick-pane-top .slick-row {   color: #0000FF;    }
+        </style>   
+    </cj-grid>
 
 
 

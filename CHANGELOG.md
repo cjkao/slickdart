@@ -1,3 +1,9 @@
+#Version 0.1.4 (2015/010/20)
+- custom element accept style over write via setStyle
+- custom element absorb style tag under content tag, e.g.: shadow-dom-height.html
+
+
+
 #Version 0.1.3+5 (2015/09/29)
 - parseInt fixed on style
 
