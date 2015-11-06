@@ -897,7 +897,7 @@ class SlickGrid {
       $topPanel..add($topPanelL)..add($topPanelR);
 
       if (!_options.showTopPanel) {
-          $topPanelScroller.forEach((_) => _.style.display='none');
+          $topPanelScroller.forEach((Element _) => _.style.display='none');
       }
 
       if (!_options.showHeaderRow) {
