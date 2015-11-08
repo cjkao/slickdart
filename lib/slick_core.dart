@@ -5,6 +5,12 @@ import 'dart:html' as html;
 //import 'dart:math' as math;
 //import 'dart:mirrors';
 EditorLock GlobalEditorLock = new EditorLock();
+
+//parm:  List<core.Range>, Map
+//e: KeyboardEvent, EventData
+typedef handlerFunction(Object e,Object parm);
+
+
 /**
  * utility to get dom width / height
  */
@@ -89,7 +95,7 @@ class Event {
    * @method subscribe
    * @param fn {Function} Event handler.
    */
-  subscribe (Function fn) {
+  subscribe (handlerFunction fn) {
     handlers.add(fn);
   }
 

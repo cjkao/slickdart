@@ -167,6 +167,18 @@ class IntEditor extends InputEditor{
   }
 
 
+class DoubleEditor extends IntEditor{
+  void applyValue(item, state){
+        item[_ep.columnDef.field] = num.parse(state, (_)=>   item[_ep.columnDef.field] );
+  }
+  DoubleEditor([_ep]) :super(_ep);
+  set editorParm (EditorParm m){
+    super.editorParm=m;
+        _input
+        ..pattern=r'^\d{0,2}(\.\d{0,2}){0,1}$';
+    }  
+}
+
 /**
  * source data type: bool
  */
