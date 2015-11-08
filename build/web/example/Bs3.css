@@ -1,7 +1,7 @@
 #grid {
   background: white;
   outline: 0;
-  border: 1px solid gray;
+  border: 0px solid gray;
   height:600px;
   width:100%;
 }
@@ -17,6 +17,8 @@ input.editor-text {
   padding: 0;
 
 }
+
+
 /*     body{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
