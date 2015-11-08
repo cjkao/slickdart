@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="bootstrap.css" rel="stylesheet" media="screen">
+     <script src="packages/slickdart/plugin/copy/ZeroClipboard.min.js"></script>
+    <style>
+    /*
+    cj-grid{
+     height:200px;
+      border:1px solid black;
+      margin:4px;
+    }
+    cj-grid.first, cj-grid.third{
+      display: inline-block;
+    }
+    */
+    .second,.third{
+ /*   border: 1px solid; */
+    display: inline-block;  
+    }
+
+ /* style component using css */
+    cj-grid.third {
+       height:300px;
+       width:300px;
+    }
+    cj-grid.forth {
+       height:600px;
+       width:800px;
+     /*  border:1px solid gray;*/
+    }
+
+
+    
+
+
+
+    </style>
+     <script type="text/javascript">
+      
+    </script>
+    
+    <script src="packages/web_components/webcomponents.min.js"></script>
+    <script src="packages/web_components/dart_support.js"></script>
+  </head>
+  <body>
+    <script type="application/dart" src="custom-elem.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+    <div class='container'>
+      <div class='row'>To inspect dart object, open console, select cj-grid,
+            we can find dart object is export to javascript and inspectable in javascript console
+        <pre>
+          var grid= document.querySelector('cj-grid').grid; //this is SlickGrid object
+          var column = grid.columns.$index(0,0);  // this is dart Column Object
+          column.toString$0()  // call toString function in dart object that produce json string...
+          //"{name: input, resizable: false, sortable: false, minWidth: 30, rere....}"
+
+        </pre>
+        <p>To use custom JGrid, must specify height of element</p>
+      </div>
+      <div class='row'>
+        <div class='col-md-3'>
+          <div class="panel panel-default">
+            <div class="panel-heading">Panel 1, bind surface</div>
+            <div class="panel-body">
+              <cj-grid style='width:200px; height:400px;' class='first'>
+                  <style>
+                      .slick-header-column {
+                          border-style: solid solid solid solid;
+                          border-width: 1px 1px 0 0px;*/
+                      }
+                  
+                      .slick-header-column.ui-state-default {
+                          font: 9pt arial, sans-serif;
+                          color: black;
+                          background-color: #F3F3F3;
+                          background-image:none;
+                      }
+                  
+                      .slick-header-column.ui-state-default.ui-state-hover {
+                          background-color: #E3F3FF;
+                      }
+                      .slick-header-column.slick-header-column-sorted {
+                          background-color: #F3F3AF;
+                      }
+                  </style>
+              </cj-grid>
+            </div>
+          </div>
+
+
+        </div>
+        <div class='col-md-9'>
+         <div class="panel panel-default">
+            <div class="panel-heading">Panel 2</div>
+            <div class="panel-body">
+              <cj-grid style='width:300px; height:200px;' class='second'></cj-grid>
+              <cj-grid class='third'></cj-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-7'>  <cj-grid class='forth'></cj-grid></div>
+        <div class='col-md-5'> <div class='right-pane'></div></div>
+      </div>
+    </div>
+
+    <script src="ga.js"></script>
+
+  </body>
+</html>
