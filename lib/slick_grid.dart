@@ -3456,7 +3456,7 @@ class SlickGrid {
       }, evt);
     }
 
-    void handleHeaderMouseLeave(e) {
+    void handleHeaderMouseLeave(MouseEvent e) {
       core.EventData evt = new core.EventData.fromDom(e);
       trigger(onHeaderMouseLeave, {
         //"column": (e.target as Element).dataset["column"]
@@ -3925,6 +3925,8 @@ class SlickGrid {
           switch(editorStr){
             case 'IntEditor':
               return new editor.IntEditor(editorParm)..editorParm=editorParm;
+            case 'DoubleEditor':
+              return new editor.DoubleEditor(editorParm)..editorParm=editorParm;
             case 'TextEditor':
               return new editor.TextEditor(editorParm)..editorParm=editorParm;
             case 'CheckboxEditor':

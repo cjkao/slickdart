@@ -156,3 +156,9 @@ Follow steps:
 ```html
   <cj-grid download='f.csv'></cj-grid>
 ```
+
+
+
+Collapsing use case
+=============================================
+Example: Bs3_tree.dart

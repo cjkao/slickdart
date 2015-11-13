@@ -28,7 +28,10 @@ Element findClosestAncestor(Element element, String cssSelector, [String scope])
  */
 class FilteredList extends ListBase{
   List _srcList, _viewList;
-  Map _filter={};
+  /**
+   * field name ->  condition or function
+   */
+  Map<String,dynamic> _filter={};
 
   FilteredList([this._srcList]){
       _srcList ??=new List();
@@ -38,7 +41,7 @@ class FilteredList extends ListBase{
     _srcList = map == null ? new List() : new List.from(map.values);
   }
   /**
-   * create new view base on filter,
+   * create new view base on filter, only matched item will show 
    * string is partial matching
    * {column: condition}
    */
@@ -47,22 +50,33 @@ class FilteredList extends ListBase{
     _filter =m;
     _viewList=_foldHelper();
   }
-  void setKeyword(String key, String val){
+  void setKeyword(String key, Object val){
     //_viewList=[];
-    if(val.length==0){
+    if(val is String && val.length==0){
       _filter.remove(key);
-    }else{
+    }else
+    {
       _filter[key]=val;
     }
     _viewList=_foldHelper();
   }
+  /**
+   * when src is changed, regenerate view
+   */
+  void invalidate(){
+    _viewList=_foldHelper();
+  }
+  
+  void removeKeyword(String key){
+    _filter.remove(key);
+  }
   _foldHelper(){
-    List tList=[];
-    return new UnmodifiableListView(_srcList.fold(tList, (init,val){
-                //_filter.keys.every(test)
+    return new UnmodifiableListView(_srcList.fold([], (List init,val){
                 var test = _filter.keys.every((k){
                   if(val[k] is String){
                     return val[k].contains(_filter[k]) ;
+                  }else if(val[k] is bool){
+                    return val[k] == _filter[k];
                   }else{
                     try{
                       var _num=num.parse(_filter[k]);
@@ -71,13 +85,12 @@ class FilteredList extends ListBase{
                       return false;
                     }
                   }
-                  //return val[k] is String ? val[k].contains(_filter[k]) : val[k] == _filter[k];
                   });
-                //  , orElse: ()=>null);
-                if(test) tList.add(val);
-                return tList;
+                if(test) init.add(val);
+                return init;
         }));
   }
+  
   operator [](index) => _filter.length==0 ? _srcList[index] : _viewList[index];
   operator []=(index,value) => _srcList.add(value);
   //for grid internal mask
@@ -132,7 +145,70 @@ class FilteredList extends ListBase{
   Map asMap() => _srcList.asMap();
 }
 
+/**
+ * test input object is match filter condition
+ * return true : show row
+ *        false: hide row
+ */
+typedef bool testShowItemFun(obj);
 
+/**
+ * filter follow up rows base on '_parent' and '_collapsed' and id field to render tree view 
+ */
+class HierarchFilterList extends  FilteredList{
+  List<testShowItemFun> filterFun = [];
+  String _parentField;
+  String _idField;
+  String _collapsedField;
+  HierarchFilterList._([List items]): super(items){}
+  
+  /**
+   * [parentField] field that describe parent row id, default is '_parent'
+   * [idField] unique id for each row, default is 'id'
+   * [collapsedField] field describe collapsed(true) or expand(false)
+   * [items] List of row
+   */
+  factory HierarchFilterList.withKeyField([String parentField='_parent', String idField='id',String collapsedField='_collapsed',List items]){
+    HierarchFilterList hier= new HierarchFilterList._(items);
+    hier._parentField=parentField;
+    hier._idField=idField;
+    hier._collapsedField=collapsedField;
+    return hier;
+  }
+  
+  _foldHelper(){
+    Map tMap={
+      'parents':new Set(),
+      'list':[]
+    };
+        return new UnmodifiableListView(_srcList.fold(tMap, (Map init,val){
+                    //_filter.keys.every(test)
+                    bool showRow = _filter.keys.every((k){
+                      if(k == _collapsedField){ //filter by tree hierarchical
+                        if(init['parents'].contains(val[_parentField])){
+                          init['parents'].add(val[_idField]);
+                                                return false;
+                        }else if( val[k]==true){
+                          init['parents'].add(val[_idField]);
+                          return true;
+                        }
+                        else{
+                          return true;
+                        }
+                      }else if(_filter[k] is Function){
+                          bool isShow= _filter[k](val[k]);
+                          if(!isShow) init['parents'].add(val[_idField]);
+                          return isShow; 
+                      }else{
+                        return true;
+                      }
+                      
+                      });
+                    if(showRow) init['list'].add(val);
+                    return init;
+            })['list']   );
+  }
+}
 
 
 /**
