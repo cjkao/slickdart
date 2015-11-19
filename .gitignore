@@ -1,8 +1,9 @@
 build/
 .pub/
 .pub-cache/
+.idea/
 packages/**
-
+.packages
 pubspec.lock
 
-pubspec.lock
+

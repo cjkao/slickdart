@@ -1,6 +1,7 @@
-part of slick;
-
-PercentCompleteFormatter(row, cell, value, columnDef, dataContext) {
+library slick.formatter;
+import 'slick_column.dart';
+typedef void formatFn(int row,int  cell, dynamic value,Column columnDef,dataContext);
+PercentCompleteFormatter(int row, int cell, value, Column columnDef, Map dataContext){
   if (value == null || value == "") {
     return "-";
   } else if (value < 50) {
@@ -10,13 +11,13 @@ PercentCompleteFormatter(row, cell, value, columnDef, dataContext) {
   }
 }
 
-PercentCompleteBarFormatter(row, cell, value, columnDef, dataContext) {
+PercentCompleteBarFormatter(int row, int cell, value, Column columnDef, Map dataContext) {
   if (value == null || value == "") {
     return "";
   }
 
-  var color;
-
+  String color;
+  
   if (value < 30) {
     color = "red";
   } else if (value < 70) {
@@ -25,14 +26,14 @@ PercentCompleteBarFormatter(row, cell, value, columnDef, dataContext) {
     color = "green";
   }
 
-  return "<span class='percent-complete-bar' style='background:" + color + ";width:" + value.toString() + "%'></span>";
+  return "<span class='percent-complete-bar' style='background:$color;width:$value%'></span>";
 }
 
-YesNoFormatter(row, cell, value, columnDef, dataContext) {
+YesNoFormatter(int row, int cell, value, Column columnDef, Map dataContext) {
   return value ? "Yes" : "No";
 }
 
-CheckmarkFormatter(row, cell, value, columnDef, dataContext) {
+CheckmarkFormatter(int row, int cell, value, Column columnDef, Map dataContext) {
   return (value!=null && value) ? "<img src='packages/slickdart/images/tick.png'>" : "";
 }
 //CheckboxFormatter(row, cell, value, columnDef, dataContext) {

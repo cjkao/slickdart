@@ -29,7 +29,7 @@ TODO
 ========================
 - [ ] header column menu within shadowdom
 - [ ] checkbox focus need revalidate 
-- [ ] ease of use, (Map adapter, auto column declare, width calculation and sorting)
+- [X] ease of use, (Map adapter, auto column declare, width calculation and sorting)
 - [ ] column reorder
 - [ ] adjust row height via mouse
 - [x] efficent dynamic row height on frozen column
@@ -84,7 +84,11 @@ import 'slick_custom.dart'
 registerElem();
 ```      
 ```html
-<cj-grid></cj-grid>
+<cj-grid>
+	<style>
+	.special-style-here {..}
+	</style>
+</cj-grid>
 ```
   
   
@@ -152,3 +156,9 @@ Follow steps:
 ```html
   <cj-grid download='f.csv'></cj-grid>
 ```
+
+
+
+Collapsing use case
+=============================================
+Example: Bs3_tree.dart

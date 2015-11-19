@@ -6,8 +6,13 @@ void main() {
   cj.SlickGrid  grid=prepareGrid();
   grid.init();
   querySelector('#reset').onClick.listen((e){
-    grid.data=makeData(50000);
-    grid.invalidate();
+    var style=querySelector('.panel-body').style;
+    if(style.height=='200px')
+       style.height='20px';
+    else{
+       style.height='200px';
+    }
+    grid.resizeCanvas();
   });
 }
 
@@ -31,10 +36,10 @@ cj.SlickGrid prepareGrid(){
   Element el =querySelector('#grid');
   List column = [
                  new cj.Column.fromMap ({'field': "title",        'name': "FIXED",  'sortable': true }),
-                 new cj.Column.fromMap ({'field': "duration",     'name': "A",'width':120, 'sortable': true ,'editor': 'IntEditor'}),
-                 new cj.Column.fromMap ({'field': "percent",      'name': 'B', 'sortable': true,'editor': 'TextEditor' }),
+                 new cj.Column.fromMap ({'field': "duration",     'name': "A",'width':120, 'sortable': true }),
+                 new cj.Column.fromMap ({'field': "percent",      'name': 'B', 'sortable': true}),
                  new cj.Column.fromMap ({'field': "finish",       'name': "C" }),
-                 new cj.Column.fromMap ({'field': "pc",           'name': "D",  'editor':'TextEditor'}),
+                 new cj.Column.fromMap ({'field': "pc",           'name': "D"}),
                  new cj.Column.fromMap ({'field': "effortDriven", 'name': "E",  'width':200})
                  ];
   cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
@@ -45,8 +50,6 @@ cj.SlickGrid prepareGrid(){
                                 ..autoEdit=true
                                 ..enableAddRow=true
                                 ..leaveSpaceForNewRows=true
-                                //..showTopPanel=true
-                                //..topPanelHeight=50
                                 ..frozenColumn = 1
                                 ..enableColumnReorder=true;
   

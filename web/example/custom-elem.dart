@@ -25,8 +25,10 @@ main() {
     JGrid gw1 = document.querySelector("$GRID_TAG.second");
     gw1.init(csv.data, csv.columns);
     var opts={ 'multiColumnSort': true  };
-    (document.querySelector("$GRID_TAG.third") as JGrid)..init(csv.data,  csv.columns,option:opts );
-    (document.querySelector("$GRID_TAG.forth") as JGrid)..init(csv.data, csv.columns, option:{'frozenRow':1});
+    csv.columns[3].sortable=true;
+    csv.columns[1].sortable=true;
+    (document.querySelector("$GRID_TAG.third") as JGrid)..init(csv.data.sublist(0,10),  csv.columns,option:opts );
+    (document.querySelector("$GRID_TAG.forth") as JGrid)..init(csv.data.sublist(0,10), csv.columns, option:{'frozenRow':1});
 
   });
 //load other grid fron internet

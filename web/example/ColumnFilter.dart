@@ -99,10 +99,13 @@ grid.SlickGrid makeGrid(){
   
   sg.onSort.subscribe( (e, args) {
     grid.Column col = args['sortCol'];
-    sg.data.sort( (dataRow1, dataRow2) {
+    (sg.data as grid.MetaList).sort( (dataRow1, dataRow2) {
         var field = col.field;
         var sign = args['sortAsc'] ? 1 : -1;
         dynamic value1 = dataRow1[field], value2 = dataRow2[field];
+        if(value1 is bool){
+          return value1==true? 1:-1;
+        }
         var result = (value1 == value2 ? 0 : (value1.compareTo(value2)>0 ? 1 : -1)) * sign;
         if (result != 0) {
           return result;

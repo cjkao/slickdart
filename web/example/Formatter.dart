@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:convert';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 
@@ -31,7 +32,7 @@ void main() {
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
   List column = [
-                 new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
+                 new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' , 'formatter':new SuperFormater()}),
                  new grid.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true }),
                  new grid.Column.fromMap ({'id': "%", 'name': "percentComplete", 'field': "pc", 'sortable': true, 'formatter': grid.PercentCompleteBarFormatter }),
                  new grid.Column.fromMap ({'id': "effort-driven", 'name': "Effort Driven", 'sortable': false, 'width': 80, 'minWidth': 20, 'maxWidth': 80,
@@ -79,4 +80,22 @@ grid.SlickGrid init(){
     sg.render();
   });
   return sg;
+}
+
+class SuperFormater{
+  call(int row,int  cell, dynamic value,grid.Column columnDef,dataContext){
+    /**demo code for ser/deser */
+    var colStr = JSON.encode(columnDef);
+    new grid.Column.fromJSON(colStr);
+    /** end */
+      return value;
+  }
+  toString(){
+    return 'SuperFormater';
+  }
+}
+SuperFormatter2(int row,int  cell, dynamic value,grid.Column columnDef,dataContext) {
+  var colStr = JSON.encode(columnDef.toString());
+  grid.Column col = new grid.Column.fromJSON(colStr);
+  return value;
 }

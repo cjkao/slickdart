@@ -10,9 +10,9 @@ export 'slick_grid.dart';
 export 'slick_selectionmodel.dart';
 export 'slick_dnd.dart';
 export 'slick_util.dart';
+export 'slick_formatters.dart';
 
 part 'parser.dart';
-part 'slick_formatters.dart';
 
 
 Logger _log = new Logger('slick');

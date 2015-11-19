@@ -63,13 +63,13 @@ class EditorParm{
 }
 
 abstract class InputEditor extends Editor{
+  InputElement _input;
   InputEditor([_ep]){
     super._ep=_ep;
   }
-  InputElement $input;
   Map validate() {
     if (_ep.columnDef.validator !=null) {
-      var validationResults = _ep.columnDef.validator($input.value);
+      var validationResults = _ep.columnDef.validator(($input as InputElement).value);
       if (!validationResults.valid) {
         return validationResults;
       }
@@ -91,10 +91,10 @@ abstract class InputEditor extends Editor{
 class TextEditor extends InputEditor{
   set editorParm (EditorParm m) {
       super.editorParm=m;
-      $input = new InputElement(type:'text');
-      $input.classes.add('editor-text');
+      $input = _input = new InputElement(type:'text');
+      _input.classes.add('editor-text');
       _ep.activeCellNode.append($input);
-      $input..onKeyDown.matches(".nav").
+      _input..onKeyDown.matches(".nav").
       listen((KeyboardEvent e){
         if(e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT){
           e.stopImmediatePropagation();
@@ -106,21 +106,21 @@ class TextEditor extends InputEditor{
     TextEditor([_ep]) :super(_ep);
 
     String getValue() {
-      return $input.value;
+      return ($input as InputElement).value;
     }
     /**
      * item: a row of data
      */
     void loadValue(item) {
       super.loadValue(item);
-      $input.value ='$defaultValue';
-      $input.defaultValue = '$defaultValue';
-      $input.select();
+      _input..value ='$defaultValue'
+      ..defaultValue = '$defaultValue'
+      ..select();
     }
 
-    String serializeValue() => $input.value;
+    String serializeValue() => _input.value;
     bool isValueChanged() {
-      return (!($input.value == "" && defaultValue == null)) && ($input.value != defaultValue);
+      return (!(_input.value == "" && defaultValue == null)) && (_input.value != defaultValue);
     }
   }
 
@@ -129,42 +129,55 @@ class TextEditor extends InputEditor{
 class IntEditor extends InputEditor{
   set editorParm (EditorParm m) {
       super.editorParm=m;
-      $input = new InputElement(type:'number');
-      $input.pattern='[-+]?[0-9]*';
-      $input.classes.add('editor-text');
+      $input= _input = new InputElement(type:'number');
+      _input
+      ..pattern='[-+]?[0-9]*'
+      ..classes.add('editor-text');
       _ep.activeCellNode.append($input);
-      $input..onKeyDown.matches(".nav").
-      listen((KeyboardEvent e){
-        if(e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT){
-          e.stopImmediatePropagation();
-        }
-      })
+      ($input as InputElement)..onKeyDown.matches(".nav")
+        .listen((KeyboardEvent e){
+          if(e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT){
+            e.stopImmediatePropagation();
+          }
+        })
       ..focus()
       ..select();
   }
     IntEditor([_ep]) :super(_ep);
 
     String getValue() {
-      return $input.value;
+      return _input.value;
     }
     /**
      * item: a row of data
      */
     void loadValue(item) {
       super.loadValue(item);
-      $input.value ='$defaultValue';
-      $input.defaultValue = '$defaultValue';
-      $input.select();
+      _input.value ='$defaultValue';
+      _input.defaultValue = '$defaultValue';
+      _input.select();
     }
     void applyValue(item, state){
       item[_ep.columnDef.field] = int.parse(state, onError:(_)=>   item[_ep.columnDef.field] );
     }
-    String serializeValue() => $input.value;
+    String serializeValue() => _input.value;
     bool isValueChanged() {
-      return (!($input.value == "" && defaultValue == null)) && ($input.value != defaultValue);
+      return (!(_input.value == "" && defaultValue == null)) && (_input.value != defaultValue);
     }
   }
 
+
+class DoubleEditor extends IntEditor{
+  void applyValue(item, state){
+        item[_ep.columnDef.field] = num.parse(state, (_)=>   item[_ep.columnDef.field] );
+  }
+  DoubleEditor([_ep]) :super(_ep);
+  set editorParm (EditorParm m){
+    super.editorParm=m;
+        _input
+        ..pattern=r'^\d{0,2}(\.\d{0,2}){0,1}$';
+    }  
+}
 
 /**
  * source data type: bool
@@ -173,7 +186,7 @@ class CheckboxEditor extends InputEditor {
 
  // set editorParm (m) => _ep = new EditorParm(m);
   CheckboxEditor([_ep]) :super(_ep){
-    $input = new InputElement(type: 'checkbox');
+    $input = _input= new InputElement(type: 'checkbox');
     $input.classes.add('editor-checkbox');
     _ep.activeCellNode.append($input);
     $input  //..attributes['value'] = 'true'
@@ -184,7 +197,7 @@ class CheckboxEditor extends InputEditor {
   loadValue(item) {
     super.loadValue(item);
     //$input.value ='$defaultValue';
-    $input.defaultValue = '$defaultValue';
+    _input.defaultValue = '$defaultValue';
     if ( ( defaultValue is String && defaultValue.toLowerCase() == 'true') || (defaultValue is bool && defaultValue) ) {
       $input.attributes['checked']= 'checked';
     } else {
@@ -193,7 +206,7 @@ class CheckboxEditor extends InputEditor {
   }
 
   String serializeValue() {
-    if($input.checked) return 'true';
+    if(_input.checked) return 'true';
     return'false';
   }
   void applyValue(item, state){
@@ -201,8 +214,7 @@ class CheckboxEditor extends InputEditor {
   }
 
   isValueChanged() {
-    return $input.checked.toString() != $input.defaultValue.toLowerCase();
-//    return (!($input.value == "" && defaultValue == null)) && ($input.value != defaultValue);
+    return _input.checked.toString() != _input.defaultValue.toLowerCase();
   }
 
 }

@@ -4,13 +4,16 @@ import 'dart:math' as math;
 import 'package:slickdart/plugin/autotooltip.dart';
 import 'package:slickdart/plugin/header_menu.dart';
 import 'package:slickdart/slick_editor.dart';
+import 'package:logging/logging.dart' as log;
 List columnList;
 List tmpCol=[];
 void main() {
+  log.Logger.root.level=log.Level.FINEST;
+  log.Logger.root.onRecord.listen((record) { print(record); });
   cj.SlickGrid  grid=setup();
   grid.init();
   grid.setOptions({});
-
+  //log.hierarchicalLoggingEnabled=true;
   //print(g.$canvas.getBoundingClientRect());
   querySelector('#hideCol').onClick.listen((e){
     if(columnList.length==1) return;
@@ -73,7 +76,7 @@ cj.SlickGrid setup(){
   cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   columnList.insert(0,checkboxCol.getColumnDefinition());
   List data=[];
-  for (var i = 0; i < 500; i++) {
+  for (var i = 0; i < 50000; i++) {
     data.add( {
       'dtitle':  'Str' + new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100),
@@ -93,6 +96,10 @@ cj.SlickGrid setup(){
      ..enableCellNavigation = true
      ..enableColumnReorder = true
      ..leaveSpaceForNewRows =true
+     ..forceSyncScrolling =true
+     ..headerRowHeight=50
+     ..topPanelHeight=50
+     //..syncColumnCellResize=true
      ;
 //  Map opt = {'explicitInitialization': false,
 //             'multiColumnSort': true,

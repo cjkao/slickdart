@@ -9,6 +9,12 @@ import 'slick_core.dart' as core;
 import 'package:logging/logging.dart';
 Logger _log = new Logger('slick.util');
 /**
+ * formatter interface
+ */
+typedef String TFormatter(int row,int cell, var value,Column columnDef,Map dataContext);
+
+
+/**
  * create columns from list of map object
  */
 class ColumnList extends ListBase<Column> {
@@ -59,7 +65,11 @@ class Column {
   bool get defaultSortAsc => _src['defaultSortAsc'];
   Function get editor => _src['editor'];
   bool get focusable => _src['focusable'];
-  Function get formatter => _src['formatter'];
+  /**
+   * Warning!!, it throw exception after serialize and deserialization with JSON 
+   * return type could be [String] or [TFormatter]
+   */
+  Object get formatter => _src['formatter'];
   String get headerCssClass => _src['headerCssClass'];
   String get cssClass => _src['cssClass'];
   int get previousWidth => _src['previousWidth'];
@@ -86,10 +96,7 @@ class Column {
   get validator => _src['validator'];
   //for header menu plugin
   Map get header{
-    if(_src['header'] ==null){
-      _src['header'] = {};
-      return _src['header'];
-    }
+    _src['header'] ??= {};
     return _src['header'];
   }
 
@@ -110,7 +117,10 @@ class Column {
   void set focusable(bool item) {
     _src['focusable'] = item;
   }
-  void set formatter(Function item) {
+  /**
+   * [item] is String or [TFormatter]
+   */
+  void set formatter(var item) {
     _src['formatter'] = item;
   }
   void set headerCssClass(String item) {
@@ -208,6 +218,9 @@ class Column {
   };
   String toString() {
     return _src.toString();
+  }
+  Map toJson(){
+    return _src;
   }
 }
 /**

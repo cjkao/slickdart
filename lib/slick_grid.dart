@@ -8,6 +8,7 @@ import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'slick_editor.dart' as editor;
 import 'slick_selectionmodel.dart';
+//import 'slick_formatters.dart';
 import 'slick_util.dart';
 import 'slick_dnd.dart';
 import 'slick_column.dart';
@@ -60,6 +61,7 @@ class _RowCache{
  * Grid that inheritance from SlickGrid
  */
 class SlickGrid {
+  final _style_id='init-style';
   //attach column to header element
   Expando<Column> _headExt= new Expando<Column>();
   //root container of grid
@@ -136,6 +138,7 @@ class SlickGrid {
   SlickGrid(this.container, this._data, this.allColumns, [Map options]){
     this.columns = new List<Column>.from(this.allColumns.where((c) => c.visible));
     this._options.addAll(options);
+    _storeFormatter();
   }
   /**
    * construct from GridOption class
@@ -143,8 +146,18 @@ class SlickGrid {
   SlickGrid.fromOpt(this.container, this._data, this.allColumns, [GridOptions options]){
       this.columns = new List<Column>.from(this.allColumns.where((c) => c.visible));
       this._options=options;
+      _storeFormatter();
   }
-
+  /**
+   * append formatter to option's internal formatter factory
+   * replace formatter instance to grid's in
+   */
+  _storeFormatter(){
+    allColumns.where((_)=> _.formatter!=null).forEach((_){
+      _options.formatterFactory[_.id] = _.formatter;
+      _.formatter = _.id;
+    });
+  }
  // Map<String,dynamic> defaults ;
   Column _columnDefaults= new Column();
 
@@ -395,8 +408,9 @@ class SlickGrid {
     if (stylesheet==null) {
      //_log.finest( container.style);
       List<CssStyleSheet> sheets = document.styleSheets;
-      if(container.parent==null){ //shadowRoot
-        stylesheet=((container.parentNode as ShadowRoot).firstChild as StyleElement).sheet;
+      if(container.parent==null){ //shadowRoot   && (container.parentNode as ShadowRoot).firstChild is StyleElement
+//        stylesheet=((container.parentNode as ShadowRoot).firstChild as StyleElement).sheet;
+        stylesheet=((container.parentNode as ShadowRoot).querySelector('style#$_style_id') as StyleElement).sheet;
        // stylesheet = container.parentNode.firstChild as CssStyleSheet;
       }else{
         for (int i = 0; i < sheets.length; i++) {
@@ -483,13 +497,9 @@ class SlickGrid {
    * @return top row id ~ buttom row id, left to right pixel for current view
    */
   Map<String,int> getVisibleRange([int viewportTop, int viewportLeft]) {
-    if (viewportTop == null) {
-      viewportTop = scrollTop;
-    }
-    if (viewportLeft == null) {
-      viewportLeft = scrollLeft;
-    }
-
+    viewportTop ??= scrollTop;
+    viewportLeft ??= scrollLeft;
+   
     return {
       'top': getRowFromPosition(viewportTop),
       'bottom': getRowFromPosition(viewportTop + viewportH) + 1,
@@ -658,6 +668,10 @@ class SlickGrid {
     viewportW = core.Dimension.getCalcWidth(container);
        // container.style.width; //parseFloat($.css($container[0], "width", true));
   }
+  /**
+   * When window scroll bar added to document and grid div container is percentage,
+   * we need to redraw canvas to reflect change of viewport size
+   */
   void resizeCanvas([Event e]) {
     if (!initialized) { return; }
     paneTopH = 0;
@@ -666,13 +680,6 @@ class SlickGrid {
     viewportBottomH = 0;
     getViewportWidth();
     _getViewportHeight();
-
-
-//    if (_options.autoHeight==true) {
-//      viewportH = _options.rowHeight * getDataLengthIncludingAddNew();
-//    } else {
-//      viewportH = getViewportHeight();
-//    }
 // Account for Frozen Rows
      if (hasFrozenRows) {
          if (_options.frozenBottom) {
@@ -698,7 +705,7 @@ class SlickGrid {
 
      if (_options.autoHeight==true) {
          if (_options.frozenColumn> -1) {
-             container.style.height = '${paneTopH + int.parse($headerScrollerL.style.height.replaceFirst("px", ""))}px';
+             container.style.height = '${paneTopH + int.parse($headerScrollerL.style.height.replaceFirst("px", ""), onError: (_)=>0)}px';
          }
          $paneTopL.style.position= 'relative';
      }
@@ -755,13 +762,6 @@ class SlickGrid {
      if (_options.forceFitColumns==true) {
          autosizeColumns();
      }
-
-//    viewportW = core.Dimension.getCalcWidth(container);
-////    viewportW =  double.parse(container.getComputedStyle().width.replaceAll("px", '')).ceil() ;//parseFloat($.css($container[0], "width", true));
-//    if (_options.autoHeight==false) {
-//      $viewport.style.height = '$viewportH' + 'px';
-//      $viewportL.style.height = '$viewportH' + 'px';
-//    }
 
     /* this looks like duplicate code from line #761.
      * It is very hard to tell if this is outside of the last closing }
@@ -897,7 +897,7 @@ class SlickGrid {
       $topPanel..add($topPanelL)..add($topPanelR);
 
       if (!_options.showTopPanel) {
-          $topPanelScroller.forEach((_) => _.style.display='none');
+          $topPanelScroller.forEach((Element _) => _.style.display='none');
       }
 
       if (!_options.showHeaderRow) {
@@ -1128,7 +1128,7 @@ class SlickGrid {
 
 
 
-    String defaultFormatter(int row,int  cell,dynamic value,[ columnDef, dataContext]) {
+    String defaultFormatter(int row,int  cell,dynamic value,[Column columnDef, dataContext]) {
       if (value == null) {
         return "";
       }
@@ -1136,8 +1136,10 @@ class SlickGrid {
       return HTML_ESCAPE.convert(value);
     }
 
-
-    void getHeadersWidth() {
+    /**
+     * update sum of header width on left and right 
+     */
+    void updateHeadersWidth() {
       headersWidth = headersWidthL = headersWidthR = 0;
 //      int headersWidth = 0;
       for (int i = 0, ii = columns.length; i < ii; i++) {
@@ -1188,7 +1190,7 @@ class SlickGrid {
       widthChanged = canvasWidth != oldCanvasWidth || canvasWidthL != oldCanvasWidthL || canvasWidthR != oldCanvasWidthR;
       if (widthChanged || _options.frozenColumn>-1  || hasFrozenRows) {
         $canvasTopL.style.width ='${canvasWidthL}px';
-        getHeadersWidth();
+        updateHeadersWidth();
         $headerL.style.width = "${headersWidthL}px";
         $headerR.style.width = "${headersWidthR}px";
         if (_options.frozenColumn> -1) {
@@ -1396,7 +1398,7 @@ class SlickGrid {
       });
       $headerL.children.clear();
       $headerR.children.clear();
-      getHeadersWidth();
+      updateHeadersWidth();
       $headerL.style.width = '${headersWidthL}px';
       $headerR.style.width ='${headersWidthR}px';
      // hItem.style.width =getHeadersWidth().toString() + 'px';
@@ -1832,10 +1834,10 @@ class SlickGrid {
 
     int getVBoxDelta(Element $el) {
       int delta =
-      int.parse($el.getComputedStyle().borderTopWidth.replaceAll("px", ''))
-       + int.parse($el.getComputedStyle().borderBottomWidth.replaceAll('px', ''))
-       +  int.parse($el.getComputedStyle().paddingTop.replaceAll('px', ''))
-       +  int.parse($el.getComputedStyle().paddingBottom.replaceAll('px', ''));
+      int.parse($el.getComputedStyle().borderTopWidth.replaceAll("px", ''), onError: (_)=>0)
+       + int.parse($el.getComputedStyle().borderBottomWidth.replaceAll('px', ''), onError: (_)=>0)
+       +  int.parse($el.getComputedStyle().paddingTop.replaceAll('px', ''), onError: (_)=>0)
+       +  int.parse($el.getComputedStyle().paddingBottom.replaceAll('px', ''), onError: (_)=>0);
       return delta;
     }
 
@@ -2056,8 +2058,8 @@ class SlickGrid {
         } else {
             CssStyleDeclaration csd = container.getComputedStyle();
             int height=core.Dimension.getCalcHeight(container);
-            int paddingTop = int.parse(csd.paddingTop.replaceAll('px', ''));
-            int paddingBottom = int.parse(csd.paddingBottom.replaceAll('px', ''));
+            int paddingTop = int.parse(csd.paddingTop.replaceAll('px', ''), onError: (_)=>0);
+            int paddingBottom = int.parse(csd.paddingBottom.replaceAll('px', ''), onError: (_)=>0);
             int headerScrollerHeight = core.Dimension.getCalcHeight($headerScroller.first);
             int vboxDelta =  getVBoxDelta($headerScroller.first) ;
             int topPanelHeight = _options.showTopPanel ==true ?  _options.topPanelHeight + getVBoxDelta($topPanelScroller.first) : 0;
@@ -2698,8 +2700,13 @@ class SlickGrid {
      * column Column object
      * @return function object
      */
-    Function getFormatter(int row, Column column) {
-        return  column.formatter !=null ? column.formatter : _options.defaultFormatter;
+    TFormatter getFormatter(int row, Column column) {
+        if(column.formatter==null) return _options.defaultFormatter;
+          
+        if(column.formatter is String){//fecth it from formatterFactorys 
+          return _options.formatterFactory[column.id];
+        }else //this only happen when suppply a new column is not from grid constructor
+           return  column.formatter;
     }
 
 
@@ -2897,7 +2904,7 @@ class SlickGrid {
         activeCellNode.classes.removeAll(['editable','invalid']);
         if (d!=null) {
           var column = columns[activeCell];
-          var formatter = getFormatter(activeRow, column);
+          TFormatter formatter = getFormatter(activeRow, column);
           activeCellNode.setInnerHtml( formatter(activeRow, activeCell, getDataItemValueForColumn(d, column), column, d),
               treeSanitizer: _treeSanitizer);
           invalidatePostProcessingResults(activeRow);
@@ -3185,7 +3192,10 @@ class SlickGrid {
             trigger(onSort, {
               'multiColumnSort': false,
               'sortCol': column,
-              'sortAsc': sortOpts['sortAsc']}, evt);
+              'sortAsc': sortOpts['sortAsc'],
+              'sortCols': [{'sortCol': column, 'sortAsc':sortOpts['sortAsc'] }]
+              }, evt);
+              
           } else {
             trigger(onSort, {
               'multiColumnSort': true,
@@ -3317,7 +3327,7 @@ class SlickGrid {
 
 
       //scount++;
-      //_log.finest('s event ${scount}' + new DateTime.now().toString() );
+      _log.finer('s event ${scount}' + new DateTime.now().toString() );
        _handleScroll(false);
     }
     _handleScroll(bool isMouseWheel) {
@@ -3375,24 +3385,12 @@ class SlickGrid {
                // _log.finest('v scr dist: ${vScrollDist} ${viewportH}');
                 scrollTo(scrollTop + offset);
             }
-            //no chance to use page
-//            else {
-//                var oldOffset = offset;
-//                if (h == viewportH) {
-//                    page = 0;
-//                } else {
-//                    page = math.min(n - 1, (scrollTop * ((th - viewportH) / (h - viewportH)) * (1 / ph)).floor());
-//                }
-//                offset = (page * cj).round();
-//                if (oldOffset != offset) {
-//                    invalidateAllRows();
-//                }
-//            }
         }
 
         if (hScrollDist>0 || vScrollDist >0) {
             if (h_render!=null) {
                 h_render.cancel();
+                _log.finest("cancel scroll");
                 h_render=null;
             }
             //how many distance is enought to scroll?
@@ -3403,6 +3401,7 @@ class SlickGrid {
                         (lastRenderedScrollLeft - scrollLeft).abs() < viewportW)) {
                     render();
                 } else {
+                  _log.finest("new timer");
                     h_render=new Timer(new Duration(milliseconds:50),render);
                    // h_render = setTimeout(render, 50);
                 }
@@ -3420,7 +3419,7 @@ class SlickGrid {
     // todo dynmic height , remove height
     void createCssRules() {
        $style=new StyleElement();
-
+       $style.id=_style_id;
 //      $style =  container.createFragment("<style type='text/css' rel='stylesheet' />", treeSanitizer : _treeSanitizer).children.first;
       if(container.parent ==null){
         _log.finest('it is shadow');
@@ -3457,7 +3456,7 @@ class SlickGrid {
       }, evt);
     }
 
-    void handleHeaderMouseLeave(e) {
+    void handleHeaderMouseLeave(MouseEvent e) {
       core.EventData evt = new core.EventData.fromDom(e);
       trigger(onHeaderMouseLeave, {
         //"column": (e.target as Element).dataset["column"]
@@ -3926,6 +3925,8 @@ class SlickGrid {
           switch(editorStr){
             case 'IntEditor':
               return new editor.IntEditor(editorParm)..editorParm=editorParm;
+            case 'DoubleEditor':
+              return new editor.DoubleEditor(editorParm)..editorParm=editorParm;
             case 'TextEditor':
               return new editor.TextEditor(editorParm)..editorParm=editorParm;
             case 'CheckboxEditor':

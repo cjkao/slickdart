@@ -33,33 +33,7 @@
     }
 
 
-    cj-grid /deep/ .slick-header-column {
-       /* border-color: transparent #CCCCCC #CCCCCC transparent;
-        border-style: solid solid solid solid;
-        border-width: 1px 1px 0 0px;*/
-    }
-
-    cj-grid /deep/ .slick-header-column.ui-state-default {
-        font: 9pt arial, sans-serif;
-        color: black;
-        background-color: #F3F3F3;
-       /* border-top: 1px solid #CCCCCC;  */
-       /* border-bottom: 1px solid #CCCCCC;*/
-        background-image:none;
-    }
-
-    cj-grid /deep/ .slick-header-column.ui-state-default.ui-state-hover {
-        background-color: #E3F3FF;
-    }
-    cj-grid /deep/ .slick-header-column.slick-header-column-sorted {
-        background-color: #F3F3AF;
-    }
-
-    cj-grid /deep/ .slick-column-name {
-        margin-right: 14px;
-        display: block;
-        text-align: center;
-    }
+    
 
 
 
@@ -91,7 +65,28 @@
           <div class="panel panel-default">
             <div class="panel-heading">Panel 1, bind surface</div>
             <div class="panel-body">
-              <cj-grid style='width:200px; height:400px;' class='first'></cj-grid>
+              <cj-grid style='width:200px; height:400px;' class='first'>
+                  <style>
+                      .slick-header-column {
+                          border-style: solid solid solid solid;
+                          border-width: 1px 1px 0 0px;*/
+                      }
+                  
+                      .slick-header-column.ui-state-default {
+                          font: 9pt arial, sans-serif;
+                          color: black;
+                          background-color: #F3F3F3;
+                          background-image:none;
+                      }
+                  
+                      .slick-header-column.ui-state-default.ui-state-hover {
+                          background-color: #E3F3FF;
+                      }
+                      .slick-header-column.slick-header-column-sorted {
+                          background-color: #F3F3AF;
+                      }
+                  </style>
+              </cj-grid>
             </div>
           </div>
 

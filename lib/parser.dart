@@ -20,7 +20,7 @@ class CsvAdapter {
    * csv csv string, including column name at first line
    */
   CsvAdapter(String csv,[this.charWidth=8, this.widthBase=10]) {
-    List _strs = csv.split('\r');
+    List<String> _strs = csv.split('\r');
     if (_strs.length > 1) {
       _strs[0].split(',').forEach((item) =>    _log.finest(item));
       var list =
@@ -34,7 +34,7 @@ class CsvAdapter {
     }
 
     //estimate width from next 10 lines
-    _strs.sublist(1, _strs.length > 10 ? 10 : _strs.length).forEach((line) => _updateMaxLen(line.split(",")));
+    _strs.sublist(1, _strs.length > 10 ? 10 : _strs.length).forEach((String line) => _updateMaxLen(line.split(",")));
     _data=makeData(_strs);
   }
 
@@ -54,8 +54,8 @@ class CsvAdapter {
    *  @return list of lines to map
    * [{row1},{row2}...]
    */
-  makeData(List strs){
-    return strs.sublist(1).map((line) => _toDataMap(line.split(','))).toList();
+  makeData(List<String> strs){
+    return strs.sublist(1).map((String line) => _toDataMap(line.split(','))).toList();
   }
   Map _toDataMap(List<String> fields){
     Map m={};

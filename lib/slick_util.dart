@@ -28,18 +28,20 @@ Element findClosestAncestor(Element element, String cssSelector, [String scope])
  */
 class FilteredList extends ListBase{
   List _srcList, _viewList;
-  Map _filter={};
+  /**
+   * field name ->  condition or function
+   */
+  Map<String,dynamic> _filter={};
 
   FilteredList([this._srcList]){
-      if(_srcList==null) _srcList=new List();
-
+      _srcList ??=new List();
   }
   //Constructor from a Map
   FilteredList.fromMap(Map map){
     _srcList = map == null ? new List() : new List.from(map.values);
   }
   /**
-   * create new view base on filter,
+   * create new view base on filter, only matched item will show 
    * string is partial matching
    * {column: condition}
    */
@@ -48,22 +50,33 @@ class FilteredList extends ListBase{
     _filter =m;
     _viewList=_foldHelper();
   }
-  void setKeyword(String key, String val){
+  void setKeyword(String key, Object val){
     //_viewList=[];
-    if(val.length==0){
+    if(val is String && val.length==0){
       _filter.remove(key);
-    }else{
+    }else
+    {
       _filter[key]=val;
     }
     _viewList=_foldHelper();
   }
+  /**
+   * when src is changed, regenerate view
+   */
+  void invalidate(){
+    _viewList=_foldHelper();
+  }
+  
+  void removeKeyword(String key){
+    _filter.remove(key);
+  }
   _foldHelper(){
-    List tList=[];
-    return new UnmodifiableListView(_srcList.fold(tList, (init,val){
-                //_filter.keys.every(test)
+    return new UnmodifiableListView(_srcList.fold([], (List init,val){
                 var test = _filter.keys.every((k){
                   if(val[k] is String){
                     return val[k].contains(_filter[k]) ;
+                  }else if(val[k] is bool){
+                    return val[k] == _filter[k];
                   }else{
                     try{
                       var _num=num.parse(_filter[k]);
@@ -72,13 +85,12 @@ class FilteredList extends ListBase{
                       return false;
                     }
                   }
-                  //return val[k] is String ? val[k].contains(_filter[k]) : val[k] == _filter[k];
                   });
-                //  , orElse: ()=>null);
-                if(test) tList.add(val);
-                return tList;
+                if(test) init.add(val);
+                return init;
         }));
   }
+  
   operator [](index) => _filter.length==0 ? _srcList[index] : _viewList[index];
   operator []=(index,value) => _srcList.add(value);
   //for grid internal mask
@@ -133,7 +145,70 @@ class FilteredList extends ListBase{
   Map asMap() => _srcList.asMap();
 }
 
+/**
+ * test input object is match filter condition
+ * return true : show row
+ *        false: hide row
+ */
+typedef bool testShowItemFun(obj);
 
+/**
+ * filter follow up rows base on '_parent' and '_collapsed' and id field to render tree view 
+ */
+class HierarchFilterList extends  FilteredList{
+  List<testShowItemFun> filterFun = [];
+  String _parentField;
+  String _idField;
+  String _collapsedField;
+  HierarchFilterList._([List items]): super(items){}
+  
+  /**
+   * [parentField] field that describe parent row id, default is '_parent'
+   * [idField] unique id for each row, default is 'id'
+   * [collapsedField] field describe collapsed(true) or expand(false)
+   * [items] List of row
+   */
+  factory HierarchFilterList.withKeyField([String parentField='_parent', String idField='id',String collapsedField='_collapsed',List items]){
+    HierarchFilterList hier= new HierarchFilterList._(items);
+    hier._parentField=parentField;
+    hier._idField=idField;
+    hier._collapsedField=collapsedField;
+    return hier;
+  }
+  
+  _foldHelper(){
+    Map tMap={
+      'parents':new Set(),
+      'list':[]
+    };
+        return new UnmodifiableListView(_srcList.fold(tMap, (Map init,val){
+                    //_filter.keys.every(test)
+                    bool showRow = _filter.keys.every((k){
+                      if(k == _collapsedField){ //filter by tree hierarchical
+                        if(init['parents'].contains(val[_parentField])){
+                          init['parents'].add(val[_idField]);
+                                                return false;
+                        }else if( val[k]==true){
+                          init['parents'].add(val[_idField]);
+                          return true;
+                        }
+                        else{
+                          return true;
+                        }
+                      }else if(_filter[k] is Function){
+                          bool isShow= _filter[k](val[k]);
+                          if(!isShow) init['parents'].add(val[_idField]);
+                          return isShow; 
+                      }else{
+                        return true;
+                      }
+                      
+                      });
+                    if(showRow) init['list'].add(val);
+                    return init;
+            })['list']   );
+  }
+}
 
 
 /**
@@ -172,6 +247,7 @@ class MetaList<T> extends ListBase<T> with IMetaData{
   void add(T value) => innerList.add(value);
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
+  void sort([int compare(a, b)]) =>innerList.sort(compare);
 }
 
 // code hint for setup grid
@@ -219,10 +295,11 @@ class GridOptions{
   bool     autoHeight                     = false;
   var      editorLock                     = core.GlobalEditorLock;
   bool     showHeaderRow                  = false;
+  /** a row before data row and frozen row , after top panel, not header*/
   int      headerRowHeight                = 25;
   bool     showTopPanel                   = false;
   int      topPanelHeight                 = 25;
-  var      formatterFactory               = null;
+  var      formatterFactory               = {};
   var      editorFactory                  = null;
   String   cellFlashingCssClass           = "flashing";
   String   selectedCellCssClass           = "selected";
@@ -233,13 +310,21 @@ class GridOptions{
   bool     fullWidthRows                  = false;
   bool     multiColumnSort                = false;
   Function defaultFormatter               = _defaultFormatter;
+  /** force viewport render row on scrolling
+   *  false: delegate to timer also cause empty view port on long scrolling 
+   *  default: false
+   */
   bool     forceSyncScrolling             = false;
   /** frozen column index, 0 base */
   int      frozenColumn                   = -1;   //frozen index
   /** frozen row index , 0 base */
   int      frozenRow                      = -1;
   bool     frozenBottom                   = false;
-  bool     dynamicHeight                  = false;  //enable or disable yPos lookup for rendering=
+  /** enable or disable [yPos] lookup for rendering */
+  bool     dynamicHeight                  = false; 
+  /**
+   * render cells on column resize, low performance
+   */
   bool     syncColumnCellResize           = false;
   //for commit current editor 
   Function editCommandHandler             = null;
@@ -340,6 +425,8 @@ class GridOptions{
       
   }
 }
+
+
 
 String _defaultFormatter(int row,int  cell,dynamic value,[ columnDef, dataContext]) {
      if (value == null) {
