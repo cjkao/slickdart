@@ -16,10 +16,10 @@ typedef handlerFunction(Object e,Object parm);
  */
 class Dimension{
   static int getCalcWidth(html.Element elem){
-    return (elem.getBoundingClientRect().width as double).floor();
+    return (elem.getBoundingClientRect().width as num).floor();
   }
   static int getCalcHeight(html.Element elem){
-    return (elem.getBoundingClientRect().height as double).floor();
+    return (elem.getBoundingClientRect().height as num).floor();
   }
 }
 /**
