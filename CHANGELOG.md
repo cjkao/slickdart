@@ -1,3 +1,7 @@
+# Version 0.1.5+1 (2015/011/10)
+
+- fix dart sdk 1.3 (tonosama-atlacatl)
+
 # Version 0.1.5 (2015/011/08)
 
 - Add tree field example: Bs3_tree.dart
