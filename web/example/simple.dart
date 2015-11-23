@@ -39,7 +39,7 @@ void main() {
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  
+
   List data=[];
   for (var i = 0; i < 500; i++) {
     data.add( {
@@ -56,6 +56,7 @@ grid.SlickGrid init(){
     });
   }
   var opt = new grid.GridOptions()
+                ..enableColumnReorder = true
                 ..explicitInitialization= false
                 ..multiColumnSort= false;
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,[],opt);

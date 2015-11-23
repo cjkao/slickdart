@@ -8,7 +8,7 @@ void main() {
   g.init();
   querySelector('#reset').onClick.listen((e){
     List _data=[];
-    for (var i = 0; i < 50000; i++) {
+    for (var i = 0; i < 500000; i++) {
       _data.add( {
         'idi':  i,
         'title':  new math.Random().nextInt(1000).toString(),
@@ -40,7 +40,7 @@ void main() {
        g.invalidate();
        g.render();
   });
-  
+
 }
 
 grid.SlickGrid init(){
@@ -80,9 +80,9 @@ grid.SlickGrid init(){
   sg.registerPlugin(checkboxCol);
   //sg.setSelectionModel(new CellSelectionModel(sg.options));
 
-  
-  
-  
+
+
+
 
   sg.onSort.subscribe( (e, args) {
     var sRows= sg.getSelectedRows().map((id)=> data[id]).toList();

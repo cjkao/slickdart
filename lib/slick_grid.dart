@@ -77,7 +77,7 @@ class SlickGrid {
     }
     _data=_;
   }
-  List get data => _data; 
+  List get data => _data;
   List<Column> columns;     // columns that are visible
   List<Column> allColumns;  //all columns
   Map get options => _options.toJson();
@@ -406,14 +406,11 @@ class SlickGrid {
 
   Map<String,CssStyleRule> getColumnCssRules(idx) {
     if (stylesheet==null) {
-     //_log.finest( container.style);
-      List<CssStyleSheet> sheets = [];
-      document.styleSheets.forEach((s) => sheets.add(s as CssStyleSheet));
       if(container.parent==null){ //shadowRoot   && (container.parentNode as ShadowRoot).firstChild is StyleElement
-//        stylesheet=((container.parentNode as ShadowRoot).firstChild as StyleElement).sheet;
         stylesheet=((container.parentNode as ShadowRoot).querySelector('style#$_style_id') as StyleElement).sheet;
-       // stylesheet = container.parentNode.firstChild as CssStyleSheet;
       }else{
+        List<CssStyleSheet> sheets = [];
+        document.styleSheets.forEach((s) => sheets.add(s as CssStyleSheet));
         for (int i = 0; i < sheets.length; i++) {
           if (sheets[i].ownerNode !=null && sheets[i].ownerNode == $style) {   //|| sheets[i].owningElement for IE8
             stylesheet = sheets[i];
@@ -438,7 +435,7 @@ class SlickGrid {
       RegExp reg=new RegExp(r"\.l(\d+)");
       RegExp regR=new RegExp(r'\.r(\d+)');
       for (int i = 0; i < cssRules.length; i++) {
-        String selector = cssRules[i].selectorText;
+        String selector = cssRules[i] is CssStyleRule ? (cssRules[i] as CssStyleRule).selectorText : "";
         if (reg.hasMatch(selector)){
           Match match=reg.firstMatch(selector);
           columnCssRulesL.insert(int.parse(match.group(0).substring(2)), cssRules[i]);
@@ -500,7 +497,7 @@ class SlickGrid {
   Map<String,int> getVisibleRange([int viewportTop, int viewportLeft]) {
     viewportTop ??= scrollTop;
     viewportLeft ??= scrollLeft;
-   
+
     return {
       'top': getRowFromPosition(viewportTop),
       'bottom': getRowFromPosition(viewportTop + viewportH) + 1,
@@ -934,13 +931,13 @@ class SlickGrid {
 
       _$focusSink2 = _$focusSink.clone(true);
       container.append(_$focusSink2);
-      
+
       if (_options.explicitInitialization!=true) {
         finishInitialization();
       }
     }
-  
-  
+
+
   /**
    * when add or remove row or change row height, we should re-calculate it's height
    * TODO add/remove single row, should we do it?
@@ -1138,7 +1135,7 @@ class SlickGrid {
     }
 
     /**
-     * update sum of header width on left and right 
+     * update sum of header width on left and right
      */
     void updateHeadersWidth() {
       headersWidth = headersWidthL = headersWidthR = 0;
@@ -1273,7 +1270,7 @@ class SlickGrid {
         div.style.height = "$test" +'px';
         //parseInt from getComputedStyle cause dart2js exception on firefox and IE
         // parseInt reply float
-        if (test > testUpTo ||  div.getComputedStyle().height != '${test}px') {
+        if (test > testUpTo ||  num.parse(div.getComputedStyle().height.replaceFirst('px','')) != test) {
           break;
         } else {
           supportedHeight = test;
@@ -1477,7 +1474,7 @@ class SlickGrid {
       setSortColumns(sortColumns);
       setupColumnResize();
       if (_options.enableColumnReorder) {
-       
+
         setupColumnReorder();
       }
     }
@@ -1761,10 +1758,10 @@ class SlickGrid {
       }
     }
 
-    
+
   /**
-   * map column elem id to sequence index(nth column in grid)  
-   */  
+   * map column elem id to sequence index(nth column in grid)
+   */
   void  updateColumnIndex(){
       this.columnsById = {};
       for (var i = 0; i < columns.length; i++) {
@@ -1786,7 +1783,7 @@ class SlickGrid {
       columns = new List<Column>.from(columnDefinitions.where((c) => c.visible));
       //columns = columnDefinitions;
       updateColumnIndex();
-      
+
 
       updateColumnCaches();
 
@@ -2298,7 +2295,7 @@ class SlickGrid {
     /**
      * update selected rows,
      * to unset all selected items, set [rows] to empty List
-     * 
+     *
      */
     void setSelectedRows(List<int> rows) {
       if (selectionModel==null) {
@@ -2703,8 +2700,8 @@ class SlickGrid {
      */
     TFormatter getFormatter(int row, Column column) {
         if(column.formatter==null) return _options.defaultFormatter;
-          
-        if(column.formatter is String){//fecth it from formatterFactorys 
+
+        if(column.formatter is String){//fecth it from formatterFactorys
           return _options.formatterFactory[column.id];
         }else //this only happen when suppply a new column is not from grid constructor
            return  column.formatter;
@@ -3196,7 +3193,7 @@ class SlickGrid {
               'sortAsc': sortOpts['sortAsc'],
               'sortCols': [{'sortCol': column, 'sortAsc':sortOpts['sortAsc'] }]
               }, evt);
-              
+
           } else {
             trigger(onSort, {
               'multiColumnSort': true,
@@ -4117,7 +4114,3 @@ class SlickGrid {
       }
 
 }
-
-
-
-

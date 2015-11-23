@@ -96,6 +96,6 @@ class SuperFormater{
 }
 SuperFormatter2(int row,int  cell, dynamic value,grid.Column columnDef,dataContext) {
   var colStr = JSON.encode(columnDef.toString());
-  grid.Column col = new grid.Column.fromJSON(colStr);
+ // grid.Column col = new grid.Column.fromJSON(colStr);
   return value;
 }
