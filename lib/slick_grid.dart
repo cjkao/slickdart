@@ -407,7 +407,8 @@ class SlickGrid {
   Map<String,CssStyleRule> getColumnCssRules(idx) {
     if (stylesheet==null) {
      //_log.finest( container.style);
-      List<CssStyleSheet> sheets = document.styleSheets;
+      List<CssStyleSheet> sheets = [];
+      document.styleSheets.forEach((s) => sheets.add(s as CssStyleSheet));
       if(container.parent==null){ //shadowRoot   && (container.parentNode as ShadowRoot).firstChild is StyleElement
 //        stylesheet=((container.parentNode as ShadowRoot).firstChild as StyleElement).sheet;
         stylesheet=((container.parentNode as ShadowRoot).querySelector('style#$_style_id') as StyleElement).sheet;
@@ -431,7 +432,7 @@ class SlickGrid {
       // find and cache column CSS rules
       columnCssRulesL = [];
       columnCssRulesR = [];
-      List<CssStyleRule> cssRules = stylesheet.cssRules;
+      List<CssRule> cssRules = stylesheet.cssRules;
 
       //var matches, columnIdx;
       RegExp reg=new RegExp(r"\.l(\d+)");
