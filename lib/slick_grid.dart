@@ -3286,7 +3286,8 @@ class SlickGrid {
       updateCanvasWidth(false);
     }
 
-
+    /// remove active cell
+    /// enable click event re-trigger on same e
     void resetActiveCell() {
       setActiveCellInternal(null, false);
     }
