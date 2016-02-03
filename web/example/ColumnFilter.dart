@@ -17,10 +17,24 @@ void main() {
     sg.resetDynHeight();
     sg.invalidate();
   });
+  document.querySelector('#header').onClick.listen((Event ke) {
+    var style = querySelector('#style');
+    if (style.text.length < 10) {
+      style.appendText("""
+    #grid .slick-header-column.ui-state-default {
+      height: 0px;
+      padding: 0px;
+    }
+    """);
+    } else {
+      style.text = "";
+    }
+    sg.resizeCanvas();
+    sg.invalidate();
+  });
 }
 
-AlertFormatter(
-    int row, int cell, int value, grid.Column columnDef, Map dataRow) {
+AlertFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow) {
   if (dataRow['_height'] != null && dataRow['_height'] > 70) {
     return '''
         <p style=' white-space: normal;'>CSS word-wrapping in div</p>
@@ -77,8 +91,7 @@ grid.SlickGrid makeGrid() {
   grid.SlickGrid sg;
   Map getMeta(int row) {
     Map item = sg.data[row];
-    bool exist = item.values.any(
-        (_) => searchStr.length > 0 && _ is String && _.contains(searchStr));
+    bool exist = item.values.any((_) => searchStr.length > 0 && _ is String && _.contains(searchStr));
     if (exist) {
       return {"cssClasses": "highlight"};
     } else if (row % 2 == 5) {
@@ -88,8 +101,7 @@ grid.SlickGrid makeGrid() {
     }
   }
 
-  sg = new grid.SlickGrid.fromOpt(
-      el, new grid.MetaList(srcData, getMeta), column, opt);
+  sg = new grid.SlickGrid.fromOpt(el, new grid.MetaList(srcData, getMeta), column, opt);
 
   RowSelectionModel rsm = new RowSelectionModel({'selectActiveRow': true});
   sg.onSelectedRowsChanged.subscribe((var e, args) {
@@ -103,13 +115,8 @@ grid.SlickGrid makeGrid() {
       var field = col.field;
       var sign = args['sortAsc'] ? 1 : -1;
       dynamic value1 = dataRow1[field], value2 = dataRow2[field];
-      if (value1.runtimeType == bool) return (value1 == value2
-          ? 0
-          : (value1 == true ? 1 : -1) * sign);
-      var result = (value1 == value2
-              ? 0
-              : (value1.compareTo(value2) > 0 ? 1 : -1)) *
-          sign;
+      if (value1.runtimeType == bool) return (value1 == value2 ? 0 : (value1 == true ? 1 : -1) * sign);
+      var result = (value1 == value2 ? 0 : (value1.compareTo(value2) > 0 ? 1 : -1)) * sign;
       if (result != 0) {
         return result;
       }
