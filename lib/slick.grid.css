@@ -175,7 +175,7 @@ classes should alter those!
 .slick-pane-header {
 	display: block;
 	z-index:10;
-	
+
 	/*border-bottom: 1px solid black;*/
 }
 
@@ -218,10 +218,10 @@ classes should alter those!
 [hidden] { display: none; } /* polyfill ie10*/
 
 .slick-pane-left{
-   
+
   box-shadow: 1px 0 0 0 rgb(128, 128, 128);
-  
-  z-index: 5; 
+
+  z-index: 5;
 }
 
 

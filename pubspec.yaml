@@ -16,7 +16,7 @@ dev_dependencies:
   angular_ui: any
   test: any
   web_components: any
-  dev_compiler: any
+#  dev_compiler: any
 #  initialize: any
 #  datepicker: any
 #  pubviz: any

@@ -1,9 +1,11 @@
 library slick.cust.el;
+
 import 'slick.dart';
 import 'dart:html';
 import 'dart:async';
 import 'dart:js';
 import 'package:logging/logging.dart';
+
 //import 'package:initialize/initialize.dart';
 //import 'plugin/header_menu.dart';
 Logger _log = new Logger('slick.cust');
@@ -13,39 +15,39 @@ StyleElement _styleElement;
 //publish [GRID_TAG] as custom element
 //@initMethod
 registerElem() {
-  
-  document.registerElement(GRID_TAG, JGrid);
   _setupBlockElement(); //for safari
 }
 //download can be disable from here
-//StreamSubscription contextSubscription; 
+//StreamSubscription contextSubscription;
 
 _setupBlockElement() {
   if (_styleElement == null) {
+    document.registerElement(GRID_TAG, JGrid);
     _styleElement = new StyleElement();
     document.head.append(_styleElement);
     CssStyleSheet sheet = _styleElement.sheet;
-    final rule = '$GRID_TAG { display:block; }';  //force element to have column width from css
+    final rule = '$GRID_TAG { display:block; }'; //force element to have column width from css
     sheet.insertRule(rule, 0);
     _addContext();
   }
 }
-_addContext(){
-  if(document.head.querySelector('script.grid-download')==null){
-    ScriptElement se=new ScriptElement();
+
+_addContext() {
+  if (document.head.querySelector('script.grid-download') == null) {
+    ScriptElement se = new ScriptElement();
     se.classes.add('grid-download');
-    se.type='text/javascript';
-    se.text='''
+    se.type = 'text/javascript';
+    se.text = '''
 function setClipboard(data, elem, hideMenu){
-          var client = new ZeroClipboard( elem );    
+          var client = new ZeroClipboard( elem );
           client.on( 'ready', function(event) {
             client.on( 'copy', function(event) {
               event.clipboardData.setData('text/plain', data);
-            } );    
+            } );
             client.on( 'aftercopy', function(event) {
                 hideMenu();
             } );
-          } );    
+          } );
           client.on( 'error', function(event) {
             // console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
             ZeroClipboard.destroy();
@@ -55,18 +57,19 @@ function setClipboard(data, elem, hideMenu){
     document.head.children.add(se);
   }
 }
+
 /**
  * shadow root does not work well in firefox!
  * consider shadowroot an optional approach
  */
 class JGrid extends HtmlElement {
   ShadowRoot shadowRoot;
- // List _tmpCols=[];
+  // List _tmpCols=[];
   SlickGrid grid;
-  Element rmenu;  
+  Element rmenu;
   JGrid.created() : super.created() {
-  shadowRoot = this.createShadowRoot()
-  ..innerHtml = """
+    shadowRoot = this.createShadowRoot()
+      ..innerHtml = """
 <style>
  .slick-header.ui-state-default,.slick-headerrow.ui-state-default{width:100%;overflow:hidden;border-left:0}
  .slick-header-columns,.slick-headerrow-columns{position:relative;white-space:nowrap;cursor:default;overflow:hidden}
@@ -93,7 +96,7 @@ class JGrid extends HtmlElement {
  .slick-header-column.over-left{border-left:2px solid red}
  .slick-header-column{background-color:#ededed;border-right:1px solid silver}.slick-header-column-active,.slick-header-column:hover{background:-webkit-gradient(linear,left bottom,left top,color-stop(0,#BDF),color-stop(1,#eee));background:-ms-linear-gradient(bottom,#eee,#fff);background:-moz-linear-gradient(center bottom,#eee 0,#fff 100%);background:-o-linear-gradient(#fff,#eee);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0)}.slick-headerrow{background:#fafafa}.slick-headerrow-column{background:#fafafa;border-bottom:0;height:100%}
  .slick-row{position:absolute;background:#fff;border:0;line-height:20px}.slick-row.selected{z-index:10;background:#DFE8F6}.slick-cell{padding-left:4px;padding-right:4px}.slick-group{border-bottom:2px solid silver}.slick-group-toggle{width:9px;height:9px;margin-right:5px}.slick-group-toggle.expanded{background:url(packages/slickdart/images/collapse.gif) center center no-repeat}.slick-group-toggle.collapsed{background:url(packages/slickdart/images/expand.gif) center center no-repeat}.slick-group-totals{color:gray;background:#fff}.slick-cell.selected{background-color:beige}.slick-cell.active{border-color:gray;border-style:solid}.slick-sortable-placeholder{background:silver!important}.slick-row.odd{background:#fafafa}
- .slick-row.ui-state-active{background:#F5F7D7}.slick-row.loading{opacity:.5;filter:alpha(opacity=50)}.slick-cell.invalid{border-color:red;-moz-animation-duration:.2s;-webkit-animation-duration:.2s;-moz-animation-name:slickgrid-invalid-hilite;-webkit-animation-name:slickgrid-invalid-hilite}@-moz-keyframes slickgrid-invalid-hilite{from{box-shadow:0 0 6px red}to{box-shadow:none}}@-webkit-keyframes slickgrid-invalid-hilite{from{box-shadow:0 0 6px red}to{box-shadow:none}} 
+ .slick-row.ui-state-active{background:#F5F7D7}.slick-row.loading{opacity:.5;filter:alpha(opacity=50)}.slick-cell.invalid{border-color:red;-moz-animation-duration:.2s;-webkit-animation-duration:.2s;-moz-animation-name:slickgrid-invalid-hilite;-webkit-animation-name:slickgrid-invalid-hilite}@-moz-keyframes slickgrid-invalid-hilite{from{box-shadow:0 0 6px red}to{box-shadow:none}}@-webkit-keyframes slickgrid-invalid-hilite{from{box-shadow:0 0 6px red}to{box-shadow:none}}
 :host {
         display: block;
       }
@@ -111,7 +114,7 @@ class JGrid extends HtmlElement {
 }
 .show {
     z-index:1000;
-   
+
     width:100px;
     background-color:#F0F0F0;
     border: 1px solid gray;
@@ -131,7 +134,7 @@ class JGrid extends HtmlElement {
  }
 .show li { border: 0 !important; text-decoration: none; }
 
-.show li a{ 
+.show li a{
    color:black;
    text-decoration:none;
 }
@@ -160,78 +163,78 @@ class JGrid extends HtmlElement {
    * build grid object, defer init till shadow dom constructed
    */
   void init(List data, List<Column> colDefs, {Map option}) {
-   Element elGrid=shadowRoot.querySelector('#grid');
-   assert(elGrid!=null);
-   grid = _prepareGrid(elGrid, colDefs, opt:option);
-   grid.init();
-   grid.data.clear();
-   grid.data=data;
-   _log.finest("height in shadow: ${ elGrid.getBoundingClientRect().height}");
-   int maxTry=100;
-   int tryCnt=0;
-   new Timer.periodic(new Duration(milliseconds: 100), (Timer t){  //look for better solution
-     double h= elGrid.getBoundingClientRect().height;
-     _log.finest('after: $h');
-     tryCnt++;
-     if(h>0 ){
-       grid.finishInitialization();
-       t.cancel();
-     }
-     if(tryCnt>maxTry){
-       _log.severe("no element height within shadowdom");
-       t.cancel();
-     }
-   });
+    Element elGrid = shadowRoot.querySelector('#grid');
+    assert(elGrid != null);
+    grid = _prepareGrid(elGrid, colDefs, opt: option);
+    grid.init();
+    grid.data.clear();
+    grid.data = data;
+    _log.finest("height in shadow: ${ elGrid.getBoundingClientRect().height}");
+    int maxTry = 100;
+    int tryCnt = 0;
+    new Timer.periodic(new Duration(milliseconds: 100), (Timer t) {
+      //look for better solution
+      double h = elGrid.getBoundingClientRect().height;
+      _log.finest('after: $h');
+      tryCnt++;
+      if (h > 0) {
+        grid.finishInitialization();
+        t.cancel();
+      }
+      if (tryCnt > maxTry) {
+        _log.severe("no element height within shadowdom");
+        t.cancel();
+      }
+    });
     grid.onSort.subscribe(_defaultSort);
     _setupContextMenu();
     //prepare listener for context menu
     _extractDistributeNodeStyle();
-    
   }
+
   /**
    * List based data
    */
-  void setData(List data){
-    if(data!=grid.data){
+  void setData(List data) {
+    if (data != grid.data) {
       grid.data.clear();
     }
-    grid.data=data;
+    grid.data = data;
     grid.invalidate();
   }
+
   /**
    * apply style with style string
    * example string:  .slick-pane-top .slick-row {   background-color: #a9F9FF;    }
    */
-  void setStyle(List<String> s){
+  void setStyle(String s) {
     final styleSheet = shadowRoot.styleSheets[0];
-    styleSheet.insertRule(s,0);
+    styleSheet.insertRule(s, 0);
   }
+
   /**
    * move style tag from external to shadowdom
    */
-  _extractDistributeNodeStyle(){
-    List<Node> els=(this.shadowRoot.querySelector("content") as ContentElement).getDistributedNodes();
-        els.where((_){
-           return _.nodeName=='STYLE';
-        }).forEach((_){
-          //print(_); 
-          shadowRoot.append(_);
-        });
+  _extractDistributeNodeStyle() {
+    List<Node> els = (this.shadowRoot.querySelector("content") as ContentElement).getDistributedNodes();
+    els.where((_) {
+      return _.nodeName == 'STYLE';
+    }).forEach((_) {
+      //print(_);
+      shadowRoot.append(_);
+    });
   }
-  
-  
+
   void attached() {
     _log.finer('attached');
     _log.finest(shadowRoot.host.clientWidth);
-    
   }
+
   void detached() {
-    if(grid!=null) grid.unSubscribe();
+    if (grid != null) grid.unSubscribe();
   }
+
   factory JGrid(text) => new Element.tag(GRID_TAG);
-  
-  
-  
 
   SlickGrid _prepareGrid(Element el, List<Column> colDefs, {Map opt}) {
     //Element el =querySelector('#grid');
@@ -239,123 +242,117 @@ class JGrid extends HtmlElement {
 
     List data = [];
     if (opt == null) {
-      opt = {
-        'multiColumnSort': true,
-        'editable': true,
-        'autoEdit': true,
-        'frozenColumn': 1
-      };
+      opt = {'multiColumnSort': true, 'editable': true, 'autoEdit': true, 'frozenColumn': 1};
     }
-    opt['explicitInitialization']=true;
+    opt['explicitInitialization'] = true;
     SlickGrid sg = new SlickGrid(el, data, column, opt);
 
     column.forEach((item) {
       if (item is IPlugin) {
         sg.registerPlugin(item);
-        sg.setSelectionModel(new RowSelectionModel({
-          'selectActiveRow': false
-        }));
+        sg.setSelectionModel(new RowSelectionModel({'selectActiveRow': false}));
       }
     });
     return sg;
   }
-  
+
   //StreamSubscription _downloadSubscription;
   //context menu to export as csv
 //  Timer _rightClickTimer;
-  _setupContextMenu(){
-    String downloadName=this.getAttribute('download');
-    if(downloadName==null)return;
-    
-    Element elGrid=shadowRoot.querySelector('#grid');
-    
-    elGrid.onClick.listen((_)=> rmenu.classes..clear()..add('hide'));
+  _setupContextMenu() {
+    String downloadName = this.getAttribute('download');
+    if (downloadName == null) return;
+
+    Element elGrid = shadowRoot.querySelector('#grid');
+
+    elGrid.onClick.listen((_) => rmenu.classes
+      ..clear()
+      ..add('hide'));
     //inject javascript
-    
-    rmenu=this.shadowRoot.querySelector("#rmenu");
-    rmenu.querySelector('.li-copy').onMouseOver.listen((_){
-      rmenu.querySelectorAll('li').style.backgroundColor='';
-      rmenu.querySelector('.li-copy').style.backgroundColor='lightgray';
+
+    rmenu = this.shadowRoot.querySelector("#rmenu");
+    rmenu.querySelector('.li-copy').onMouseOver.listen((_) {
+      rmenu.querySelectorAll('li').style.backgroundColor = '';
+      rmenu.querySelector('.li-copy').style.backgroundColor = 'lightgray';
     });
-    rmenu.querySelector('.li-download').onMouseOver.listen((_){
-          rmenu.querySelectorAll('li').style.backgroundColor='';
-          rmenu.querySelector('.li-download').style.backgroundColor='lightgray';
+    rmenu.querySelector('.li-download').onMouseOver.listen((_) {
+      rmenu.querySelectorAll('li').style.backgroundColor = '';
+      rmenu.querySelector('.li-download').style.backgroundColor = 'lightgray';
     });
     shadowRoot.host.onContextMenu.listen(_cjContextMenu);
-      //  if(this.getAttribute('download')!=null){
-    var downloadLink=rmenu.querySelector('a.download');
-    downloadLink.onClick.listen((_){
-      List<Column> cols=new List.from(grid.columns);
-       cols.removeWhere((col)=> col is CheckboxSelectColumn);
-       String data= cols.map((col)=> '"${col.name}"').join(',') + "\r\n";
-       data+=grid.data.map((_){
-         return cols.map((col)=> '"${_[col.field]}"').join(",");
-       }).join("\r\n");
-       downloadLink.setAttribute('href', 'data:text/csv;base64,' + window.btoa(data));
-       downloadLink.setAttribute('download', downloadName);
-       rmenu.classes..clear()..add('hide'); 
+    //  if(this.getAttribute('download')!=null){
+    var downloadLink = rmenu.querySelector('a.download');
+    downloadLink.onClick.listen((_) {
+      List<Column> cols = new List.from(grid.columns);
+      cols.removeWhere((col) => col is CheckboxSelectColumn);
+      String data = cols.map((col) => '"${col.name}"').join(',') + "\r\n";
+      data += grid.data.map((_) {
+        return cols.map((col) => '"${_[col.field]}"').join(",");
+      }).join("\r\n");
+      downloadLink.setAttribute('href', 'data:text/csv;base64,' + window.btoa(data));
+      downloadLink.setAttribute('download', downloadName);
+      rmenu.classes
+        ..clear()
+        ..add('hide');
     });
   }
-  
-  
-  _cjContextMenu (MouseEvent e){
-     rmenu.classes..clear()..add("show");  
-     var bound=this.getBoundingClientRect();
-      rmenu.style.position='absolute';
-     rmenu.style.top =  '${e.client.y- bound.top}px';
+
+  _cjContextMenu(MouseEvent e) {
+    rmenu.classes
+      ..clear()
+      ..add("show");
+    var bound = this.getBoundingClientRect();
+    rmenu.style.position = 'absolute';
+    rmenu.style.top = '${e.client.y- bound.top}px';
     rmenu.style.left = '${e.client.x- bound.left}px';
-      
+
 //     rmenu.style.position='fixed';
 //     rmenu.style.top =  '${e.client.y}px';
 //     rmenu.style.left = '${e.client.x}px';
 //     rmenu.style.top =  '${e.client.y - this.getBoundingClientRect().top }px';
 //     rmenu.style.left = '${e.client.x - hostBox.left}px';
 
-     
-     var copyLink=rmenu.querySelector('.li-copy');
-     List<Column> cols=new List.from(grid.columns);
-     cols.removeWhere((col)=> col is CheckboxSelectColumn);
-     String data= cols.map((col)=> '"${col.name}"').join(',') + "\r\n";
-     data+=grid.data.map((_){
-       return cols.map((col)=> '"${_[col.field]}"').join(",");
-     }).join("\r\n");
-      
-     context.callMethod('setClipboard',[ data, copyLink, ()=> rmenu.classes..clear()..add('hide')] );
+    var copyLink = rmenu.querySelector('.li-copy');
+    List<Column> cols = new List.from(grid.columns);
+    cols.removeWhere((col) => col is CheckboxSelectColumn);
+    String data = cols.map((col) => '"${col.name}"').join(',') + "\r\n";
+    data += grid.data.map((_) {
+      return cols.map((col) => '"${_[col.field]}"').join(",");
+    }).join("\r\n");
+
+    context.callMethod('setClipboard', [
+      data,
+      copyLink,
+      () => rmenu.classes
+        ..clear()
+        ..add('hide')
+    ]);
     //  rmenu.onMouseLeave.listen((_)=> rmenu.classes..clear()..add('hide')     );
-      e.stopPropagation();
-      e.preventDefault();
-      //write menu box.
-      //open data uri
+    e.stopPropagation();
+    e.preventDefault();
+    //write menu box.
+    //open data uri
   }
-  
-  
-  
-  
-  
-  
-  
+
   /**
    * args:  sortCols, grid : slickgrid
    */
   _defaultSort(e, Map args) {
-        var cols = args['sortCols'];
-        SlickGrid sgrid=args['grid'] as SlickGrid;
-        sgrid.data.sort((dataRow1, dataRow2) {
-          for (var i = 0,
-              l = cols.length; i < l; i++) {
-            var field = cols[i]['sortCol']['field'];
-            var sign = cols[i]['sortAsc'] ? 1 : -1;
-            dynamic value1 = dataRow1[field],
-                value2 = dataRow2[field];
-            var result = (value1 == value2 ? 0 : (value1.compareTo(value2) > 0 ? 1 : -1)) * sign;
-            if (result != 0) {
-              return result;
-            }
-          }
-          return 0;
-        });
-        sgrid.invalidate();
-        //sgrid.render();
+    var cols = args['sortCols'];
+    SlickGrid sgrid = args['grid'] as SlickGrid;
+    sgrid.data.sort((dataRow1, dataRow2) {
+      for (var i = 0, l = cols.length; i < l; i++) {
+        var field = cols[i]['sortCol']['field'];
+        var sign = cols[i]['sortAsc'] ? 1 : -1;
+        dynamic value1 = dataRow1[field], value2 = dataRow2[field];
+        var result = (value1 == value2 ? 0 : (value1.compareTo(value2) > 0 ? 1 : -1)) * sign;
+        if (result != 0) {
+          return result;
+        }
       }
-
+      return 0;
+    });
+    sgrid.invalidate();
+    //sgrid.render();
+  }
 }
