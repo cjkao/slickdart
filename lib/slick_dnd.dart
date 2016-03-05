@@ -7,7 +7,7 @@ import 'package:logging/logging.dart';
 import 'dart:html';
 
 Logger _log = new Logger('slick.dnd');
-
+const String _DND_TYPE='text';
 class DragAndDrop {
   Element rootEl;
   Element _dragSourceEl;
@@ -58,7 +58,7 @@ class DragAndDrop {
     event.dataTransfer.effectAllowed = 'move';
     //event.dataTransfer.setDragImage(ghost, 0, 0);
     //event.dataTransfer.setData("source_id", headerElem.dataset['id']);
-    event.dataTransfer.setData("text/html", headerElem.dataset['id']);
+    event.dataTransfer.setData(_DND_TYPE, headerElem.dataset['id']);
     // event.dataTransfer.setData('text/html', dragTarget.innerHtml);
   }
 
@@ -141,7 +141,7 @@ class DragAndDrop {
 //    Element dropTarget = event.target;
     DivElement headerElem = findClosestAncestor(event.target, 'div.slick-header-column');
     //  DivElement srcHeaderElem = headerElem.parent.querySelector('#${_grid.uid}'+ event.dataTransfer.getData('source_id'));
-    if (event.dataTransfer.getData('text/html') != headerElem.dataset['id']) {
+    if (event.dataTransfer.getData(_DND_TYPE) != headerElem.dataset['id']) {
       if (!_grid.getEditorLock().commitCurrentEdit()) {
         //reject drop when have active editor
         return;
@@ -149,7 +149,7 @@ class DragAndDrop {
       _log.finest('trigger resort column');
 
       List cols = _grid.getColumns();
-      Column srcCol = cols[_grid.columnsById[event.dataTransfer.getData('text/html')]];
+      Column srcCol = cols[_grid.columnsById[event.dataTransfer.getData(_DND_TYPE)]];
       Column destCol = cols[_grid.columnsById[headerElem.dataset['id']]];
       int srcIdx = cols.indexOf(srcCol);
       int destIdx = cols.indexOf(destCol);
