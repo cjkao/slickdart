@@ -1,20 +1,23 @@
-# Version 0.1.5+2 (2015/011/23)
+# Version 0.1.5+3(2016/02)
+- update logging to 0.11 up
+- add sample to hide header on ColumnFilter.dart
 
+# Version 0.1.5+2 (2015/11/23)
 - fix CSSRule in dart sdk 1.3 (tonosama-atlacatl)
 - due to max height from `getComputedStyle` change to IEEE754 format, fix getMaxSupportedCssHeight method
 
 
-# Version 0.1.5+1 (2015/011/10)
+# Version 0.1.5+1 (2015/11/10)
 
 - fix dart sdk 1.3 (tonosama-atlacatl)
 
-# Version 0.1.5 (2015/011/08)
+# Version 0.1.5 (2015/11/08)
 
 - Add tree field example: Bs3_tree.dart
 - Add DoubleEditor and HierarchFilterList
 
 
-# Version 0.1.4 (2015/010/20)
+# Version 0.1.4 (2015/10/20)
 
 - custom element accept style over write via setStyle
 - custom element absorb style tag under content tag, e.g.: shadow-dom-height.html
