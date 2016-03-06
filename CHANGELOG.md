@@ -1,3 +1,6 @@
+# Version 0.1.5+4(2016/03)
+- Update drag and drop handler on column header for firefox 42+
+
 # Version 0.1.5+3(2016/02)
 - update logging to 0.11 up
 - add sample to hide header on ColumnFilter.dart
