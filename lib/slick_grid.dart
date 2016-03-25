@@ -1903,8 +1903,8 @@ class SlickGrid {
 
   setOverflow() {
     $viewportTopL.style.overflowX= ( _options.frozenColumn> -1 )    ?  hasFrozenRows ==true ? 'hidden' : 'scroll' :  hasFrozenRows ==true ? 'hidden' : 'auto';
-    $viewportTopL.style.overflowY= ( _options.frozenColumn> -1 )    ?  hasFrozenRows ==true ? 'hidden' : 'hidden' :  hasFrozenRows ==true ? 'scroll' : 'auto';
-
+//    $viewportTopL.style.overflowY= ( _options.frozenColumn> -1 )    ?  hasFrozenRows ==true ? 'hidden' : 'hidden' :  hasFrozenRows ==true ? 'scroll' : 'auto';
+$viewportTopL.style.overflowY='auto';
     $viewportTopR.style.overflowX= ( _options.frozenColumn> -1 )    ?  hasFrozenRows ==true ? 'hidden' : 'scroll' :  hasFrozenRows ==true ? 'hidden' : 'auto';
     $viewportTopR.style.overflowY= ( _options.frozenColumn> -1 )    ?  hasFrozenRows ==true ? 'scroll' : 'auto'   :  hasFrozenRows ==true ? 'scroll' : 'auto';
 
@@ -1922,12 +1922,12 @@ class SlickGrid {
           $headerRowScrollContainer = $headerRowScrollerR;
 
           if (hasFrozenRows) {
-              if (_options.frozenBottom) {
-                  $viewportScrollContainerX = $viewportBottomR;
-                  $viewportScrollContainerY = $viewportTopR;
-              } else {
+            //  if (_options.frozenBottom) {
+            //      $viewportScrollContainerX = $viewportBottomR;
+            //      $viewportScrollContainerY = $viewportTopR;
+            //  } else {
                   $viewportScrollContainerX = $viewportScrollContainerY = $viewportBottomR;
-              }
+            //  }
           } else {
               $viewportScrollContainerX = $viewportScrollContainerY = $viewportTopR;
           }
@@ -1936,12 +1936,12 @@ class SlickGrid {
           $headerRowScrollContainer = $headerRowScrollerL;
 
           if (hasFrozenRows) {
-              if (_options.frozenBottom) {
-                  $viewportScrollContainerX = $viewportBottomL;
-                  $viewportScrollContainerY = $viewportTopL;
-              } else {
+            //  if (_options.frozenBottom) {
+            //      $viewportScrollContainerX = $viewportBottomL;
+            //      $viewportScrollContainerY = $viewportTopL;
+            //  } else {
                   $viewportScrollContainerX = $viewportScrollContainerY = $viewportBottomL;
-              }
+            //  }
           } else {
               $viewportScrollContainerX = $viewportScrollContainerY = $viewportTopL;
           }
@@ -2166,7 +2166,7 @@ class SlickGrid {
         vScrollDir = (prevScrollTop + oldOffset < newScrollTop + offset) ? 1 : -1;
         lastRenderedScrollTop = ( scrollTop = prevScrollTop = newScrollTop );
 
-        if (_options.frozenColumn> -1) {
+        if (_options.frozenColumn> -1) { //only true when scroll event from topR
             $viewportTopL.scrollTop = newScrollTop;
         }
 
@@ -3335,7 +3335,9 @@ class SlickGrid {
     void handleScroll([Event e]) {
       scrollTop = $viewportScrollContainerY.scrollTop;
       scrollLeft = $viewportScrollContainerX.scrollLeft;
-
+      if(e!=null && e.target !=$viewportScrollContainerX){
+        scrollTop=(e.target as Element).scrollTop;
+      }
 
       //scount++;
       _log.finer('s event ${scount}' + new DateTime.now().toString() );
@@ -3388,6 +3390,7 @@ class SlickGrid {
                     $viewportBottomL.scrollTop = scrollTop;
                 } else {
                     $viewportTopL.scrollTop = scrollTop;
+                    $viewportTopR.scrollTop = scrollTop;
                 }
             }
 
