@@ -1,3 +1,6 @@
+# Version 0.1.6(2016/03)
+- add scrollable on frozen column
+
 # Version 0.1.5+4(2016/03)
 - Update drag and drop handler on column header for firefox 42+
 
