@@ -22,7 +22,7 @@ List makeData(int len) {
   List _data = [];
   for (var i = 0; i < len; i++) {
     _data.add({
-      'title': new math.Random().nextInt(100).toString(),
+      'title': i,
       'duration': new math.Random().nextInt(100),
       'percent': '${i%100}%',
       'pc': (new math.Random().nextInt(10) * 100).toString(),
@@ -55,7 +55,8 @@ cj.SlickGrid prepareGrid() {
     ..leaveSpaceForNewRows = true
     //..showTopPanel=true
     //..topPanelHeight=50
-    ..frozenColumn = 1
+    ..frozenColumn =1
+    ..frozenRow = 1
     ..enableColumnReorder = true;
 
   cj.SlickGrid sg = new cj.SlickGrid.fromOpt(el, makeData(50), column, opt);
