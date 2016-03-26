@@ -21,21 +21,12 @@ abstract class IPlugin{
    init(SlickGrid grid);
   void destroy();
 }
-
-Map<String,int> scrollbarDimensions;  //width and height
+///width and height of scrollbar
+Map<String,int> scrollbarDimensions;  //
 int maxSupportedCssHeight;  // browser's breaking point
 
 
 
-//tailer for html style
-var _treeSanitizer = new _NullTreeSanitizer();
-/**
- * Sanitizer which does nothing.
- */
-class _NullTreeSanitizer implements NodeTreeSanitizer {
-  void sanitizeTree(Node node) {
-  }
-}
 class _RowCache{
   int columnCount;
   _RowCache (this.rowNode,columnCount){
@@ -666,6 +657,29 @@ class SlickGrid {
     viewportW = core.Dimension.getCalcWidth(container);
        // container.style.width; //parseFloat($.css($container[0], "width", true));
   }
+  /// frozen
+  void _aligntViewportScrollbar(){
+     if (hasFrozenRows) {
+       if(gridOptions.frozenColumn>-1){
+         if($viewportBottomL.clientHeight>$viewportBottomR.clientHeight){
+           $viewportBottomL.style.overflowX='scroll';
+         }
+       }else{
+         if($viewportTopL.clientWidth>$viewportBottomL.clientWidth){
+           $viewportTopL.style.overflowY='scroll';
+         }
+       }
+     }else{
+       if(gridOptions.frozenColumn>-1){
+         if($viewportTopL.clientHeight>$viewportTopR.clientHeight){
+           $viewportTopL.style.overflowX='scroll';
+         }
+       }else{
+        //nothing frozen, no adjust
+       }
+     }
+
+  }
   /**
    * When window scroll bar added to document and grid div container is percentage,
    * we need to redraw canvas to reflect change of viewport size
@@ -771,6 +785,7 @@ class SlickGrid {
 
     updateRowCount();
     handleScroll();
+    _aligntViewportScrollbar();
     // Since the width has changed, force the render() to reevaluate virtually rendered cells.
     lastRenderedScrollLeft = -1;
     render();
@@ -792,35 +807,24 @@ class SlickGrid {
     }
     return div;
   }
-  /**
-   * main entry point to init the element to grid
-   * 2 step initialize
-   * 1. construct elements
-   * 2. link element to event listeners
-   */
+  ///
+  /// main entry point to init the element to grid
+  /// 2 step initialize
+  ///
+  /// 1. construct elements
+  /// 2. link element to event listeners
   void init() {
 
     // calculate these only once and share between grid instances
     if(maxSupportedCssHeight == null) maxSupportedCssHeight = getMaxSupportedCssHeight();
     if(scrollbarDimensions ==null)scrollbarDimensions = measureScrollbar();
+
 //    defaults.forEach( (k,v) =>
 //        options.putIfAbsent(k, ()=> v)
 //    );
     validateAndEnforceOptions();
     _columnDefaults.width = _options.defaultColumnWidth;
     updateColumnIndex();
-//    columnsById = {};
-//
-//    for (int i = 0; i < columns.length; i++) {
-//      Column m = columns[i];// = tmp;
-//      columnsById[m.id] = i;
-//      if (m['minWidth']!=null && m['width'] < m['minWidth']) {
-//        m.width = m.minWidth;
-//      }
-//      if (m['maxWidth']!=null && m['width'] > m['maxWidth']) {
-//        m.width = m.maxWidth;
-//      }
-//    }
 
     editController = {
                       "commitCurrentEdit": commitCurrentEdit,
@@ -1109,19 +1113,6 @@ class SlickGrid {
         }
     }
 
-    Map<String,int> measureScrollbar() {
-      var $c =  querySelector('body').createFragment("<div style='position:absolute; top:-10000px; left:-10000px; width:100px; height:100px; overflow:scroll;'></div>"
-          ,treeSanitizer : _treeSanitizer).children.first;
-
-      querySelector('body').append($c);
-      CssStyleDeclaration style=$c.getComputedStyle();
-      Map dim = {
-        'width': core.Dimension.getCalcWidth($c) - $c.clientWidth,
-        'height': core.Dimension.getCalcHeight($c) - $c.clientHeight
-      };
-      $c.remove();
-      return dim;
-    }
 
 
 
@@ -1203,13 +1194,13 @@ class SlickGrid {
             $headerRowScrollerR.style.width="${viewportW- canvasWidthL}px";
             $headerRowL.style.width = "${canvasWidthL}px";
             $headerRowR.style.width = "${canvasWidthR}px";
-            $viewportTopL.style.width = "${canvasWidthL}px";
+            $viewportTopL.style.width = "${canvasWidthL+ scrollbarDimensions['width']}px";
             $viewportTopR.style.width = "${viewportW - canvasWidthL}px";
 
             if (hasFrozenRows) {
                 $paneBottomL.style.width = "${canvasWidthL}px";
                 $paneBottomR.style.left = "${canvasWidthL}px";
-                $viewportBottomL.style.width = "${canvasWidthL}px";
+                $viewportBottomL.style.width = "${canvasWidthL+ scrollbarDimensions['width']}px";
                 $viewportBottomR.style.width = "${viewportW - canvasWidthL}px";
                 $canvasBottomL.style.width = "${canvasWidthL}px";
                 $canvasBottomR.style.width = "${canvasWidthR}px";
@@ -1263,7 +1254,7 @@ class SlickGrid {
       int supportedHeight = 1000000;
       // FF reports the height back but still renders blank after ~6M px
       int testUpTo = 1000000000; // : 1000000000;
-      Element div =  querySelector('body').createFragment("<div style='display:none' />",treeSanitizer: _treeSanitizer).children.first;
+      Element div =  querySelector('body').createFragment("<div style='display:none' />",treeSanitizer: nullTreeSanitizer).children.first;
       document.body.append(div);
       while (true) {
         var test = supportedHeight * 2;
@@ -1908,8 +1899,10 @@ $viewportTopL.style.overflowY='auto';
     $viewportTopR.style.overflowX= ( _options.frozenColumn> -1 )    ?  hasFrozenRows ==true ? 'hidden' : 'scroll' :  hasFrozenRows ==true ? 'hidden' : 'auto';
     $viewportTopR.style.overflowY= ( _options.frozenColumn> -1 )    ?  hasFrozenRows ==true ? 'scroll' : 'auto'   :  hasFrozenRows ==true ? 'scroll' : 'auto';
 
+
     $viewportBottomL.style.overflowX= ( _options.frozenColumn> -1 ) ?  hasFrozenRows ==true ? 'hidden' : 'auto'   :  hasFrozenRows ==true ? 'auto'   : 'auto';
     $viewportBottomL.style.overflowY= ( _options.frozenColumn> -1 ) ?  hasFrozenRows ==true ? 'hidden' : 'hidden' :  hasFrozenRows ==true ? 'scroll' : 'auto';
+    $viewportBottomL.style.overflowY='auto';
 
     $viewportBottomR.style.overflowX= ( _options.frozenColumn> -1 ) ?  hasFrozenRows ==true ? 'scroll' : 'auto'   :  hasFrozenRows ==true ? 'auto'   : 'auto';
     $viewportBottomR.style.overflowY= ( _options.frozenColumn> -1 ) ?  hasFrozenRows ==true ? 'auto'   : 'auto'   :  hasFrozenRows ==true ? 'auto'   : 'auto';
@@ -2019,7 +2012,7 @@ $viewportTopL.style.overflowY='auto';
         currentEditor.loadValue(d);
       } else {
         cellNode.setInnerHtml( d!=null ? getFormatter(row, m)(row, cell, getDataItemValueForColumn(d, m), m, d) : ""
-          , treeSanitizer: _treeSanitizer );
+          , treeSanitizer: nullTreeSanitizer );
         invalidatePostProcessingResults(row);
       }
     }
@@ -2041,7 +2034,7 @@ $viewportTopL.style.overflowY='auto';
         } else if (d!=null) {
           node.setInnerHtml(
               getFormatter(row, m)(row, columnIdx, getDataItemValueForColumn(d, m), m, d) ,
-              treeSanitizer: _treeSanitizer);
+              treeSanitizer: nullTreeSanitizer);
         } else {
           node.setInnerHtml("") ;
         }
@@ -2406,7 +2399,7 @@ $viewportTopL.style.overflowY='auto';
       }
 
       Element x = new DivElement();
-      x.setInnerHtml(stringArray.join(""),  treeSanitizer: _treeSanitizer );
+      x.setInnerHtml(stringArray.join(""),  treeSanitizer: nullTreeSanitizer );
 
       var processedRow;
       var node;
@@ -2916,7 +2909,7 @@ $viewportTopL.style.overflowY='auto';
           var column = columns[activeCell];
           TFormatter formatter = getFormatter(activeRow, column);
           activeCellNode.setInnerHtml( formatter(activeRow, activeCell, getDataItemValueForColumn(d, column), column, d),
-              treeSanitizer: _treeSanitizer);
+              treeSanitizer: nullTreeSanitizer);
           invalidatePostProcessingResults(activeRow);
         }
       }
@@ -3019,11 +3012,11 @@ $viewportTopL.style.overflowY='auto';
     //generate tags for new rows
     //TODO disable for mobile device
     Element x = new Element.div();
-    x.setInnerHtml(stringArrayL.join(""), treeSanitizer: _treeSanitizer )  ;
+    x.setInnerHtml(stringArrayL.join(""), treeSanitizer: nullTreeSanitizer )  ;
     x.querySelectorAll(".slick-cell").onMouseEnter.listen(handleMouseEnter);
     x.querySelectorAll(".slick-cell").onMouseLeave.listen(handleMouseLeave);
     Element xRight = new Element.div();
-    xRight.setInnerHtml(stringArrayR.join(""), treeSanitizer: _treeSanitizer )  ;
+    xRight.setInnerHtml(stringArrayR.join(""), treeSanitizer: nullTreeSanitizer )  ;
     xRight.querySelectorAll(".slick-cell").onMouseEnter.listen(handleMouseEnter);
     xRight.querySelectorAll(".slick-cell").onMouseLeave.listen(handleMouseLeave);
     for (var i = 0, ii = rows.length; i < ii; i++) {
@@ -3316,34 +3309,25 @@ $viewportTopL.style.overflowY='auto';
 //        $viewport.scrollLeft = scrollLeft;
 //      }
     }
-    int scount=0;
-//    void handleTouch(e){
-//      if (_options.frozenColumn> -1) {
-//           if (hasFrozenRows) {
-//                   $viewportTopR.scrollLeft = scrollLeft;
-//             }
-//     } else {
-//           if (hasFrozenRows) {
-//               $viewportTopL.scrollLeft = scrollLeft;
-//             }
-//     }
-//    }
-    /**
-     * 1 second emit 15 events
-     * performance killer
-     */
+///    int scount=0;
+    ///
+    /// 1 second emit 15 events
+    /// performance killer
+    ///
     void handleScroll([Event e]) {
       scrollTop = $viewportScrollContainerY.scrollTop;
       scrollLeft = $viewportScrollContainerX.scrollLeft;
-      if(e!=null && e.target !=$viewportScrollContainerX){
+      bool frozenArea=false;
+      if( this.gridOptions.frozenColumn>0 && e!=null && (e.target== $viewportTopL || e.target==$viewportBottomL)){
         scrollTop=(e.target as Element).scrollTop;
+        frozenArea=true;
       }
 
       //scount++;
-      _log.finer('s event ${scount}' + new DateTime.now().toString() );
-       _handleScroll(false);
+      ///_log.finer('s event ${scount}' + new DateTime.now().toString() );
+      _handleScroll(false,frozenArea);
     }
-    _handleScroll(bool isMouseWheel) {
+    _handleScroll(bool isMouseWheel,bool targetFrozen) {
         var maxScrollDistanceY = $viewportScrollContainerY.scrollHeight - $viewportScrollContainerY.clientHeight;
         var maxScrollDistanceX = $viewportScrollContainerY.scrollWidth - $viewportScrollContainerY.clientWidth;
 
@@ -3354,8 +3338,9 @@ $viewportTopL.style.overflowY='auto';
         if (scrollLeft > maxScrollDistanceX) {
             scrollLeft = maxScrollDistanceX;
         }
+      //  print('--$scrollTop $prevScrollTop');
       //  _log.finest('pre scroll top: ${prevScrollTop}');
-        int vScrollDist = (scrollTop - prevScrollTop).abs();
+        int vScrollDist = (scrollTop  - prevScrollTop).abs();
         int hScrollDist = (scrollLeft - prevScrollLeft).abs();
 
         if (hScrollDist>0) { //create scroll linkage between upperleft, upperRight, lowerLeft view
@@ -3387,17 +3372,24 @@ $viewportTopL.style.overflowY='auto';
 
             if (_options.frozenColumn> -1) {
                 if (hasFrozenRows && !_options.frozenBottom) {
-                    $viewportBottomL.scrollTop = scrollTop;
+                    if(targetFrozen){
+                      $viewportBottomR.scrollTop = scrollTop;
+                    }else{
+                      $viewportBottomL.scrollTop = scrollTop;
+                    }
                 } else {
-                    $viewportTopL.scrollTop = scrollTop;
-                    $viewportTopR.scrollTop = scrollTop;
+                    if(targetFrozen){
+                      $viewportTopR.scrollTop = scrollTop;
+                    }else{
+                      $viewportTopL.scrollTop = scrollTop;
+                    }
                 }
             }
 
             // switch virtual pages if needed
             if (vScrollDist < viewportH) {
                // _log.finest('v scr dist: ${vScrollDist} ${viewportH}');
-                scrollTo(scrollTop + offset);
+              //  scrollTo(scrollTop + offset);
             }
         }
 

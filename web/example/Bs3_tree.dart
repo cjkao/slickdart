@@ -19,14 +19,14 @@ void main() {
       return false;
     });
     grid.invalidate();
-    
+
   });
-  
-  
+
+
 }
 
 List makeData(int len){
-  
+
 //  _data=[];
   var indent = 0;
   Queue parents = new Queue();;
@@ -57,7 +57,7 @@ List makeData(int len){
         d["start"] = "01/01/2009";
         d["finish"] = "01/05/2009";
         d["effortDriven"] = (i % 5 == 0);
-        d["_collapsed"]=false; 
+        d["_collapsed"]=false;
       }
   _data.setKeyword("_collapsed", false);
   return _data;
@@ -81,9 +81,9 @@ cj.SlickGrid prepareGrid(){
                                 ..autoEdit=true
                              //   ..enableAddRow=true
                                 ..leaveSpaceForNewRows=true
-                              //  ..frozenColumn = 1
+                                ..frozenColumn = 0
                                 ..enableColumnReorder=true;
-  
+
   cj.SlickGrid sg= new cj.SlickGrid.fromOpt(el,makeData(50),column,opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
 //  sg.registerPlugin(checkboxCol);
@@ -108,10 +108,10 @@ cj.SlickGrid prepareGrid(){
        e.stopImmediatePropagation();
      }
    });
-  
-  
-  
-  
+
+
+
+
   return sg;
 }
 
@@ -129,6 +129,3 @@ cj.formatFn TaskNameFormatter =  (int row,int  cell, dynamic value,cj.Column col
     return spacer + " <span class='toggle'></span>&nbsp;" + value;
   }
 };
-
-
-

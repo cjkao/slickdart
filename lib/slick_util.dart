@@ -12,6 +12,7 @@ Logger _log = new Logger('slick.util');
 ///
 /// compute scrollbar width
 ///
+/*
 int getScrollbarWidth() {
   var outer = document.createElement("div");
   outer.style.visibility = "hidden";
@@ -34,6 +35,31 @@ int getScrollbarWidth() {
 
   return widthNoScroll - widthWithScroll;
 }
+*/
+
+//tailer for html style
+NullTreeSanitizer nullTreeSanitizer = new NullTreeSanitizer();
+///
+///Sanitizer which does nothing.
+///
+class NullTreeSanitizer implements NodeTreeSanitizer {
+  void sanitizeTree(Node node) {
+  }
+}
+
+  Map<String,int> measureScrollbar() {
+      var $c =  querySelector('body').createFragment("<div style='position:absolute; top:-10000px; left:-10000px; width:100px; height:100px; overflow:scroll;'></div>"
+          ,treeSanitizer : nullTreeSanitizer).children.first;
+
+      querySelector('body').append($c);
+      CssStyleDeclaration style=$c.getComputedStyle();
+      Map dim = {
+        'width': core.Dimension.getCalcWidth($c) - $c.clientWidth,
+        'height': core.Dimension.getCalcHeight($c) - $c.clientHeight
+      };
+      $c.remove();
+      return dim;
+    }
 
 /** TODO add scope
  * find element's cloest parent of target css selector rule
