@@ -2240,7 +2240,7 @@ $viewportTopL.style.overflowY='auto';
               var newItem = {};
               currentEditor.applyValue(newItem, currentEditor.serializeValue());
               makeActiveCellNormal();
-              trigger(this.onAddNewRow, {item: newItem, column: column});
+              trigger(this.onAddNewRow, {'item': newItem, 'column': column});
             }
 
             // check whether the lock has been re-acquired by event handlers
@@ -2252,12 +2252,12 @@ $viewportTopL.style.overflowY='auto';
             activeCellNode.classes.add("invalid");
 
             trigger(this.onValidationError, {
-              ['editor']: currentEditor,
-              ['cellNode']: activeCellNode,
-              ['validationResults']: validationResults,
-              ['row']: activeRow,
-              ['cell']: activeCell,
-              ['column']: column
+              'editor': currentEditor,
+              'cellNode': activeCellNode,
+              'validationResults': validationResults,
+              'row': activeRow,
+              'cell': activeCell,
+              'column': column
             });
 
             currentEditor.focus();
