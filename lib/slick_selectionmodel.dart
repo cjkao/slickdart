@@ -193,7 +193,7 @@ class CellRangeSelector extends IPlugin{
 abstract class SelectionModel{
   init(SlickGrid grid);
   destroy();
-  void setSelectedRanges(List ranges);
+  void setSelectedRanges(List<core.Range> ranges);
   List<core.Range> getSelectedRanges();
   core.Event onSelectedRangesChanged = new core.Event();
 }
@@ -519,7 +519,7 @@ class RowSelectionModel extends SelectionModel{
     _ranges = rowsToRanges(selection);
     setSelectedRanges(_ranges);
     if(!(_grid.columns[args['cell']] is CheckboxSelectColumn)){
-      
+
       evt.stopImmediatePropagation();
     }
 
