@@ -1,3 +1,6 @@
+# Version 0.1.6+1(2016/04)
+- MouseWheel fix 
+
 # Version 0.1.6(2016/03)
 - add scrollable on frozen column
 

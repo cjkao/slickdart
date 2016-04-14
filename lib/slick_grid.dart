@@ -1009,6 +1009,7 @@ class SlickGrid {
 
       _subscriptionList.add(window.onResize.listen(resizeCanvas));
       $viewport.forEach((_)=> _.onScroll.matches('*').listen(handleScroll));
+      $viewport.forEach((_)=> _.onMouseWheel.matches('*').listen(_handleWheel));
 //      $viewport.forEach((_)=> _.onTouchMove.listen(handleTouch));
 //      $viewport.forEach((_)=> _.onTouchStart.listen(handleTouch));
 //      $viewport.forEach((_) => _.onTouchMove.matches('*').listen(handleScroll));
@@ -2240,7 +2241,7 @@ $viewportTopL.style.overflowY='auto';
               var newItem = {};
               currentEditor.applyValue(newItem, currentEditor.serializeValue());
               makeActiveCellNormal();
-              trigger(this.onAddNewRow, {item: newItem, column: column});
+              trigger(this.onAddNewRow, {'item': newItem, 'column': column});
             }
 
             // check whether the lock has been re-acquired by event handlers
@@ -2252,12 +2253,12 @@ $viewportTopL.style.overflowY='auto';
             activeCellNode.classes.add("invalid");
 
             trigger(this.onValidationError, {
-              ['editor']: currentEditor,
-              ['cellNode']: activeCellNode,
-              ['validationResults']: validationResults,
-              ['row']: activeRow,
-              ['cell']: activeCell,
-              ['column']: column
+              'editor': currentEditor,
+              'cellNode': activeCellNode,
+              'validationResults': validationResults,
+              'row': activeRow,
+              'cell': activeCell,
+              'column': column
             });
 
             currentEditor.focus();
@@ -2960,12 +2961,12 @@ $viewportTopL.style.overflowY='auto';
         }
 
         ensureCellNodesInRowsCache(row);
-        for (var columnIdx in cacheEntry.cellNodesByColumnIdx) {
+        for (var columnIdx in cacheEntry.cellNodesByColumnIdx.keys) {
 
           Column m = columns[columnIdx];
           if (m.asyncPostRender!=null && !postProcessedRows[row][columnIdx]) {
             var node = cacheEntry.cellNodesByColumnIdx[columnIdx];
-            if (node) {
+            if (node!=null) {
               m.asyncPostRender(node, row, getDataItem(row), m);
             }
             postProcessedRows[row][columnIdx] = true;
@@ -3309,7 +3310,6 @@ $viewportTopL.style.overflowY='auto';
 //        $viewport.scrollLeft = scrollLeft;
 //      }
     }
-///    int scount=0;
     ///
     /// 1 second emit 15 events
     /// performance killer
@@ -3325,7 +3325,39 @@ $viewportTopL.style.overflowY='auto';
 
       //scount++;
       ///_log.finer('s event ${scount}' + new DateTime.now().toString() );
-      _handleScroll(false,frozenArea);
+      if(e is WheelEvent){
+        _handleScroll(true,frozenArea);
+
+      }else{
+        _handleScroll(false,frozenArea);
+
+      }
+    }
+     _handleWheel(WheelEvent we){
+       if(we.deltaY!=0){
+         if (_options.frozenColumn> -1) {
+             if (hasFrozenRows && !_options.frozenBottom) {
+                   $viewportBottomR.scrollTop += we.deltaY;
+                   $viewportBottomL.scrollTop += we.deltaY;
+             } else {
+                   $viewportTopR.scrollTop += we.deltaY;
+                   $viewportTopL.scrollTop += we.deltaY;
+             }
+         }
+
+       }
+       if(we.deltaX!=0){
+         if (_options.frozenColumn> -1) {
+                 $viewportTopR.scrollLeft += we.deltaX;
+                 $viewportBottomR.scrollLeft += we.deltaX;
+         } else {
+                 $viewportTopL.scrollLeft += we.deltaX;
+                 $viewportBottomL.scrollLeft += we.deltaX;
+         }
+       }
+//      handleScroll(we);
+
+      we.preventDefault();
     }
     _handleScroll(bool isMouseWheel,bool targetFrozen) {
         var maxScrollDistanceY = $viewportScrollContainerY.scrollHeight - $viewportScrollContainerY.clientHeight;
@@ -3366,9 +3398,9 @@ $viewportTopL.style.overflowY='auto';
             vScrollDir = prevScrollTop < scrollTop ? 1 : -1;
             prevScrollTop = scrollTop;
 
-            if (isMouseWheel) {
-                $viewportScrollContainerY.scrollTop = scrollTop;
-            }
+          //  if (isMouseWheel) {
+          //      $viewportScrollContainerY.scrollTop = scrollTop;
+          //  }
 
             if (_options.frozenColumn> -1) {
                 if (hasFrozenRows && !_options.frozenBottom) {
