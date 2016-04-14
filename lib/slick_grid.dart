@@ -2960,12 +2960,12 @@ $viewportTopL.style.overflowY='auto';
         }
 
         ensureCellNodesInRowsCache(row);
-        for (var columnIdx in cacheEntry.cellNodesByColumnIdx) {
+        for (var columnIdx in cacheEntry.cellNodesByColumnIdx.keys) {
 
           Column m = columns[columnIdx];
           if (m.asyncPostRender!=null && !postProcessedRows[row][columnIdx]) {
             var node = cacheEntry.cellNodesByColumnIdx[columnIdx];
-            if (node) {
+            if (node!=null) {
               m.asyncPostRender(node, row, getDataItem(row), m);
             }
             postProcessedRows[row][columnIdx] = true;
