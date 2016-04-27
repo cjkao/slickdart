@@ -3604,7 +3604,7 @@ $viewportTopL.style.overflowY='auto';
      }
 
      Map<String,dynamic> absBox(Element elem) {
-       var box = {
+       Map<String,dynamic> box = {
                   'top': elem.offsetTop,
                   'left': elem.offsetLeft,
                   'bottom': 0,
