@@ -25,8 +25,8 @@ main() {
     gw0.init(new MetaList(csv.data, getMeta), cols);
     gw0.grid.setSelectionModel(new CellSelectionModel());
   });
-  querySelector('.inputgs').onChange.listen((_) {
-    filterStr = _.target.value;
+  querySelector('.inputgs').onChange.listen((Event _) {
+    filterStr = (_.target as InputElement).value;
     gw0.grid.invalidate();
   });
 

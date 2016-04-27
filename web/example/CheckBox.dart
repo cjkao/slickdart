@@ -45,7 +45,7 @@ void main() {
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = new ColumnList.fromMap([
+  List<grid.Column> column = new ColumnList.fromMap([
                  {'width':130, 'field': "idi", 'name':'ID','sortable': true,'editor': 'TextEditor' },
                  {'width':120, 'field': "duration", 'sortable': true },
                  {'field': "pc", 'sortable': true },
