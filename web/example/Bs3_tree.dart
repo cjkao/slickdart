@@ -65,7 +65,7 @@ List makeData(int len){
 
 cj.SlickGrid prepareGrid(){
   Element el =querySelector('#grid');
-  List column = [
+  List<cj.Column> column = [
                  new cj.Column.fromMap ({'field': "title",        'name': "TASK", 'width':220,  'sortable': false , 'formatter': TaskNameFormatter}),
                  new cj.Column.fromMap ({'field': "duration",     'name': "A",'width':60, 'sortable': false ,'editor': 'TextEditor'}),
                  new cj.Column.fromMap ({'field': "percentComplete",      'name': 'Complete Rate', 'width':140, 'sortable': true,'editor': 'DoubleEditor', 'formatter': cj.PercentCompleteBarFormatter }),

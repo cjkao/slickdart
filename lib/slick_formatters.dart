@@ -1,6 +1,6 @@
 library slick.formatter;
 import 'slick_column.dart';
-typedef void formatFn(int row,int  cell, dynamic value,Column columnDef,dataContext);
+typedef String formatFn(int row,int  cell, dynamic value,Column columnDef,dataContext);
 PercentCompleteFormatter(int row, int cell, value, Column columnDef, Map dataContext){
   if (value == null || value == "") {
     return "-";
@@ -17,7 +17,7 @@ PercentCompleteBarFormatter(int row, int cell, value, Column columnDef, Map data
   }
 
   String color;
-  
+
   if (value < 30) {
     color = "red";
   } else if (value < 70) {

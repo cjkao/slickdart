@@ -1646,7 +1646,7 @@ class SlickGrid {
           int i=columnElements.indexOf((event.target as Element).parent);
           _log.finest('drag begin');
           if (!getEditorLock().commitCurrentEdit()) {
-            return false;
+            return ;
           }
           pageX = event.page.x;
           event.dataTransfer.effectAllowed = 'none';
