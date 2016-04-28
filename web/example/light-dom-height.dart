@@ -10,7 +10,7 @@ void main() {
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
+  List<grid.Column> column = [
        new grid.Column.fromMap ({ 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
        new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
        new grid.Column.fromMap ({'field': "StartDate", 'width':140,'editor': new DateEditor()}),

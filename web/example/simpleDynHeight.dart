@@ -10,7 +10,7 @@ void main() {
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
+  var column = <grid.Column>[
      new grid.Column.fromMap ({'id': "title", 'name': "id", 'field': "title", 'sortable': true }),
      new grid.Column.fromMap ({'id': "duration", 'width':120,'name': "percentComplete2", 'field': "percentComplete", 'sortable': true }),
      new grid.Column.fromMap ({'id': "%", 'name': "start3", 'field': "start", 'sortable': true }),
