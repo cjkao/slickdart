@@ -71,11 +71,11 @@ Logger _log = new Logger('log.headermenu');
    *    buttonImage:      a url to the menu button image (default '../images/down.gif')
    */
 class HeaderMenu  extends IPlugin{
-    
+
     Map _opt;
     //Column _parent;
     HeaderMenu(this._opt){
-      
+
     }
     /**
      * We can add or modify the menu here, or cancel it by returning false
@@ -87,7 +87,7 @@ class HeaderMenu  extends IPlugin{
     String get buttonCssClass => _opt['buttonCssClass'];
     String get buttonImage => _opt['buttonImage'];
     String get tooltip => _opt['tooltip'];
-    
+
     SlickGrid _grid;
     core.EventHandler _handler = new core.EventHandler();
     Element _$menu;
@@ -168,14 +168,14 @@ class HeaderMenu  extends IPlugin{
     }
 
     Function _showMenuFun(Function f, Column column)=>(e)=> f(column,e);
-    
+
     _showMenu(Column column,MouseEvent e) {
      // var menu = $menuButton.data("menu");
      // var columnDef = $menuButton.data("column");
       if(column.header.length==0) return;
       // Let the user modify the menu or cancel altogether,
       // or provide alternative menu implementation.
-      List<MenuItem> menuList = column.header['menu']['items'].map((_) => new MenuItem(_)).toList();
+      List<MenuItem> menuList = column.header['menu']['items'].map((_) => new MenuItem(_)).toList() as List<MenuItem>;
       if (onBeforeMenuShow.notify({
           "grid": _grid,
           "column": column,
@@ -190,7 +190,7 @@ class HeaderMenu  extends IPlugin{
         _grid.container.children.add(_$menu);
       }
       _$menu.children.clear();
-      
+
 
       // Construct the menu items.
       for (var i = 0; i < menuList.length; i++) {
@@ -246,7 +246,7 @@ class HeaderMenu  extends IPlugin{
     _handleMenuItemClickFun(Function f,Column column,MenuItem item) => (e) => f(column,item,e);
     _menuItemClick(Column column,MenuItem item,MouseEvent e) {
       _log.finest('click:${column.name} ${item.command}');
-      
+
       if (item.disabled) {
         return;
       }
@@ -302,7 +302,7 @@ class MenuItem{
   void set title          (_) => _opt['title']          = _;
   void set command        (_) => _opt['command']        = _;
   void set iconCssClass   (_) => _opt['iconCssClass']   = _;
-  void set iconImage      (_) => _opt['iconImage']      = _;  
+  void set iconImage      (_) => _opt['iconImage']      = _;
   void set tooltip        (_) => _opt['tooltip']        = _;
   set disabled       (bool _) => _opt['disabled']       = _;
 }
