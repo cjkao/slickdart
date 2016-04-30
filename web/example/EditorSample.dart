@@ -23,12 +23,12 @@ void main() {
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
   List<grid.Column> column = [
-       new grid.Column.fromMap ({ 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
+       new grid.Column.fromMap ({'name':'text editor', 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
        new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
-       new grid.Column.fromMap ({'field': "StartDate", 'width':140,'editor': new DateEditor()}),
+       new grid.Column.fromMap ({'name':'date editor','field': "StartDate", 'width':140,'editor': new DateEditor()}),
        new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
        new grid.Column.fromMap ({'name':'int List Editor','field': "intlist",'width':100, 'editor': new SelectListEditor({0:"Label_0",1:"Lable_1", 2:"Label_2"})}),
-       new grid.Column.fromMap ({'name':'List Editor','field': "City",'width':100, 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})}),
+       new grid.Column.fromMap ({'name':'str List Editor','field': "City",'width':100, 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})}),
   ];
   List data=[];
   for (var i = 0; i < 50; i++) {

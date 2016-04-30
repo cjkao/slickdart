@@ -38,7 +38,7 @@ main() {
     gw0.grid.setCellCssStyles("fixed", { 3: {'year': 'blur'}});
   });
   querySelector('.inputgs').onKeyUp.listen((_) {
-    filterStr=_.target.value;
+    filterStr=(_.target as InputElement).value;
     gw0.grid.invalidate();
   });
 }
@@ -54,5 +54,3 @@ List<Column> getColDefs(List<Column> cols) {
   newCols.insert(0, checkboxCol.getColumnDefinition());
   return newCols;
 }
-
-
