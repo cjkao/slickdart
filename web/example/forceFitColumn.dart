@@ -4,7 +4,7 @@ import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 
 void main() {
-  List columns = [
+  List<grid.Column> columns = [
        new grid.Column.fromMap ({            'name': "id",                 'field': "title", 'sortable': true }),
        new grid.Column.fromMap ({            'name': "start3",             'field': "start", 'sortable': true }),
        new grid.Column.fromMap ({                                          'field': "finish"}),
@@ -83,7 +83,7 @@ grid.SlickGrid initGrow(){
                 ..explicitInitialization= false
                 ..enableColumnReorder = true
                 ..multiColumnSort= false..forceFitColumns=true;
-  List columns = [
+  List<grid.Column> columns = [
          new grid.Column.fromMap ({            'name': "NoResize1",                 'field': "title", 'resizable': false }),
          new grid.Column.fromMap ({            'name': "start3",             'field': "start", 'sortable': true }),
          new grid.Column.fromMap ({                                          'field': "finish"}),

@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
+  List<grid.Column> column = [
                  new grid.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "title"}),
                  new grid.Column.fromMap ({'id': "duration", 'name': "percentComplete", 'field': "percentComplete"}),
                  new grid.Column.fromMap ({'id': "%", 'name': "start", 'field': "start"}),

@@ -12,7 +12,7 @@ void main() {
 //    Polymer.onReady.then((_) {
   grid.SlickGrid  g=init();
   g.init();
-    
+
     //XDateInput item = new Element.tag('date-input');
     //document.querySelector('body').append(item);
 //  });
@@ -22,7 +22,7 @@ void main() {
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
+  List<grid.Column> column = [
        new grid.Column.fromMap ({ 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
        new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
        new grid.Column.fromMap ({'field': "StartDate", 'width':140,'editor': new DateEditor()}),
@@ -107,7 +107,7 @@ class DateEditor extends Editor {
 //    $input = new Element.html('<div class="calendar" data-date="2013/09/16" data-format="yyyy/MM/dd"></div>');
 //    $input = new DivElement()..classes.add('calendar')..dataset['date']='2013/09/15'..dataset['format']='yyyy/MM/dd';
     $input = new DateInputElement(); //
-//    $input =  new Element.tag('date-input');    
+//    $input =  new Element.tag('date-input');
 //    $input
     //$input.attributes['inputmaxlength']='5';
    // $input.attributes['value']= m.

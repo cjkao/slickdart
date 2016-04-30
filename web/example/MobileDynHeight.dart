@@ -11,7 +11,7 @@ void main() {
 AlertFormatter(int row,int cell,int value,grid.Column columnDef,Map dataRow) {
   if(dataRow['_height']!=null && dataRow['_height']>70){
     return '''
-        <p style=' white-space: normal;'>CSS word-wrapping in div</p>       
+        <p style=' white-space: normal;'>CSS word-wrapping in div</p>
         <div class="btn-group btn-group-xs">
          <button type="button" class="btn btn-default">Left</button>
         <button type="button" class="btn btn-default">Middle</button>
@@ -33,7 +33,7 @@ AlertFormatter(int row,int cell,int value,grid.Column columnDef,Map dataRow) {
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
+  List<grid.Column> column = [
      new grid.Column.fromMap ({'id': "title", 'name': "id", 'field': "title", 'sortable': true, 'width':20 }),
      new grid.Column.fromMap ({'id': "duration", 'width':120,'name': "Alert", 'field': "percentComplete", 'formatter': AlertFormatter }),
      new grid.Column.fromMap ({'id': "%", 'name': "start3", 'field': "start", 'sortable': true }),
