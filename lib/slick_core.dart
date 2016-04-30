@@ -8,7 +8,7 @@ EditorLock GlobalEditorLock = new EditorLock();
 
 //parm:  List<core.Range>, Map
 //e: KeyboardEvent, EventData
-typedef handlerFunction(Object e,Object parm);
+typedef handlerFunction(EventData e,dynamic parm);
 
 
 /**
@@ -134,7 +134,7 @@ class Event {
 class EventHandler{
   List<Map<String,dynamic>> handlers = [];
 
-  subscribe  (Event event, Function handler) {
+  subscribe  (Event event, handlerFunction handler) {
     handlers.add({
       'event': event,
       'handler': handler

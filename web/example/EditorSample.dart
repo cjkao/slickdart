@@ -27,6 +27,7 @@ grid.SlickGrid init(){
        new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
        new grid.Column.fromMap ({'field': "StartDate", 'width':140,'editor': new DateEditor()}),
        new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
+       new grid.Column.fromMap ({'name':'int List Editor','field': "intlist",'width':100, 'editor': new SelectListEditor({0:"Label_0",1:"Lable_1", 2:"Label_2"})}),
        new grid.Column.fromMap ({'name':'List Editor','field': "City",'width':100, 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})}),
   ];
   List data=[];
@@ -35,6 +36,7 @@ grid.SlickGrid init(){
       'dtitle':  new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100),
       'pc': new math.Random().nextInt(10) * 100,
+      'intlist': new math.Random().nextInt(2),
       'City': "NY",
       'StartDate': '2012/01/31'
     });

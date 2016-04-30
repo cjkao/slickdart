@@ -258,14 +258,14 @@ class CellSelectionModel extends SelectionModel{
       return _ranges;
     }
 
-    _handleBeforeCellRangeSelected(e, args) {
+    _handleBeforeCellRangeSelected(core.EventData e, args) {
       if (_grid.getEditorLock().isActive()) {
         e.stopPropagation();
         return false;
       }
     }
 
-    _handleCellRangeSelected(e, args) {
+    _handleCellRangeSelected(core.EventData e, args) {
       setSelectedRanges(args.range);
     }
   /**
@@ -280,7 +280,8 @@ class CellSelectionModel extends SelectionModel{
       }
     }
 
-    _handleKeyDown(KeyboardEvent e,[args]) {
+    _handleKeyDown(core.EventData evtData,[args]) {
+      KeyboardEvent e = evtData.domEvent;
       /***
        * byte codes
        * 37 left
@@ -346,7 +347,7 @@ class CellSelectionModel extends SelectionModel{
 
 class RowSelectionModel extends SelectionModel{
   SlickGrid _grid;
-  var _ranges = [];
+  var _ranges = <core.Range>[];
   var _handler = new core.EventHandler();
   bool _inHandler = false;
   Map _options;
@@ -434,7 +435,9 @@ class RowSelectionModel extends SelectionModel{
       setSelectedRanges([new core.Range(data['row'], 0, data['row'], _grid.columns.length - 1)]);
     }
   }
-  handleKeyDown(KeyboardEvent e,[Map<String,dynamic> args]) {
+  //handleKeyDown(KeyboardEvent e,[Map<String,dynamic> args]) {
+  handleKeyDown(core.EventData ed,[Map<String,dynamic> args]) {
+    KeyboardEvent e=ed.domEvent;
     Map<String,int> activeRow = _grid.getActiveCell();
     if (activeRow!=null && e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey && (e.which == 38 || e.which == 40)) {
       var selectedRows = getSelectedRows();

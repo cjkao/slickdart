@@ -208,7 +208,7 @@ class JGrid extends HtmlElement {
    * example string:  .slick-pane-top .slick-row {   background-color: #a9F9FF;    }
    */
   void setStyle(String s) {
-    final styleSheet = shadowRoot.styleSheets[0];
+    CSSStyleSheet styleSheet = shadowRoot.styleSheets[0];
     styleSheet.insertRule(s, 0);
   }
 
@@ -238,7 +238,7 @@ class JGrid extends HtmlElement {
 
   SlickGrid _prepareGrid(Element el, List<Column> colDefs, {Map opt}) {
     //Element el =querySelector('#grid');
-    List column = colDefs;
+    var column = colDefs;
 
     List data = [];
     if (opt == null) {
@@ -249,7 +249,7 @@ class JGrid extends HtmlElement {
 
     column.forEach((item) {
       if (item is IPlugin) {
-        sg.registerPlugin(item);
+        //sg.registerPlugin(item);
         sg.setSelectionModel(new RowSelectionModel({'selectActiveRow': false}));
       }
     });

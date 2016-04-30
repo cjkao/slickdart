@@ -356,7 +356,7 @@ class SlickGrid {
    *
    */
   setCellCssStyles(String key, Map<int,Map<String,String>> hash) {
-    Map prevHash = _cellCssClasses[key];
+    Map<int,Map<String,String>> prevHash = _cellCssClasses[key];
 
     _cellCssClasses[key] = hash;
     _updateCellCssStylesOnRenderedRows(hash, prevHash);
@@ -1028,6 +1028,7 @@ class SlickGrid {
 
       $canvas.forEach((_)=> _..onKeyDown.listen(handleKeyDown)
       ..onClick.listen(handleClick)
+      // ignore: STRONG_MODE_DOWN_CAST_COMPOSITE
       ..onDoubleClick.listen(handleDblClick)
       );
 //TODO fix me
@@ -1734,7 +1735,7 @@ class SlickGrid {
 
     /////////////////////////////////////// general
     // event could be event data or dom event
-    trigger(core.Event evt,[ Map<String,dynamic> args, var e]) {   //[core.EventData e]
+    trigger(core.Event evt,[ Map<String,dynamic> args, core.EventData e]) {   //[core.EventData e]
       if (e ==null) e =  new core.EventData();
       if(args ==null) args = {};
       args['grid']=this;
@@ -4066,22 +4067,27 @@ $viewportTopL.style.overflowY='auto';
 //target: div.grid-canvas
 
 
-       handleDrag(e, [dd]) {
-        return trigger(this.onDrag, dd, e);
+       handleDrag(Event e, [dd]) {
+       core.EventData evt = new core.EventData.fromDom(e);
+        return trigger(this.onDrag, dd, evt);
       }
 
-      handleDragEnd(e, [dd]) {
-        trigger(onDragEnd, dd, e);
+      handleDragEnd(Event e, [dd]) {
+        core.EventData evt = new core.EventData.fromDom(e);
+        trigger(onDragEnd, dd, evt);
       }
 
       /**
-       * e : keyboard event or EventData
+       * e : keyboard event
        */
-      void handleKeyDown(var e, [args]) {
-        trigger(onKeyDown, {'row': activeRow, 'cell': activeCell}, e);
+      void handleKeyDown(KeyboardEvent e, [args]) {
+        core.EventData evt = new core.EventData.fromDom(e);
 
-        bool handled = e is core.EventData ? e.isImmediatePropagationStopped() : false;
+        trigger(onKeyDown, {'row': activeRow, 'cell': activeCell}, evt);
+//e.stopImmediatePropagation();
 
+      //  bool handled = e is core.EventData ? e.stopImmediatePropagation() : false;
+        bool handled=false;
         if (!handled) {
           if (!e.shiftKey && !e.altKey && !e.ctrlKey) {
             if (e.which == 27) {

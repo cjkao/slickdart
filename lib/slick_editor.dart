@@ -176,7 +176,7 @@ class DoubleEditor extends IntEditor{
     super.editorParm=m;
         _input
         ..pattern=r'^\d{0,2}(\.\d{0,2}){0,1}$';
-    }  
+    }
 }
 
 /**
@@ -247,18 +247,18 @@ class SelectListEditor extends Editor {
     $input.focus();
   }
 
-  /**
-   * opt: { option_value: option_display_name,....}
-   */
+  ///
+  /// [opt]: { option_value: option_display_name,....}
+  ///
   SelectListEditor([this._opts]);
 
   loadValue(item) {
     super.loadValue(item);
     OptionElement ope;
       if(_opts.keys.first is int){
-        ope=$input.children.firstWhere((_)=> int.parse(_.value)== item[editorParm.columnDef.field]);
+        ope=$input.children.firstWhere((_)=> int.parse((_ as OptionElement).value)== item[editorParm.columnDef.field]);
       }else{
-        ope=$input.children.firstWhere((_)=> _.value == item[editorParm.columnDef.field]);
+        ope=$input.children.firstWhere((_)=> (_ as OptionElement ).value == item[editorParm.columnDef.field]);
       }
       ope.selected=true;
   }
@@ -280,6 +280,3 @@ class SelectListEditor extends Editor {
   }
 
 }
-
-
-
