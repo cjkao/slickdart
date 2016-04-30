@@ -185,7 +185,7 @@ class Column {
   }
 
   factory Column.fromJSON(String src) {
-    Map m = JSON.decode(src);
+    Map<String, dynamic>  m = JSON.decode(src)  as Map<String,dynamic>;
     return new Column.fromMap(m); //c._src..addAll(src) ;
   }
 
@@ -201,7 +201,7 @@ class Column {
     this._src.addAll(newCol._src);
     return this;
   }
-  Map _columnDefaults = {
+  Map<String,dynamic> _columnDefaults = {
     'name': "",
     'resizable': true,
     'sortable': false,
@@ -340,7 +340,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
    * consider mutiple and single selection case
    */
   toggleRowSelection(int row) {
-    List list = _grid.getSelectedRows();
+    List<int> list = _grid.getSelectedRows();
     if(_grid.gridOptions.multiSelect==false){
       if(_grid.getSelectedRows().contains(row)){
         list.remove(row);
@@ -379,7 +379,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
       }
 
       if (e.target is CheckboxInputElement && (e.target as CheckboxInputElement).checked) {
-        List rows = [];
+        List<int> rows = [];
         for (var i = 0; i < _grid.getDataLength(); i++) {
           rows.add(i);
         }

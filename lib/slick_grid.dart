@@ -3344,7 +3344,11 @@ $viewportTopL.style.overflowY='auto';
                    $viewportTopR.scrollTop += we.deltaY;
                    $viewportTopL.scrollTop += we.deltaY;
              }
+         }else{
+                   $viewportTopL.scrollTop += we.deltaY;
          }
+
+
 
        }
        if(we.deltaX!=0){
