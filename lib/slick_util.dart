@@ -101,7 +101,7 @@ class FilteredList extends ListBase {
    * string is partial matching
    * {column: condition}
    */
-  set keyword(Map m) {
+  set keyword(Map<String, dynamic>  m) {
     if (m == null) return;
     _filter = m;
     _viewList = _foldHelper();

@@ -382,8 +382,8 @@ class RowSelectionModel extends SelectionModel{
 
 
 
-  List rangesToRows(ranges) {
-    List rows = [];
+  List<int> rangesToRows(ranges) {
+    var rows = <int>[];
     for (int i = 0; i < ranges.length; i++) {
       for (int j = ranges[i].fromRow; j <= ranges[i].toRow; j++) {
         rows.add(j);
@@ -392,8 +392,8 @@ class RowSelectionModel extends SelectionModel{
     return rows;
   }
 
-  List rowsToRanges(rows) {
-    List ranges = [];
+  List<core.Range> rowsToRanges(rows) {
+    var ranges = <core.Range>[];
     int lastCell = _grid.columns.length - 1;
     for (int i = 0; i < rows.length; i++) {
       ranges.add(new core.Range(rows[i], 0, rows[i], lastCell));
@@ -401,9 +401,9 @@ class RowSelectionModel extends SelectionModel{
     return ranges;
   }
 
-  List getRowsRange(int from,int to) {
+  List<int> getRowsRange(int from,int to) {
     int i;
-    List rows = [];
+    var rows = <int>[];
     for (i = from; i <= to; i++) {
       rows.add(i);
     }
