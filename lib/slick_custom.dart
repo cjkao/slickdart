@@ -208,7 +208,7 @@ class JGrid extends HtmlElement {
    * example string:  .slick-pane-top .slick-row {   background-color: #a9F9FF;    }
    */
   void setStyle(String s) {
-    CSSStyleSheet styleSheet = shadowRoot.styleSheets[0];
+    CssStyleSheet styleSheet = shadowRoot.styleSheets[0];
     styleSheet.insertRule(s, 0);
   }
 

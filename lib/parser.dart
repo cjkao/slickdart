@@ -54,7 +54,7 @@ class CsvAdapter {
    *  @return list of lines to map
    * [{row1},{row2}...]
    */
-  makeData(List<String> strs){
+  List<Map>  makeData(List<String> strs){
     return strs.sublist(1).map((String line) => _toDataMap(line.split(','))).toList();
   }
   Map _toDataMap(List<String> fields){
