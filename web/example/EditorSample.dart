@@ -53,7 +53,7 @@ grid.SlickGrid init(){
       ..enableColumnReorder=true;
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
 
-  sg.setSelectionModel(new CellSelectionModel(sg.options));
+  sg.setSelectionModel(new RowSelectionModel(sg.options));
 
   sg.onBeforeEditCell.subscribe((e,args){
     //swap editor here
