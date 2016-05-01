@@ -116,7 +116,7 @@ cj.SlickGrid prepareGrid(){
 }
 
 
-cj.formatFn TaskNameFormatter =  (int row,int  cell, dynamic value,cj.Column columnDef,dataContext) {
+cj.TFormatter TaskNameFormatter =  (int row,int  cell, dynamic value,cj.Column columnDef,dataContext) {
   var spacer = "<span style='display:inline-block;height:1px;width:${15 *dataContext["indent"]}px'></span>";
   if (dataContext['_collapsed']) {
         return spacer + " <span class='toggle expand'></span>&nbsp;" + value;

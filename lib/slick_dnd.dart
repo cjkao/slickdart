@@ -8,11 +8,12 @@ import 'dart:html';
 
 Logger _log = new Logger('slick.dnd');
 const String _DND_TYPE='text';
+/// for column header DND
 class DragAndDrop {
   Element rootEl;
   Element _dragSourceEl;
   Element _enter; //latest entered elem
-  Point _start_p;
+  var _startPoint;
   SlickGrid _grid;
   DragAndDrop(this._grid, this.rootEl) {}
   install() {
@@ -49,7 +50,7 @@ class DragAndDrop {
     }
     _log.finest('drag start');
     Element dragTarget = event.target;
-    _start_p = event.client;
+    _startPoint = event.client;
     //  dragTarget.classes.add('moving');
     //  Element ghost=dragTarget.clone(true);
     //  document.body.append(ghost);
@@ -98,7 +99,7 @@ class DragAndDrop {
       _enter.classes.remove('over-left');
     }
     _enter = headerElem;
-    if (_start_p.x - event.client.x > 0) {
+    if (_startPoint.x - event.client.x > 0) {
       headerElem.classes.add('over-left');
     } else {
       headerElem.classes.add('over-right');

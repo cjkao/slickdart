@@ -4,7 +4,7 @@ import 'dart:html';
 import 'slick_core.dart' as core;
 import 'slick_grid.dart';
 import 'package:logging/logging.dart';
-import 'slick_column.dart' show CheckboxSelectColumn;
+//import 'slick_column.dart' show CheckboxSelectColumn;
 import 'dart:async';
 import 'slick_selectionmodel.dart' show SelectionModel;
 

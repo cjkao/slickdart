@@ -2,7 +2,12 @@ import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
 import 'package:slickdart/plugin/autotooltip.dart';
+import 'package:logging/logging.dart';
 void main() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((LogRecord rec) {
+    print('${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
   cj.SlickGrid  grid=prepareGrid();
   grid.init();
   querySelector('#reset').onClick.listen((e){

@@ -16,10 +16,10 @@ typedef handlerFunction(EventData e,dynamic parm);
  */
 class Dimension{
   static int getCalcWidth(html.Element elem){
-    return (elem.getBoundingClientRect().width as num).floor();
+    return (elem.getBoundingClientRect().width).floor();
   }
   static int getCalcHeight(html.Element elem){
-    return (elem.getBoundingClientRect().height as num).floor();
+    return (elem.getBoundingClientRect().height ).floor();
   }
 }
 /**

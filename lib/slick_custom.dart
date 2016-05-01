@@ -337,7 +337,7 @@ class JGrid extends HtmlElement {
   /**
    * args:  sortCols, grid : slickgrid
    */
-  _defaultSort(e, Map args) {
+  _defaultSort(EventData e, Map args) {
     var cols = args['sortCols'];
     SlickGrid sgrid = args['grid'] as SlickGrid;
     sgrid.data.sort((dataRow1, dataRow2) {

@@ -123,7 +123,7 @@ cj.SlickGrid setup(){
    */
   headerMenuPlugin.onBeforeMenuShow.subscribe((e, args) {
    // return false;
-    List<MenuItem> menuList = args['menu'];
+    List<MenuItem> menuList = args['menu'] as List<MenuItem>;
     menuList.add(
         new MenuItem.forMap(title:'item1', command:'alert'));
     });

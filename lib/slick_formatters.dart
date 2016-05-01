@@ -2,7 +2,7 @@ library slick.formatter;
 
 import 'slick_column.dart';
 
-typedef String formatFn(int row, int cell, dynamic value, Column columnDef, dataContext);
+//typedef String formatFn(int row, int cell, dynamic value, Column columnDef, Map dataContext);
 PercentCompleteFormatter(int row, int cell, value, Column columnDef, Map dataContext) {
   if (value == null || value == "") {
     return "-";

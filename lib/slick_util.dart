@@ -6,7 +6,7 @@ import 'dart:collection';
 import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'dart:convert';
-
+import 'slick_column.dart' show TFormatter;
 Logger _log = new Logger('slick.util');
 
 ///
@@ -57,7 +57,7 @@ Map<String, int> measureScrollbar() {
 
   querySelector('body').append($c);
   CssStyleDeclaration style = $c.getComputedStyle();
-  Map dim = {
+  Map<String,int> dim = {
     'width': core.Dimension.getCalcWidth($c) - $c.clientWidth,
     'height': core.Dimension.getCalcHeight($c) - $c.clientHeight
   };
@@ -318,7 +318,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
   void add(T value) => innerList.add(value);
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
-  void sort([int compare(a, b)]) => innerList.sort(compare);
+  void sort([int compare(T a,T b)]) => innerList.sort(compare);
 }
 
 // code hint for setup grid
@@ -370,7 +370,7 @@ class GridOptions {
   int headerRowHeight = 25;
   bool showTopPanel = false;
   int topPanelHeight = 25;
-  var formatterFactory = {};
+  Map<String,TFormatter> formatterFactory = {};
   var editorFactory = null;
   String cellFlashingCssClass = "flashing";
   String selectedCellCssClass = "selected";
@@ -380,7 +380,7 @@ class GridOptions {
   /** true: canvas width or all column width, false: all column sum width */
   bool fullWidthRows = false;
   bool multiColumnSort = false;
-  Function defaultFormatter = _defaultFormatter;
+  TFormatter defaultFormatter = _defaultFormatter;
   /** force viewport render row on scrolling
    *  false: delegate to timer also cause empty view port on long scrolling
    *  default: false
@@ -399,7 +399,7 @@ class GridOptions {
   bool syncColumnCellResize = false;
   //for commit current editor
   Function editCommandHandler = null;
-  GridOptions([Map opt]) {
+  GridOptions([Map<String,dynamic> opt]) {
     //adapt map config
     if (opt != null) {
       _processMap(opt);
@@ -474,7 +474,7 @@ class GridOptions {
     if (opt['headerRowHeight'] != null) this.headerRowHeight = opt['headerRowHeight'];
     if (opt['showTopPanel'] != null) this.showTopPanel = opt['showTopPanel'];
     if (opt['topPanelHeight'] != null) this.topPanelHeight = opt['topPanelHeight'];
-    if (opt['formatterFactory'] != null) this.formatterFactory = opt['formatterFactory'];
+    if (opt['formatterFactory'] != null) this.formatterFactory = opt['formatterFactory'] as Map<String,TFormatter>;
     if (opt['editorFactory'] != null) this.editorFactory = opt['editorFactory'];
     if (opt['cellFlashingCssClass'] != null) this.cellFlashingCssClass = opt['cellFlashingCssClass'];
     if (opt['selectedCellCssClass'] != null) this.selectedCellCssClass = opt['selectedCellCssClass'];
@@ -484,7 +484,7 @@ class GridOptions {
       this.dataItemColumnValueExtractor = opt['dataItemColumnValueExtractor'];
     if (opt['fullWidthRows'] != null) this.fullWidthRows = opt['fullWidthRows'];
     if (opt['multiColumnSort'] != null) this.multiColumnSort = opt['multiColumnSort'];
-    if (opt['defaultFormatter'] != null) this.defaultFormatter = opt['defaultFormatter'];
+    if (opt['defaultFormatter'] != null) this.defaultFormatter = opt['defaultFormatter'] as TFormatter;
     if (opt['forceSyncScrolling'] != null) this.forceSyncScrolling = opt['forceSyncScrolling'];
     if (opt['frozenColumn'] != null) this.frozenColumn = opt['frozenColumn'];
     if (opt['frozenRow'] != null) this.frozenRow = opt['frozenRow'];
@@ -497,7 +497,7 @@ class GridOptions {
   }
 }
 
-String _defaultFormatter(int row, int cell, dynamic value, [columnDef, dataContext]) {
+String _defaultFormatter(int row, int cell, dynamic value, columnDef, dataContext) {
   if (value == null) {
     return "";
   }

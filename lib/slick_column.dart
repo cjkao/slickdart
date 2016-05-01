@@ -69,7 +69,7 @@ class Column {
    * Warning!!, it throw exception after serialize and deserialization with JSON
    * return type could be [String] or [TFormatter]
    */
-  Object get formatter => _src['formatter'];
+  dynamic get formatter => _src['formatter'];
   String get headerCssClass => _src['headerCssClass'];
   String get cssClass => _src['cssClass'];
   int get previousWidth => _src['previousWidth'];
@@ -296,8 +296,9 @@ class CheckboxSelectColumn extends Column with IPlugin {
     }
   }
 
-  handleKeyDown(e, Map args) {
-    if (e.which == 32) {
+  handleKeyDown(core.EventData e, Map args) {
+    KeyboardEvent evt=e.domEvent;
+    if (evt.which == 32) {
       if (_grid.columns[args['cell']].id == _options['columnId']) {
         // if editing, try to commit
         if (!_grid.getEditorLock().isActive() || _grid.getEditorLock().commitCurrentEdit()) {

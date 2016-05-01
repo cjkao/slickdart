@@ -20,7 +20,7 @@ main() {
    var duration = const Duration(milliseconds: 200);
    var time = new DateTime.now();
    CsvAdapter csv;
-   Timer.run(expectAsync(() {
+   Timer.run(()=>expectAsync(() {
      File f= new File('gss.csv');
      String fstr=f.readAsStringSync();
      print (fstr);

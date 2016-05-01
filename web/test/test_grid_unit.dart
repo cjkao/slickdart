@@ -78,7 +78,7 @@ void main() {
     Function.apply(foo,[1,2]);
 
     foo2({a ,b}) => print(a+b);
-    Map m={};
+    Map<Symbol,dynamic> m={};
     m[const Symbol('a')] = 6;
     m[const Symbol('b')] = 61;
     Function.apply(foo2, [], m);
@@ -87,7 +87,7 @@ void main() {
     Map m3={};
     m3['a'] = 6;
     m3['b'] = 61;
-    Map m3p ={};
+    Map<Symbol,dynamic> m3p ={};
     m3.forEach((k,v)=> m3p[new Symbol(k)]=v);
     Function.apply(foo3, [], m3p);
   });

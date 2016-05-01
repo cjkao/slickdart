@@ -7,6 +7,7 @@ import '../slick_core.dart' as core;
 import 'dart:async';
 import 'package:logging/logging.dart';
 Logger _log = new Logger('log.headermenu');
+typedef void MenuFun(MouseEvent e);
 /***
    * A plugin to add drop-down menus to column headers.
    *
@@ -137,7 +138,7 @@ class HeaderMenu  extends IPlugin{
      * [args] : {"node": $header,
                  "column": Column}
      */
-    handleHeaderCellRendered(e, args) {
+    handleHeaderCellRendered(core.EventData e,Map args) {
       //_parent = args['column'];
 //      Map menu = {};
       Column column=args['column'];
@@ -154,7 +155,7 @@ class HeaderMenu  extends IPlugin{
         if (tooltip!=null) {
           $el.attributes["title"]= tooltip;
         }
-        $el.onClick.listen(_showMenuFun(_showMenu,args['column']));
+        $el.onClick.listen(_showMenuFun(_showMenu,args['column']) );
         (args['node'] as Element).append($el);
     }
 
@@ -167,7 +168,7 @@ class HeaderMenu  extends IPlugin{
       }
     }
 
-    Function _showMenuFun(Function f, Column column)=>(e)=> f(column,e);
+    MenuFun _showMenuFun(Function f, Column column)=>(e)=> f(column,e);
 
     _showMenu(Column column,MouseEvent e) {
      // var menu = $menuButton.data("menu");
@@ -243,7 +244,7 @@ class HeaderMenu  extends IPlugin{
       e.stopPropagation();
     }
 
-    _handleMenuItemClickFun(Function f,Column column,MenuItem item) => (e) => f(column,item,e);
+  MenuFun  _handleMenuItemClickFun(Function f,Column column,MenuItem item) => (MouseEvent e) => f(column,item,e);
     _menuItemClick(Column column,MenuItem item,MouseEvent e) {
       _log.finest('click:${column.name} ${item.command}');
 

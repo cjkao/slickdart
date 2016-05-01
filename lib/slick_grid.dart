@@ -8,7 +8,7 @@ import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'slick_editor.dart' as editor;
 import 'slick_selectionmodel.dart';
-//import 'slick_formatters.dart';
+
 import 'slick_util.dart';
 import 'slick_dnd.dart';
 import 'slick_column.dart';
@@ -146,7 +146,7 @@ class SlickGrid {
    */
   _storeFormatter(){
     allColumns.where((_)=> _.formatter!=null).forEach((_){
-      _options.formatterFactory[_.id] = _.formatter;
+      _options.formatterFactory[_.id] = _.formatter as TFormatter;
       _.formatter = _.id;
     });
   }
@@ -1526,6 +1526,7 @@ class SlickGrid {
     }
 
      _DragOverToResize(MouseEvent e){
+        if(_colResizeInfo==null) return;
         Map info=_colResizeInfo;
         _log.fine(e);
         if(e.dataTransfer.dropEffect!='none') return;
@@ -1611,6 +1612,8 @@ class SlickGrid {
     void setupColumnResize() {
       this.container.onDragOver.listen((e){
         e.preventDefault();
+        
+      //  if(e.target.classes.contains('slick-header-columns-left')) return;
         //if((e.target as Element).classes.contains('slick-cell') ) return;
         _DragOverToResize(e);
       });
@@ -2871,7 +2874,7 @@ $viewportTopL.style.overflowY='auto';
 //          clearTimeout(h_editorLoader);
 
           if (_options.asyncEditorLoading) {
-            h_editorLoader = new Timer(new Duration(milliseconds:_options.asyncEditorLoadDelay),makeActiveCellEditable());
+            h_editorLoader = new Timer(new Duration(milliseconds:_options.asyncEditorLoadDelay),()=>makeActiveCellEditable());
 //            h_editorLoader = setTimeout( () {
 //              makeActiveCellEditable();
 //            }, );
@@ -3549,7 +3552,7 @@ $viewportTopL.style.overflowY='auto';
      }
 
 
-     makeActiveCellEditable([editor.Editor ed]) {
+  void   makeActiveCellEditable([editor.Editor ed]) {
        if (activeCellNode==null) {
          return;
        }
