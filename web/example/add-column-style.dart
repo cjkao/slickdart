@@ -1,8 +1,8 @@
 import 'dart:html';
 import 'package:slickdart/slick_custom.dart';
 import 'package:slickdart/slick.dart';
-//import 'package:slickdart/parser.dart';
-Map getMeta(int row) {
+import 'package:slickdart/slick_cell_selection.dart' as cellMode;
+Map<String,String> getMeta(int row) {
   var rdata=csv.data[row];
 
   if (rdata['gss_code'] == filterStr) {
@@ -34,7 +34,7 @@ main() {
       };
     gw0 = document.querySelector("$GRID_TAG.second");
     gw0.init(new MetaList(csv.data, getMeta), cols, option:opt);
-    gw0.grid.setSelectionModel(new CellSelectionModel(opt));
+    gw0.grid.setSelectionModel(new cellMode.CellSelectionModel(opt));
     gw0.grid.setCellCssStyles("fixed", { 3: {'year': 'blur'}});
   });
   querySelector('.inputgs').onKeyUp.listen((_) {

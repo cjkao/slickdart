@@ -28,7 +28,6 @@ abstract class SelectionModel {
   core.Event onSelectedRangesChanged = new core.Event();
 }
 
-
 class RowSelectionModel extends SelectionModel {
   SlickGrid _grid;
   var _ranges = <core.Range>[];
@@ -153,8 +152,8 @@ class RowSelectionModel extends SelectionModel {
   /**
    * args: {row: 0, cell: 0, grid: Instance of 'SlickGrid'}
    */
-  bool handleClick(core.EventData e, [Map<String, dynamic> args]) {
-    core.EventData evt = null;
+  bool handleClick(core.EventData evt, [Map<String, dynamic> args]) {
+//    core.EventData evt = null;
     //if (e is MouseEvent) {
     //  evt = new core.EventData.fromDom(e);
     //}else{

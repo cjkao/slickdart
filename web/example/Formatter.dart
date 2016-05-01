@@ -2,7 +2,7 @@ import 'dart:html';
 import 'dart:convert';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
-
+import 'package:slickdart/slick_cell_selection.dart' as cellMode;
 void main() {
   grid.SlickGrid  g=init();
   g.init();
@@ -55,7 +55,7 @@ grid.SlickGrid init(){
   };
   grid.SlickGrid sg= new grid.SlickGrid(el,data,column,opt);
 
-  sg.setSelectionModel(new grid.CellSelectionModel(sg.options));
+  sg.setSelectionModel(new cellMode.CellSelectionModel(sg.options));
 
 
   sg.onSort.subscribe( (e, args) {

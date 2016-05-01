@@ -11,7 +11,7 @@ main() async {
   cols[1]..width=20..name='id';
   csv.columns[0]..width=14..name='id';
   JGrid gw0 = document.querySelector("$GRID_TAG");
-  
+
 //  gw0.setStyle(""".slick-pane-top .slick-row {   background-color: #a9F9FF;    }""");
 //  gw0.setStyle(""".slick-pane-top .slick-row {   color: #11FF11;    }""");
   var opts = {
@@ -20,7 +20,7 @@ main() async {
     'frozenRow':1
   };
   gw0.init(new MetaList(csv.data.sublist(1, 200),getMeta), cols, option:opts);
-  
+
   gw0.grid.setSelectionModel(new RowSelectionModel({
     'selectActiveRow': false
   }));
@@ -42,7 +42,7 @@ LinkFormatter(row, cell, value, columnDef, dataContext) {
   return value != null ? "<a  href='#'>z</a>" : "";
 }
 
-Map getMeta(int row){
+Map<String,String> getMeta(int row){
           if(row %2==1){
             return {
                       "cssClasses": "highlight"

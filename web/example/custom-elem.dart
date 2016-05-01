@@ -21,7 +21,7 @@ main() {
           ..children.clear()
           ..appendText((args['rows'] as List).join(' '));
     });
-    
+
     JGrid gw1 = document.querySelector("$GRID_TAG.second");
     gw1.init(csv.data, csv.columns);
     var opts={ 'multiColumnSort': true  };
@@ -51,7 +51,7 @@ LinkFormatter(row, cell, value, columnDef, dataContext) {
   return value != null ? "<a  href='#'>z</a>" : "";
 }
 
-Map getMeta(int row){
+Map<String,String> getMeta(int row){
 //          Map item=sg.data[row];
 //          bool exist=item.values.any((_)=> searchStr.length>0 && _ is String && _.contains(searchStr) );
           if(row %2==1){
@@ -60,4 +60,3 @@ Map getMeta(int row){
                    };
           }else return {};
         }
-

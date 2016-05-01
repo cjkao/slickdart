@@ -89,7 +89,7 @@ grid.SlickGrid makeGrid() {
     ..dynamicHeight = true
     ..frozenColumn = 0;
   grid.SlickGrid sg;
-  Map getMeta(int row) {
+  Map<String,String> getMeta(int row) {
     Map item = sg.data[row];
     bool exist = item.values.any((_) => searchStr.length > 0 && _ is String && _.contains(searchStr));
     if (exist) {

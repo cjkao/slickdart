@@ -82,7 +82,7 @@ grid.SlickGrid makeGrid(){
   };
   grid.SlickGrid sg;
   List tdata= []..addAll(srcData);
-  Map getMeta(int row){
+  Map<String,String> getMeta(int row){
           Map item=sg.data[row];
           bool exist=item.values.any((_)=> searchStr.length>0 && _ is String && _.contains(searchStr) );
           if(exist){

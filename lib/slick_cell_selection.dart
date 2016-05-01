@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'slick_column.dart' show CheckboxSelectColumn;
 import 'dart:async';
 import 'slick_selectionmodel.dart' show SelectionModel;
+
 Logger _log = new Logger('cj.row.select');
 Element _activeCanvas;
 
@@ -56,6 +57,7 @@ class CellRangeDecorator {
     }
   }
 }
+
 ///
 /// handle mouse event from canvas to compute range
 /// new range will be dispatched to onCellRangeSelected
@@ -68,9 +70,9 @@ class CellRangeSelector extends IPlugin {
   SlickGrid _grid;
 //  Element $activeCanvas;
   //bool _dragging;
-  CellRangeDecorator _decorator;
-  core.Range range = new core.Range(0, 0);
-  core.Range newRange = new core.Range(0, 0);
+  CellRangeDecorator decorator;
+  core.Range centerCell = new core.Range(0, 0);
+  core.Range newRange = null;
 //  v/ar _self = this;
   var _handler = new core.EventHandler();
 
@@ -81,7 +83,7 @@ class CellRangeSelector extends IPlugin {
   init(SlickGrid grid) {
     options = new Map.from(_defaults);
     options.addAll(grid.options);
-    _decorator = new CellRangeDecorator(grid);
+    decorator = new CellRangeDecorator(grid);
     _grid = grid;
     _handler..subscribe(_grid.onMouseDown, handleDownOnCanvas);
   }
@@ -102,21 +104,21 @@ class CellRangeSelector extends IPlugin {
       if (to == null) return;
       int nrow = to['row'];
       int ncell = to['cell'];
-      if (nrow < range.fromRow) {
+      if (nrow < centerCell.fromRow) {
         newRange.fromRow = nrow;
-        newRange.toRow = range.fromRow;
+        newRange.toRow = centerCell.fromRow;
       } else {
-        newRange.fromRow = range.fromRow;
+        newRange.fromRow = centerCell.fromRow;
         newRange.toRow = nrow;
       }
-      if (ncell < range.fromCell) {
+      if (ncell < centerCell.fromCell) {
         newRange.fromCell = ncell;
-        newRange.toCell = range.fromCell;
+        newRange.toCell = centerCell.fromCell;
       } else {
-        newRange.fromCell = range.fromCell;
+        newRange.fromCell = centerCell.fromCell;
         newRange.toCell = ncell;
       }
-      _decorator.show(newRange);
+      decorator.show(newRange);
     });
     upSubscribe = _activeCanvas.onMouseUp.listen((e) {
       _log.finest('up $e');
@@ -124,16 +126,17 @@ class CellRangeSelector extends IPlugin {
       onCellRangeSelected.notify({'range': newRange});
     });
     if (parm.containsKey('row')) {
-      range
+      centerCell
         ..fromRow = parm['row']
         ..fromCell = parm['cell']
         ..toRow = parm['row']
         ..toCell = parm['cell'];
+      newRange=new core.Range(centerCell.fromRow,centerCell.fromCell);
     } else {
       //should not have untarget event
       assert(false);
     }
-    _decorator.show(range);
+    decorator.show(newRange);
   }
 
   destroy() {
@@ -191,6 +194,7 @@ class CellSelectionModel extends SelectionModel {
     _grid = grid;
     _canvas = _grid.getActiveCanvasNode();
     _grid.onActiveCellChanged.subscribe(_handleActiveCellChange);
+    _grid.onColumnsResized.subscribe(_handleResizeCol);
     _grid.onKeyDown.subscribe(_handleKeyDown);
     grid.registerPlugin(_selector);
     _selector.onCellRangeSelected.subscribe(_handleCellRangeSelected);
@@ -200,6 +204,7 @@ class CellSelectionModel extends SelectionModel {
   destroy() {
     _grid.onActiveCellChanged.unsubscribe(_handleActiveCellChange);
     _grid.onKeyDown.unsubscribe(_handleKeyDown);
+
     _selector.onCellRangeSelected.unsubscribe(_handleCellRangeSelected);
     _selector.onBeforeCellRangeSelected.unsubscribe(_handleBeforeCellRangeSelected);
     _grid.unregisterPlugin(_selector);
@@ -250,6 +255,10 @@ class CellSelectionModel extends SelectionModel {
     }
   }
 
+  _handleResizeCol(core.EventData e, Map<String, dynamic> args) {
+    this._selector.decorator.show(_selector.newRange);
+
+  }
   _handleKeyDown(core.EventData evtData, [args]) {
     KeyboardEvent e = evtData.domEvent;
     /***
