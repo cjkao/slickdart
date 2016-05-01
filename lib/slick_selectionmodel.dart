@@ -6,7 +6,6 @@ import 'slick_grid.dart';
 import 'dart:math' as math;
 import 'package:logging/logging.dart';
 import 'slick_column.dart' show CheckboxSelectColumn;
-import 'dart:async';
 
 Logger _log = new Logger('cj.grid.select');
 

@@ -1,7 +1,9 @@
 library slick.formatter;
+
 import 'slick_column.dart';
-typedef String formatFn(int row,int  cell, dynamic value,Column columnDef,dataContext);
-PercentCompleteFormatter(int row, int cell, value, Column columnDef, Map dataContext){
+
+typedef String formatFn(int row, int cell, dynamic value, Column columnDef, dataContext);
+PercentCompleteFormatter(int row, int cell, value, Column columnDef, Map dataContext) {
   if (value == null || value == "") {
     return "-";
   } else if (value < 50) {
@@ -34,7 +36,7 @@ YesNoFormatter(int row, int cell, value, Column columnDef, Map dataContext) {
 }
 
 CheckmarkFormatter(int row, int cell, value, Column columnDef, Map dataContext) {
-  return (value!=null && value) ? "<img src='packages/slickdart/images/tick.png'>" : "";
+  return (value != null && value) ? "<img src='packages/slickdart/images/tick.png'>" : "";
 }
 //CheckboxFormatter(row, cell, value, columnDef, dataContext) {
 //  return value ? "<input checked type='checkbox' disabled>" : "<input type='checkbox' disabled>";

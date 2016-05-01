@@ -211,7 +211,7 @@ class FilteredList extends ListBase {
   void removeRange(int start, int end) => _srcList.removeRange(start, end);
   void fillRange(int start, int end, [fillValue]) => _srcList.fillRange(start, end, fillValue);
   void replaceRange(int start, int end, Iterable replacement) => _srcList.replaceRange(start, end, replacement);
-  Map<int,dynamic> asMap() => _srcList.asMap();
+  Map<int, dynamic> asMap() => _srcList.asMap();
 }
 
 /**
