@@ -1,4 +1,5 @@
 library slick;
+
 import 'package:logging/logging.dart';
 
 import 'slick_column.dart';
@@ -13,7 +14,6 @@ export 'slick_util.dart';
 export 'slick_formatters.dart';
 
 part 'parser.dart';
-
 
 Logger _log = new Logger('slick');
 //import 'dart:html';

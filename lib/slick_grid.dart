@@ -8,7 +8,7 @@ import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'slick_editor.dart' as editor;
 import 'slick_selectionmodel.dart';
-//import 'slick_formatters.dart';
+
 import 'slick_util.dart';
 import 'slick_dnd.dart';
 import 'slick_column.dart';
@@ -94,6 +94,7 @@ class SlickGrid {
   core.Event onMouseEnter = new core.Event();
   core.Event onMouseLeave = new core.Event();
   core.Event onClick = new core.Event();
+  core.Event onMouseDown = new core.Event();
   core.Event onDblClick = new core.Event();
   core.Event onContextMenu = new core.Event();
   core.Event onKeyDown = new core.Event();
@@ -145,7 +146,7 @@ class SlickGrid {
    */
   _storeFormatter(){
     allColumns.where((_)=> _.formatter!=null).forEach((_){
-      _options.formatterFactory[_.id] = _.formatter;
+      _options.formatterFactory[_.id] = _.formatter as TFormatter;
       _.formatter = _.id;
     });
   }
@@ -245,7 +246,7 @@ class SlickGrid {
    * if id no specify, using field instead
    */
   Map columnsById = {};
-  List sortColumns = [];
+  List<Map<String,dynamic>> sortColumns = [];
   //cache column left,right pos to determine which cell to render
   List<int> _columnPosLeft = [];
   List<int> _columnPosRight = [];
@@ -323,7 +324,7 @@ class SlickGrid {
   List<Column> getColumns() => columns;
   handleSelectedRangesChanged(core.EventData e, List<core.Range> ranges) {
     selectedRows = [];
-    var hash = {};
+     Map<int,Map<String,String>>  hash = {};
     for (var i = 0; i < ranges.length; i++) {
       for (var j = ranges[i].fromRow; j <= ranges[i].toRow; j++) {
         if (!hash.containsKey(j)) {  // prevent duplicates
@@ -356,7 +357,7 @@ class SlickGrid {
    *
    */
   setCellCssStyles(String key, Map<int,Map<String,String>> hash) {
-    Map prevHash = _cellCssClasses[key];
+    Map<int,Map<String,String>> prevHash = _cellCssClasses[key];
 
     _cellCssClasses[key] = hash;
     _updateCellCssStylesOnRenderedRows(hash, prevHash);
@@ -499,7 +500,9 @@ class SlickGrid {
     /**
      * calculate render areas
      * when dyn height, if we keep min height of row = option[rowHeight], the only waste is over renedered block
-     * @return num of rows from top to bottom , pixels from left to right
+     * Returns num of rows from top to bottom , pixels from left to right
+     * {'top':..., 'bottom':..., 'leftPx':..., 'rightPx':...}
+     *
      */
    Map<String,int> getRenderedRange([int viewportTop, int viewportLeft]) {
     Map<String,int> vrange = getVisibleRange(viewportTop, viewportLeft);
@@ -1028,15 +1031,16 @@ class SlickGrid {
 
       $canvas.forEach((_)=> _..onKeyDown.listen(handleKeyDown)
       ..onClick.listen(handleClick)
+      ..onMouseDown.listen(_handleMouseDown)
+      // ignore: STRONG_MODE_DOWN_CAST_COMPOSITE
       ..onDoubleClick.listen(handleDblClick)
       );
 //TODO fix me
 //      ..onContextMenu.listen(handleContextMenu)
 
-      $canvas.forEach((_)=> _
-      ..onDragStart.listen(handleDragStart)
-      ..onDrag.listen(handleDrag)
-      ..onDragEnd.listen(handleDragEnd));
+    //  $canvas.forEach((_)=> _
+    //  ..onMouseDown.listen(handleDownOnCanvas));
+
 
     }
   }  //end of initialize
@@ -1083,14 +1087,14 @@ class SlickGrid {
       return selectionModel;
     }
 
-    Element getCanvasNode() {
-      return $canvas[0];
-    }
-    /**
-     * for cell selection
-     */
-    Element getActiveCanvasNode([Event element]) {
-        setActiveCanvasNode(element);
+  //  Element getCanvasNode() {
+  //    return $canvas[0];
+  //  }
+    ///
+    /// from mouse [evt] target to  get enclosing canvas
+    ///
+    Element getActiveCanvasNode([Event evt]) {
+        setActiveCanvasNode(evt);
         return $activeCanvasNode;
     }
     setActiveCanvasNode([Event element]) {
@@ -1522,6 +1526,7 @@ class SlickGrid {
     }
 
      _DragOverToResize(MouseEvent e){
+        if(_colResizeInfo==null) return;
         Map info=_colResizeInfo;
         _log.fine(e);
         if(e.dataTransfer.dropEffect!='none') return;
@@ -1607,6 +1612,9 @@ class SlickGrid {
     void setupColumnResize() {
       this.container.onDragOver.listen((e){
         e.preventDefault();
+        
+      //  if(e.target.classes.contains('slick-header-columns-left')) return;
+        //if((e.target as Element).classes.contains('slick-cell') ) return;
         _DragOverToResize(e);
       });
       this.container.onDrop.listen((MouseEvent e){
@@ -1646,7 +1654,7 @@ class SlickGrid {
           int i=columnElements.indexOf((event.target as Element).parent);
           _log.finest('drag begin');
           if (!getEditorLock().commitCurrentEdit()) {
-            return false;
+            return ;
           }
           pageX = event.page.x;
           event.dataTransfer.effectAllowed = 'none';
@@ -1734,7 +1742,7 @@ class SlickGrid {
 
     /////////////////////////////////////// general
     // event could be event data or dom event
-    trigger(core.Event evt,[ Map<String,dynamic> args, var e]) {   //[core.EventData e]
+    trigger(core.Event evt,[ Map<String,dynamic> args, core.EventData e]) {   //[core.EventData e]
       if (e ==null) e =  new core.EventData();
       if(args ==null) args = {};
       args['grid']=this;
@@ -2280,8 +2288,8 @@ $viewportTopL.style.overflowY='auto';
     /**
      * Range:  [fromCell,fromRow, toCell, toRow....]
      */
-    List rowsToRanges(rows) {
-      var ranges = [];
+    List<core.Range> rowsToRanges(rows) {
+      var ranges = <core.Range>[];
       var lastCell = columns.length - 1;
       for (int i = 0; i < rows.length; i++) {
         ranges.add(new core.Range(rows[i], 0, rows[i], lastCell));
@@ -2485,9 +2493,19 @@ $viewportTopL.style.overflowY='auto';
 
 
     }
-
-
-
+    /// trigger mouse down for cell selection plugin
+    void _handleMouseDown(MouseEvent e){
+          core.EventData evt = new core.EventData.fromDom(e);
+          Map<String,int> cell = getCellFromEvent(evt);
+          if(cell==null) {
+//            e.bubbles=true;
+//            trigger(this.onMouseDown, {},evt);
+          }else
+            trigger(this.onMouseDown, {'row': cell['row'], 'cell': cell['cell']}, evt);
+    }
+    ///
+    /// click mouse on canvas
+    ///
     void  handleClick(MouseEvent e) {
       core.EventData evt = new core.EventData.fromDom(e);
        if (currentEditor==null) {
@@ -2550,7 +2568,8 @@ $viewportTopL.style.overflowY='auto';
          _$focusSink2.focus();
        }
      }
-
+    /// infer row and cell index from event
+    /// return {row: int,cell: int} or null if not found
     Map<String,int> getCellFromEvent(core.EventData e) {
       assert(! (e.target is Text));
       //Element elem=e.target;
@@ -2576,7 +2595,7 @@ $viewportTopL.style.overflowY='auto';
     /**
      * use for cell range selector
      */
-    Map getCellNodeBox(row, cell) {
+    Map<String,int> getCellNodeBox(int row, int cell) {
       if (!cellExists(row, cell)) {
         return null;
       }
@@ -2598,10 +2617,10 @@ $viewportTopL.style.overflowY='auto';
       var x2 = x1 + columns[cell].width;
 
       return {
-        ['top']: y1,
-        ['left']: x1,
-       ['bottom']: y2,
-       ['right']: x2
+        'top': y1,
+        'left': x1,
+       'bottom': y2,
+       'right': x2
       };
     }
 
@@ -2635,7 +2654,7 @@ $viewportTopL.style.overflowY='auto';
     }
 
 
-    int getFrozenRowOffset(row) {
+    int getFrozenRowOffset(int row) {
       int distY = _options.dynamicHeight
                     ? this._yLookup.getPosition(actualFrozenRow +1)
                     : actualFrozenRow * _options.rowHeight ;
@@ -2855,7 +2874,7 @@ $viewportTopL.style.overflowY='auto';
 //          clearTimeout(h_editorLoader);
 
           if (_options.asyncEditorLoading) {
-            h_editorLoader = new Timer(new Duration(milliseconds:_options.asyncEditorLoadDelay),makeActiveCellEditable());
+            h_editorLoader = new Timer(new Duration(milliseconds:_options.asyncEditorLoadDelay),()=>makeActiveCellEditable());
 //            h_editorLoader = setTimeout( () {
 //              makeActiveCellEditable();
 //            }, );
@@ -2978,15 +2997,16 @@ $viewportTopL.style.overflowY='auto';
       }
     }
     /**
-     * @input {top: 24, bottom: 50, leftPx: 0, rightPx: 1204}
+     * [range] is {top: 24, bottom: 50, leftPx: 0, rightPx: 1204}
      * top >=0
      * bottom  <=max row count , when equal to row count,....
      * @TODO add new row handling
      */
-    renderRows(Map range) {
+    renderRows(Map<String,int> range) {
       //Element parentNode = $canvas;
 
-      List stringArrayL = [],stringArrayR = [],   rows = [];
+      List<String> stringArrayL = [],stringArrayR = [];
+      List rows = [];
       bool needToReselectCell = false;
       int    dataLength = getDataLength();
 
@@ -3162,7 +3182,7 @@ $viewportTopL.style.overflowY='auto';
             return;
           }
 
-          var sortOpts = null;
+          Map<String,dynamic> sortOpts = null;
           var i = 0;
           for (; i < sortColumns.length; i++) {
             if (sortColumns[i]['columnId'] == column.id) {
@@ -3532,7 +3552,7 @@ $viewportTopL.style.overflowY='auto';
      }
 
 
-     makeActiveCellEditable([editor.Editor ed]) {
+  void   makeActiveCellEditable([editor.Editor ed]) {
        if (activeCellNode==null) {
          return;
        }
@@ -3608,7 +3628,7 @@ $viewportTopL.style.overflowY='auto';
      }
 
      Map<String,dynamic> absBox(Element elem) {
-       var box = {
+       Map<String,dynamic> box = {
                   'top': elem.offsetTop,
                   'left': elem.offsetLeft,
                   'bottom': 0,
@@ -4019,8 +4039,8 @@ $viewportTopL.style.overflowY='auto';
       bool cellExists(int row,int  cell) {
         return !(row < 0 || row >= getDataLength() || cell < 0 || cell >= columns.length);
       }
-
-      Map getCellFromPoint(int x, int y) {
+      /// [x],[y] relative to canvas
+      Map<String,int> getCellFromPoint(int x, int y) {
         int row = getRowFromPosition(y);
         int cell = 0;
 
@@ -4037,55 +4057,22 @@ $viewportTopL.style.overflowY='auto';
         return {'row': row, 'cell': cell - 1};
       }
 
-      handleDragStart(Event e) {
-        core.EventData cevt=new core.EventData.fromDom(e);
-        Map<String,int> cell = getCellFromEvent(cevt);
-        if (cell!=null || !cellExists(cell['row'], cell['cell'])) {
-          return false;
-        }
-        //TOOD fix me
-        //dd drag call back from jquery.dnd
-//        var retval = trigger(onDragStart, dd, e);
-//        if (e.isImmediatePropagationStopped()) {
-//          return retval;
-//        }
-
-        return false;
-      }
-// dd drag call back
-//$special.drag.callback
-//available: Array[0]
-//deltaX: 0
-//deltaY: 0
-//drag: div.grid-canvas
-//drop: Array[0]
-//grid: SlickGrid
-//offsetX: 9
-//offsetY: -179
-//originalX: 9
-//originalY: -179
-//proxy: div.grid-canvas
-//startX: 87
-//startY: 51
-//target: div.grid-canvas
 
 
-       handleDrag(e, [dd]) {
-        return trigger(this.onDrag, dd, e);
-      }
 
-      handleDragEnd(e, [dd]) {
-        trigger(onDragEnd, dd, e);
-      }
+
 
       /**
-       * e : keyboard event or EventData
+       * e : keyboard event
        */
-      void handleKeyDown(var e, [args]) {
-        trigger(onKeyDown, {'row': activeRow, 'cell': activeCell}, e);
+      void handleKeyDown(KeyboardEvent e, [args]) {
+        core.EventData evt = new core.EventData.fromDom(e);
 
-        bool handled = e is core.EventData ? e.isImmediatePropagationStopped() : false;
+        trigger(onKeyDown, {'row': activeRow, 'cell': activeCell}, evt);
+//e.stopImmediatePropagation();
 
+      //  bool handled = e is core.EventData ? e.stopImmediatePropagation() : false;
+        bool handled=false;
         if (!handled) {
           if (!e.shiftKey && !e.altKey && !e.ctrlKey) {
             if (e.which == 27) {

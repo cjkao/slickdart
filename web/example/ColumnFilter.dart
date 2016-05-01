@@ -55,7 +55,7 @@ AlertFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow)
 
 grid.SlickGrid makeGrid() {
   Element el = querySelector('#grid');
-  List column = new grid.ColumnList.fromMap([
+  List<grid.Column> column = new grid.ColumnList.fromMap([
     {'field': "title", 'sortable': true, 'width': 20},
     {'field': "percentComplete", 'width': 120, 'formatter': AlertFormatter},
     {'field': "book", 'sortable': true, 'editor': 'TextEditor'},
@@ -89,7 +89,7 @@ grid.SlickGrid makeGrid() {
     ..dynamicHeight = true
     ..frozenColumn = 0;
   grid.SlickGrid sg;
-  Map getMeta(int row) {
+  Map<String,String> getMeta(int row) {
     Map item = sg.data[row];
     bool exist = item.values.any((_) => searchStr.length > 0 && _ is String && _.contains(searchStr));
     if (exist) {

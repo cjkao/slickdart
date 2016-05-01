@@ -21,7 +21,7 @@ main() async{
     .addModule(new AngularUIModule()) // The angular-ui module
     .addModule(new MainModule()) // Your own module
     .run();
-  
+
 
 }
 /**
@@ -40,7 +40,7 @@ LinkFormatter(row, cell, value, columnDef, dataContext) {
   return value != null ? "<a  href='#'>z</a>" : "";
 }
 
-Map getMeta(int row){
+Map<String,String> getMeta(int row){
           if(row %2==1){
             return {
                       "cssClasses": "highlight"
@@ -62,7 +62,7 @@ class MainModule extends Module {
  * Modal controller with template.
  */
 @Component(
-  selector: 'modal-demo-embedded-tmpl', 
+  selector: 'modal-demo-embedded-tmpl',
   useShadowDom: false,
   templateUrl: '../../popup_template.html',
   exportExpressions: const ["tmp", "ok"]
@@ -71,18 +71,18 @@ class ModalDemoEmbeddedTemplate implements ScopeAware {
   List<String> items = ["1111", "2222", "3333", "4444"];
   String selected;
   String tmp;
-  
+
   Modal modal;
   ModalInstance modalInstance;
   Scope scope;
-  
+
   String template = """
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <h4 class="modal-title">I'm a modal!</h4>
 </div>
 <div class="modal-body">
-  
+
   <cj-grid class='first' download='f.csv'></cj-grid>
 
 </div>
@@ -91,19 +91,19 @@ class ModalDemoEmbeddedTemplate implements ScopeAware {
   <button type="button" class="btn btn-primary" ng-click="ok(tmp)">OK</button>
 </div>
 """;
-  
+
 ModalDemoEmbeddedTemplate(this.modal);
-  
+
   ModalInstance getModalInstance() {
     return modal.open(new ModalOptions(template:template), scope);
   }
-  
+
    open() {
     modalInstance = getModalInstance();
-    
+
     modalInstance.opened.then((v) async{
         print('Opened');
-       
+
         var data=await HttpRequest.getString('../gss1983_Code.csv');
             CsvAdapter csv = new CsvAdapter(data);
             var cols = getColDefs(csv.columns);
@@ -120,38 +120,37 @@ ModalDemoEmbeddedTemplate(this.modal);
                   ..children.clear()
                   ..appendText((args['rows'] as List).join(' '));
             });
-        
-//        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+//
+
+
+
+
+
+
+
+
+
+
+
       }, onError: (e) {
         print('Open error is $e');
       });
-    
-    // Override close to add you own functionality 
-    modalInstance.close = (result) { 
+
+    // Override close to add you own functionality
+    modalInstance.close = (result) {
       selected = result;
       print('Closed with selection $selected');
       modal.hide();
     };
-    // Override dismiss to add you own functionality 
-    modalInstance.dismiss = (String reason) { 
+    // Override dismiss to add you own functionality
+    modalInstance.dismiss = (String reason) {
       print('Dismissed with $reason');
       modal.hide();
    };
   }
-  
+
   void ok(sel) {
     modalInstance.close(sel);
   }
 }
-

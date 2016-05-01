@@ -12,7 +12,7 @@ void main() {
 //    Polymer.onReady.then((_) {
   grid.SlickGrid  g=init();
   g.init();
-    
+
     //XDateInput item = new Element.tag('date-input');
     //document.querySelector('body').append(item);
 //  });
@@ -22,12 +22,13 @@ void main() {
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
-       new grid.Column.fromMap ({ 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
+  List<grid.Column> column = [
+       new grid.Column.fromMap ({'name':'text editor', 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
        new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
-       new grid.Column.fromMap ({'field': "StartDate", 'width':140,'editor': new DateEditor()}),
+       new grid.Column.fromMap ({'name':'date editor','field': "StartDate", 'width':140,'editor': new DateEditor()}),
        new grid.Column.fromMap ({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true }),
-       new grid.Column.fromMap ({'name':'List Editor','field': "City",'width':100, 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})}),
+       new grid.Column.fromMap ({'name':'int List Editor','field': "intlist",'width':100, 'editor': new SelectListEditor({0:"Label_0",1:"Lable_1", 2:"Label_2"})}),
+       new grid.Column.fromMap ({'name':'str List Editor','field': "City",'width':100, 'editor': new SelectListEditor({"NY":"New York", "TPE":"Taipei"})}),
   ];
   List data=[];
   for (var i = 0; i < 50; i++) {
@@ -35,6 +36,7 @@ grid.SlickGrid init(){
       'dtitle':  new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100),
       'pc': new math.Random().nextInt(10) * 100,
+      'intlist': new math.Random().nextInt(2),
       'City': "NY",
       'StartDate': '2012/01/31'
     });
@@ -51,7 +53,7 @@ grid.SlickGrid init(){
       ..enableColumnReorder=true;
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
 
-  sg.setSelectionModel(new CellSelectionModel(sg.options));
+  sg.setSelectionModel(new RowSelectionModel(sg.options));
 
   sg.onBeforeEditCell.subscribe((e,args){
     //swap editor here
@@ -107,7 +109,7 @@ class DateEditor extends Editor {
 //    $input = new Element.html('<div class="calendar" data-date="2013/09/16" data-format="yyyy/MM/dd"></div>');
 //    $input = new DivElement()..classes.add('calendar')..dataset['date']='2013/09/15'..dataset['format']='yyyy/MM/dd';
     $input = new DateInputElement(); //
-//    $input =  new Element.tag('date-input');    
+//    $input =  new Element.tag('date-input');
 //    $input
     //$input.attributes['inputmaxlength']='5';
    // $input.attributes['value']= m.

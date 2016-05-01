@@ -27,7 +27,7 @@ void main() {
 
 cj.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
+  List<cj.Column> column = [
 
                  new cj.Column.fromMap ({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true }),
                  new cj.Column.fromMap ({'width':120,'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true ,'editor': 'TextEditor'}),

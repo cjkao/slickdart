@@ -2,7 +2,12 @@ import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
 import 'package:slickdart/plugin/autotooltip.dart';
+import 'package:logging/logging.dart';
 void main() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((LogRecord rec) {
+    print('${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
   cj.SlickGrid  grid=prepareGrid();
   grid.init();
   querySelector('#reset').onClick.listen((e){
@@ -34,7 +39,7 @@ List makeData(int len){
 
 cj.SlickGrid prepareGrid(){
   Element el =querySelector('#grid');
-  List column = [
+  List<cj.Column> column = [
                  new cj.Column.fromMap ({'field': "title",        'name': "FIXED",  'sortable': true }),
                  new cj.Column.fromMap ({'field': "duration",     'name': "A",'width':120, 'sortable': true }),
                  new cj.Column.fromMap ({'field': "percent",      'name': 'B', 'sortable': true}),
@@ -52,7 +57,7 @@ cj.SlickGrid prepareGrid(){
                                 ..leaveSpaceForNewRows=true
                                 ..frozenColumn = 1
                                 ..enableColumnReorder=true;
-  
+
   cj.SlickGrid sg= new cj.SlickGrid.fromOpt(el,makeData(50),column,opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
   sg.registerPlugin(checkboxCol);

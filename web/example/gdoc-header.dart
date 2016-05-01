@@ -5,8 +5,8 @@ import 'package:slickdart/plugin/autotooltip.dart';
 import 'package:slickdart/plugin/header_menu.dart';
 import 'package:slickdart/slick_editor.dart';
 import 'package:logging/logging.dart' as log;
-List columnList;
-List tmpCol=[];
+List<cj.Column> columnList;
+List<cj.Column> tmpCol=[];
 void main() {
   log.Logger.root.level=log.Level.FINEST;
   log.Logger.root.onRecord.listen((record) { print(record); });
@@ -20,13 +20,13 @@ void main() {
     tmpCol.add(columnList.removeLast());
     grid.setColumns(columnList);
   });
-  
+
   querySelector('#addCol').onClick.listen((e){
       columnList.addAll(tmpCol);
       tmpCol.clear();
        grid.setColumns(columnList);
   });
-  
+
 }
 
 cj.SlickGrid setup(){
@@ -39,8 +39,8 @@ cj.SlickGrid setup(){
                  new cj.Column.fromMap ({ 'name': "String field",    'field': "pc", 'editor':'TextEditor', 'minWidth':110, 'maxWidth':200}),
                  new cj.Column.fromMap ({ 'name': "effort", 'field': "effortDriven", 'width':150, 'minWidth':120, 'maxWidth':200})
                  ];
-  
-  
+
+
   //append column menu
   for (var i = 0; i < columnList.length; i++) {
      columnList[i].header = {'menu': {
@@ -69,10 +69,10 @@ cj.SlickGrid setup(){
           ]
         }
      };
-      
+
   }
-  
-  
+
+
   cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   columnList.insert(0,checkboxCol.getColumnDefinition());
   List data=[];
@@ -87,7 +87,7 @@ cj.SlickGrid setup(){
       'effortDriven': (i % 5 == 0)
     });
   }
-  cj.GridOptions opt=new cj.GridOptions(); 
+  cj.GridOptions opt=new cj.GridOptions();
   opt..explicitInitialization=false
      ..multiColumnSort=true
      ..editable=true
@@ -108,12 +108,12 @@ cj.SlickGrid setup(){
 //             'frozenColumn':1,
 //             'enableCellNavigation': true,
 //             'enableColumnReorder': false
-//             
+//
 //         //    'forceFitColumns':true
 //  };
   cj.SlickGrid sg= new cj.SlickGrid.fromOpt(el,data,columnList,opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
-  
+
   sg.registerPlugin(checkboxCol);
   sg.registerPlugin(new AutoTooltips());
 
@@ -123,7 +123,7 @@ cj.SlickGrid setup(){
    */
   headerMenuPlugin.onBeforeMenuShow.subscribe((e, args) {
    // return false;
-    List<MenuItem> menuList = args['menu'];
+    List<MenuItem> menuList = args['menu'] as List<MenuItem>;
     menuList.add(
         new MenuItem.forMap(title:'item1', command:'alert'));
     });
@@ -136,15 +136,15 @@ cj.SlickGrid setup(){
       }
   });
   sg.registerPlugin(headerMenuPlugin);
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
   sg.onSelectedRowsChanged.subscribe((cj.EventData e,Map args){
         //  querySelector('.right-pane')..children.clear()..appendText((args['rows'] as List).join(' '));
   });
@@ -157,7 +157,7 @@ cj.SlickGrid setup(){
         var field = cols[i]['sortCol']['field'];
         var sign = cols[i]['sortAsc'] ? 1 : -1;
         dynamic value1 = dataRow1[field], value2 = dataRow2[field];
-        
+
         var result = (value1 == value2 ? 0 : (value1.compareTo(value2)>0 ? 1 : -1)) * sign;
         if (result != 0) {
           return result;
@@ -172,15 +172,14 @@ cj.SlickGrid setup(){
 
 class NumberEditor extends TextEditor{
   NumberEditor([_ep]) :super(_ep);
-  
+
   void applyValue(item, state){
     try{
       int val=int.parse(state);
       super.applyValue(item,val);
     }catch(e){
-      
+
     }
-    
+
   }
 }
-

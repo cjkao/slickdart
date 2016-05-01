@@ -6,7 +6,7 @@ import 'dart:collection';
 import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'dart:convert';
-
+import 'slick_column.dart' show TFormatter;
 Logger _log = new Logger('slick.util');
 
 ///
@@ -39,27 +39,31 @@ int getScrollbarWidth() {
 
 //tailer for html style
 NullTreeSanitizer nullTreeSanitizer = new NullTreeSanitizer();
+
 ///
 ///Sanitizer which does nothing.
 ///
 class NullTreeSanitizer implements NodeTreeSanitizer {
-  void sanitizeTree(Node node) {
-  }
+  void sanitizeTree(Node node) {}
 }
 
-  Map<String,int> measureScrollbar() {
-      var $c =  querySelector('body').createFragment("<div style='position:absolute; top:-10000px; left:-10000px; width:100px; height:100px; overflow:scroll;'></div>"
-          ,treeSanitizer : nullTreeSanitizer).children.first;
+Map<String, int> measureScrollbar() {
+  var $c = querySelector('body')
+      .createFragment(
+          "<div style='position:absolute; top:-10000px; left:-10000px; width:100px; height:100px; overflow:scroll;'></div>",
+          treeSanitizer: nullTreeSanitizer)
+      .children
+      .first;
 
-      querySelector('body').append($c);
-      CssStyleDeclaration style=$c.getComputedStyle();
-      Map dim = {
-        'width': core.Dimension.getCalcWidth($c) - $c.clientWidth,
-        'height': core.Dimension.getCalcHeight($c) - $c.clientHeight
-      };
-      $c.remove();
-      return dim;
-    }
+  querySelector('body').append($c);
+  CssStyleDeclaration style = $c.getComputedStyle();
+  Map<String,int> dim = {
+    'width': core.Dimension.getCalcWidth($c) - $c.clientWidth,
+    'height': core.Dimension.getCalcHeight($c) - $c.clientHeight
+  };
+  $c.remove();
+  return dim;
+}
 
 /** TODO add scope
  * find element's cloest parent of target css selector rule
@@ -101,7 +105,7 @@ class FilteredList extends ListBase {
    * string is partial matching
    * {column: condition}
    */
-  set keyword(Map m) {
+  set keyword(Map<String, dynamic> m) {
     if (m == null) return;
     _filter = m;
     _viewList = _foldHelper();
@@ -207,7 +211,7 @@ class FilteredList extends ListBase {
   void removeRange(int start, int end) => _srcList.removeRange(start, end);
   void fillRange(int start, int end, [fillValue]) => _srcList.fillRange(start, end, fillValue);
   void replaceRange(int start, int end, Iterable replacement) => _srcList.replaceRange(start, end, replacement);
-  Map asMap() => _srcList.asMap();
+  Map<int, dynamic> asMap() => _srcList.asMap();
 }
 
 /**
@@ -272,17 +276,19 @@ class HierarchFilterList extends FilteredList {
   }
 }
 
+typedef Map<String, String> metaFun(int rowId);
+
 /**
  * meta data interface for data
  * Meta data is a list wrappper that provide getMetaData when need override style in row rendering
  */
 abstract class IMetaData {
   Map getMetaData(int rowId);
-  void setMetaData(Function metaFunc);
+  void setMetaData(metaFun fun);
 }
 
 class MetaList<T> extends ListBase<T> with IMetaData {
-  Function _func;
+  metaFun _func;
   List<T> innerList;
   MetaList(this.innerList, [this._func]) {}
 
@@ -290,7 +296,9 @@ class MetaList<T> extends ListBase<T> with IMetaData {
     return _func(rowId);
   }
 
-  void setMetaData(_) => _func = _;
+  void setMetaData(metaFun _) {
+    _func = _;
+  }
 
   int get length => innerList.length;
 
@@ -310,7 +318,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
   void add(T value) => innerList.add(value);
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
-  void sort([int compare(a, b)]) => innerList.sort(compare);
+  void sort([int compare(T a,T b)]) => innerList.sort(compare);
 }
 
 // code hint for setup grid
@@ -362,7 +370,7 @@ class GridOptions {
   int headerRowHeight = 25;
   bool showTopPanel = false;
   int topPanelHeight = 25;
-  var formatterFactory = {};
+  Map<String,TFormatter> formatterFactory = {};
   var editorFactory = null;
   String cellFlashingCssClass = "flashing";
   String selectedCellCssClass = "selected";
@@ -372,7 +380,7 @@ class GridOptions {
   /** true: canvas width or all column width, false: all column sum width */
   bool fullWidthRows = false;
   bool multiColumnSort = false;
-  Function defaultFormatter = _defaultFormatter;
+  TFormatter defaultFormatter = _defaultFormatter;
   /** force viewport render row on scrolling
    *  false: delegate to timer also cause empty view port on long scrolling
    *  default: false
@@ -391,7 +399,7 @@ class GridOptions {
   bool syncColumnCellResize = false;
   //for commit current editor
   Function editCommandHandler = null;
-  GridOptions([Map opt]) {
+  GridOptions([Map<String,dynamic> opt]) {
     //adapt map config
     if (opt != null) {
       _processMap(opt);
@@ -466,7 +474,7 @@ class GridOptions {
     if (opt['headerRowHeight'] != null) this.headerRowHeight = opt['headerRowHeight'];
     if (opt['showTopPanel'] != null) this.showTopPanel = opt['showTopPanel'];
     if (opt['topPanelHeight'] != null) this.topPanelHeight = opt['topPanelHeight'];
-    if (opt['formatterFactory'] != null) this.formatterFactory = opt['formatterFactory'];
+    if (opt['formatterFactory'] != null) this.formatterFactory = opt['formatterFactory'] as Map<String,TFormatter>;
     if (opt['editorFactory'] != null) this.editorFactory = opt['editorFactory'];
     if (opt['cellFlashingCssClass'] != null) this.cellFlashingCssClass = opt['cellFlashingCssClass'];
     if (opt['selectedCellCssClass'] != null) this.selectedCellCssClass = opt['selectedCellCssClass'];
@@ -476,7 +484,7 @@ class GridOptions {
       this.dataItemColumnValueExtractor = opt['dataItemColumnValueExtractor'];
     if (opt['fullWidthRows'] != null) this.fullWidthRows = opt['fullWidthRows'];
     if (opt['multiColumnSort'] != null) this.multiColumnSort = opt['multiColumnSort'];
-    if (opt['defaultFormatter'] != null) this.defaultFormatter = opt['defaultFormatter'];
+    if (opt['defaultFormatter'] != null) this.defaultFormatter = opt['defaultFormatter'] as TFormatter;
     if (opt['forceSyncScrolling'] != null) this.forceSyncScrolling = opt['forceSyncScrolling'];
     if (opt['frozenColumn'] != null) this.frozenColumn = opt['frozenColumn'];
     if (opt['frozenRow'] != null) this.frozenRow = opt['frozenRow'];
@@ -489,7 +497,7 @@ class GridOptions {
   }
 }
 
-String _defaultFormatter(int row, int cell, dynamic value, [columnDef, dataContext]) {
+String _defaultFormatter(int row, int cell, dynamic value, columnDef, dataContext) {
   if (value == null) {
     return "";
   }

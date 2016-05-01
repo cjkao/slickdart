@@ -22,9 +22,9 @@ class ColumnList extends ListBase<Column> {
   /**
    * must attribute: 'field'
    */
-  factory ColumnList.fromMap(List<Map> mList) {
+  factory ColumnList.fromMap(List<Map<String,dynamic>> mList) {
     ColumnList cols = new ColumnList();
-    mList.forEach((Map k) {
+    mList.forEach(( k) {
       if (!k.containsKey('id')) {
         k['id'] = k['field'];
       }
@@ -66,10 +66,10 @@ class Column {
   Function get editor => _src['editor'];
   bool get focusable => _src['focusable'];
   /**
-   * Warning!!, it throw exception after serialize and deserialization with JSON 
+   * Warning!!, it throw exception after serialize and deserialization with JSON
    * return type could be [String] or [TFormatter]
    */
-  Object get formatter => _src['formatter'];
+  dynamic get formatter => _src['formatter'];
   String get headerCssClass => _src['headerCssClass'];
   String get cssClass => _src['cssClass'];
   int get previousWidth => _src['previousWidth'];
@@ -77,7 +77,7 @@ class Column {
   bool get visible => _src['visible'];
 
   String get toolTip => _src['toolTip'];
-  /** unique id for differeicent from same field name 
+  /** unique id for differeicent from same field name
    *  for pick up Column element
    */
   String get id => _src['id'];// "range"
@@ -185,7 +185,7 @@ class Column {
   }
 
   factory Column.fromJSON(String src) {
-    Map m = JSON.decode(src);
+    Map<String, dynamic>  m = JSON.decode(src)  as Map<String,dynamic>;
     return new Column.fromMap(m); //c._src..addAll(src) ;
   }
 
@@ -201,7 +201,7 @@ class Column {
     this._src.addAll(newCol._src);
     return this;
   }
-  Map _columnDefaults = {
+  Map<String,dynamic> _columnDefaults = {
     'name': "",
     'resizable': true,
     'sortable': false,
@@ -259,7 +259,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
             .subscribe(_grid.onClick, handleClick)
             .subscribe(_grid.onHeaderClick, handleHeaderClick)
             .subscribe(_grid.onKeyDown, handleKeyDown);
-    
+
   }
   CheckboxSelectColumn(options) {
     _options = new Map.from(_defaults);
@@ -272,10 +272,9 @@ class CheckboxSelectColumn extends Column with IPlugin {
   }
 
   handleSelectedRowsChanged(core.EventData e, Map args) {
-    List selectedRows = _grid.getSelectedRows();
-    var lookup = {},
-        row,
-        i;
+    List<int> selectedRows = _grid.getSelectedRows();
+    Map<int,bool> lookup = {};
+    int    row, i;
     for (i = 0; i < selectedRows.length; i++) {
       row = selectedRows[i];
       lookup[row] = true;
@@ -297,8 +296,9 @@ class CheckboxSelectColumn extends Column with IPlugin {
     }
   }
 
-  handleKeyDown(e, Map args) {
-    if (e.which == 32) {
+  handleKeyDown(core.EventData e, Map args) {
+    KeyboardEvent evt=e.domEvent;
+    if (evt.which == 32) {
       if (_grid.columns[args['cell']].id == _options['columnId']) {
         // if editing, try to commit
         if (!_grid.getEditorLock().isActive() || _grid.getEditorLock().commitCurrentEdit()) {
@@ -320,7 +320,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
     } else {
       evt = new core.EventData.fromDom(e);
     }
-    
+
     _log.finest('handle from:' + this.runtimeType.toString() + ' ' + evt.target.toString());
 //     var target= e.target ;
     // clicking on a row select checkbox
@@ -341,7 +341,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
    * consider mutiple and single selection case
    */
   toggleRowSelection(int row) {
-    List list = _grid.getSelectedRows();
+    List<int> list = _grid.getSelectedRows();
     if(_grid.gridOptions.multiSelect==false){
       if(_grid.getSelectedRows().contains(row)){
         list.remove(row);
@@ -363,14 +363,14 @@ class CheckboxSelectColumn extends Column with IPlugin {
    */
   handleHeaderClick(core.EventData evt, Map args) {
     MouseEvent e = evt.domEvent;
-    
+
     if(_grid.gridOptions.multiSelect==false){
       e.preventDefault();
       return;
     }
-    
-    
-    
+
+
+
     if ((args['column'] as Column).id == _options['columnId'] && e.target is CheckboxInputElement) {
       // if editing, try to commit
       if (_grid.getEditorLock().isActive() && !_grid.getEditorLock().commitCurrentEdit()) {
@@ -380,7 +380,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
       }
 
       if (e.target is CheckboxInputElement && (e.target as CheckboxInputElement).checked) {
-        List rows = [];
+        List<int> rows = [];
         for (var i = 0; i < _grid.getDataLength(); i++) {
           rows.add(i);
         }
@@ -392,7 +392,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
       e.stopImmediatePropagation();
     }
   }
- 
+
   CheckboxSelectColumn getColumnDefinition() {
     InputElement elem = new InputElement();
     elem.type = 'checkbox';

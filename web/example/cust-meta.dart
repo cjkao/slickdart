@@ -3,7 +3,7 @@ import 'package:slickdart/slick_custom.dart';
 import 'package:slickdart/slick.dart';
 
 //import 'package:slickdart/parser.dart';
-Map getMeta(int row) {
+Map<String,String> getMeta(int row) {
   var rdata = csv.data[row];
   if (rdata['gss_code'] == filterStr) {
     return {"cssClasses": "highlight"};
@@ -23,10 +23,10 @@ main() {
       ..name = 'id';
     gw0 = document.querySelector("$GRID_TAG.second");
     gw0.init(new MetaList(csv.data, getMeta), cols);
-    gw0.grid.setSelectionModel(new CellSelectionModel());
+    gw0.grid.setSelectionModel(new RowSelectionModel({}));
   });
-  querySelector('.inputgs').onChange.listen((_) {
-    filterStr = _.target.value;
+  querySelector('.inputgs').onChange.listen((Event _) {
+    filterStr = (_.target as InputElement).value;
     gw0.grid.invalidate();
   });
 

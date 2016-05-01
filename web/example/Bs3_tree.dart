@@ -65,7 +65,7 @@ List makeData(int len){
 
 cj.SlickGrid prepareGrid(){
   Element el =querySelector('#grid');
-  List column = [
+  List<cj.Column> column = [
                  new cj.Column.fromMap ({'field': "title",        'name': "TASK", 'width':220,  'sortable': false , 'formatter': TaskNameFormatter}),
                  new cj.Column.fromMap ({'field': "duration",     'name': "A",'width':60, 'sortable': false ,'editor': 'TextEditor'}),
                  new cj.Column.fromMap ({'field': "percentComplete",      'name': 'Complete Rate', 'width':140, 'sortable': true,'editor': 'DoubleEditor', 'formatter': cj.PercentCompleteBarFormatter }),
@@ -116,7 +116,7 @@ cj.SlickGrid prepareGrid(){
 }
 
 
-cj.formatFn TaskNameFormatter =  (int row,int  cell, dynamic value,cj.Column columnDef,dataContext) {
+cj.TFormatter TaskNameFormatter =  (int row,int  cell, dynamic value,cj.Column columnDef,dataContext) {
   var spacer = "<span style='display:inline-block;height:1px;width:${15 *dataContext["indent"]}px'></span>";
   if (dataContext['_collapsed']) {
         return spacer + " <span class='toggle expand'></span>&nbsp;" + value;

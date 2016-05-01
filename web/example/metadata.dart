@@ -32,7 +32,7 @@ void main() {
 AlertFormatter(int row,int cell,int value,grid.Column columnDef,Map dataRow) {
   if(dataRow['_height']!=null && dataRow['_height']>70){
     return '''
-        <p style=' white-space: normal;'>CSS word-wrapping in div</p>       
+        <p style=' white-space: normal;'>CSS word-wrapping in div</p>
         <div class="btn-group btn-group-xs">
          <button type="button" class="btn btn-default">Left</button>
         <button type="button" class="btn btn-default">Middle</button>
@@ -50,7 +50,7 @@ AlertFormatter(int row,int cell,int value,grid.Column columnDef,Map dataRow) {
 
 grid.SlickGrid makeGrid(){
   Element el =querySelector('#grid');
-  List column = new grid.ColumnList.fromMap([
+  List<grid.Column> column = new grid.ColumnList.fromMap([
      {'field': "title", 'sortable': true, 'width':20 },
      {'field': "percentComplete",'width':120,  'formatter': AlertFormatter },
      {'field': "book", 'sortable': true ,'editor': 'TextEditor' },
@@ -82,7 +82,7 @@ grid.SlickGrid makeGrid(){
   };
   grid.SlickGrid sg;
   List tdata= []..addAll(srcData);
-  Map getMeta(int row){
+  Map<String,String> getMeta(int row){
           Map item=sg.data[row];
           bool exist=item.values.any((_)=> searchStr.length>0 && _ is String && _.contains(searchStr) );
           if(exist){

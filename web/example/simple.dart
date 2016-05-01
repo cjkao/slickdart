@@ -4,7 +4,7 @@ import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 
 void main() {
-  List columns = [
+  var columns =<grid.Column> [
        new grid.Column.fromMap ({            'name': "id",                 'field': "title", 'sortable': true }),
        new grid.Column.fromMap ({'width':120,'name': "percentComplete2",   'field': "percentComplete", 'sortable': true }),
        new grid.Column.fromMap ({            'name': "start3",             'field': "start", 'sortable': true }),

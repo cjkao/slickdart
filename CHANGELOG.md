@@ -1,3 +1,8 @@
+# Version 0.1.7-beta.1(2016/05)
+- add cell selection
+- fix strong mode error
+- potential break change => obsolete `formatFn`, using `TFormatter` instead
+
 # Version 0.1.6+2(2016/04)
 - MouseWheel fix for no frozen column
 

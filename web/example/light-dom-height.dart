@@ -10,7 +10,7 @@ void main() {
 
 grid.SlickGrid init(){
   Element el =querySelector('#grid');
-  List column = [
+  List<grid.Column> column = [
        new grid.Column.fromMap ({ 'field': "dtitle", 'sortable': true,'editor': 'TextEditor' }),
        new grid.Column.fromMap ({'width':120, 'field': "duration", 'sortable': true }),
        new grid.Column.fromMap ({'field': "StartDate", 'width':140,'editor': new DateEditor()}),
@@ -35,7 +35,7 @@ grid.SlickGrid init(){
       ..enableColumnReorder=true;
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
 
-  sg.setSelectionModel(new CellSelectionModel(sg.options));
+  sg.setSelectionModel(new RowSelectionModel(sg.options));
 
   sg.onBeforeEditCell.subscribe((e,args){
     print(args['column']);
