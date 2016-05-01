@@ -148,7 +148,7 @@ class DragAndDrop {
       }
       _log.finest('trigger resort column');
 
-      List cols = _grid.getColumns();
+      List<Column> cols = _grid.getColumns();
       Column srcCol = cols[_grid.columnsById[event.dataTransfer.getData(_DND_TYPE)]];
       Column destCol = cols[_grid.columnsById[headerElem.dataset['id']]];
       int srcIdx = cols.indexOf(srcCol);
