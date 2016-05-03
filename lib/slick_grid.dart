@@ -1174,7 +1174,9 @@ class SlickGrid {
       var totalRowWidth = canvasWidthL + canvasWidthR;
       return _options.fullWidthRows ? math.max(totalRowWidth, availableWidth) : totalRowWidth;
     }
-
+    /// redraw header width and column width on canvas
+    /// for
+    /// drop or column resize
     void updateCanvasWidth(bool forceColumnWidthsUpdate) {
       var oldCanvasWidth = canvasWidth;
       var oldCanvasWidthL = canvasWidthL;
@@ -1527,9 +1529,9 @@ class SlickGrid {
 
      _DragOverToResize(MouseEvent e){
         if(_colResizeInfo==null) return;
+        if(e.dataTransfer.dropEffect!='none') return;
         Map info=_colResizeInfo;
         _log.fine(e);
-        if(e.dataTransfer.dropEffect!='none') return;
         int pageX,minPageX,maxPageX;
           //_log.finest('dragging ${e.page.x}');
           _log.finest('dragover X ${e.page.x} $pageX $minPageX $maxPageX');
@@ -1540,8 +1542,8 @@ class SlickGrid {
           int actualMinWidth, d =   e.page.x - pageX, x;
           if (d < 0) { // shrink column
             x = d;
-            for (int j = i; j >= 0; j--) {
-
+            for (int j = i; j >= 0 ; j--) { //&& j>this.gridOptions.frozenColumn
+//              if(j<=this.gridOptions.frozenColumn) ;
               Column c = columns[j];
               if (c.resizable) {
                 actualMinWidth = math.max(c.minWidth !=null ? c.minWidth: 0, absoluteColumnMinWidth);
@@ -1612,14 +1614,18 @@ class SlickGrid {
     void setupColumnResize() {
       this.container.onDragOver.listen((e){
         e.preventDefault();
-        
-      //  if(e.target.classes.contains('slick-header-columns-left')) return;
-        //if((e.target as Element).classes.contains('slick-cell') ) return;
         _DragOverToResize(e);
       });
       this.container.onDrop.listen((MouseEvent e){
         e.preventDefault();
+      });
+      this.container.onDragEnd.listen((MouseEvent e){
+        print('width $canvasWidthL');
+        updateCanvasWidth(true);
+        print('width $canvasWidthL $canvasWidthR $canvasWidth');
         _log.finest('drop ${e.client.x}');
+
+
       });
       List<Element> columnElements=[];
       Column c;

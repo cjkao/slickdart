@@ -19,7 +19,7 @@ Example
 
 Known Constraint
 ========================
-* col-span (not tested) 
+* col-span (not tested)
 * using keyboard navigation on non-editable cell and goes out of viewport will not
   immediate update screen until it on editable area
 * Let forzen column editable cause display unsync in un-frozen area   
@@ -27,10 +27,11 @@ Known Constraint
 
 TODO
 ========================
-- [ ] header column menu within shadowdom
-- [ ] checkbox focus need revalidate 
+- [ ] keyboard navigation when focus on uneditable cell
+- [ ] cell span
+- [ ] checkbox focus need revalidate
 - [X] ease of use, (Map adapter, auto column declare, width calculation and sorting)
-- [ ] column reorder
+- [X] column reorder
 - [ ] adjust row height via mouse
 - [x] efficent dynamic row height on frozen column
   - sort column should re-calcule height
@@ -65,7 +66,7 @@ Current design
 
 Mobile Device
 ==============================
-- Lumia 925  => fast scrolling on vertical and horizontal 
+- Lumia 925  => fast scrolling on vertical and horizontal
 - HTC One (M7) Chrome => fast scrolling on both vertical and horizontal
 - HTC One (M7) Firefox => smooth but slower than chrome
 - HTC One (M7) Content Shell => fast
@@ -90,8 +91,8 @@ registerElem();
 	</style>
 </cj-grid>
 ```
-  
-  
+
+
 MetaData
 =============================
 Only support row css styles, see example: metadata.dart, add dynamic height recalculate
@@ -104,7 +105,7 @@ Example: ColumnFilter.dart
 
 Header Row
 ========================================
-Not to mix with checkbox select column 
+Not to mix with checkbox select column
 Example: headerRow.dart
 
 Dropdown Menu on Header Column
@@ -141,7 +142,7 @@ Example: gdoc-header.dart
 <link rel="stylesheet" href="packages/slickdart/css/plugins-gdoc-style.css" type="text/css" />
 <link rel="stylesheet" href="packages/slickdart/css/slick.headermenu.css" type="text/css" />
 ```
-  
+
 Copy or Download Grid (only available in custom element: cj-grid)
 ==========================================
 Right click on grid that show download or copy option,
@@ -162,3 +163,16 @@ Follow steps:
 Collapsing use case
 =============================================
 Example: Bs3_tree.dart
+
+
+Cell Selection
+================================================
+Support one selection area only, can not cross frozen area
+```
+    grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
+    var cellSelectModel = new CellSelectionModel();
+    cellSelectModel.onSelectedRangesChanged.subscribe((var e, args) {
+      cellSelectModel.getSelectedRanges().forEach(print);
+    });
+    sg.setSelectionModel(cellSelectModel);
+```

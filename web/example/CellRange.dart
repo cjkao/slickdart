@@ -78,7 +78,7 @@ grid.SlickGrid buildGrid() {
     ..frozenColumn = 0;
   grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
   var cellSelectModel = new CellSelectionModel();
-  sg.onSelectedRowsChanged.subscribe((var e, args) {
+  cellSelectModel.onSelectedRangesChanged.subscribe((var e, args) {
     cellSelectModel.getSelectedRanges().forEach(print);
   });
   sg.setSelectionModel(cellSelectModel);

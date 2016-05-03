@@ -29,6 +29,7 @@ class CellRangeDecorator {
     options.addAll(sg.options);
   }
   Element show(core.Range range) {
+
     if (_elem != null && !_activeCanvas.children.contains(_elem)) _activeCanvas.children.add(_elem);
     if (_elem == null) {
       _elem = new DivElement();
@@ -143,34 +144,6 @@ class CellRangeSelector extends IPlugin {
     _handler.unsubscribeAll();
   }
 
-//  handleDrag(e, dd) {
-//    if (!_dragging) {
-//      return;
-//    }
-//    e.stopImmediatePropagation();
-//
-//    var end = _grid.getCellFromPoint(e.pageX - $activeCanvas.offset.left, e.pageY - $activeCanvas.offset.top);
-//
-//    if (!_grid.canCellBeSelected(end['row'], end['cell'])) {
-//      return;
-//    }
-//
-//    dd.range.end = end;
-//    _decorator.show(new core.Range(dd.range.start.row, dd.range.start.cell, end['row'], end['cell']));
-//  }
-//
-//  handleDragEnd(e, dd) {
-//    if (!_dragging) {
-//      return;
-//    }
-//
-//    _dragging = false;
-//    e.stopImmediatePropagation();
-//
-//    _decorator.hide();
-//    onCellRangeSelected.notify(
-//        {'range': new core.Range(dd.range.start.row, dd.range.start.cell, dd.range.end.row, dd.range.end.cell)});
-//  }
 }
 
 //
@@ -182,7 +155,7 @@ class CellSelectionModel extends SelectionModel {
     _options['selectActiveCell'] = true;
   }
   SlickGrid _grid;
-  DivElement _canvas;
+//  DivElement _canvas;
   List<core.Range> _ranges = [];
   var _selector = new CellRangeSelector({
     "selectionCss": {"border": "2px solid black"}
@@ -192,7 +165,7 @@ class CellSelectionModel extends SelectionModel {
 
   init(SlickGrid grid) {
     _grid = grid;
-    _canvas = _grid.getActiveCanvasNode();
+  //  _canvas = _grid.getActiveCanvasNode();
     _grid.onActiveCellChanged.subscribe(_handleActiveCellChange);
     _grid.onColumnsResized.subscribe(_handleResizeCol);
     _grid.onKeyDown.subscribe(_handleKeyDown);
@@ -256,6 +229,7 @@ class CellSelectionModel extends SelectionModel {
   }
 
   _handleResizeCol(core.EventData e, Map<String, dynamic> args) {
+    if(_selector.newRange==null) return;
     this._selector.decorator.show(_selector.newRange);
 
   }

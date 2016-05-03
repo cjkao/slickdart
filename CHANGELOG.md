@@ -1,3 +1,6 @@
+# Version 0.1.7(2016/05)
+- fix cross frozen area column resize
+
 # Version 0.1.7-beta.1(2016/05)
 - add cell selection
 - fix strong mode error
