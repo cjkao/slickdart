@@ -24,7 +24,30 @@
         </div>
         <div id="grid" style="width:100%;height:500px;"></div>
       </div>
+<div>Sample Code
+  <pre>
+    grid.SlickGrid gd = prepare();
+    gd.init();
 
+    gd.onHeaderCellRendered.subscribe((grid.EventData e, Map parm) {
+      if ((new math.Random()).nextInt(10) > 5) {
+        (parm['node'] as DivElement).appendHtml('<i class="fa fa-shield"></i>');
+      } else {
+        (parm['node'] as DivElement).appendHtml('<i class="fa fa-camera-retro fa-lg"></i>');
+      }
+      print(parm);
+    });
+    columns.forEach((grid.Column _) {
+      _.minWidth = 60;
+      _.maxWidth = 200;
+    });
+    gd.setColumns(columns);
+    gd.invalidate();
+    gd.render();
+  }
+
+  </pre>
+</div>
     <script type="application/dart" src="headerIcon.dart"></script>
     <script src="packages/browser/dart.js"></script>
     <script src="ga.js"></script>

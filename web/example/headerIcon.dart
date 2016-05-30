@@ -26,10 +26,10 @@ void main() {
     new grid.Column.fromMap({'name': "19 finish", 'field': "finish3"}),
     new grid.Column.fromMap({'name': "20 finish", 'field': "finish4"})
   ];
-  var g = init();
-  g.init();
+  grid.SlickGrid gd = prepare();
+  gd.init();
 
-  g.onHeaderCellRendered.subscribe((grid.EventData e, Map parm) {
+  gd.onHeaderCellRendered.subscribe((grid.EventData e, Map parm) {
     if ((new math.Random()).nextInt(10) > 5) {
       (parm['node'] as DivElement).appendHtml('<i class="fa fa-shield"></i>');
     } else {
@@ -41,12 +41,12 @@ void main() {
     _.minWidth = 60;
     _.maxWidth = 200;
   });
-  g.setColumns(columns);
-  g.invalidate();
-  g.render();
+  gd.setColumns(columns);
+  gd.invalidate();
+  gd.render();
 }
 
-grid.SlickGrid init() {
+grid.SlickGrid prepare() {
   Element el = querySelector('#grid');
 
   List data = [];
