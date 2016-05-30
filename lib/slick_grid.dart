@@ -2735,7 +2735,7 @@ $viewportTopL.style.overflowY='auto';
         if(column.formatter is String){//fecth it from formatterFactorys
           return _options.formatterFactory[column.id];
         }else //this only happen when suppply a new column is not from grid constructor
-           return  column.formatter;
+           return  column.formatter as TFormatter;
     }
 
 

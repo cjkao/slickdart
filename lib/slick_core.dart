@@ -357,7 +357,6 @@ class Group extends NonDataItem {
    * @method equals
    * @return {Boolean}
    * @param group {Group} Group instance to compare to.
-   */
   operator==(Group group){
     return this.value == group.value &&
         this.count == group.count &&
@@ -365,6 +364,7 @@ class Group extends NonDataItem {
         this.title == group.title;
   }
 
+   */
 }
 
 

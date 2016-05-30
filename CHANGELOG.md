@@ -1,3 +1,7 @@
+# Version 0.1.7+1(2016/05)
+- fix missing plugin on custom element
+- add header icon example
+
 # Version 0.1.7(2016/05)
 - fix cross frozen area column resize
 

@@ -249,7 +249,7 @@ class JGrid extends HtmlElement {
 
     column.forEach((item) {
       if (item is IPlugin) {
-        //sg.registerPlugin(item);
+        sg.registerPlugin(item as IPlugin);
         sg.setSelectionModel(new RowSelectionModel({'selectActiveRow': false}));
       }
     });
