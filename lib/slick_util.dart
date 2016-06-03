@@ -56,7 +56,7 @@ Map<String, int> measureScrollbar() {
       .first;
 
   querySelector('body').append($c);
-  CssStyleDeclaration style = $c.getComputedStyle();
+  //CssStyleDeclaration style = $c.getComputedStyle();
   Map<String,int> dim = {
     'width': core.Dimension.getCalcWidth($c) - $c.clientWidth,
     'height': core.Dimension.getCalcHeight($c) - $c.clientHeight

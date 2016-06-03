@@ -35,7 +35,7 @@ grid.SlickGrid init() {
   List<grid.Column> column = [
     new grid.Column.fromMap({
       'id': "title",
-      'name': "Title1",
+      'name': "text",
       'field': "dtitle",
       'sortable': true,
       'editor': 'TextEditor',
@@ -60,7 +60,10 @@ grid.SlickGrid init() {
       'cssClass': "cell-effort-driven",
       'field': "effortDriven",
       'formatter': grid.CheckmarkFormatter
-    })
+    }),
+
+    new grid.Column.fromMap(
+        {'name': "Btn Driven", 'sortable': false, 'width': 80, 'field': "effortDriven", 'formatter': ButtonFormatter})
 
     // new grid.Column.fromMap ({'id': "start", 'name': "finish", 'field': "finish"})
   ];
@@ -75,8 +78,16 @@ grid.SlickGrid init() {
   }
   Map opt = {'explicitInitialization': false, 'multiColumnSort': true, 'editable': true,};
   grid.SlickGrid sg = new grid.SlickGrid(el, data, column, opt);
+  var model = new cellMode.CellSelectionModel(sg.options);
 
-  sg.setSelectionModel(new cellMode.CellSelectionModel(sg.options));
+  sg.setSelectionModel(model);
+  sg.onClick.subscribe((grid.EventData e, Map args) {
+    print(args);
+    grid.Column col=sg.getColumns()[args['cell']];
+    if(e.target is InputElement){
+      print('it is button');
+    }
+  });
 
   sg.onSort.subscribe((e, args) {
     var cols = args['sortCols'];
@@ -120,4 +131,8 @@ SuperFormatter2(int row, int cell, dynamic value, grid.Column columnDef, dataCon
   var colStr = JSON.encode(columnDef.toString());
   // grid.Column col = new grid.Column.fromJSON(colStr);
   return value;
+}
+
+ButtonFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
+  return '<input type="button" value="$value" style="width:100%;padding:0;">';
 }

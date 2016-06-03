@@ -21,12 +21,12 @@ abstract class Editor {
   }
 
   /**
-   * return value from current editor
+   * return value from current editor to UI
    */
   String serializeValue();
-  /**
-   * write value back to target row object
-   */
+  ///
+  /// write value([state]) back to target row([item]) object 
+  ///
   void applyValue(item, state) {
     item[_ep.columnDef.field] = state;
   }
@@ -67,7 +67,8 @@ class EditorParm {
     cancelChanges = ep['cancelChanges'];
   }
 }
-
+///
+/// InputElement based editor
 abstract class InputEditor extends Editor {
   InputElement _input;
   InputEditor([_ep]) {
