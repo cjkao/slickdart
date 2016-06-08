@@ -86,6 +86,7 @@ grid.SlickGrid init() {
     grid.Column col=sg.getColumns()[args['cell']];
     if(e.target is InputElement){
       print('it is button');
+      print(col);
     }
   });
 

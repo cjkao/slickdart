@@ -176,3 +176,8 @@ Support one selection area only, can not cross frozen area
     });
     sg.setSelectionModel(cellSelectModel);
 ```
+
+Editing
+==============================================
+* Commit Edit
+getEditorLock().commitCurrentEdit()
