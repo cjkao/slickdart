@@ -23,5 +23,13 @@ dev_dependencies:
 #transformers:
 #- polymer:
 #    entry_points: web/example/EditorSample.html
-#transformers:
+transformers:
+- $dart2js:
+    csp: false
+    sourceMaps: true
+    checked: false
+    minify: true
+    commandLineOptions:
+    - --trust-type-annotations
+    - --trust-primitives
 #- angular
