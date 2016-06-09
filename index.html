@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Slickdart by cjkao</title>
@@ -17,52 +18,59 @@
     <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-  </head>
-  <body>
-      <div id="header">
+</head>
+
+<body>
+    <div id="header">
         <nav>
-          <li class="fork"><a href="https://github.com/cjkao/slickdart">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/cjkao/slickdart/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/cjkao/slickdart/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
+            <li class="fork"><a href="https://github.com/cjkao/slickdart">View On GitHub</a></li>
+            <li class="downloads"><a href="https://github.com/cjkao/slickdart/zipball/master">ZIP</a></li>
+            <li class="downloads"><a href="https://github.com/cjkao/slickdart/tarball/master">TAR</a></li>
+            <li class="title">DOWNLOADS</li>
         </nav>
-      </div><!-- end header -->
+    </div>
+    <!-- end header -->
 
     <div class="wrapper">
+        <section>
+            <h1></h1>
+        </section>
 
-      <section>
-        <div id="title">
-          <h1>Slickdart</h1>
-          <p>dart - slickgrid port</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/cjkao">cjkao</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
+        <section>
+            <div id="title">
+                <h1>Slickdart</h1>
+                <p>dart - slickgrid port</p>
+                <hr>
+                <span class="credits left">Project maintained by <a href="https://github.com/cjkao">cjkao</a></span>
+                <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+            </div>
 
-        <h1>
+            <h1>
 <a name="slickdart" class="anchor" href="#slickdart"><span class="octicon octicon-link"></span></a>slickdart</h1>
 
-<p>slick grid port, for mobile and desktop device</p>
+            <p>slick grid port, for mobile and desktop device</p>
 
-<p>Sort performance is not expected in javascript version</p>
+            <p>Sort performance is not expected in javascript version</p>
 
-<h1>
+            <h1>
 <a name="parameter-description" class="anchor" href="#parameter-description"><span class="octicon octicon-link"></span></a>Parameter Description</h1>
 
-<ul>
-<li>When enable 'selectActiveRow' on row selection model and with CheckboxSelectColumn in first row
-click on first column out side of check box will uncheck other rows if multiple row selected</li>
-</ul><h1>
+            <ul>
+                <li>When enable 'selectActiveRow' on row selection model and with CheckboxSelectColumn in first row click on first column out side of check box will uncheck other rows if multiple row selected</li>
+            </ul>
+            <h1>
 <a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h1>
 
-<ul>
-<li>examples in web/example folder</li>
-</ul><p>simple.dart
-    import 'dart:html';
-    import 'package:slickdart/slick_grid.dart' as grid;
-    import 'dart:math' as math;</p>
+            <ul>
+                <li><a class="anchor" href='build/web/index.html'>example</a></li>
+            </ul>
 
-<pre><code>void main() {
+
+            <pre><code>
+import 'dart:html';
+import 'package:slickdart/slick_grid.dart' as grid;
+import 'dart:math' as math;
+void main() {
   var g=init();
   g.init();
   print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
@@ -132,9 +140,9 @@ grid.SlickGrid init(){
 }
 </code></pre>
 
-<p>simple.html</p>
+            <p>simple.html</p>
 
-<pre><code>&lt;!DOCTYPE html&gt;
+            <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     &lt;meta charset="utf-8"&gt;
@@ -158,29 +166,29 @@ grid.SlickGrid init(){
 </code></pre>
 
 
-<section>
-<h1><a href='build/web/example/index.html'>example</a></h1>
 
-
-</section>
-<h1>
-<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h1>
-
-<ul>
-</ul>
-      </section>
+            <ul>
+            </ul>
+        </section>
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-8774109-3', 'auto');
-  ga('send', 'pageview');
+        ga('create', 'UA-8774109-3', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
 
-</script>
-  </body>
 </html>
