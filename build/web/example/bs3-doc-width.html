@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="bootstrap.css" rel="stylesheet" media="screen">
+
+    <title>Width change in documment</title>
+
+     <link rel="stylesheet" href="../packages/slickdart/slick.grid.css" type="text/css"/>
+     <link rel="stylesheet" href="../packages/slickdart/slick_default_theme.css" type="text/css"/>
+
+     <style type="text/css">
+        #grid{
+          border: 1px solid darkgray;
+        }
+        #grid {
+          background: white;
+          height:600px;
+          width:100%;
+          transition:width 0.01s, height 0.01s;
+        }
+     </style>
+
+  </head>
+  <body>
+<div class='container'>
+        <div class='row'>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              Resize Canvas Example, viewport update after window scroll bar appear
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-2'>
+            <button id='reset' class='btn btn-default'>change document height</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div id="grid" download='a.csv'></div>
+          </div>
+          <div class="col-md-4"><span>selected row:</span><span class='right-pane'></span></div>
+        </div>
+</div>
+
+    <script type="application/dart" src="bs3-doc-width.dart"></script>
+    <script src="../packages/browser/dart.js"></script>
+    <script src="ga.js"></script>
+  </body>
+</html>

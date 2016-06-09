@@ -4,13 +4,30 @@
     <meta charset="utf-8">
     <title>Slickdart</title>
 
-     <link rel="stylesheet" href="packages/slickdart/slick.grid.css" type="text/css"/>
-     <link rel="stylesheet" href="packages/slickdart/slick_default_theme.css" type="text/css"/>
+     <link rel="stylesheet" href="../packages/slickdart/slick.grid.css" type="text/css"/>
+     <link rel="stylesheet" href="../packages/slickdart/slick_default_theme.css" type="text/css"/>
      <link rel="stylesheet" href="simple.css" type="text/css"/>
+     <!--
+   -->
+   <style>
+
+   /* Slick.Editors.Text, Slick.Editors.Date */
+   input.editor-text {
+     width: 100%;
+     height: 100%;
+     border: 0;
+     margin: 0;
+     background: transparent;
+     outline: 0;
+     padding: 0;
+
+   }
+
+   </style>
   </head>
   <body>
 
-<div style="width:600px;">
+<div style="width:100%;">
         <div class="grid-header" style="width:100%">
             <label>Santa's TODO list:</label>
         </div>
@@ -18,8 +35,8 @@
         <button id='reset'>reset</button>
       </div>
 
-    <script type="application/dart" src="Formatter.dart"></script>
-    <script src="packages/browser/dart.js"></script>
+    <script type="application/dart" src="formatter.dart"></script>
+    <script src="../packages/browser/dart.js"></script>
     <script src="ga.js"></script>
   </body>
 </html>

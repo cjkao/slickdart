@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Slickdart</title>
+     <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="../packages/slickdart/slick.grid.css" type="text/css"/>
+     <link rel="stylesheet" href="../packages/slickdart/slick_default_theme.css" type="text/css"/>
+     <style>
+      div > i {
+        margin-left:5px;
+      }
+      div.slick-header-column{
+         white-space: nowrap;
+      }
+     </style>
+  </head>
+  <body>
+
+<div style="width:600px;">
+        <div class="grid-header" style="width:100%">
+            <label>ICON Header</label>
+        </div>
+        <div id="grid" style="width:100%;height:500px;"></div>
+      </div>
+<div>Sample Code
+  <pre><code class='dart'>
+    grid.SlickGrid gd = prepare();
+    gd.init();
+
+    gd.onHeaderCellRendered.subscribe((grid.EventData e, Map parm) {
+      if ((new math.Random()).nextInt(10) > 5) {
+        (parm['node'] as DivElement).appendHtml('<i class="fa fa-shield"></i>');
+      } else {
+        (parm['node'] as DivElement).appendHtml('<i class="fa fa-camera-retro fa-lg"></i>');
+      }
+      print(parm);
+    });
+    columns.forEach((grid.Column _) {
+      _.minWidth = 60;
+      _.maxWidth = 200;
+    });
+    gd.setColumns(columns);
+    gd.invalidate();
+    gd.render();
+  }
+</code>
+  </pre>
+</div>
+    <script type="application/dart" src="header-icon.dart"></script>
+    <script src="../packages/browser/dart.js"></script>
+    <script src="ga.js"></script>
+    <link rel="stylesheet" href="highlight/default.css">
+    <script src="highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>  
+  </body>
+</html>

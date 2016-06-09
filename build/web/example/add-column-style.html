@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="bootstrap.css" rel="stylesheet" media="screen">
-   
-    <script src="packages/web_components/webcomponents.js"></script>
-    <script src="packages/web_components/dart_support.js"></script>
+
+    <script src="../packages/web_components/webcomponents.js"></script>
+    <script src="../packages/web_components/dart_support.js"></script>
     <style>
-    
+
     cj-grid{
       height:200px;
       border:1px solid black;
@@ -17,14 +17,14 @@
     cj-grid.first, cj-grid.third{
       display: inline-block;
     }
-    
-    
+
+
     </style>
-    
+
   </head>
   <body>
     <script type="application/dart" src="add-column-style.dart"></script>
-    <script src="packages/browser/dart.js"></script>
+    <script src="package:browser/dart.js"></script>
     <div class='container'>
       <div class='row'>
         Experiment for column style rendering
@@ -56,9 +56,9 @@
             <div class="panel-heading">Panel 1, bind surface</div>
             <div class="panel-body">
               <cj-grid style='width:100%;' class='second'>
-              
+
                <style>
-   
+
 
     input.editor-text {
       width: 100%;
@@ -82,12 +82,12 @@
         text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
     }
     </style>
-              
-              
-              
-              
-              
-              
+
+
+
+
+
+
               </cj-grid>
             </div>
           </div>

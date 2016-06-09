@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Slickdart</title>
+    <!--
+      <link rel="import" href="../packages/polymer/polymer.html">
+      <link rel="import" href="../packages/datepicker/components/date_input.html">
+    -->
+     <link rel="stylesheet" href="../packages/slickdart/slick.grid.css" type="text/css"/>
+     <link rel="stylesheet" href="../packages/slickdart/slick_default_theme.css" type="text/css"/>
+     <link rel="stylesheet" href="simple.css" type="text/css"/>
+     <style>
+
+
+     </style>
+     <!--
+     <script src="../packages/web_components/webcomponents.min.js"></script>
+    <script src="../packages/web_components/dart_support.js"></script>
+    -->
+  </head>
+  <body>
+<date-input value="2014-02-01"></date-input>
+<div style="width:600px;height:70vh;">
+        <div class="grid-header" style="width:100%">
+            <label>EDITOR EXAMPLE</label>
+        </div>
+        <div id="grid" style="width:100%;height:100%;"></div>
+        <button id='reset'>reset</button>
+      </div>
+      <br />
+      <br />
+      <br />
+      <h3>format</h3>
+      <p>
+  two list for select/option format:
+<pre>
+  list of map:
+  {int_displayValue: lable_for_click_selection}
+  or
+  {string_displayValue: lable_for_click_selection}
+</pre>
+      </p>
+    <script type="application/dart" src="editor-sample.dart"></script>
+    <script src="../packages/browser/dart.js"></script>
+    <script src="ga.js"></script>
+  </body>
+</html>
