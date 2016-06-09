@@ -29,7 +29,7 @@ grid.SlickGrid init(){
       'title':  i+1,
       'duration': new math.Random().nextInt(100).toString(),
       'percentComplete': new math.Random().nextInt(10) * 100,
-      'start': {'a':"01/01/2009", 'b':'ccc'},
+      'start': {'a':"01/01/200$i", 'b':'ccc'},
       'finish': "01/05/2009",
       'finish1': "01/05/2009 $i",
       'finish2': "01/05/20$i",
@@ -47,6 +47,6 @@ grid.SlickGrid init(){
   return sg;
 }
 mapExtract(Map data, grid.Column col){
-  if(col.field=='start') return data['a'];
+  if(col.field=='start') return data['start']['a'];
   return data[col.field];
 }

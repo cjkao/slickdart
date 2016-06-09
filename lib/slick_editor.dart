@@ -4,6 +4,7 @@ import 'dart:html';
 //import 'slick.dart';
 import 'slick_grid.dart' show SlickGrid;
 import 'slick_column.dart' show Column;
+
 abstract class Editor {
   EditorParm _ep;
   Element $input;
@@ -14,8 +15,9 @@ abstract class Editor {
 
   var defaultValue;
 
-//  String getValue();
-//  void setValue(String  value);
+  ///
+  /// copy [item] to [defaultValue] when begin edit cell
+  ///
   void loadValue(item) {
     defaultValue = item[_ep.columnDef.field] != null ? item[_ep.columnDef.field] : "";
   }
@@ -24,8 +26,9 @@ abstract class Editor {
    * return value from current editor to UI
    */
   String serializeValue();
+
   ///
-  /// write value([state]) back to target row([item]) object 
+  /// write value([state]) back to target row([item]) object
   ///
   void applyValue(item, state) {
     item[_ep.columnDef.field] = state;
@@ -67,6 +70,7 @@ class EditorParm {
     cancelChanges = ep['cancelChanges'];
   }
 }
+
 ///
 /// InputElement based editor
 abstract class InputEditor extends Editor {
@@ -133,6 +137,9 @@ class TextEditor extends InputEditor {
   }
 }
 
+///
+/// Editor that only accept integer value
+///
 class IntEditor extends InputEditor {
   set editorParm(EditorParm m) {
     super.editorParm = m;

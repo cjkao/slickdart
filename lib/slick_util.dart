@@ -276,18 +276,33 @@ class HierarchFilterList extends FilteredList {
   }
 }
 
-typedef Map<String, String> metaFun(int rowId);
+typedef Map<String, dynamic> metaFun(int rowId);
 
 /**
  * meta data interface for data
  * Meta data is a list wrappper that provide getMetaData when need override style in row rendering
  */
 abstract class IMetaData {
+  /// per row configuration.
+  /// return Map<feature, configuration>.
+  /// feature:
+  ///  * 'cssClasses' to add style to row, value is css style name,
+  ///  function body looking for target row and check condition meet or not and then return
+  /// ```
+  ///  {"cssClasses":'highlight'}
+  /// ```
+  ///  * 'columns'  to add span for column, value is {'column_name': span_cell_count}
+  /// configuration example:
+  /// ```
+  ///  {'columns': {"first_column": 2, 'second_col': 3}}
+  /// ```
+  /// to customize cell style using [setCellCssStyles] function
   Map getMetaData(int rowId);
   void setMetaData(metaFun fun);
 }
 
 class MetaList<T> extends ListBase<T> with IMetaData {
+  static const COLUMN='columns';
   metaFun _func;
   List<T> innerList;
   MetaList(this.innerList, [this._func]) {}

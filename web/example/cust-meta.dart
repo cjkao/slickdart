@@ -40,7 +40,7 @@ main() {
 
 JGrid gw0;
 CsvAdapter csv;
-String filterStr;
+String filterStr='101';
 
 List<Column> getColDefs(List<Column> cols) {
   List<Column> newCols = cols.map((col) => new Column.fromColumn(col)..sortable = true).toList();

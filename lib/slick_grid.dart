@@ -344,19 +344,20 @@ class SlickGrid {
     trigger(onSelectedRowsChanged, {'rows': getSelectedRows()}, e);
   }
 
-  /**
-   * render by cell style on demand
-   * @param key: a unique id
-   * @param hash
-   * {
-   *   row_id: { columnFieldName : css_class_name },
-   *   12: {... },
-   *   13: {... }
-   * }
-   *
-   *
-   */
-  setCellCssStyles(String key, Map<int,Map<String,String>> hash) {
+  ///
+  /// render cell style
+  /// @param key: a unique id
+  /// @param hash
+  /// ```
+  /// {
+  ///   row_id: { columnFieldName : css_class_name },
+  ///   12: {... },
+  ///   13: {... }
+  /// }
+  /// ```
+  ///
+  ///
+  void setCellCssStyles(String key, Map<int,Map<String,String>> hash) {
     Map<int,Map<String,String>> prevHash = _cellCssClasses[key];
 
     _cellCssClasses[key] = hash;
@@ -395,7 +396,7 @@ class SlickGrid {
       }
     }
   }
-
+  /// [idx] column index
   Map<String,CssStyleRule> getColumnCssRules(idx) {
     if (stylesheet==null) {
       if(container.parent==null){ //shadowRoot   && (container.parentNode as ShadowRoot).firstChild is StyleElement
@@ -541,9 +542,9 @@ class SlickGrid {
   }
 
 
-  /**
-   * drow canvas using current scroll position
-   */
+  ///
+  /// draw canvas using current scroll position
+  ///
   void render([Timer timer]) {
     if (!initialized) { return; }
     Map<String,int> visible = getVisibleRange();
@@ -2621,6 +2622,12 @@ $viewportTopL.style.overflowY='auto';
         }
       }
       var x2 = x1 + columns[cell].width;
+      int spanCnt= getColspan(row, cell);
+      if(spanCnt>1){
+        for(int i=1;i<spanCnt;++i){
+            x2+=  columns[cell+i].width;
+        }
+      }
 
       return {
         'top': y1,
@@ -2681,7 +2688,9 @@ $viewportTopL.style.overflowY='auto';
        return offset;
    }
 
-
+    ///
+    /// provide commit to current edit field 
+    ///
     core.EditorLock getEditorLock() {
       return _options.editorLock;
     }
@@ -2896,9 +2905,23 @@ $viewportTopL.style.overflowY='auto';
         trigger(onActiveCellChanged, getActiveCell());
       }
     }
+    ///
+    /// return number of cell to span for editor
+    ///
     int getColspan(row, cell) {
-      return 1;
-//      var metadata = data.getItemMetadata && data.getItemMetadata(row);
+      //if(row==1 && cell==1) return 2;
+      if(data is MetaList  ) {
+        var metadata = (data as MetaList).getMetaData(row);
+        if(metadata[MetaList.COLUMN]!=null){
+          String id=columns[cell].id;
+          int spanCnt= metadata[MetaList.COLUMN][id] ?? 1;
+          if(spanCnt>columns.length-cell) spanCnt=columns.length-cell;
+          return spanCnt;
+        }
+
+      }
+        return 1;
+
 //      if (!metadata || !metadata.columns) {
 //        return 1;
 //      }
@@ -3082,10 +3105,10 @@ $viewportTopL.style.overflowY='auto';
           (dataLoading ? " loading" : "") +
           (row == activeRow ? " active" : "") +
           (row % 2 == 1 ? " odd" : " even");
-
+      Map metadata ;
       if(_data is MetaList){
         //implement metadata interface
-        Map metadata = (_data as MetaList).getMetaData(row);
+        metadata = (_data as MetaList).getMetaData(row);
         if(metadata.containsKey("cssClasses")){
           rowCss += " " + metadata['cssClasses'];
         }
@@ -3097,12 +3120,21 @@ $viewportTopL.style.overflowY='auto';
       if (_options.frozenColumn> -1) {
           stringArrayR.add(rowHtml);
       }
+      int colspan=1;
 
-      var colspan;
       //Column m;
       for (var i = 0, ii = columns.length; i < ii; i++) {
        //Column m = columns[i];
         colspan = 1;
+        if (metadata!=null && metadata[MetaList.COLUMN]!=null && metadata[MetaList.COLUMN][columns[i].id] !=null) {
+            colspan= metadata[MetaList.COLUMN][columns[i].id] ?? 1;
+            if (colspan> ii-i) {
+                colspan = ii - i;
+            }
+        }
+
+
+
         if (_columnPosRight[math.min(ii - 1, i + colspan - 1)] > range['leftPx']) {
           if (_columnPosLeft[i] > range['rightPx']) {
             // All columns to the right are outside the range.
