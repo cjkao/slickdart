@@ -3,13 +3,10 @@ IMPORTANT:
 In order to preserve the uniform grid appearance, all cell styles need to have padding, margin and border sizes.
 No built-in (selected, editable, highlight, flashing, invalid, loading, :focus) or user-specified CSS
 classes should alter those!
-
 .1slick-header-columns {
   background: url('images/header-columns-bg.gif') repeat-x center bottom;
   border-bottom: 1px solid silver;
 }
-
-
 */
 
 
@@ -23,22 +20,22 @@ classes should alter those!
   background: -o-linear-gradient(#fff, #eee);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0);
   */
-  
+
   border-right: 1px solid silver;
 }
 
 .slick-header-column:hover, .slick-header-column-active {
-  
- /* 
+
+ /*
   background: white url('images/header-columns-over-bg.gif') repeat-x center bottom;
   */
-  
+
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #BDF), color-stop(1, #eee));
   background: -ms-linear-gradient(bottom, #eee, #fff);
   background: -moz-linear-gradient(center bottom, #eee 0, #fff 100%);
   background: -o-linear-gradient(#fff, #eee);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0);
-  
+
 }
 
 .slick-headerrow {
