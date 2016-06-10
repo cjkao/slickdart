@@ -224,9 +224,9 @@ class FilteredList extends ListBase {
  */
 typedef bool testShowItemFun(obj);
 
-/**
- * filter follow up rows base on '_parent' and '_collapsed' and id field to render tree view
- */
+/// ### DataList in TREE View
+///  filter follow up rows base on [_parent] and [_collapsed] and id field to render tree view
+///
 class HierarchFilterList extends FilteredList {
   List<testShowItemFun> filterFun = [];
   String _parentField;
@@ -234,12 +234,12 @@ class HierarchFilterList extends FilteredList {
   String _collapsedField;
   HierarchFilterList._([List items]) : super(items) {}
 
-  /**
-   * [parentField] field that describe parent row id, default is '_parent'
-   * [idField] unique id for each row, default is 'id'
-   * [collapsedField] field describe collapsed(true) or expand(false)
-   * [items] List of row
-   */
+  ///
+  /// * [parentField] field that describe parent row id, default is '_parent'
+  /// * [idField] unique id for each row, default is 'id' in [Column]
+  /// * [collapsedField] field describe collapsed(true) or expand(false)
+  /// * [items] List of row
+  ///
   factory HierarchFilterList.withKeyField(
       [String parentField = '_parent', String idField = 'id', String collapsedField = '_collapsed', List items]) {
     HierarchFilterList hier = new HierarchFilterList._(items);
