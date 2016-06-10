@@ -57,11 +57,11 @@ classes should alter those!
 }
 
 .slick-sort-indicator-desc {
-  background: url(images/sort-desc.gif);
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAYAAAB4ka1VAAAAMklEQVQI12NgIAJwAfEnIP6Phu8DMQtMEQ8Qf4NK/APid0DMhm4STBFWSRhgB2JmZAEAPLwLz6hj83EAAAAASUVORK5CYII=);
 }
 
 .slick-sort-indicator-asc {
-  background: url(images/sort-asc.gif);
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAYAAAB4ka1VAAAAMElEQVQI12NgQAXsQMzMgAPwAPE3IH4HxGy4JP8D8T90RVxA/AkqiYzvAzELAyEAAEDLC89q7ZR0AAAAAElFTkSuQmCC);
 }
 
 .slick-resizable-handle {

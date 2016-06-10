@@ -76,7 +76,7 @@ class JGrid extends HtmlElement {
  .slick-header-column.ui-state-default{position:relative;display:inline-block;overflow:hidden;-o-text-overflow:ellipsis;text-overflow:ellipsis;height:16px;line-height:16px;margin:0;padding:4px;border-right:1px solid silver;border-left:0;border-top:0;border-bottom:0;float:left}
  .slick-headerrow-column.ui-state-default{padding:4px}.slick-header-column-sorted{font-style:italic}.slick-header-column{box-shadow:inset 0 -1px 0 0 grey}
  .slick-sort-indicator{display:inline-block;width:8px;height:5px;margin-left:4px;margin-top:6px;float:left}
- .slick-sort-indicator-desc{background:url(packages/slickdart/images/sort-desc.gif)}.slick-sort-indicator-asc{background:url(packages/slickdart/images/sort-asc.gif)}.slick-resizable-handle{position:absolute;font-size:.1px;display:block;cursor:col-resize;width:4px;right:0;top:0;height:100%}
+ .slick-sort-indicator-desc{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAYAAAB4ka1VAAAAMklEQVQI12NgIAJwAfEnIP6Phu8DMQtMEQ8Qf4NK/APid0DMhm4STBFWSRhgB2JmZAEAPLwLz6hj83EAAAAASUVORK5CYII=)}.slick-sort-indicator-asc{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAYAAAB4ka1VAAAAMElEQVQI12NgQAXsQMzMgAPwAPE3IH4HxGy4JP8D8T90RVxA/AkqiYzvAzELAyEAAEDLC89q7ZR0AAAAAElFTkSuQmCC)}.slick-resizable-handle{position:absolute;font-size:.1px;display:block;cursor:col-resize;width:4px;right:0;top:0;height:100%}
  .slick-resizable-handle-hover{background-color:#ccc}
  .slick-sortable-placeholder{background:silver}.grid-canvas{position:relative;outline:0;overflow:hidden}
  .slick-row.ui-state-active,.slick-row.ui-widget-content{position:absolute;border:0;width:100%}
