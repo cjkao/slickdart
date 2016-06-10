@@ -80,12 +80,13 @@ Element findClosestAncestor(Element element, String cssSelector, [String scope])
   return null;
 }
 
-/**
- * when no filter, using default data set, which allow add data
- * filter is active by keyword,
- * Filtered View is readonly for grid
- * any operation to list => src list
- */
+/// ### Give grid class illusion of data
+/// * filter is active by setting [keyword],
+/// * Filtered View is readonly for grid
+/// * when no filter, using default data set, which allow to add data
+///
+/// _note_: any operation to list will forward to  src list
+///
 class FilteredList extends ListBase {
   List _srcList, _viewList;
   /**
@@ -100,18 +101,17 @@ class FilteredList extends ListBase {
   FilteredList.fromMap(Map map) {
     _srcList = map == null ? new List() : new List.from(map.values);
   }
-  /**
-   * create new view base on filter, only matched item will show
-   * string is partial matching
-   * {column: condition}
-   */
+  ///
+  /// create new view base on filter, only matched item will show
+  /// string is partial matching
+  /// [m] is {column_name: condition} ,condition can be string, bool or number
+  ///
   set keyword(Map<String, dynamic> m) {
     if (m == null) return;
     _filter = m;
     _viewList = _foldHelper();
   }
-
-  void setKeyword(String key, Object val) {
+  void addKeyword(String key, Object val) {
     //_viewList=[];
     if (val is String && val.length == 0) {
       _filter.remove(key);
@@ -120,6 +120,9 @@ class FilteredList extends ListBase {
     }
     _viewList = _foldHelper();
   }
+  /// conflict with setter
+  @deprecated
+  void setKeyword(String key, Object val) => addKeyword(key,val);
 
   /**
    * when src is changed, regenerate view

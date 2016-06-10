@@ -2689,7 +2689,7 @@ $viewportTopL.style.overflowY='auto';
    }
 
     ///
-    /// provide commit to current edit field 
+    /// provide commit to current edit field
     ///
     core.EditorLock getEditorLock() {
       return _options.editorLock;
@@ -2921,20 +2921,6 @@ $viewportTopL.style.overflowY='auto';
 
       }
         return 1;
-
-//      if (!metadata || !metadata.columns) {
-//        return 1;
-//      }
-//
-//      var columnData = metadata.columns[columns[cell].id] || metadata.columns[cell];
-//      var colspan = (columnData && columnData.colspan);
-//      if (colspan === "*") {
-//        colspan = columns.length - cell;
-//      } else {
-//        colspan = colspan || 1;
-//      }
-//
-//      return colspan;
     }
     Map<String, int >getActiveCell() {
       if (activeCellNode==null) {

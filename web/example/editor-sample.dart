@@ -8,17 +8,8 @@ import 'package:slickdart/slick_selectionmodel.dart';
 //import 'package:datepicker/components/date_input.dart';
 //import 'package:polymer/polymer.dart';
 void main() {
-//  initPolymer().run(() {
-  // The rest of the code in the main method.
-//    Polymer.onReady.then((_) {
   grid.SlickGrid g = init();
   g.init();
-
-  //XDateInput item = new Element.tag('date-input');
-  //document.querySelector('body').append(item);
-//  });
-//});
-//  Calendar.use();
 }
 
 grid.SlickGrid init() {
