@@ -50,14 +50,21 @@ abstract class Editor {
   void destroy();
   void focus();
 }
-
+///
+///  when user click cell and active editor mode
+///  [EditorParm] will pass to [Editor] instance
+///
 class EditorParm {
+  /// current cell element
   Element activeCellNode;
   SlickGrid grid;
   Map<String, dynamic> gridPosition;
+  /// cell position, see [SlickGrid.absBox]
   Map<String, dynamic> position;
   Column columnDef;
+  /// call [commitChanges] to commit change  see [SlickGrid.commitEditAndSetFocus]
   Function commitChanges;
+  /// [cancelChange] revoke change, see [SlickGrid.cancelEditAndSetFocus]
   Function cancelChanges;
 
   EditorParm(Map<String, dynamic> ep) {
@@ -196,27 +203,35 @@ class DoubleEditor extends IntEditor {
   }
 }
 
-/**
- * source data type: bool
- */
+///  can be instinate by String of class name or using explict new keyword
+///  source data type: bool
+///
 class CheckboxEditor extends InputEditor {
   // set editorParm (m) => _ep = new EditorParm(m);
   CheckboxEditor([_ep]) : super(_ep) {
     $input = _input = new InputElement(type: 'checkbox');
     $input.classes.add('editor-checkbox');
-    _ep.activeCellNode.append($input);
+    _ep?.activeCellNode?.append($input);
     $input //..attributes['value'] = 'true'
       ..attributes['hidefocus'] = 'true';
     $input.focus();
   }
-
+  @override
+  set editorParm(EditorParm m) {
+    super.editorParm = m;
+    editorParm.activeCellNode.append($input);
+    $input..attributes['hidefocus'] = 'true';
+    $input.focus();
+  }
   loadValue(item) {
     super.loadValue(item);
     //$input.value ='$defaultValue';
     _input.defaultValue = '$defaultValue';
     if ((defaultValue is String && defaultValue.toLowerCase() == 'true') || (defaultValue is bool && defaultValue)) {
       $input.attributes['checked'] = 'checked';
+      ($input as CheckboxInputElement).checked=true;
     } else {
+      ($input as CheckboxInputElement).checked=false;
       $input.attributes.remove('checked');
     }
   }

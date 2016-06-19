@@ -1,0 +1,20 @@
+<dom-module id="percent-element">
+    <template>
+        <style>
+            paper-material {
+                position: absolute;
+                left: 150px;
+                top: 400px;
+                z-index: 999;
+            }
+        </style>
+        <paper-material elevation="1" id='box' hidden$='{{hidView}'>
+            <paper-listbox class="dropdown-content" id='menu'>
+                <paper-item value='30'>Croissant</paper-item>
+                <paper-item value='50'>Donut</paper-item>
+                <paper-item value='70'>Financier</paper-item>
+                <paper-item value='90'>Madeleine</paper-item>
+            </paper-listbox>
+        </paper-material>
+    </template>
+</dom-module>
