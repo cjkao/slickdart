@@ -36,7 +36,7 @@ YesNoFormatter(int row, int cell, value, Column columnDef, Map dataContext) {
 }
 
 CheckmarkFormatter(int row, int cell, value, Column columnDef, Map dataContext) {
-  return (value != null && value) ? "<img src='packages/slickdart/images/tick.png'>" : "";
+  return (value != null && value) ? "<span style='color:green;font-size:16px;font-weight:bold;'>\u2713</span>" : "";
 }
 //CheckboxFormatter(row, cell, value, columnDef, dataContext) {
 //  return value ? "<input checked type='checkbox' disabled>" : "<input type='checkbox' disabled>";
