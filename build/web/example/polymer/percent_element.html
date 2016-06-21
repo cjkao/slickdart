@@ -1,0 +1,35 @@
+<dom-module id="percent-element">
+    <template>
+        <style>
+            paper-card {
+                position: absolute;
+                left:-900px;
+                top: -400px;
+                z-index: 999;
+            }
+        </style>
+        <style is="custom-style">
+            paper-card.white {
+                --paper-card-header-color: black;
+                --paper-card-header: {
+                    background: yellow;
+                    font-family: Arial;
+                }
+            }
+            paper-item:hover {
+              background: lightyellow;
+              cursor: pointer;
+            }
+        </style>
+        <paper-card heading="Top: [[curValue]]" class='white' id='box' hidden$='{{hidView}' style="margin-bottom:8px;">
+            <div class="card-content">
+                <paper-listbox class="dropdown-content" id='menu'>
+                    <paper-item value='30'>Thirty (30)</paper-item>
+                    <paper-item value='50'>Fifty (50)</paper-item>
+                    <paper-item value='70'>Seventy (70)</paper-item>
+                    <paper-item value='90'>Ninety (90)</paper-item>
+                </paper-listbox>
+            </div>
+        </paper-card>
+    </template>
+</dom-module>

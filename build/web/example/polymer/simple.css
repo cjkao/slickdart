@@ -1,0 +1,44 @@
+
+
+body {
+  background: lightblue;
+  padding: 0;
+  margin: 8;
+}
+
+
+#grid {
+  background: white;
+  outline: 0;
+  border: 1px solid gray;
+}
+
+.slick-row.active {
+  z-index: 10;
+  background: #DFE8F6;
+}
+.slick-cell.editable{
+  background: none;
+}
+input{
+  background: rgba(0,0,0,0.01);
+}
+.slick-cell,
+.slick-cell input {
+    border: 0px;
+    font-size:14px;
+}
+.slick-cell.invalid{
+  border-bottom: solid red 1px;
+}
+.editor-percentcomplete-picker {
+    /*        background-color: green; */
+    min-width: 10px;
+    min-height: 10px;
+    display: inline;
+    float: right;
+}
+
+input:focus {
+    outline: none;
+}
