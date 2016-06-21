@@ -28,7 +28,9 @@ input{
     border: 0px;
     font-size:14px;
 }
-
+.slick-cell.invalid{
+  border-bottom: solid red 1px;
+}
 .editor-percentcomplete-picker {
     /*        background-color: green; */
     min-width: 10px;

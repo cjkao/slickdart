@@ -13,8 +13,12 @@ import 'percent_element.dart';
 import 'package:polymer_elements/iron_icon.dart';
 import 'package:polymer_elements/editor_icons.dart';
 import 'dart:async';
-
+import 'package:logging/logging.dart';
 main() async {
+  Logger.root.level = Level.OFF;
+  Logger.root.onRecord.listen((LogRecord rec) {
+    print('${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
   await initPolymer();
   grid.SlickGrid g = init();
   g.init();
@@ -23,6 +27,8 @@ main() async {
 grid.SlickGrid init() {
   Element el = querySelector('#grid');
   List<grid.Column> column = [
+    new grid.Column.fromMap(
+        {'width':120,'id': "%", 'name': "Polymer Editor", 'field': "pc", 'sortable': true, 'editor': new PercentCompleteEditor()}),
     new grid.Column.fromMap({'name': 'text editor', 'field': "dtitle", 'sortable': true, 'editor': 'TextEditor'}),
     new grid.Column.fromMap({'width': 80, 'field': "duration", 'sortable': true, 'editor': 'DoubleEditor'}),
     new grid.Column.fromMap({'name': 'date editor', 'field': "StartDate", 'width': 180, 'editor': new DateEditor()}),
@@ -41,8 +47,6 @@ grid.SlickGrid init() {
       'editor': 'CheckboxEditor',
       'formatter': grid.CheckmarkFormatter
     }),
-    new grid.Column.fromMap(
-        {'id': "%", 'name': "percent", 'field': "pc", 'sortable': true, 'editor': new PercentCompleteEditor()}),
     new grid.Column.fromMap({
       'name': 'int List Editor',
       'field': "intlist",
@@ -82,7 +86,7 @@ grid.SlickGrid init() {
 
   sg.onBeforeEditCell.subscribe((e, args) {
     //swap editor here
-    print(args['column']);
+  //  print(args['column']);
   });
   sg.onSort.subscribe((e, args) {
     sg.commitCurrentEdit();
@@ -152,92 +156,5 @@ class DateEditor extends Editor {
 
   isValueChanged() {
     return true;
-  }
-}
-
-///percent editor
-///
-class PercentCompleteEditor extends Editor {
-  Element $picker;
-  TextInputElement _$input;
-  PercentElement floatMenu = null;
-  StreamSubscription floatMenuSelectStream;
-  set editorParm(EditorParm m) {
-    super.editorParm = m;
-    //$input = new DateInputElement(); //
-    $input = new TextInputElement(); //$("<INPUT type=text class='editor-percentcomplete' />");
-    _$input = $input;
-    $input.style.width = '${editorParm.activeCellNode.getBoundingClientRect().width-35}px';
-    editorParm.activeCellNode.append($input);
-    $picker = new Element.tag('iron-icon');
-    $picker.attributes['icon'] = 'editor:format-list-numbered';
-    $picker.classes.add('cell');
-
-    $picker.onMouseEnter.listen((_) {
-      const id = '_percent';
-
-      if (floatMenu == null) {
-        floatMenu = new Element.tag('percent-element');
-        floatMenu.id = id;
-
-        querySelector('body').append(floatMenu);
-      } else {
-        floatMenu = document.querySelector('#${id}');
-        floatMenu.hidden = false;
-      }
-
-      floatMenuSelectStream?.cancel();
-      floatMenuSelectStream = floatMenu.on['percent-change'].listen((_) {
-        var val = new CustomEventWrapper(_).detail;
-        print(val);
-        _$input.value = val;
-      });
-
-      ///move menu to cell
-      var pos = editorParm.position;
-      floatMenu.place(pos['top'], pos['left']);
-    });
-
-    editorParm.activeCellNode.append($picker);
-    $input..attributes['hidefocus'] = 'true';
-    $input.focus();
-  }
-
-  init() {}
-
-  destroy() {
-    _$input.remove();
-    $picker.remove();
-    floatMenu?.hidden = true;
-  }
-
-  focus() {
-    $input.focus();
-  }
-
-  loadValue(item) {
-    _$input.value = item[this.editorParm.columnDef.field];
-
-    _$input.select();
-  }
-
-  serializeValue() {
-    return _$input.value;
-  }
-
-  applyValue(item, state) {
-    if (state != null) super.applyValue(item, state);
-  }
-
-  isValueChanged() {
-    return _$input.value != defaultValue;
-  }
-
-  validate() {
-    if (_$input.value.length > 10) {
-      return {'valid': false, 'msg': "Please enter a valid positive number"};
-    }
-
-    return {'valid': true, 'msg': null};
   }
 }

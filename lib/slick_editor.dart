@@ -35,7 +35,8 @@ abstract class Editor {
   }
 
   bool isValueChanged();
-
+  /// check user input valid or not
+  /// it not valid, set invalid class to target cell
   Map validate();
   bool show() {
     this.$input.style.visibility = 'visible';
@@ -51,8 +52,9 @@ abstract class Editor {
   void focus();
 }
 ///
-///  when user click cell and active editor mode
+///  * when user click cell and active editor mode
 ///  [EditorParm] will pass to [Editor] instance
+///  * Can be customize editor, see web/example/polymer/[PercentElement]
 ///
 class EditorParm {
   /// current cell element
