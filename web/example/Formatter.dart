@@ -15,19 +15,15 @@ void main() {
         'dtitle': new math.Random().nextInt(1000).toString(),
         'duration': new math.Random().nextInt(1000).toString(),
         'pc': new math.Random().nextInt(100),
-        'effortDriven': (i % 5 == 0)
+        'effortDriven': (i % 5 == 0),
+        'link': $i
       });
     }
     g.data.clear();
     g.data.addAll(_data);
     g.invalidate();
     g.render();
-
-    //print(g.data);
   });
-//  querySelector('#reset').onClick.listen((e){
-//    print(g.data);
-//  });
 }
 
 grid.SlickGrid init() {
@@ -35,12 +31,18 @@ grid.SlickGrid init() {
   List<grid.Column> column = [
     new grid.Column.fromMap({
       'id': "title",
-      'name': "text",
+      'name': "format from Class",
       'field': "dtitle",
       'sortable': true,
       'editor': 'TextEditor',
       'formatter': new SuperFormater()
     }),
+    new grid.Column()
+      ..formatter = LinkFormatter
+      ..name="LINK"
+      ..id="LINK"
+      ..field = 'link',
+
     new grid.Column.fromMap(
         {'width': 120, 'id': "duration", 'name': "duration", 'field': "duration", 'sortable': true}),
     new grid.Column.fromMap({
@@ -73,7 +75,8 @@ grid.SlickGrid init() {
       'dtitle': i.toString(),
       'duration': new math.Random().nextInt(100).toString(),
       'pc': new math.Random().nextInt(100),
-      'effortDriven': (i % 5 == 0)
+      'effortDriven': (i % 5 == 0),
+        'link': i + new math.Random().nextInt(10)
     });
   }
   Map opt = {'explicitInitialization': false, 'multiColumnSort': true, 'editable': true,};
@@ -83,8 +86,8 @@ grid.SlickGrid init() {
   sg.setSelectionModel(model);
   sg.onClick.subscribe((grid.EventData e, Map args) {
     print(args);
-    grid.Column col=sg.getColumns()[args['cell']];
-    if(e.target is InputElement){
+    grid.Column col = sg.getColumns()[args['cell']];
+    if (e.target is InputElement) {
       print('it is button');
       print(col);
     }
@@ -128,12 +131,22 @@ class SuperFormater {
   }
 }
 
+/// see [grid.TFormatter]
 SuperFormatter2(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
   var colStr = JSON.encode(columnDef.toString());
   // grid.Column col = new grid.Column.fromJSON(colStr);
   return value;
 }
 
+/// see [grid.TFormatter]
 ButtonFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
+  if(row%4==0) return 'T';
   return '<input type="button" value="$value" style="width:100%;padding:0;">';
+}
+
+/// see [grid.TFormatter]
+LinkFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
+  if(value %5==0) return "<a href='#'>Link - $value</a>";
+  if(value %3==0) return "<div style='color:red;text-align:right;width:100%;'>$value</div>";
+  return value;
 }

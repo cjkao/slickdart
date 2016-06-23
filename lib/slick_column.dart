@@ -11,9 +11,9 @@ import 'slick_util.dart' as util;
 import 'package:logging/logging.dart';
 
 Logger _log = new Logger('slick.column');
-/**
- * formatter interface
- */
+///
+/// formatter interface
+///  
 typedef String TFormatter(int row, int cell, var value, Column columnDef, Map dataContext);
 
 /**
