@@ -3383,6 +3383,7 @@ $viewportTopL.style.overflowY='auto';
              if (hasFrozenRows && !_options.frozenBottom) {
                    $viewportBottomR.scrollTop += we.deltaY;
                    $viewportBottomL.scrollTop += we.deltaY;
+
              } else {
                    $viewportTopR.scrollTop += we.deltaY;
                    $viewportTopL.scrollTop += we.deltaY;
@@ -3390,9 +3391,6 @@ $viewportTopL.style.overflowY='auto';
          }else{
                    $viewportTopL.scrollTop += we.deltaY;
          }
-
-
-
        }
        if(we.deltaX!=0){
          if (_options.frozenColumn> -1) {
@@ -3403,9 +3401,7 @@ $viewportTopL.style.overflowY='auto';
                  $viewportBottomL.scrollLeft += we.deltaX;
          }
        }
-//      handleScroll(we);
-
-      we.preventDefault();
+    //  we.preventDefault();
     }
     _handleScroll(bool isMouseWheel,bool targetFrozen) {
         var maxScrollDistanceY = $viewportScrollContainerY.scrollHeight - $viewportScrollContainerY.clientHeight;
