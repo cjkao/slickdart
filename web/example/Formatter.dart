@@ -16,7 +16,7 @@ void main() {
         'duration': new math.Random().nextInt(1000).toString(),
         'pc': new math.Random().nextInt(100),
         'effortDriven': (i % 5 == 0),
-        'link': $i
+        'link': '$i'
       });
     }
     g.data.clear();
@@ -39,8 +39,8 @@ grid.SlickGrid init() {
     }),
     new grid.Column()
       ..formatter = LinkFormatter
-      ..name="LINK"
-      ..id="LINK"
+      ..name = "LINK"
+      ..id = "LINK"
       ..field = 'link',
 
     new grid.Column.fromMap(
@@ -76,7 +76,7 @@ grid.SlickGrid init() {
       'duration': new math.Random().nextInt(100).toString(),
       'pc': new math.Random().nextInt(100),
       'effortDriven': (i % 5 == 0),
-        'link': i + new math.Random().nextInt(10)
+      'link': i + new math.Random().nextInt(10)
     });
   }
   Map opt = {'explicitInitialization': false, 'multiColumnSort': true, 'editable': true,};
@@ -140,13 +140,13 @@ SuperFormatter2(int row, int cell, dynamic value, grid.Column columnDef, dataCon
 
 /// see [grid.TFormatter]
 ButtonFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
-  if(row%4==0) return 'T';
+  if (row % 4 == 0) return 'T';
   return '<input type="button" value="$value" style="width:100%;padding:0;">';
 }
 
 /// see [grid.TFormatter]
 LinkFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
-  if(value %5==0) return "<a href='#'>Link - $value</a>";
-  if(value %3==0) return "<div style='color:red;text-align:right;width:100%;'>$value</div>";
+  if (value % 5 == 0) return "<a href='#'>Link - $value</a>";
+  if (value % 3 == 0) return "<div style='color:red;text-align:right;width:100%;'>$value</div>";
   return value;
 }
