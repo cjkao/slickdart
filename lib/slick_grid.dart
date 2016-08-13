@@ -3378,30 +3378,46 @@ $viewportTopL.style.overflowY='auto';
       }
     }
      _handleWheel(WheelEvent we){
+       bool noDocScroll=true;
        if(we.deltaY!=0){
          if (_options.frozenColumn> -1) {
              if (hasFrozenRows && !_options.frozenBottom) {
-                   $viewportBottomR.scrollTop += we.deltaY;
-                   $viewportBottomL.scrollTop += we.deltaY;
-
+               var tmp=$viewportBottomL.scrollTop;
+                $viewportBottomR.scrollTop += we.deltaY;
+                $viewportBottomL.scrollTop += we.deltaY;
+                if(tmp==$viewportBottomL.scrollTop || $viewportBottomL.scrollTop==0) noDocScroll=false;
              } else {
-                   $viewportTopR.scrollTop += we.deltaY;
-                   $viewportTopL.scrollTop += we.deltaY;
+                var tmp=$viewportTopL.scrollTop;
+                $viewportTopR.scrollTop += we.deltaY;
+                $viewportTopL.scrollTop += we.deltaY;
+                if(tmp==$viewportTopL.scrollTop || $viewportTopL.scrollTop==0) noDocScroll=false;
              }
          }else{
-                   $viewportTopL.scrollTop += we.deltaY;
+                var tmp=$viewportTopL.scrollTop;
+                $viewportTopL.scrollTop += we.deltaY;
+                if(tmp==$viewportTopL.scrollTop || $viewportTopL.scrollTop==0) noDocScroll=false;
          }
        }
        if(we.deltaX!=0){
          if (_options.frozenColumn> -1) {
+                 var tmp=$viewportBottomR.scrollLeft;
                  $viewportTopR.scrollLeft += we.deltaX;
                  $viewportBottomR.scrollLeft += we.deltaX;
+                 if(tmp==$viewportBottomR.scrollLeft || $viewportBottomR.scrollLeft==0) noDocScroll=false;
          } else {
+                 var tmp=$viewportBottomR.scrollLeft;
                  $viewportTopL.scrollLeft += we.deltaX;
                  $viewportBottomL.scrollLeft += we.deltaX;
+                 if(tmp==$viewportBottomR.scrollLeft || $viewportBottomR.scrollLeft==0) noDocScroll=false;
          }
        }
-    //  we.preventDefault();
+       //print('''  ${$viewportTopR.scrollTop} ${$viewportTopR} ''');
+       if(noDocScroll){
+         we.preventDefault();
+       }
+      // else{
+      // print('''  ${$viewportTopR.scrollTop} ${$viewportTopR} ''');
+      // }
     }
     _handleScroll(bool isMouseWheel,bool targetFrozen) {
         var maxScrollDistanceY = $viewportScrollContainerY.scrollHeight - $viewportScrollContainerY.clientHeight;
