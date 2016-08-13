@@ -1,5 +1,5 @@
 # Version 0.1.7+3(2016/08)
-- fix scrolling behavior (enable wheel event propagate to document)
+- fix scrolling behavior (enable wheel event propagate to document when scroll to head/tail)
 
 # Version 0.1.7+2(2016/06)
 - add cell span
