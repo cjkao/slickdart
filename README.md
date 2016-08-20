@@ -177,7 +177,22 @@ Support one selection area only, can not cross frozen area
     sg.setSelectionModel(cellSelectModel);
 ```
 
+Programming select rows
+===============================================
+```
+grid.setSelectedRows([rowIndex1,rowIndex2...etc]);
+grid.invalidate();
+```
+
 Editing
 ==============================================
 * Commit Edit
+```
 getEditorLock().commitCurrentEdit()
+// or
+commitCurrentEdit();
+// or
+commitEditAndSetFocus();
+cancelEditAndSetFocus();
+
+```

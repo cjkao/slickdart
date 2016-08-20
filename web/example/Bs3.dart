@@ -57,7 +57,8 @@ cj.SlickGrid prepareGrid() {
     //..topPanelHeight=50
     ..frozenColumn =1
     ..frozenRow = 1
-    ..enableColumnReorder = true;
+    ..enableColumnReorder = true
+    ..enableTextSelectionOnCells=true;
 
   cj.SlickGrid sg = new cj.SlickGrid.fromOpt(el, makeData(50), column, opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));

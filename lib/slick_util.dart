@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'dart:convert';
 import 'slick_column.dart' show TFormatter;
+
 Logger _log = new Logger('slick.util');
 
 ///
@@ -57,7 +58,7 @@ Map<String, int> measureScrollbar() {
 
   querySelector('body').append($c);
   //CssStyleDeclaration style = $c.getComputedStyle();
-  Map<String,int> dim = {
+  Map<String, int> dim = {
     'width': core.Dimension.getCalcWidth($c) - $c.clientWidth,
     'height': core.Dimension.getCalcHeight($c) - $c.clientHeight
   };
@@ -101,6 +102,7 @@ class FilteredList extends ListBase {
   FilteredList.fromMap(Map map) {
     _srcList = map == null ? new List() : new List.from(map.values);
   }
+
   ///
   /// create new view base on filter, only matched item will show
   /// string is partial matching
@@ -111,6 +113,7 @@ class FilteredList extends ListBase {
     _filter = m;
     _viewList = _foldHelper();
   }
+
   void addKeyword(String key, Object val) {
     //_viewList=[];
     if (val is String && val.length == 0) {
@@ -120,9 +123,10 @@ class FilteredList extends ListBase {
     }
     _viewList = _foldHelper();
   }
+
   /// conflict with setter
   @deprecated
-  void setKeyword(String key, Object val) => addKeyword(key,val);
+  void setKeyword(String key, Object val) => addKeyword(key, val);
 
   /**
    * when src is changed, regenerate view
@@ -305,7 +309,7 @@ abstract class IMetaData {
 }
 
 class MetaList<T> extends ListBase<T> with IMetaData {
-  static const COLUMN='columns';
+  static const COLUMN = 'columns';
   metaFun _func;
   List<T> innerList;
   MetaList(this.innerList, [this._func]) {}
@@ -336,7 +340,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
   void add(T value) => innerList.add(value);
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
-  void sort([int compare(T a,T b)]) => innerList.sort(compare);
+  void sort([int compare(T a, T b)]) => innerList.sort(compare);
 }
 
 // code hint for setup grid
@@ -359,15 +363,19 @@ class GridOptions {
   bool explicitInitialization = false;
   int rowHeight = 25;
   int defaultColumnWidth = 80;
-  /** extra one row  on end of data row, the new added row have renedered cells */
+
+  /// extra one row  on end of data row, the new added row have renedered cells */
   bool enableAddRow = false;
-  /** true, add a blank empty row hight space after last rendered row
-   *  default: false
-   */
+
+  /// true, add a blank empty row hight space after last rendered row
+  ///   default: false
+  ///
   bool leaveSpaceForNewRows = false;
   bool editable = false;
   /** single click on editable cell will load editor */
   bool autoEdit = true;
+  /// commit current
+  bool autoCommitOnBlur = false;
   /**  keyboard up,down,left,right, page up , page down
    *  set to false also disable edit mode
    *  default: true
@@ -388,7 +396,7 @@ class GridOptions {
   int headerRowHeight = 25;
   bool showTopPanel = false;
   int topPanelHeight = 25;
-  Map<String,TFormatter> formatterFactory = {};
+  Map<String, TFormatter> formatterFactory = {};
   var editorFactory = null;
   String cellFlashingCssClass = "flashing";
   String selectedCellCssClass = "selected";
@@ -417,7 +425,7 @@ class GridOptions {
   bool syncColumnCellResize = false;
   //for commit current editor
   Function editCommandHandler = null;
-  GridOptions([Map<String,dynamic> opt]) {
+  GridOptions([Map<String, dynamic> opt]) {
     //adapt map config
     if (opt != null) {
       _processMap(opt);
@@ -492,7 +500,7 @@ class GridOptions {
     if (opt['headerRowHeight'] != null) this.headerRowHeight = opt['headerRowHeight'];
     if (opt['showTopPanel'] != null) this.showTopPanel = opt['showTopPanel'];
     if (opt['topPanelHeight'] != null) this.topPanelHeight = opt['topPanelHeight'];
-    if (opt['formatterFactory'] != null) this.formatterFactory = opt['formatterFactory'] as Map<String,TFormatter>;
+    if (opt['formatterFactory'] != null) this.formatterFactory = opt['formatterFactory'] as Map<String, TFormatter>;
     if (opt['editorFactory'] != null) this.editorFactory = opt['editorFactory'];
     if (opt['cellFlashingCssClass'] != null) this.cellFlashingCssClass = opt['cellFlashingCssClass'];
     if (opt['selectedCellCssClass'] != null) this.selectedCellCssClass = opt['selectedCellCssClass'];
