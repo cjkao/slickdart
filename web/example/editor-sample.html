@@ -18,7 +18,13 @@
         display: inline;
         float:right;
       }
-
+     .input[type=date] {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 98%;
+    height: 98%;
+}
      </style>
      <!--
      <script src="../packages/web_components/webcomponents.min.js"></script>
@@ -33,6 +39,7 @@
         </div>
         <div id="grid" style="width:100%;height:100%;"></div>
         <button id='reset'>reset</button>
+        <button id='autoCommit'>auto commit</button>
       </div>
       <br />
       <br />
@@ -46,6 +53,23 @@
   or
   {string_displayValue: lable_for_click_selection}
 </pre>
+      </p>
+      <h3>date editor</h3>
+      <p>
+        input value > 2012-01-08' is acceped
+      </p>
+      <h3>cell blur event</h3>
+      <p>turn on commitOption on autoCommitOnBlur
+        <pre>
+          grid.GridOptions opt = new grid.GridOptions()
+            ..autoCommitOnBlur = true;
+
+          sg.onActiveCellBlur.subscribe((e, args) {
+            print(args['old']);
+            print(args['new']);
+            sg.commitCurrentEdit();
+          });
+        </pre>
       </p>
     <script type="application/dart" src="editor-sample.dart"></script>
     <script src="../packages/browser/dart.js"></script>

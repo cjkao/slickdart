@@ -196,3 +196,8 @@ commitEditAndSetFocus();
 cancelEditAndSetFocus();
 
 ```
+
+* enable text selection
+```
+new GridOptions()..enableTextSelectionOnCells=true;
+```

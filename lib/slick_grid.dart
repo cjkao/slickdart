@@ -120,7 +120,7 @@ class SlickGrid {
    */
   core.Event onSelectedRowsChanged = new core.Event();
   core.Event onCellCssStylesChanged = new core.Event();
-
+  core.Event onActiveCellBlur = new core.Event();
   /**
    * constructure
    * @param container target html node
