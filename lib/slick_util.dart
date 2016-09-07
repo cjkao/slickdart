@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'dart:convert';
 import 'slick_column.dart' show TFormatter;
+
 Logger _log = new Logger('slick.util');
 
 ///
@@ -57,7 +58,7 @@ Map<String, int> measureScrollbar() {
 
   querySelector('body').append($c);
   //CssStyleDeclaration style = $c.getComputedStyle();
-  Map<String,int> dim = {
+  Map<String, int> dim = {
     'width': core.Dimension.getCalcWidth($c) - $c.clientWidth,
     'height': core.Dimension.getCalcHeight($c) - $c.clientHeight
   };
@@ -88,19 +89,24 @@ Element findClosestAncestor(Element element, String cssSelector, [String scope])
 /// _note_: any operation to list will forward to  src list
 ///
 class FilteredList extends ListBase {
-  List _srcList, _viewList;
+  /// prvoide sub class to alter behavior
+  List srcList, viewList;
+
+  /// default: case sensitive
+  bool ignoreCase = false;
   /**
    * field name ->  condition or function
    */
-  Map<String, dynamic> _filter = {};
+  Map<String, dynamic> filter = {};
 
-  FilteredList([this._srcList]) {
-    _srcList ??= new List();
+  FilteredList([this.srcList, this.ignoreCase]) {
+    srcList ??= new List();
   }
   //Constructor from a Map
   FilteredList.fromMap(Map map) {
-    _srcList = map == null ? new List() : new List.from(map.values);
+    srcList = map == null ? new List() : new List.from(map.values);
   }
+
   ///
   /// create new view base on filter, only matched item will show
   /// string is partial matching
@@ -108,43 +114,46 @@ class FilteredList extends ListBase {
   ///
   set keyword(Map<String, dynamic> m) {
     if (m == null) return;
-    _filter = m;
-    _viewList = _foldHelper();
+    filter = m;
+    viewList = _foldHelper();
   }
+
   void addKeyword(String key, Object val) {
     //_viewList=[];
     if (val is String && val.length == 0) {
-      _filter.remove(key);
+      filter.remove(key);
     } else {
-      _filter[key] = val;
+      filter[key] = val;
     }
-    _viewList = _foldHelper();
+    viewList = _foldHelper();
   }
+
   /// conflict with setter
   @deprecated
-  void setKeyword(String key, Object val) => addKeyword(key,val);
+  void setKeyword(String key, Object val) => addKeyword(key, val);
 
-  /**
-   * when src is changed, regenerate view
-   */
+  ///
+  /// when src is changed, regenerate view
+  ///
   void invalidate() {
-    _viewList = _foldHelper();
+    viewList = _foldHelper();
   }
 
   void removeKeyword(String key) {
-    _filter.remove(key);
+    filter.remove(key);
   }
 
   _foldHelper() {
-    return new UnmodifiableListView(_srcList.fold([], (List init, val) {
-      var test = _filter.keys.every((k) {
+    return new UnmodifiableListView(srcList.fold([], (List init, val) {
+      var test = filter.keys.every((k) {
         if (val[k] is String) {
-          return val[k].contains(_filter[k]);
+          return val[k].contains(filter[k]) ||
+              this.ignoreCase && (val[k] as String).toUpperCase().contains(filter[k].toString().toUpperCase());
         } else if (val[k] is bool) {
-          return val[k] == _filter[k];
+          return val[k] == filter[k];
         } else {
           try {
-            var _num = num.parse(_filter[k]);
+            var _num = num.parse(filter[k]);
             return val[k] == _num;
           } catch (e) {
             return false;
@@ -156,65 +165,65 @@ class FilteredList extends ListBase {
     }));
   }
 
-  operator [](index) => _filter.length == 0 ? _srcList[index] : _viewList[index];
-  operator []=(index, value) => _srcList.add(value);
+  operator [](index) => filter.length == 0 ? srcList[index] : viewList[index];
+  operator []=(index, value) => srcList.add(value);
   //for grid internal mask
-  get length => _filter.length == 0 ? _srcList.length : _viewList.length;
+  get length => filter.length == 0 ? srcList.length : viewList.length;
   set length(val) {
-    _srcList.length = val;
+    srcList.length = val;
   }
 
   add(val) {
-    _srcList.add(val);
+    srcList.add(val);
   }
 
   addAll(val) {
-    _srcList.addAll(val);
+    srcList.addAll(val);
   }
 
   clear() {
-    _srcList.clear();
-    _viewList = new UnmodifiableListView([]);
+    srcList.clear();
+    viewList = new UnmodifiableListView([]);
   }
 
   bool remove(Object element) {
-    return _srcList.remove(element);
+    return srcList.remove(element);
   }
 
   void sort([int compare(a, b)]) {
-    _srcList.sort(compare);
-    if (_viewList != null && _viewList.length > 0) _viewList = _foldHelper();
+    srcList.sort(compare);
+    if (viewList != null && viewList.length > 0) viewList = _foldHelper();
   }
 
-  Iterable get reversed => _srcList.reversed;
+  Iterable get reversed => srcList.reversed;
   void shuffle([Random random]) {
-    _srcList.shuffle(random);
-    _viewList.shuffle(random);
+    srcList.shuffle(random);
+    viewList.shuffle(random);
   }
 
-  int indexOf(element, [int start = 0]) => _srcList.indexOf(element, start);
-  int lastIndexOf(element, [int start]) => _srcList.lastIndexOf(element, start);
-  void insert(int index, element) => _srcList.insert(index, element);
+  int indexOf(element, [int start = 0]) => srcList.indexOf(element, start);
+  int lastIndexOf(element, [int start]) => srcList.lastIndexOf(element, start);
+  void insert(int index, element) => srcList.insert(index, element);
 
-  void insertAll(int index, Iterable iterable) => _srcList.insertAll(index, iterable);
+  void insertAll(int index, Iterable iterable) => srcList.insertAll(index, iterable);
 
-  void setAll(int index, Iterable iterable) => _srcList.setAll(index, iterable);
+  void setAll(int index, Iterable iterable) => srcList.setAll(index, iterable);
 
-  removeAt(int index) => _srcList.removeAt(index);
+  removeAt(int index) => srcList.removeAt(index);
 
-  removeLast() => _srcList.removeLast();
-  void removeWhere(bool test(element)) => _srcList.removeWhere(test);
+  removeLast() => srcList.removeLast();
+  void removeWhere(bool test(element)) => srcList.removeWhere(test);
 
   void retainWhere(bool test(element)) => retainWhere(test);
-  List sublist(int start, [int end]) => _srcList.sublist(start, end);
-  Iterable getRange(int start, int end) => _srcList.getRange(start, end);
+  List sublist(int start, [int end]) => srcList.sublist(start, end);
+  Iterable getRange(int start, int end) => srcList.getRange(start, end);
 
   void setRange(int start, int end, Iterable iterable, [int skipCount = 0]) =>
-      _srcList.setRange(start, end, iterable, skipCount);
-  void removeRange(int start, int end) => _srcList.removeRange(start, end);
-  void fillRange(int start, int end, [fillValue]) => _srcList.fillRange(start, end, fillValue);
-  void replaceRange(int start, int end, Iterable replacement) => _srcList.replaceRange(start, end, replacement);
-  Map<int, dynamic> asMap() => _srcList.asMap();
+      srcList.setRange(start, end, iterable, skipCount);
+  void removeRange(int start, int end) => srcList.removeRange(start, end);
+  void fillRange(int start, int end, [fillValue]) => srcList.fillRange(start, end, fillValue);
+  void replaceRange(int start, int end, Iterable replacement) => srcList.replaceRange(start, end, replacement);
+  Map<int, dynamic> asMap() => srcList.asMap();
 }
 
 /**
@@ -251,9 +260,9 @@ class HierarchFilterList extends FilteredList {
 
   _foldHelper() {
     Map tMap = {'parents': new Set(), 'list': []};
-    return new UnmodifiableListView(_srcList.fold(tMap, (Map init, val) {
+    return new UnmodifiableListView(srcList.fold(tMap, (Map init, val) {
       //_filter.keys.every(test)
-      bool showRow = _filter.keys.every((k) {
+      bool showRow = filter.keys.every((k) {
         if (k == _collapsedField) {
           //filter by tree hierarchical
           if (init['parents'].contains(val[_parentField])) {
@@ -265,8 +274,8 @@ class HierarchFilterList extends FilteredList {
           } else {
             return true;
           }
-        } else if (_filter[k] is Function) {
-          bool isShow = _filter[k](val[k]);
+        } else if (filter[k] is Function) {
+          bool isShow = filter[k](val[k]);
           if (!isShow) init['parents'].add(val[_idField]);
           return isShow;
         } else {
@@ -305,7 +314,7 @@ abstract class IMetaData {
 }
 
 class MetaList<T> extends ListBase<T> with IMetaData {
-  static const COLUMN='columns';
+  static const COLUMN = 'columns';
   metaFun _func;
   List<T> innerList;
   MetaList(this.innerList, [this._func]) {}
@@ -336,7 +345,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
   void add(T value) => innerList.add(value);
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
-  void sort([int compare(T a,T b)]) => innerList.sort(compare);
+  void sort([int compare(T a, T b)]) => innerList.sort(compare);
 }
 
 // code hint for setup grid
@@ -388,7 +397,7 @@ class GridOptions {
   int headerRowHeight = 25;
   bool showTopPanel = false;
   int topPanelHeight = 25;
-  Map<String,TFormatter> formatterFactory = {};
+  Map<String, TFormatter> formatterFactory = {};
   var editorFactory = null;
   String cellFlashingCssClass = "flashing";
   String selectedCellCssClass = "selected";
@@ -417,7 +426,7 @@ class GridOptions {
   bool syncColumnCellResize = false;
   //for commit current editor
   Function editCommandHandler = null;
-  GridOptions([Map<String,dynamic> opt]) {
+  GridOptions([Map<String, dynamic> opt]) {
     //adapt map config
     if (opt != null) {
       _processMap(opt);
@@ -492,7 +501,7 @@ class GridOptions {
     if (opt['headerRowHeight'] != null) this.headerRowHeight = opt['headerRowHeight'];
     if (opt['showTopPanel'] != null) this.showTopPanel = opt['showTopPanel'];
     if (opt['topPanelHeight'] != null) this.topPanelHeight = opt['topPanelHeight'];
-    if (opt['formatterFactory'] != null) this.formatterFactory = opt['formatterFactory'] as Map<String,TFormatter>;
+    if (opt['formatterFactory'] != null) this.formatterFactory = opt['formatterFactory'] as Map<String, TFormatter>;
     if (opt['editorFactory'] != null) this.editorFactory = opt['editorFactory'];
     if (opt['cellFlashingCssClass'] != null) this.cellFlashingCssClass = opt['cellFlashingCssClass'];
     if (opt['selectedCellCssClass'] != null) this.selectedCellCssClass = opt['selectedCellCssClass'];

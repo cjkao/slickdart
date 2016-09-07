@@ -6,6 +6,7 @@ import 'package:slickdart/slick_selectionmodel.dart';
 String searchStr = '';
 grid.FilteredList srcData = new grid.FilteredList();
 void main() {
+  srcData.ignoreCase = true;
   grid.SlickGrid sg = makeGrid();
   sg.init();
   document.querySelector('#search').onInput.listen((Event ke) {
@@ -71,7 +72,8 @@ grid.SlickGrid makeGrid() {
       'title': i + 1,
       'duration': 'd ${i*100}',
       'percentComplete': new math.Random().nextInt(10),
-      'start': "01/01/20${i}",
+      'start': "01/01/20${i} ${new String.fromCharCode(new math.Random().nextInt(4) + 65) }"
+          "${new String.fromCharCode(new math.Random().nextInt(4) + 97) }",
       'finish': "01/05/21${i+1}",
       'book': "$i${new math.Random().nextInt(5)}",
       'effortDriven': (i % 5 == 0),
@@ -89,7 +91,7 @@ grid.SlickGrid makeGrid() {
     ..dynamicHeight = true
     ..frozenColumn = 0;
   grid.SlickGrid sg;
-  Map<String,String> getMeta(int row) {
+  Map<String, String> getMeta(int row) {
     Map item = sg.data[row];
     bool exist = item.values.any((_) => searchStr.length > 0 && _ is String && _.contains(searchStr));
     if (exist) {
