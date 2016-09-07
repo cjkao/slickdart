@@ -236,7 +236,7 @@ class PercentCompleteEditor extends Editor {
   }
 
   validate() {
-    if (_$input.value.length > 10) {
+    if (_$input.value.length > 3) {
       return {'valid': false, 'msg': "Please enter a valid positive number"};
     }
 
