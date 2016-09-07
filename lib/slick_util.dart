@@ -368,15 +368,19 @@ class GridOptions {
   bool explicitInitialization = false;
   int rowHeight = 25;
   int defaultColumnWidth = 80;
-  /** extra one row  on end of data row, the new added row have renedered cells */
+
+  /// extra one row  on end of data row, the new added row have renedered cells */
   bool enableAddRow = false;
-  /** true, add a blank empty row hight space after last rendered row
-   *  default: false
-   */
+
+  /// true, add a blank empty row hight space after last rendered row
+  ///   default: false
+  ///
   bool leaveSpaceForNewRows = false;
   bool editable = false;
   /** single click on editable cell will load editor */
   bool autoEdit = true;
+  /// commit current
+  bool autoCommitOnBlur = false;
   /**  keyboard up,down,left,right, page up , page down
    *  set to false also disable edit mode
    *  default: true

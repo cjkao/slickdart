@@ -15,12 +15,26 @@ void main() {
 grid.SlickGrid init() {
   Element el = querySelector('#grid');
   List<grid.Column> column = [
-    new grid.Column.fromMap({'name': 'text editor', 'field': "dtitle", 'sortable': true, 'editor': 'TextEditor'}),
-    new grid.Column.fromMap({'width': 120, 'field': "duration", 'sortable': true, 'editor': 'DoubleEditor'}),
+    new grid.Column.fromMap({'name': 'string', 'field': "str", 'sortable': true, 'editor': 'TextEditor'}),
+    new grid.Column.fromMap({'field': "int", 'sortable': true, 'editor': 'IntEditor'}),
+    new grid.Column.fromMap({'field': "double", 'sortable': true, 'editor': 'DoubleEditor'}),
+    new grid.Column.fromMap({
+      'name': 'checkbox-str',
+      'field': "checkbox2",
+      'width': 140,
+      'editor': 'CheckboxEditor',
+      'formatter': grid.CheckmarkFormatter
+    }),
     new grid.Column.fromMap({'name': 'date editor', 'field': "StartDate", 'width': 140, 'editor': new DateEditor()}),
-    new grid.Column.fromMap({'id':'checkbox1','field': "checkbox", 'width': 140, 'editor': new CheckboxEditor(), 'formatter':  grid.CheckmarkFormatter}),
-    new grid.Column.fromMap({'id':'checkbox2','name':'checkbox-str','field': "checkbox2", 'width': 140, 'editor': 'CheckboxEditor', 'formatter':  grid.CheckmarkFormatter}),
-    new grid.Column.fromMap({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true, 'editor': new PercentCompleteEditor()}),
+    new grid.Column.fromMap({
+      'id': 'checkbox1',
+      'field': "checkbox",
+      'width': 140,
+      'editor': new CheckboxEditor(),
+      'formatter': grid.CheckmarkFormatter
+    }),
+    new grid.Column.fromMap(
+        {'id': "%", 'name': "percent", 'field': "pc", 'sortable': true, 'editor': new PercentCompleteEditor()}),
     new grid.Column.fromMap({
       'name': 'int List Editor',
       'field': "intlist",
@@ -35,17 +49,17 @@ grid.SlickGrid init() {
     }),
   ];
   List data = [];
-  var rand=new math.Random();
+  var rand = new math.Random();
   for (var i = 0; i < 50; i++) {
     data.add({
-      'dtitle': rand.nextInt(100).toString(),
-      'duration': rand.nextInt(100) + 0.1,
-      'pc': rand.nextInt(10) * 100,
-      'checkbox': rand.nextBool() ? true: false,
-      'checkbox2': rand.nextBool() ? true: false,
+      'str': rand.nextInt(100).toString(),
+      'double': rand.nextInt(100) + 0.1,
+      'int': rand.nextInt(10) * 100,
+      'bool': rand.nextBool() ? true : false,
+      'checkbox2': rand.nextBool() ? true : false,
       'intlist': rand.nextInt(2),
       'City': "NY",
-      'StartDate': '2012/01/31'
+      'StartDate': '200${i%9}-01-31'
     });
   }
   grid.GridOptions opt = new grid.GridOptions()
@@ -53,7 +67,8 @@ grid.SlickGrid init() {
     ..editable = true
     ..enableColumnReorder = true
     ..multiColumnSort = true
-    ..enableColumnReorder = true;
+    ..enableColumnReorder = true
+    ..autoCommitOnBlur = true;
   grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
 
   sg.setSelectionModel(new RowSelectionModel(sg.options));
@@ -61,6 +76,11 @@ grid.SlickGrid init() {
   sg.onBeforeEditCell.subscribe((e, args) {
     //swap editor here
     print(args['column']);
+  });
+  sg.onActiveCellBlur.subscribe((e, args) {
+    print(args['old']);
+    print(args['new']);
+    sg.commitCurrentEdit();
   });
   sg.onSort.subscribe((e, args) {
     sg.commitCurrentEdit();
@@ -92,19 +112,20 @@ grid.SlickGrid init() {
  * data type: accept int and string type from src data
  * display name: always string
  */
-class DateEditor extends Editor {
+class DateEditor extends InputEditor {
   // Map _opts;
 
   Map validate() {
-    return {'valid': true, 'msg': null};
+    var date = ($input as DateInputElement).valueAsDate;
+    return {'valid': date.isAfter(new DateTime(2012, 01, 08)), 'msg': 'not valid date'};
   }
 
-  void destroy() => $input.remove();
-  void focus() => $input.focus();
+  //void destroy() => $input.remove();
+  //void focus() => $input.focus();
   set editorParm(EditorParm m) {
     super.editorParm = m;
-    $input = new DateInputElement(); //
-    editorParm.activeCellNode.append($input);
+    ($input as InputElement).type = 'date';
+    m.activeCellNode.append($input);
     $input..attributes['hidefocus'] = 'true';
     $input.focus();
   }
@@ -116,10 +137,15 @@ class DateEditor extends Editor {
 
   loadValue(item) {
     super.loadValue(item);
-    $input.attributes['value'] = (item[this.editorParm.columnDef.field] as String).replaceAll('/', '-');
+    var dateStr = (item[this.editorParm.columnDef.field] as String).replaceAll('/', '-');
+    ($input as DateInputElement)
+      ..value = dateStr
+      ..min = '2012-01-08';
+//      ..max = '2012-01-20';
   }
 
   String serializeValue() {
+    print(($input as DateInputElement).value);
     //return '2013/09/16';
     return ($input as DateInputElement).valueAsDate?.toIso8601String()?.split("T")?.first;
   }
@@ -128,34 +154,35 @@ class DateEditor extends Editor {
     if (state != null) super.applyValue(item, state);
   }
 
-  isValueChanged() {
-    return true;
+  bool isValueChanged() {
+//    return true;
+    var value = ($input as DateInputElement).value;
+    return value != '' && this.defaultValue != value;
   }
 }
 
-
-
 ///percent editor
 ///
-class PercentCompleteEditor extends Editor{
-   Element  $picker;
-   TextInputElement _$input;
-   set editorParm(EditorParm m) {
-     super.editorParm = m;
-     //$input = new DateInputElement(); //
-     $input = new TextInputElement();//$("<INPUT type=text class='editor-percentcomplete' />");
-     _$input=$input;
-     $input.style.width='${editorParm.activeCellNode.getBoundingClientRect().width-35}px';
-     editorParm.activeCellNode.append($input);
-     $picker = new DivElement()..classes.add('editor-percentcomplete-picker');// $("<div class='' />").appendTo(args.container);
+class PercentCompleteEditor extends Editor {
+  Element $picker;
+  TextInputElement _$input;
+  set editorParm(EditorParm m) {
+    super.editorParm = m;
+    //$input = new DateInputElement(); //
+    $input = new TextInputElement(); //$("<INPUT type=text class='editor-percentcomplete' />");
+    _$input = $input;
+    $input.style.width = '${editorParm.activeCellNode.getBoundingClientRect().width-35}px';
+    editorParm.activeCellNode.append($input);
+    $picker = new DivElement()
+      ..classes.add('editor-percentcomplete-picker'); // $("<div class='' />").appendTo(args.container);
 
-     editorParm.activeCellNode.append($picker);
-     $input..attributes['hidefocus'] = 'true';
-     $input.focus();
-   }
+    editorParm.activeCellNode.append($picker);
+    $input..attributes['hidefocus'] = 'true';
+    $input.focus();
+  }
 
-   init() {
-     /**
+  init() {
+    /**
      $input.appendTo(args.container);
 
 
@@ -179,47 +206,40 @@ class PercentCompleteEditor extends Editor{
        $picker.find(".editor-percentcomplete-slider").slider("value", $(this).attr("val"));
      });
      **/
-   }
+  }
 
-   destroy() {
-     _$input.remove();
-     //$picker.remove();
-   }
+  destroy() {
+    _$input.remove();
+    //$picker.remove();
+  }
 
-   focus() {
-     $input.focus();
-   }
+  focus() {
+    $input.focus();
+  }
 
-   loadValue(item) {
-     _$input.value=item[this.editorParm.columnDef.field];
+  loadValue(item) {
+    _$input.value = item[this.editorParm.columnDef.field];
 
-     _$input.select();
-   }
+    _$input.select();
+  }
 
-   serializeValue() {
-     return _$input.value;
-   }
+  serializeValue() {
+    return _$input.value;
+  }
 
-   applyValue(item, state) {
-     if (state != null) super.applyValue(item, state);
-   }
+  applyValue(item, state) {
+    if (state != null) super.applyValue(item, state);
+  }
 
-   isValueChanged() {
-     return _$input.value != defaultValue;
-   }
+  isValueChanged() {
+    return _$input.value != defaultValue;
+  }
 
-   validate() {
-     if (_$input.value.length>10) {
-       return {
-         'valid': false,
-         'msg': "Please enter a valid positive number"
-       };
-     }
+  validate() {
+    if (_$input.value.length > 3) {
+      return {'valid': false, 'msg': "Please enter a valid positive number"};
+    }
 
-     return {
-       'valid': true,
-       'msg': null
-     };
-   }
-
- }
+    return {'valid': true, 'msg': null};
+  }
+}

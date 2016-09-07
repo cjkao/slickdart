@@ -1,3 +1,7 @@
+# Version 0.1.8(2016/09)
+- add new grid option: autoCommitOnBlur and onActiveCellBlur Event object, see editor-sample.dart
+- add ignoreCase option for FilteredList and expose private members
+
 # Version 0.1.7+3(2016/08)
 - fix scrolling behavior (enable wheel event propagate to document when scroll to head/tail)
 

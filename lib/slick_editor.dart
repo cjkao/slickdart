@@ -1,5 +1,7 @@
 library slick.editor;
 
+import 'slick_core.dart' as core;
+
 import 'dart:html';
 //import 'slick.dart';
 import 'slick_grid.dart' show SlickGrid;
@@ -13,6 +15,7 @@ abstract class Editor {
     _ep = m;
   }
 
+  /// initial value from row
   var defaultValue;
 
   ///
@@ -22,9 +25,9 @@ abstract class Editor {
     defaultValue = item[_ep.columnDef.field] != null ? item[_ep.columnDef.field] : "";
   }
 
-  /**
-   * return value from current editor to UI
-   */
+  ///
+  /// return value from current editor to UI
+  ///
   String serializeValue();
 
   ///
@@ -35,6 +38,7 @@ abstract class Editor {
   }
 
   bool isValueChanged();
+
   /// check user input valid or not
   /// it not valid, set invalid class to target cell
   Map validate();
@@ -51,6 +55,7 @@ abstract class Editor {
   void destroy();
   void focus();
 }
+
 ///
 ///  * when user click cell and active editor mode
 ///  [EditorParm] will pass to [Editor] instance
@@ -61,11 +66,14 @@ class EditorParm {
   Element activeCellNode;
   SlickGrid grid;
   Map<String, dynamic> gridPosition;
+
   /// cell position, see [SlickGrid.absBox]
   Map<String, dynamic> position;
   Column columnDef;
+
   /// call [commitChanges] to commit change  see [SlickGrid.commitEditAndSetFocus]
   Function commitChanges;
+
   /// [cancelChange] revoke change, see [SlickGrid.cancelEditAndSetFocus]
   Function cancelChanges;
 
@@ -82,10 +90,27 @@ class EditorParm {
 
 ///
 /// InputElement based editor
+/// add 'onActiveCellBlue' event, can be subscribe for auto commit
 abstract class InputEditor extends Editor {
-  InputElement _input;
-  InputEditor([_ep]) {
-    super._ep = _ep;
+  InputElement _input = new InputElement();
+  InputEditor([_]) {
+    $input = _input;
+    _ep = _;
+    _input
+      ..onBlur.listen((Event _) {
+        //  print(_input.classes.contains('keyup'));
+        if (_ep.grid.gridOptions.autoCommitOnBlur && !_input.classes.contains('keyup')) {
+          var ed = new core.EventData.fromDom(_);
+          _ep.grid.trigger(_ep.grid.onActiveCellBlur, {'old': defaultValue, 'new': _input.value}, ed);
+        }
+        _input.classes.remove('keyup');
+      })
+      ..onKeyUp.listen((_) {
+        _input.classes.remove('keyup');
+      })
+      ..onKeyDown.listen((_) {
+        _input.classes.add('keyup');
+      });
   }
   Map validate() {
     if (_ep.columnDef.validator != null) {
@@ -100,6 +125,7 @@ abstract class InputEditor extends Editor {
 
   void destroy() {
     $input.remove();
+    //$input.detached();
   }
 
   void focus() {
@@ -110,12 +136,13 @@ abstract class InputEditor extends Editor {
 class TextEditor extends InputEditor {
   set editorParm(EditorParm m) {
     super.editorParm = m;
-    $input = _input = new InputElement(type: 'text');
+    $input = _input..type = 'text'; // = new InputElement(type: 'text');
     _input.classes.add('editor-text');
     _ep.activeCellNode.append($input);
     _input
-      ..onKeyDown.matches(".nav").listen((KeyboardEvent e) {
-        if (e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT) {
+      ..onKeyDown.listen((KeyboardEvent e) {
+        //cancel navigation when no selection
+        if ((e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT) && _input.selectionEnd == _input.selectionStart) {
           e.stopImmediatePropagation();
         }
       })
@@ -152,7 +179,7 @@ class TextEditor extends InputEditor {
 class IntEditor extends InputEditor {
   set editorParm(EditorParm m) {
     super.editorParm = m;
-    $input = _input = new InputElement(type: 'number');
+    $input = _input..type = 'number'; // = new InputElement(type: 'number');
     _input
       ..pattern = '[-+]?[0-9]*'
       ..classes.add('editor-text');
@@ -211,7 +238,7 @@ class DoubleEditor extends IntEditor {
 class CheckboxEditor extends InputEditor {
   // set editorParm (m) => _ep = new EditorParm(m);
   CheckboxEditor([_ep]) : super(_ep) {
-    $input = _input = new InputElement(type: 'checkbox');
+    $input = _input..type = 'checkbox'; // = new InputElement(type: 'checkbox');
     $input.classes.add('editor-checkbox');
     _ep?.activeCellNode?.append($input);
     $input //..attributes['value'] = 'true'
@@ -225,15 +252,16 @@ class CheckboxEditor extends InputEditor {
     $input..attributes['hidefocus'] = 'true';
     $input.focus();
   }
+
   loadValue(item) {
     super.loadValue(item);
     //$input.value ='$defaultValue';
     _input.defaultValue = '$defaultValue';
     if ((defaultValue is String && defaultValue.toLowerCase() == 'true') || (defaultValue is bool && defaultValue)) {
       $input.attributes['checked'] = 'checked';
-      ($input as CheckboxInputElement).checked=true;
+      ($input as CheckboxInputElement).checked = true;
     } else {
-      ($input as CheckboxInputElement).checked=false;
+      ($input as CheckboxInputElement).checked = false;
       $input.attributes.remove('checked');
     }
   }
