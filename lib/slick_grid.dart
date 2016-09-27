@@ -4166,8 +4166,9 @@ class SlickGrid {
 
   ///
   /// clean window listeners
-  ///
+  /// and uninstall all plugines
   unSubscribe() {
     this._subscriptionList.forEach((_) => _.cancel());
+    plugins.forEach((_) => _.destroy());
   }
 }
