@@ -8,11 +8,11 @@ import 'package:slickdart/slick_selectionmodel.dart';
 //import 'package:datepicker/components/date_input.dart';
 //import 'package:polymer/polymer.dart';
 void main() {
-  grid.SlickGrid g = init();
+  grid.SlickGrid g = prepareGrid();
   g.init();
 }
 
-grid.SlickGrid init() {
+grid.SlickGrid prepareGrid() {
   Element el = querySelector('#grid');
   List<grid.Column> column = [
     new grid.Column.fromMap({'name': 'string', 'field': "str", 'sortable': true, 'editor': 'TextEditor'}),
@@ -33,8 +33,14 @@ grid.SlickGrid init() {
       'editor': new CheckboxEditor(),
       'formatter': grid.CheckmarkFormatter
     }),
-    new grid.Column.fromMap(
-        {'id': "%", 'name': "percent", 'field': "pc", 'sortable': true, 'editor': new PercentCompleteEditor()}),
+    new grid.Column.fromMap({
+      'id': "%",
+      'name': "percent",
+      'field': "pc",
+      'sortable': true,
+      'editor': new PercentCompleteEditor(),
+      'formatter': grid.PercentCompleteBarFormatter
+    }),
     new grid.Column.fromMap({
       'name': 'int List Editor',
       'field': "intlist",
@@ -55,6 +61,7 @@ grid.SlickGrid init() {
       'str': rand.nextInt(100).toString(),
       'double': rand.nextInt(100) + 0.1,
       'int': rand.nextInt(10) * 100,
+      'pc': rand.nextInt(100),
       'bool': rand.nextBool() ? true : false,
       'checkbox2': rand.nextBool() ? true : false,
       'intlist': rand.nextInt(2),
@@ -85,7 +92,6 @@ grid.SlickGrid init() {
   sg.onSort.subscribe((e, args) {
     sg.commitCurrentEdit();
     var cols = args['sortCols'];
-//{sortCol: {name: Title1, resizable: true, sortable: true, minWidth: 30, rerenderOnResize: false, headerCssClass: null, defaultSortAsc: true, focusable: true, selectable: true, cannotTriggerInsert: false, width: 80, id: title, field: title}, sortAsc: true}
     data.sort((dataRow1, dataRow2) {
       for (var i = 0, l = cols.length; i < l; i++) {
         var field = cols[i]['sortCol']['field'];
@@ -104,14 +110,24 @@ grid.SlickGrid init() {
     sg.invalidate();
     sg.render();
   });
+
+  /// 'editor': currentEditor,
+  ///        'cellNode': activeCellNode,
+  ///        'validationResults': validationResults,
+  ///        'row': activeRow,
+  ///        'cell': activeCell,
+  ///        'column': column
+  sg.onValidationError.subscribe((e, dynamic stat) {
+    querySelector('.err').text = stat['validationResults']['msg'];
+  });
   return sg;
 }
 
-/**
- * default select option
- * data type: accept int and string type from src data
- * display name: always string
- */
+///
+/// default select option
+/// data type: accept int and string type from src data
+/// display name: always string
+///
 class DateEditor extends InputEditor {
   // Map _opts;
 
@@ -155,7 +171,6 @@ class DateEditor extends InputEditor {
   }
 
   bool isValueChanged() {
-//    return true;
     var value = ($input as DateInputElement).value;
     return value != '' && this.defaultValue != value;
   }
@@ -228,7 +243,7 @@ class PercentCompleteEditor extends Editor {
   }
 
   applyValue(item, state) {
-    if (state != null) super.applyValue(item, state);
+    if (state != null) super.applyValue(item, int.parse(state));
   }
 
   isValueChanged() {
@@ -236,8 +251,12 @@ class PercentCompleteEditor extends Editor {
   }
 
   validate() {
-    if (_$input.value.length > 3) {
-      return {'valid': false, 'msg': "Please enter a valid positive number"};
+    bool valid = false;
+    if (int.parse(_$input.value, onError: (_) => -1) > 0) {
+      valid = true;
+    }
+    if (!valid) {
+      return {'valid': false, 'msg': " '${_$input.value}' is not valid, Please enter positive number"};
     }
 
     return {'valid': true, 'msg': null};

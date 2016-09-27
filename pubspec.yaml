@@ -1,5 +1,5 @@
 name: slickdart
-version: 0.1.8
+version: 0.1.8+1
 author: CJKAO <kaopeter@gmail.com>, tonosama-atlacatl, yyyangd
 description: Basic grid component port from SlickGrid with dynamic row height, frozen column enhancement
 homepage: https://cjkao.github.io/slickdart

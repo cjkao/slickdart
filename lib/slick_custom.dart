@@ -38,21 +38,20 @@ _addContext() {
     se.classes.add('grid-download');
     se.type = 'text/javascript';
     se.text = '''
-function setClipboard(data, elem, hideMenu){
-          var client = new ZeroClipboard( elem );
-          client.on( 'ready', function(event) {
-            client.on( 'copy', function(event) {
-              event.clipboardData.setData('text/plain', data);
-            } );
-            client.on( 'aftercopy', function(event) {
-                hideMenu();
-            } );
-          } );
-          client.on( 'error', function(event) {
-            // console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
-            ZeroClipboard.destroy();
-          } );
-      }
+    function setClipboard(data, elem, hideMenu) {
+        var client = new Clipboard(elem, {
+            text: function(trigger) {
+                return data;
+            }
+        });
+        client.on('success', function(e) {
+            hideMenu();
+            client.destroy();
+        });
+        client.on('error', function(e) {
+            client.destroy();
+        });
+    }
 ''';
     document.head.children.add(se);
   }

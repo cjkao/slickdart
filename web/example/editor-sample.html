@@ -27,6 +27,11 @@
             width: 98%;
             height: 98%;
         }
+
+        .err {
+            color: red;
+            padding: 4px;
+        }
     </style>
     <!--
      <script src="../packages/web_components/webcomponents.min.js"></script>
@@ -36,9 +41,9 @@
 
 <body>
     <date-input value="2014-02-01"></date-input>
-    <div style="width:600px;height:70vh;">
+    <div style="width:90%;height:70vh;">
         <div class="grid-header" style="width:100%">
-            <label>EDITOR EXAMPLE</label>
+            <label>EDITOR EXAMPLE</label> <span class='err'></span>
         </div>
         <div id="grid" style="width:100%;height:100%;"></div>
         <button id='reset'>reset</button>

@@ -1,3 +1,7 @@
+# Version 0.1.8+1(2016/09)
+- sunset zeroClipboard, using Clipboard.js
+- update editor sample, custom-elem sample
+
 # Version 0.1.8(2016/09)
 - add new grid option: autoCommitOnBlur and onActiveCellBlur Event object, see editor-sample.dart
 - add ignoreCase option for FilteredList and expose private members
