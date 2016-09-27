@@ -28,7 +28,7 @@
 </head>
 
 <body>
-
+  <h3>Highlight or Filter row</h3>
 
     <div class='container'>
         <div class='row'>
@@ -53,6 +53,7 @@
 String searchStr='';
 FilteredList srcData=new FilteredList();
 void main() {
+  srcData.ignoreCase = true; ///ignore case
   grid.SlickGrid sg=makeGrid();
   sg.init();
   document.querySelector('#search').onInput.listen( (Event ke){

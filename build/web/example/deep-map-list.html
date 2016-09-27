@@ -16,14 +16,15 @@
       <pre><code class="dart">
 /// when data is hierarchical map
 ///  data:  {
-///    'start': {'a':"01/01/200$i", 'b':'ccc'}
+///    'start': {'a':"01/01/200$i", 'b':'ccc'},
+///    'end': 'xxx'
 ///  })
   grid.GridOptions opt = new grid.GridOptions()..dataItemColumnValueExtractor=mapExtract;
   grid.SlickGrid sg= new grid.SlickGrid.fromOpt(el,data,column,opt);
   /// extractor function example
-  mapExtract(Map data, grid.Column col){
-    if(col.field=='start') return data['a'];
-    return data[col.field];
+  mapExtract(Map row, grid.Column col){
+    if(col.field=='start') return row['start']['a'];
+    return row[col.field];
   }
 </code></pre>
 
