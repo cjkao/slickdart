@@ -1691,7 +1691,7 @@ class SlickGrid {
         event.dataTransfer.effectAllowed = 'none';
         _log.finest('pageX $pageX ${window.pageXOffset}');
         resizeItem.parent.classes.add("slick-header-column-active");
-        var shrinkLeewayOnRight = null, stretchLeewayOnRight = null;
+        int shrinkLeewayOnRight = null, stretchLeewayOnRight = null;
         // lock each column's width option to current width
 
         for (int cnt = 0; cnt < columnElements.length; cnt++) {
@@ -1730,18 +1730,10 @@ class SlickGrid {
             shrinkLeewayOnLeft += c.previousWidth - math.max(c.minWidth, absoluteColumnMinWidth);
           }
         }
-        if (shrinkLeewayOnRight == null) {
-          shrinkLeewayOnRight = 100000;
-        }
-        if (shrinkLeewayOnLeft == null) {
-          shrinkLeewayOnLeft = 100000;
-        }
-        if (stretchLeewayOnRight == null) {
-          stretchLeewayOnRight = 100000;
-        }
-        if (stretchLeewayOnLeft == null) {
-          stretchLeewayOnLeft = 100000;
-        }
+        shrinkLeewayOnRight ??= 100000;
+        shrinkLeewayOnLeft ??= 100000;
+        stretchLeewayOnRight ??= 100000;
+        stretchLeewayOnLeft ??= 100000;
         maxPageX = pageX + math.min(shrinkLeewayOnRight, stretchLeewayOnLeft);
         minPageX = pageX - math.min(shrinkLeewayOnLeft, stretchLeewayOnRight);
         Map dragInfo = {'pageX': pageX, 'columnIdx': i, 'minPageX': minPageX, 'maxPageX': maxPageX};
@@ -3085,19 +3077,19 @@ class SlickGrid {
     for (var i = 0, ii = rows.length; i < ii; i++) {
       if (hasFrozenRows && rows[i] >= actualFrozenRow) {
         if (_options.frozenColumn > -1) {
-          _rowsCache[rows[i]].rowNode = [x.firstChild, xRight.firstChild];
+          _rowsCache[rows[i]].rowNode = <Element>[x.firstChild, xRight.firstChild];
           $canvasBottomL.children.add(x.firstChild);
           $canvasBottomR.children.add(xRight.firstChild);
         } else {
-          _rowsCache[rows[i]].rowNode = [x.firstChild];
+          _rowsCache[rows[i]].rowNode = <Element>[x.firstChild];
           $canvasBottomL.children.add(x.firstChild);
         }
       } else if (_options.frozenColumn > -1) {
-        _rowsCache[rows[i]].rowNode = [x.firstChild, xRight.firstChild];
+        _rowsCache[rows[i]].rowNode = <Element>[x.firstChild, xRight.firstChild];
         $canvasTopL.children.add(x.firstChild);
         $canvasTopR.children.add(xRight.firstChild);
       } else {
-        _rowsCache[rows[i]].rowNode = [x.firstChild];
+        _rowsCache[rows[i]].rowNode = <Element>[x.firstChild];
         $canvasTopL.children.add(x.firstChild);
       }
     }

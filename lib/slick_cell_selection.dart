@@ -29,7 +29,6 @@ class CellRangeDecorator {
     options.addAll(sg.options);
   }
   Element show(core.Range range) {
-
     if (_elem != null && !_activeCanvas.children.contains(_elem)) _activeCanvas.children.add(_elem);
     if (_elem == null) {
       _elem = new DivElement();
@@ -132,7 +131,7 @@ class CellRangeSelector extends IPlugin {
         ..fromCell = parm['cell']
         ..toRow = parm['row']
         ..toCell = parm['cell'];
-      newRange=new core.Range(centerCell.fromRow,centerCell.fromCell);
+      newRange = new core.Range(centerCell.fromRow, centerCell.fromCell);
     } else {
       //should not have untarget event
       assert(false);
@@ -143,7 +142,6 @@ class CellRangeSelector extends IPlugin {
   destroy() {
     _handler.unsubscribeAll();
   }
-
 }
 
 //
@@ -165,7 +163,7 @@ class CellSelectionModel extends SelectionModel {
 
   init(SlickGrid grid) {
     _grid = grid;
-  //  _canvas = _grid.getActiveCanvasNode();
+    //  _canvas = _grid.getActiveCanvasNode();
     _grid.onActiveCellChanged.subscribe(_handleActiveCellChange);
     _grid.onColumnsResized.subscribe(_handleResizeCol);
     _grid.onKeyDown.subscribe(_handleKeyDown);
@@ -213,7 +211,7 @@ class CellSelectionModel extends SelectionModel {
   }
 
   _handleCellRangeSelected(core.EventData e, args) {
-    setSelectedRanges([args['range']]);
+    setSelectedRanges(<core.Range>[args['range']]);
   }
 
   /**
@@ -229,10 +227,10 @@ class CellSelectionModel extends SelectionModel {
   }
 
   _handleResizeCol(core.EventData e, Map<String, dynamic> args) {
-    if(_selector.newRange==null) return;
+    if (_selector.newRange == null) return;
     this._selector.decorator.show(_selector.newRange);
-
   }
+
   _handleKeyDown(core.EventData evtData, [args]) {
     KeyboardEvent e = evtData.domEvent;
     /***
