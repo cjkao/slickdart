@@ -3,7 +3,7 @@ import 'package:slickdart/slick_custom.dart';
 import 'package:slickdart/slick.dart';
 import 'package:slickdart/slick_cell_selection.dart' as cellMode;
 
-Map<int, dynamic> hash = {};
+Map<int, Map<String, String>> hash = {};
 Map<String, String> getMeta(int row) {
   var rdata = csv.data[row];
 

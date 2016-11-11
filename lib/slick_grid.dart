@@ -2471,7 +2471,7 @@ class SlickGrid {
           int columnIdx = cacheEntry.cellRenderQueue.removeLast();
           cacheEntry.cellNodesByColumnIdx[columnIdx] = lastChild;
 
-          lastChild = lastChild.previousNode; //previousSibling;
+          lastChild = lastChild?.previousNode; //previousSibling;
           // Hack to retrieve the frozen columns because
           if (lastChild == null) {
             lastChild = cacheEntry.rowNode.first.lastChild;
