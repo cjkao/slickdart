@@ -1,5 +1,10 @@
 library slick.core;
+
+import 'package:logging/logging.dart';
 import 'dart:html' as html;
+
+Logger _log = new Logger('slick.core');
+
 //import 'dart:collection';
 //import 'dart:convert';
 //import 'dart:math' as math;
@@ -8,47 +13,54 @@ EditorLock GlobalEditorLock = new EditorLock();
 
 //parm:  List<core.Range>, Map
 //e: KeyboardEvent, EventData
-typedef handlerFunction(EventData e,dynamic parm);
-
+typedef handlerFunction(EventData e, dynamic parm);
 
 /**
  * utility to get dom width / height
  */
-class Dimension{
-  static int getCalcWidth(html.Element elem){
+class Dimension {
+  static int getCalcWidth(html.Element elem) {
     return (elem.getBoundingClientRect().width).floor();
   }
-  static int getCalcHeight(html.Element elem){
-    return (elem.getBoundingClientRect().height ).floor();
+
+  static int getCalcHeight(html.Element elem) {
+    int height = (elem.getBoundingClientRect().height).floor();
+
+    if (height == 0) {
+      _log.severe('% height or display=none will not possible to know grid height,use vh instead');
+    }
+    return height;
   }
 }
+
 /**
  * wrap browser event and append propogation status
  */
-class EventData{
+class EventData {
   html.Event domEvent;
-  factory EventData.fromDom(html.Event e){
-    EventData ed=new EventData();
-    ed.domEvent=e;
+  factory EventData.fromDom(html.Event e) {
+    EventData ed = new EventData();
+    ed.domEvent = e;
     return ed;
   }
-  EventData(){
-  }
+  EventData() {}
   get target => domEvent.target;
 
-  preventDefault(){
+  preventDefault() {
     domEvent.preventDefault();
   }
+
   bool _isPropagationStopped = false;
   bool _isImmediatePropagationStopped = false;
-  String toString(){
-    return 'evd pg:' + (_isPropagationStopped ? 'T' : 'F' )+ ' imStp ' + ( _isImmediatePropagationStopped ? 'T' : 'F');
+  String toString() {
+    return 'evd pg:' + (_isPropagationStopped ? 'T' : 'F') + ' imStp ' + (_isImmediatePropagationStopped ? 'T' : 'F');
   }
+
   /***
    * Stops event from propagating up the DOM tree.
    * @method stopPropagation
    */
-  stopPropagation(){
+  stopPropagation() {
     this.domEvent.stopPropagation();
     _isPropagationStopped = true;
   }
@@ -58,7 +70,7 @@ class EventData{
    * @method isPropagationStopped
    * @return {Boolean}
    */
-  isPropagationStopped(){
+  isPropagationStopped() {
     return _isPropagationStopped;
   }
 
@@ -66,7 +78,7 @@ class EventData{
    * Prevents the rest of the handlers from being executed.
    * @method stopImmediatePropagation
    */
-  stopImmediatePropagation(){
+  stopImmediatePropagation() {
     this.domEvent.stopImmediatePropagation();
     _isImmediatePropagationStopped = true;
   }
@@ -76,10 +88,9 @@ class EventData{
    * @method isImmediatePropagationStopped
    * @return {Boolean}
    */
-  isImmediatePropagationStopped(){
+  isImmediatePropagationStopped() {
     return _isImmediatePropagationStopped;
   }
-
 }
 
 /** TODO
@@ -95,7 +106,7 @@ class Event {
    * @method subscribe
    * @param fn {Function} Event handler.
    */
-  subscribe (handlerFunction fn) {
+  subscribe(handlerFunction fn) {
     handlers.add(fn);
   }
 
@@ -104,7 +115,7 @@ class Event {
    * @method unsubscribe
    * @param fn {Function} Event handler to be removed.
    */
-  bool unsubscribe (Function fn) => handlers.remove(fn);
+  bool unsubscribe(Function fn) => handlers.remove(fn);
 
   /***
    * Fires an event notifying all subscribers.
@@ -121,55 +132,51 @@ class Event {
    */
   notify(args, [dynamic e, scope]) {
     e ??= new EventData();
-   // scope = scope || this;
+    // scope = scope || this;
     var returnValue;
-    for (int i = 0; i < handlers.length && !(e is EventData && (e.isPropagationStopped() || e.isImmediatePropagationStopped())); i++) {
-      returnValue = Function.apply(handlers[i],[e,args]);
+    for (int i = 0;
+        i < handlers.length && !(e is EventData && (e.isPropagationStopped() || e.isImmediatePropagationStopped()));
+        i++) {
+      returnValue = Function.apply(handlers[i], [e, args]);
     }
 
     return returnValue;
   }
 }
 
-class EventHandler{
-  List<Map<String,dynamic>> handlers = [];
+class EventHandler {
+  List<Map<String, dynamic>> handlers = [];
 
-  subscribe  (Event event, handlerFunction handler) {
-    handlers.add({
-      'event': event,
-      'handler': handler
-    });
+  subscribe(Event event, handlerFunction handler) {
+    handlers.add({'event': event, 'handler': handler});
     event.subscribe(handler);
 
-    return this;  // allow chaining
+    return this; // allow chaining
   }
 
-  EventHandler unsubscribe  (Event event,Function handler) {
+  EventHandler unsubscribe(Event event, Function handler) {
     var i = handlers.length;
     while (i-- > 0) {
-      if (handlers[i]['event'] == event &&
-          handlers[i]['handler'] == handler) {
+      if (handlers[i]['event'] == event && handlers[i]['handler'] == handler) {
         handlers.removeAt(i);
         event.unsubscribe(handler);
         return this;
       }
     }
 
-    return this;  // allow chaining
+    return this; // allow chaining
   }
 
-  unsubscribeAll (){
+  unsubscribeAll() {
     var i = handlers.length;
     while (i-- > 0) {
       handlers[i]['event'].unsubscribe(handlers[i]['handler']);
     }
     handlers = [];
 
-    return this;  // allow chaining
+    return this; // allow chaining
   }
 }
-
-
 
 /***
  * A structure containing a range of cells.
@@ -180,9 +187,9 @@ class EventHandler{
  * @param toRow {Integer} Optional. Ending row. Defaults to <code>fromRow</code>.
  * @param toCell {Integer} Optional. Ending cell. Defaults to <code>fromCell</code>.
  */
-class Range{
-  int fromRow,fromCell, toRow,toCell;
-  Range(this.fromRow, this.fromCell,[ this.toRow, this.toCell]) {
+class Range {
+  int fromRow, fromCell, toRow, toCell;
+  Range(this.fromRow, this.fromCell, [this.toRow, this.toCell]) {
     if (toRow == null && toCell == null) {
       toRow = fromRow;
       toCell = fromCell;
@@ -194,9 +201,9 @@ class Range{
      */
 //    fromRow = math.min(fromRow, toRow);
     if (fromRow > toRow) {
-      var tmp =toRow;
-      toRow=fromRow;
-      fromRow=tmp;
+      var tmp = toRow;
+      toRow = fromRow;
+      fromRow = tmp;
     }
     /***
      * @property fromCell
@@ -204,9 +211,9 @@ class Range{
      */
 //    this.fromCell = math.min(fromCell, toCell);
     if (fromCell > toCell) {
-      var tmp =toCell;
-      toCell=fromCell;
-      fromCell=tmp;
+      var tmp = toCell;
+      toCell = fromCell;
+      fromCell = tmp;
     }
     /***
      * @property toRow
@@ -221,13 +228,12 @@ class Range{
 //    this.toCell = math.max(fromCell, toCell);
   }
 
-
   /***
    * Returns whether a range represents a single row.
    * @method isSingleRow
    * @return {Boolean}
    */
-  bool isSingleRow () {
+  bool isSingleRow() {
     return this.fromRow == this.toRow;
   }
 
@@ -247,9 +253,8 @@ class Range{
    * @param cell {Integer}
    * @return {Boolean}
    */
-  bool contains (int row, int cell) {
-    return row >= this.fromRow && row <= this.toRow &&
-        cell >= this.fromCell && cell <= this.toCell;
+  bool contains(int row, int cell) {
+    return row >= this.fromRow && row <= this.toRow && cell >= this.fromCell && cell <= this.toCell;
   }
 
   /***
@@ -257,16 +262,14 @@ class Range{
    * @method toString
    * @return {String}
    */
-  String toString () {
+  String toString() {
     if (this.isSingleCell()) {
       return "( + $fromRow : $fromCell )";
-    }
-    else {
+    } else {
       return "( $fromRow : $fromCell - $toRow : $toCell )";
     }
   }
 }
-
 
 /***
  * A base class that all special / non-data rows (like Group and GroupTotals) derive from.
@@ -278,7 +281,6 @@ class NonDataItem {
   bool get nonDataRow => _nonDataRow;
 }
 
-
 /***
  * Information about a group of rows.
  * @class Group
@@ -286,7 +288,7 @@ class NonDataItem {
  * @constructor
  */
 class Group extends NonDataItem {
- // bool __group = true;
+  // bool __group = true;
 
   /**
    * Grouping level, starting with 0.
@@ -367,9 +369,6 @@ class Group extends NonDataItem {
    */
 }
 
-
-
-
 /***
  * Information about group totals.
  * An instance of GroupTotals will be created for each totals row and passed to the aggregators
@@ -379,7 +378,7 @@ class Group extends NonDataItem {
  * @extends Slick.NonDataItem
  * @constructor
  */
-class GroupTotals extends NonDataItem{
+class GroupTotals extends NonDataItem {
 //  bool __groupTotals = true;
 
   /***
@@ -389,7 +388,6 @@ class GroupTotals extends NonDataItem{
    */
   Group group = null;
 }
-
 
 /***
  * A locking helper to track the active edit controller and ensure that only a single controller
@@ -410,7 +408,7 @@ class EditorLock {
    * @return {Boolean}
    */
   bool isActive([editController]) {
-    return (editController!=null ? activeEditController == editController : activeEditController != null);
+    return (editController != null ? activeEditController == editController : activeEditController != null);
   }
 
   /***
@@ -420,16 +418,17 @@ class EditorLock {
    * @param editController {EditController} edit controller acquiring the lock
    */
   void activate(editController) {
-    if (editController == activeEditController) { // already activated?
+    if (editController == activeEditController) {
+      // already activated?
       return;
     }
     if (activeEditController != null) {
       throw "SlickGrid.EditorLock.activate: an editController is still active, can't activate another editController";
     }
-    if (editController['commitCurrentEdit']==null) {
+    if (editController['commitCurrentEdit'] == null) {
       throw "SlickGrid.EditorLock.activate: editController must implement .commitCurrentEdit()";
     }
-    if (editController['cancelCurrentEdit']==null) {
+    if (editController['cancelCurrentEdit'] == null) {
       throw "SlickGrid.EditorLock.activate: editController must implement .cancelCurrentEdit()";
     }
     activeEditController = editController;
@@ -441,7 +440,7 @@ class EditorLock {
    * @method deactivate
    * @param editController {EditController} edit controller releasing the lock
    */
-  void deactivate (editController) {
+  void deactivate(editController) {
     if (activeEditController != editController) {
       throw "SlickGrid.EditorLock.deactivate: specified editController is not the currently active one";
     }
@@ -456,8 +455,8 @@ class EditorLock {
    * @method commitCurrentEdit
    * @return {Boolean}
    */
-  bool commitCurrentEdit () {
-    return (activeEditController!=null ? activeEditController['commitCurrentEdit']() : true);
+  bool commitCurrentEdit() {
+    return (activeEditController != null ? activeEditController['commitCurrentEdit']() : true);
   }
 
   /***
@@ -468,6 +467,6 @@ class EditorLock {
    * @return {Boolean}
    */
   bool cancelCurrentEdit() {
-    return (activeEditController!=null ? activeEditController['cancelCurrentEdit']() : true);
+    return (activeEditController != null ? activeEditController['cancelCurrentEdit']() : true);
   }
 }

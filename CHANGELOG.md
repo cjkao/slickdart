@@ -1,3 +1,5 @@
+# Version 0.1.8+3(2016/11)
+- remove style before grid unsubscribe
 # Version 0.1.8+1(2016/09)
 - sunset zeroClipboard, using Clipboard.js
 - update editor sample, custom-elem sample

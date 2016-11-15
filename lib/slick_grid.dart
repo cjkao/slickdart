@@ -1811,9 +1811,9 @@ class SlickGrid {
     }
   }
 
-  /**
-     * [columnDefinitions] all columns
-     */
+  //  create Columns
+  //  [columnDefinitions] all columns
+  //
   setColumns(List<Column> columnDefinitions) {
     allColumns = columnDefinitions;
     columns = new List<Column>.from(columnDefinitions.where((c) => c.visible));
@@ -2088,9 +2088,9 @@ class SlickGrid {
     invalidatePostProcessingResults(row);
   }
 
-  /**
-     * calculate view port height and determine number of row need to render
-     */
+  //
+  // calculate view port height and determine number of row need to render
+  //
   _getViewportHeight() {
     if (_options.autoHeight != null && _options.autoHeight) {
       viewportH = _options.rowHeight * getDataLengthIncludingAddNew() +
@@ -4160,6 +4160,7 @@ class SlickGrid {
   /// clean window listeners
   /// and uninstall all plugines
   unSubscribe() {
+    removeCssRules();
     this._subscriptionList.forEach((_) => _.cancel());
     plugins.forEach((_) => _.destroy());
   }
