@@ -1,3 +1,6 @@
+# Version 0.1.8+4(2016/12)
+- remove polymer tranformer dependency
+
 # Version 0.1.8+3(2016/11)
 - remove style before grid unsubscribe
 # Version 0.1.8+1(2016/09)

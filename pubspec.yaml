@@ -1,5 +1,5 @@
 name: slickdart
-version: 0.1.8+3
+version: 0.1.8+4
 authors:
   - CJKAO <kaopeter@gmail.com>
   - tonosama-atlacatl
@@ -17,9 +17,9 @@ dev_dependencies:
 #  angular: 1.1.2+2
 #  angular_ui: any
   test: any
-  polymer: ^1.0.0-rc.17
-  polymer_elements: ^1.0.0-rc.8
-  web_components: ^0.12.0
+#  polymer: ^1.0.0-rc.17
+#  polymer_elements: ^1.0.0-rc.8
+#  web_components: ^0.12.0
 #  dev_compiler: any
 #  initialize: any
 #  datepicker: any
@@ -28,9 +28,9 @@ dev_dependencies:
 #- polymer:
 #    entry_points: web/example/EditorSample.html
 transformers:
-- polymer:
-    entry_points:
-      - web/example/polymer/editor-sample.html
+#- polymer:
+#    entry_points:
+#      - web/example/polymer/editor-sample.html
 - $dart2js:
     csp: false
     sourceMaps: true
