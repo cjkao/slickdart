@@ -28,8 +28,7 @@ Known Constraint
 TODO
 ========================
 - [ ] keyboard navigation when focus on uneditable cell
-- [ ] cell span
-- [ ] checkbox focus need revalidate
+- [X] cell span
 - [X] ease of use, (Map adapter, auto column declare, width calculation and sorting)
 - [X] column reorder
 - [ ] adjust row height via mouse
@@ -77,7 +76,7 @@ Customer Element
 ==============================
 Initial support customer element, see example: custom-elem.dart
 
-Compitable with angular.dart
+Compatible with angular 1/2 dart
   - must specify height of cj-grid
   - accept customize option
 ```dart
@@ -205,25 +204,26 @@ new GridOptions()..enableTextSelectionOnCells=true;
 
 Simulate Row Split
 =================================
-1. set column padding left and right to zero in css class and cssClass in Column
+* Add new css class with column padding left and right to zero, add `cssClass` in `Column` definition
 
 ```css
-.h40 {
-    height: 40px;
-    display: block;
-    background: yellow;
-    word-wrap: break-word;
-    white-space: normal;
+.nopad{
+      padding-left: 0px;
+      padding-right: 0px;
 }
-
+```
+```dart
+new grid.Column.fromMap(
+    {'field': "title",  'formatter': SplitFormatter})
+  ..cssClass = 'nopad';
 ```
 
-1. for each row, add `_height` to specify row height
-1. use customize formatter
+* For each row, add `_height` to specify row height
+* Add customize formatter for target column
 
 ```dart
 SplitFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow) {
-  if (dataRow['_height'] != null && dataRow['_height'] > 90) {
+  if (dataRow['_height'] != null && dataRow['_height'] > 90) {  
     return '''
         <div class="h40">
           bbbbbbb $value
@@ -239,4 +239,13 @@ SplitFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow)
   }
 }
 ```
-1.
+Add style to upper row
+```css
+.h40 {
+    height: 40px;
+    display: block;
+    background: yellow;
+    word-wrap: break-word;
+    white-space: normal;
+}
+```
