@@ -201,3 +201,42 @@ cancelEditAndSetFocus();
 ```
 new GridOptions()..enableTextSelectionOnCells=true;
 ```
+
+
+Simulate Row Split
+=================================
+1. set column padding left and right to zero in css class and cssClass in Column
+
+```css
+.h40 {
+    height: 40px;
+    display: block;
+    background: yellow;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+```
+
+1. for each row, add `_height` to specify row height
+1. use customize formatter
+
+```dart
+SplitFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow) {
+  if (dataRow['_height'] != null && dataRow['_height'] > 90) {
+    return '''
+        <div class="h40">
+          bbbbbbb $value
+          <span>$cell<span class='important'> $row
+        </div>
+        <hr/>
+        <div>
+          aaa
+        </div>
+        ''';
+  } else {
+    return value;
+  }
+}
+```
+1.
