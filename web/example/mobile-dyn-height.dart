@@ -29,6 +29,23 @@ AlertFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow)
   }
 }
 
+SplitFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow) {
+  if (dataRow['_height'] != null && dataRow['_height'] > 90) {
+    return '''
+        <div class="h40">
+          bbbbbbb $value
+          <span>$cell<span class='important'> $row
+        </div>
+        <hr/>
+        <div>
+          aaa
+        </div>
+        ''';
+  } else {
+    return value;
+  }
+}
+
 grid.SlickGrid init() {
   Element el = querySelector('#grid');
   List<grid.Column> column = [
@@ -37,9 +54,16 @@ grid.SlickGrid init() {
         {'id': "duration", 'width': 120, 'name': "Alert", 'field': "percentComplete", 'formatter': AlertFormatter}),
     new grid.Column.fromMap({'id': "%", 'name': "start3", 'field': "start", 'sortable': true}),
     new grid.Column.fromMap({'id': "start", 'name': "4finish", 'field': "finish"}),
-    new grid.Column.fromMap({'id': "title2", 'name': "5Title1", 'field': "title", 'sortable': true}),
     new grid.Column.fromMap(
-        {'id': "duration2", 'width': 120, 'name': "6pppppppplete", 'field': "percentComplete", 'sortable': true}),
+        {'id': "title2", 'name': "5Title1", 'field': "title", 'sortable': true, 'formatter': SplitFormatter})
+      ..cssClass = 'nopad',
+    new grid.Column.fromMap({
+      'id': "duration2",
+      'width': 120,
+      'name': "Row Split ",
+      'field': "percentComplete",
+      'formatter': SplitFormatter
+    })..cssClass = 'nopad',
     new grid.Column.fromMap({'id': "%2", 'name': "7start", 'field': "start", 'sortable': true}),
     new grid.Column.fromMap({'id': "start2", 'name': "8finish", 'field': "finish"}),
     new grid.Column.fromMap({'id': "start2", 'name': "9finish", 'field': "finish"}),
