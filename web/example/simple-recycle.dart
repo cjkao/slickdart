@@ -61,8 +61,8 @@ build() {
   var tip = new AutoTooltips();
   sg.registerPlugin(tip);
   sg.init();
+  sg.onSort.subscribe(grid.basicSorter);
 
-  sg.onSort.subscribe((e, args) {});
   sg.invalidate();
   sg.render();
   sg.unSubscribe();

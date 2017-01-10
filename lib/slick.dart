@@ -12,7 +12,7 @@ export 'slick_selectionmodel.dart';
 export 'slick_dnd.dart';
 export 'slick_util.dart';
 export 'slick_formatters.dart';
-
+export 'src/util.dart';
 part 'parser.dart';
 
 Logger _log = new Logger('slick');

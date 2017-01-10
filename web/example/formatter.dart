@@ -79,7 +79,11 @@ grid.SlickGrid init() {
       'link': i + new math.Random().nextInt(10)
     });
   }
-  Map opt = {'explicitInitialization': false, 'multiColumnSort': true, 'editable': true,};
+  Map opt = {
+    'explicitInitialization': false,
+    'multiColumnSort': true,
+    'editable': true,
+  };
   grid.SlickGrid sg = new grid.SlickGrid(el, data, column, opt);
   var model = new cellMode.CellSelectionModel(sg.options);
 
@@ -92,28 +96,7 @@ grid.SlickGrid init() {
       print(col);
     }
   });
-
-  sg.onSort.subscribe((e, args) {
-    var cols = args['sortCols'];
-//{sortCol: {name: Title1, resizable: true, sortable: true, minWidth: 30, rerenderOnResize: false, headerCssClass: null, defaultSortAsc: true, focusable: true, selectable: true, cannotTriggerInsert: false, width: 80, id: title, field: title}, sortAsc: true}
-    data.sort((dataRow1, dataRow2) {
-      for (var i = 0, l = cols.length; i < l; i++) {
-        var field = cols[i]['sortCol']['field'];
-        var sign = cols[i]['sortAsc'] ? 1 : -1;
-        dynamic value1 = dataRow1[field], value2 = dataRow2[field];
-        if (field == 'dtitle') {
-          return value1 == value2 ? 0 : (int.parse(value1) > int.parse(value2) ? 1 : -1) * sign;
-        }
-        var result = (value1 == value2 ? 0 : (value1.compareTo(value2) > 0 ? 1 : -1)) * sign;
-        if (result != 0) {
-          return result;
-        }
-      }
-      return 0;
-    });
-    sg.invalidate();
-    sg.render();
-  });
+  sg.onSort.subscribe(grid.basicSorter);
   return sg;
 }
 
