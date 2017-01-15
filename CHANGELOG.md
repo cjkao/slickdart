@@ -1,4 +1,4 @@
-# Version 0.1.8+4(2017/01)
+# Version 0.1.8+6(2017/01)
 - Recover rendering performance
 - handle detached state
 
