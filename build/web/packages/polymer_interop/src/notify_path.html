@@ -12,6 +12,14 @@ BSD-style license that can be found in the LICENSE file.
       // For polymer dart elements, we need to actually set the value on the js
       // side in order to support Map objects. Other elements are handled the
       // normal way.
+
+      // Use current value when not specified as a parameter
+      var info = {};
+      var v = this._get(path, this, info);
+      if (arguments.length === 1) {
+        value = v;
+      }
+
       if (!this.__isPolymerDart__) this.notifyPath(path, value, fromAbove);
 
       var parts = this._getPathParts(path);

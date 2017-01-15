@@ -595,13 +595,13 @@
 
 <dom-module id="x-bind-computed-property">
   <template>
-    <div id="check">[[translate('Hello World.')]]</div>
+    <div id="check">[[translateMessage('Hello World.')]]</div>
   </template>
   <script>
     (function(){
       var TranslateBehavior = {
         properties: {
-          translate: {
+          translateMessage: {
             type: Function,
             computed: '_computeTranslateFn(translator)'
           }
@@ -634,7 +634,7 @@
 
 <dom-module id="x-bind-computed-property-late-translator">
   <template>
-    <div id="check">[[translate(message)]]</div>
+    <div id="check">[[translateMessage(message)]]</div>
   </template>
   <script>
     Polymer({
@@ -644,7 +644,7 @@
           type: String,
           value: 'Hello'
         },
-        translate: {
+        translateMessage: {
           type: Function,
           computed: '_computeTranslateFn(translator)'
         },
@@ -683,5 +683,61 @@
         }
       }
     });
+  </script>
+</dom-module>
+
+<dom-module id="x-child-template-with-dynamic-fn">
+  <template>
+    <template is="dom-if" if="[[visible]]">
+      <p>[[translateMessage('text')]]</p>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'x-child-template-with-dynamic-fn',
+
+      properties: {
+        translateMessage: {
+          type: Function,
+          value: function () {
+            return function(str) {
+              return str;
+            }
+          }
+        },
+        visible: {
+          type: Boolean,
+          value: true
+        }
+      }
+    });
+  </script>
+</dom-module>
+
+<dom-module id="x-propagate">
+  <script>
+  Polymer({
+    is: 'x-propagate',
+    properties: {
+      value: {
+        type: Number,
+        value: -1
+      }
+    },
+    observers: [
+      '_boundOne(value)',
+      '_boundTwo(value)'
+    ],
+    _boundOne: function(value) {
+      if (value < 0) {
+        this.value = 1;
+      }
+    },
+    _boundTwo: function(value) {
+      if (value < 0) {
+        this.value = 2;
+      }
+    }
+  });
   </script>
 </dom-module>
