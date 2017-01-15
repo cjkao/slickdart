@@ -190,7 +190,7 @@ class SlickGrid {
   List<Element> $boundAncestors;
   CssStyleSheet stylesheet;
   List<CssStyleRule> columnCssRulesL, columnCssRulesR;
-  int viewportH = 0, viewportW = 0;
+  int viewportH = 0, viewportW = 0, _viewportHeaderHeight = 0;
   int viewportWL;
   int canvasWidth, canvasWidthL, canvasWidthR;
   int headersWidth, headersWidthL, headersWidthR;
@@ -226,6 +226,16 @@ class SlickGrid {
   int numVisibleRows;
   int prevScrollTop = 0;
   int scrollTop = 0;
+//  int _scrollTop = 0;
+//  int get scrollTop => _scrollTop;
+//  void set scrollTop(_) {
+//    if (_ == 0 && !document.contains(container)) {
+//      _log.finer('not visible scroll $_');
+//    } else {
+//      _scrollTop = _;
+//    }
+//  }
+
   int lastRenderedScrollTop = 0;
   int lastRenderedScrollLeft = 0;
   int prevScrollLeft = 0;
@@ -258,7 +268,7 @@ class SlickGrid {
 
   // async call handles
   Timer h_editorLoader = null;
-  Timer h_render = null;
+  //Timer h_render = null;
   Timer h_postrender = null;
   Map<int, dynamic> postProcessedRows = {};
   int postProcessToRow = null;
@@ -407,13 +417,14 @@ class SlickGrid {
   Map<String, CssStyleRule> getColumnCssRules(idx) {
     if (stylesheet == null) {
       if (container.parent == null) {
-        //shadowRoot   && (container.parentNode as ShadowRoot).firstChild is StyleElement
+        //shadowRoot   && (container.parentNode as ShadowRoot).firstChild is StyleElement/
+        //  print('parent is null!!!!');
         stylesheet = ((container.parentNode as ShadowRoot).querySelector('style#$_style_id') as StyleElement).sheet;
       } else {
         List<CssStyleSheet> sheets = [];
         document.styleSheets.forEach((s) => sheets.add(s as CssStyleSheet));
         for (int i = 0; i < sheets.length; i++) {
-          if (sheets[i].ownerNode != null && sheets[i].ownerNode == $style) {
+          if (sheets[i]?.ownerNode == $style) {
             //|| sheets[i].owningElement for IE8
             stylesheet = sheets[i];
             break;
@@ -519,10 +530,11 @@ class SlickGrid {
   Map<String, int> getRenderedRange([int viewportTop, int viewportLeft]) {
     Map<String, int> vrange = getVisibleRange(viewportTop, viewportLeft);
     Map<String, int> outRange = {}..addAll(vrange);
-    _log.finest('vis range:${vrange}');
-    int buffer = (vrange['bottom'] - vrange['top']) * 2;
-    outRange['top'] -= buffer;
-    outRange['bottom'] += buffer;
+//    _log.finest('vis range:${vrange}');
+
+    // int buffer = (vrange['bottom'] - vrange['top']) * 1;
+    // outRange['top'] -= buffer;
+    // outRange['bottom'] += buffer;
     if (outRange['top'] < 0) outRange['top'] = 0;
     int maxRow = getDataLengthIncludingAddNew() - 1;
     if (outRange['bottom'] > maxRow) outRange['bottom'] = maxRow;
@@ -548,7 +560,7 @@ class SlickGrid {
 
     outRange['leftPx'] = math.max(0, outRange['leftPx']);
     outRange['rightPx'] = math.min(canvasWidth, outRange['rightPx']);
-    _log.finest('adjust range:${outRange}');
+//    _log.finest('adjust range:${outRange}');
     return outRange;
   }
 
@@ -559,9 +571,7 @@ class SlickGrid {
     if (!initialized) {
       return;
     }
-    Map<String, int> visible = getVisibleRange();
     Map<String, int> rendered = getRenderedRange();
-
     // remove rows no longer in the viewport
     cleanupRows(rendered);
 
@@ -569,8 +579,7 @@ class SlickGrid {
     if (lastRenderedScrollLeft != scrollLeft) {
       _cleanUpAndRenderCells(rendered);
     }
-
-    // render missing rows
+    //render main view port
     renderRows(rendered);
     //render missing frozenCol
     if (this.hasFrozenRows) {
@@ -579,14 +588,12 @@ class SlickGrid {
       renderRows(rendered);
     }
 
-    postProcessFromRow = visible['top'];
-    postProcessToRow = math.min(getDataLengthIncludingAddNew() - 1, visible['bottom']);
     startPostProcessing();
 
     lastRenderedScrollTop = scrollTop;
     lastRenderedScrollLeft = scrollLeft;
-    if (h_render != null && h_render.isActive) h_render.cancel();
-    h_render = null;
+    //  if (h_render != null && h_render.isActive) h_render.cancel();
+    //  h_render = null;
   }
 
   /**
@@ -673,8 +680,11 @@ class SlickGrid {
     }
   }
 
+  /// could get zero if detached
   getViewportWidth() {
-    viewportW = core.Dimension.getCalcWidth(container);
+    int width = core.Dimension.getCalcWidth(container);
+    if (width == 0) return;
+    viewportW = width;
     // container.style.width; //parseFloat($.css($container[0], "width", true));
   }
 
@@ -707,6 +717,10 @@ class SlickGrid {
    */
   void resizeCanvas([Event e]) {
     if (!initialized) {
+      return;
+    }
+    if (!document.contains(container) && container.parent != null) {
+      //detached and not a custom element with shadow root
       return;
     }
     paneTopH = 0;
@@ -986,6 +1000,34 @@ class SlickGrid {
     resizeCanvas();
   }
 
+  /// recover from dom attach
+  _handleReAttachEvent() {
+    container.addEventListener('DOMNodeInsertedIntoDocument', (_) {
+      _log.finest('inserted dom doc $scrollTop, $scrollLeft');
+      if (scrollTop != 0) {
+        $viewportScrollContainerY.scrollTop = scrollTop;
+        $viewportBottomL.scrollTop = scrollTop;
+      }
+      if (scrollLeft != 0) {
+        $viewportScrollContainerX.scrollLeft = scrollLeft;
+        $viewportTopR?.scrollLeft = scrollLeft;
+        $headerRowR?.scrollLeft = scrollLeft;
+        $headerScrollContainer.scrollLeft = scrollLeft;
+        $topPanelScroller
+          ..first.scrollLeft = scrollLeft
+          ..last.scrollLeft = scrollLeft;
+        $headerRowScrollContainer.scrollLeft = scrollLeft;
+        if (this.hasFrozenRows && _options.frozenColumn < 0) {
+          //frozen Row Only
+          $viewportTopL.scrollLeft = scrollLeft;
+        }
+      }
+    });
+    container.addEventListener('DOMNodeRemovedFromDocument', (_) {
+      print('remove from dom doc ${$viewportScrollContainerY.scrollTop} $lastRenderedScrollTop');
+    });
+  }
+
   /**
    * wire event listeners
    */
@@ -996,8 +1038,8 @@ class SlickGrid {
         new Future.delayed(new Duration(milliseconds: 100), finishInitialization);
         return;
       }
-      assert(viewportW > 0);
       initialized = true;
+      _handleReAttachEvent();
 //      _log.finest(container.getBoundingClientRect().width);
       _getViewportHeight();
 //      viewportW = int.parse(container.getComputedStyle().width.replaceAll('px', ''));
@@ -2002,6 +2044,7 @@ class SlickGrid {
   }
 
   void removeRowFromCache(int row) {
+    //  print('remove row $row');
     _RowCache cacheEntry = _rowsCache[row];
     //$canvas.children.remove(cacheEntry.rowNode);
 
@@ -2091,28 +2134,32 @@ class SlickGrid {
   //
   // calculate view port height and determine number of row need to render
   //
-  _getViewportHeight() {
+  void _getViewportHeight() {
     if (_options.autoHeight != null && _options.autoHeight) {
       viewportH = _options.rowHeight * getDataLengthIncludingAddNew() +
           ((_options.frozenColumn == -1) ? $headers.first.borderEdge.height : 0);
     } else {
       CssStyleDeclaration csd = container.getComputedStyle();
       int height = core.Dimension.getCalcHeight(container);
+      if (height == 0) height = viewportH;
       int paddingTop = int.parse(csd.paddingTop.replaceAll('px', ''), onError: (_) => 0);
       int paddingBottom = int.parse(csd.paddingBottom.replaceAll('px', ''), onError: (_) => 0);
       int headerScrollerHeight = core.Dimension.getCalcHeight($headerScroller.first);
+      _viewportHeaderHeight = headerScrollerHeight == 0 ? _viewportHeaderHeight : headerScrollerHeight;
       int vboxDelta = getVBoxDelta($headerScroller.first);
       int topPanelHeight =
           _options.showTopPanel == true ? _options.topPanelHeight + getVBoxDelta($topPanelScroller.first) : 0;
       int headerRowHeight =
           _options.showHeaderRow == true ? _options.headerRowHeight + getVBoxDelta($headerRowScroller.first) : 0;
       viewportH =
-          height - paddingTop - paddingBottom - headerScrollerHeight - vboxDelta - topPanelHeight - headerRowHeight;
+          height - paddingTop - paddingBottom - _viewportHeaderHeight - vboxDelta - topPanelHeight - headerRowHeight;
       headerRowH = headerRowHeight;
     }
 
     numVisibleRows = (viewportH / _options.rowHeight).ceil();
-    return viewportH;
+//    assert(numVisibleRows > 20);
+    return;
+    //return viewportH;
   }
 
   setSortColumn(columnId, ascending) {
@@ -2219,6 +2266,7 @@ class SlickGrid {
   }
 
   void cleanupRows(Map<String, int> rangeToKeep) {
+    //print('clean row $rangeToKeep');
     for (int i in new List.from(_rowsCache.keys)) {
       var removeFrozenRow = true;
 
@@ -2993,6 +3041,11 @@ class SlickGrid {
     if (_options.enableAsyncPostRender == false) {
       return;
     }
+    Map<String, int> visible = getVisibleRange();
+
+    postProcessFromRow = visible['top'];
+    postProcessToRow = math.min(getDataLengthIncludingAddNew() - 1, visible['bottom']);
+
     if (h_postrender != null) h_postrender.cancel();
 //      clearTimeout(h_postrender);
     h_postrender = new Timer(new Duration(milliseconds: _options.asyncPostRenderDelay), asyncPostProcessRows);
@@ -3372,15 +3425,9 @@ class SlickGrid {
   }
 
   void handleHeaderRowScroll(Event e) {
-    var scrollLeft = $headerRowScrollContainer.scrollLeft;
-    if (scrollLeft != $viewportScrollContainerX.scrollLeft) {
-      $viewportScrollContainerX.scrollLeft = scrollLeft;
+    if ($headerRowScrollContainer.scrollLeft != $viewportScrollContainerX.scrollLeft) {
+      $viewportScrollContainerX.scrollLeft = $headerRowScrollContainer.scrollLeft;
     }
-
-//      var scrollLeft = $headerRowScroller.scrollLeft;
-//      if (scrollLeft != $viewport.scrollLeft) {
-//        $viewport.scrollLeft = scrollLeft;
-//      }
   }
 
   ///
@@ -3388,6 +3435,7 @@ class SlickGrid {
   /// performance killer
   ///
   void handleScroll([Event e]) {
+    if (container.parent != null && !document.contains(container)) return; // detached from doc
     scrollTop = $viewportScrollContainerY.scrollTop;
     scrollLeft = $viewportScrollContainerX.scrollLeft;
     bool frozenArea = false;
@@ -3518,22 +3566,24 @@ class SlickGrid {
     }
 
     if (hScrollDist > 0 || vScrollDist > 0) {
-      if (h_render != null) {
-        h_render.cancel();
-        _log.finest("cancel scroll");
-        h_render = null;
-      }
+      // if (h_render != null) {
+      //   h_render.cancel();
+      //   _log.finest("cancel scroll");
+      //   h_render = null;
+      // }
       //how many distance is enought to scroll?
-      if ((lastRenderedScrollTop - scrollTop).abs() > 220 || (lastRenderedScrollLeft - scrollLeft).abs() > 220) {
-        if (_options.forceSyncScrolling ||
-            ((lastRenderedScrollTop - scrollTop).abs() < viewportH &&
-                (lastRenderedScrollLeft - scrollLeft).abs() < viewportW)) {
-          render();
-        } else {
-          _log.finest("new timer");
-          h_render = new Timer(new Duration(milliseconds: 50), render);
-          // h_render = setTimeout(render, 50);
-        }
+      if ((lastRenderedScrollTop - scrollTop).abs() > 20 || (lastRenderedScrollLeft - scrollLeft).abs() > 820) {
+        render();
+        // if (_options.forceSyncScrolling ||
+        //     ((lastRenderedScrollTop - scrollTop).abs() < viewportH &&
+        //         (lastRenderedScrollLeft - scrollLeft).abs() < viewportW)) {
+        //   render();
+        // } else {
+        //   render();
+        //   //    _log.finest("new timer");
+        //   //    h_render = new Timer(new Duration(milliseconds: 50), render);
+        //   // h_render = setTimeout(render, 50);
+        // }
         if (onViewportChanged.handlers.length > 0) {
           trigger(onViewportChanged, {});
         }
