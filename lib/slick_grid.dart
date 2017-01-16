@@ -723,6 +723,7 @@ class SlickGrid {
       //detached and not a custom element with shadow root
       return;
     }
+    if (container.hidden) return;
     paneTopH = 0;
     paneBottomH = 0;
     viewportTopH = 0;
@@ -1002,8 +1003,16 @@ class SlickGrid {
 
   /// recover from dom attach
   _handleReAttachEvent() {
-    container.addEventListener('DOMNodeInsertedIntoDocument', (_) {
+    handleIntoDoc([_]) {
       _log.finest('inserted dom doc $scrollTop, $scrollLeft');
+      if (container.hidden && (scrollTop != 0 || scrollLeft != 0)) {
+        if (!document.contains(container) && container.parent != null) {
+          //detached and not a custom element with shadow root
+          return;
+        }
+        new Timer(new Duration(milliseconds: 100), handleIntoDoc);
+        return;
+      }
       if (scrollTop != 0) {
         $viewportScrollContainerY.scrollTop = scrollTop;
         $viewportBottomL.scrollTop = scrollTop;
@@ -1022,9 +1031,11 @@ class SlickGrid {
           $viewportTopL.scrollLeft = scrollLeft;
         }
       }
-    });
+    }
+
+    container.addEventListener('DOMNodeInsertedIntoDocument', handleIntoDoc);
     container.addEventListener('DOMNodeRemovedFromDocument', (_) {
-      print('remove from dom doc ${$viewportScrollContainerY.scrollTop} $lastRenderedScrollTop');
+      _log.finest('remove from dom doc ${$viewportScrollContainerY.scrollTop} $lastRenderedScrollTop');
     });
   }
 
@@ -2565,9 +2576,7 @@ class SlickGrid {
 //       cacheEntry.cellColSpans.removeAt(item);
       cacheEntry.cellColSpans[item] = 1;
       cacheEntry.cellNodesByColumnIdx.remove(item);
-      if (postProcessedRows[row] != null) {
-        postProcessedRows[row].removeAt(cellToRemove);
-      }
+      postProcessedRows[row]?.removeAt(cellToRemove);
       //totalCellsRemoved++;
     });
   }
@@ -3032,8 +3041,8 @@ class SlickGrid {
 
   void invalidatePostProcessingResults(int row) {
     postProcessedRows.remove(row);
-    postProcessFromRow = math.min(postProcessFromRow, row);
-    postProcessToRow = math.max(postProcessToRow, row);
+    postProcessFromRow = math.min(postProcessFromRow ?? row, row);
+    postProcessToRow = math.max(postProcessToRow ?? row, row);
     startPostProcessing();
   }
 
@@ -3436,6 +3445,7 @@ class SlickGrid {
   ///
   void handleScroll([Event e]) {
     if (container.parent != null && !document.contains(container)) return; // detached from doc
+    if (container.hidden) return;
     scrollTop = $viewportScrollContainerY.scrollTop;
     scrollLeft = $viewportScrollContainerX.scrollLeft;
     bool frozenArea = false;

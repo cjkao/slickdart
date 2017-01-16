@@ -1,3 +1,7 @@
+# Version 0.1.8+8(2017/01)
+- fix editor exception
+- handle detached state and show/hidden state
+
 # Version 0.1.8+6(2017/01)
 - Recover rendering performance
 - handle detached state
