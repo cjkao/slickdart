@@ -723,7 +723,7 @@ class SlickGrid {
       //detached and not a custom element with shadow root
       return;
     }
-    if (container.hidden) return;
+    if (container.getBoundingClientRect().width == 0) return;
     paneTopH = 0;
     paneBottomH = 0;
     viewportTopH = 0;
@@ -1005,7 +1005,7 @@ class SlickGrid {
   _handleReAttachEvent() {
     handleIntoDoc([_]) {
       _log.finest('inserted dom doc $scrollTop, $scrollLeft');
-      if (container.hidden && (scrollTop != 0 || scrollLeft != 0)) {
+      if ((scrollTop != 0 || scrollLeft != 0) && container.getBoundingClientRect().width) {
         if (!document.contains(container) && container.parent != null) {
           //detached and not a custom element with shadow root
           return;
@@ -3445,7 +3445,7 @@ class SlickGrid {
   ///
   void handleScroll([Event e]) {
     if (container.parent != null && !document.contains(container)) return; // detached from doc
-    if (container.hidden) return;
+    if (container.getBoundingClientRect().width == 0) return;
     scrollTop = $viewportScrollContainerY.scrollTop;
     scrollLeft = $viewportScrollContainerX.scrollLeft;
     bool frozenArea = false;

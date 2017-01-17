@@ -1,3 +1,7 @@
+# Version 0.1.8+9(2017/01)
+- fix detached state and show/hidden state
+
+
 # Version 0.1.8+8(2017/01)
 - fix editor exception
 - handle detached state and show/hidden state
@@ -11,6 +15,7 @@
 
 # Version 0.1.8+3(2016/11)
 - remove style before grid unsubscribe
+
 # Version 0.1.8+1(2016/09)
 - sunset zeroClipboard, using Clipboard.js
 - update editor sample, custom-elem sample
