@@ -1005,7 +1005,7 @@ class SlickGrid {
   _handleReAttachEvent() {
     handleIntoDoc([_]) {
       _log.finest('inserted dom doc $scrollTop, $scrollLeft');
-      if ((scrollTop != 0 || scrollLeft != 0) && container.getBoundingClientRect().width) {
+      if ((scrollTop != 0 || scrollLeft != 0) && container.getBoundingClientRect().width==0) {
         if (!document.contains(container) && container.parent != null) {
           //detached and not a custom element with shadow root
           return;
@@ -3269,7 +3269,7 @@ class SlickGrid {
   void clearTextSelection() {
     window.getSelection().removeAllRanges();
   }
-
+  
   void setupColumnSort() {
     $headers.forEach((_) => _.onClick.listen((MouseEvent e) {
           // temporary workaround for a bug in jQuery 1.7.1 (http://bugs.jquery.com/ticket/11328)
