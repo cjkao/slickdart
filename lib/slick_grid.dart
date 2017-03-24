@@ -3269,7 +3269,10 @@ class SlickGrid {
   void clearTextSelection() {
     window.getSelection().removeAllRanges();
   }
-  
+  ///
+  /// meta key, remove sorted column
+  /// shift key, add new column for sorting
+  ///
   void setupColumnSort() {
     $headers.forEach((_) => _.onClick.listen((MouseEvent e) {
           // temporary workaround for a bug in jQuery 1.7.1 (http://bugs.jquery.com/ticket/11328)
