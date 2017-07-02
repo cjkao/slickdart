@@ -213,7 +213,7 @@ class PercentCompleteEditor extends Editor {
   }
 
   loadValue(item) {
-    _$input.value = item[this.editorParm.columnDef.field];
+    _$input.value = "${item[this.editorParm.columnDef.field]}";
 
     _$input.select();
   }

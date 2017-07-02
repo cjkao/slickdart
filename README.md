@@ -52,6 +52,12 @@ var opt = new GridOptions()
 		        ..multiColumnSort= false;
 var grid = new SlickGrid.fromOpt(el,data,[],opt);
 ```
+Formatter
+====================
+Specify formatter in inital columns will auto collect formatter to
+GridOption's [FormatterFactory],
+if dynamic swap column, and need special formatter Function,
+using  GridOption's [FormatterFactory],
 
 
 Dynamic Row Height
