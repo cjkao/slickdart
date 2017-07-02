@@ -5,37 +5,9 @@ import 'package:slickdart/slick_selectionmodel.dart';
 
 String searchStr = '';
 grid.FilteredList srcData = new grid.FilteredList();
-void main() {
-  srcData.ignoreCase = true;
-  grid.SlickGrid sg = makeGrid();
-  sg.init();
-  document.querySelector('#search').onInput.listen((Event ke) {
-    searchStr = (ke.currentTarget as InputElement).value;
-    sg.invalidate();
-  });
-  document.querySelector('#filter').onClick.listen((Event ke) {
-    srcData.keyword = {'start': searchStr};
-    sg.resetDynHeight();
-    sg.invalidate();
-  });
-  document.querySelector('#header').onClick.listen((Event ke) {
-    var style = querySelector('#style');
-    if (style.text.length < 10) {
-      style.appendText("""
-    #grid .slick-header-column.ui-state-default {
-      height: 0px;
-      padding: 0px;
-    }
-    """);
-    } else {
-      style.text = "";
-    }
-    sg.resizeCanvas();
-    sg.invalidate();
-  });
-}
 
-AlertFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow) {
+
+String alertFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow) {
   if (dataRow['_height'] != null && dataRow['_height'] > 70) {
     return '''
         <p style=' white-space: normal;'>CSS word-wrapping in div</p>
@@ -58,7 +30,7 @@ grid.SlickGrid makeGrid() {
   Element el = querySelector('#grid');
   List<grid.Column> column = new grid.ColumnList.fromMap([
     {'field': "title", 'sortable': true, 'width': 20},
-    {'field': "percentComplete", 'width': 120, 'formatter': AlertFormatter},
+    {'field': "percentComplete", 'width': 120, 'formatter': alertFormatter},
     {'field': "book", 'sortable': true, 'editor': 'TextEditor'},
     {'field': "finish"},
     {'field': "effortDriven", 'sortable': true},
@@ -114,4 +86,40 @@ grid.SlickGrid makeGrid() {
   sg.onSort.subscribe(grid.basicSorter);
 
   return sg;
+}
+
+
+
+void main() {
+
+
+
+
+  srcData.ignoreCase = true;
+  grid.SlickGrid sg = makeGrid();
+  sg.init();
+  document.querySelector('#search').onInput.listen((Event ke) {
+    searchStr = (ke.currentTarget as InputElement).value;
+    sg.invalidate();
+  });
+  document.querySelector('#filter').onClick.listen((Event ke) {
+    srcData.keyword = {'start': searchStr};
+    sg.resetDynHeight();
+    sg.invalidate();
+  });
+  document.querySelector('#header').onClick.listen((Event ke) {
+    var style = querySelector('#style');
+    if (style.text.length < 10) {
+      style.appendText("""
+    #grid .slick-header-column.ui-state-default {
+      height: 0px;
+      padding: 0px;
+    }
+    """);
+    } else {
+      style.text = "";
+    }
+    sg.resizeCanvas();
+    sg.invalidate();
+  });
 }

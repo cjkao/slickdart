@@ -401,7 +401,10 @@ class GridOptions {
   int headerRowHeight = 25;
   bool showTopPanel = false;
   int topPanelHeight = 25;
-  Map<String, TFormatter> formatterFactory = {};
+  ///  Formatter factory, specify by -->
+  ///  column_id : TFormatter function
+  ///
+  Map<String, TFormatter> formatterFactory = <String, TFormatter>{};
   var editorFactory = null;
   String cellFlashingCssClass = "flashing";
   String selectedCellCssClass = "selected";

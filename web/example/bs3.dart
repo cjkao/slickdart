@@ -23,8 +23,8 @@ List makeData(int len) {
   for (var i = 0; i < len; i++) {
     _data.add({
       'title': i,
-      'duration': new math.Random().nextInt(100),
-      'percent': '${i%100}%',
+      'duration': new math.Random().nextInt(20),
+      'percent': i%10,
       'pc': (new math.Random().nextInt(10) * 100).toString(),
       'start': "01/01/2009",
       'finish': (new math.Random().nextInt(10) + 10).toString() + "/05/2013",
@@ -41,7 +41,7 @@ cj.SlickGrid prepareGrid() {
     new cj.Column.fromMap({'field': "duration", 'name': "A", 'width': 120, 'sortable': true, 'editor': 'IntEditor'}),
     new cj.Column.fromMap({'field': "percent", 'name': 'B', 'sortable': true, 'editor': 'TextEditor'}),
     new cj.Column.fromMap({'field': "finish", 'name': "C"}),
-    new cj.Column.fromMap({'field': "pc", 'name': "D", 'editor': 'TextEditor'}),
+    new cj.Column.fromMap({'field': "pc", 'name': "D", 'editor': 'TextEditor', 'sortable':true}),
     new cj.Column.fromMap({'field': "effortDriven", 'name': "E", 'width': 200})
   ];
   cj.CheckboxSelectColumn checkboxCol = new cj.CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
@@ -78,6 +78,10 @@ cj.SlickGrid prepareGrid() {
 //{sortCol: {name: Title1, resizable: true, sortable: true, minWidth: 30, rerenderOnResize: false, headerCssClass: null, defaultSortAsc: true, focusable: true, selectable: true, cannotTriggerInsert: false, width: 80, id: title, field: title}, sortAsc: true}
     sg.getData().sort((dataRow1, dataRow2) {
       for (var i = 0, l = cols.length; i < l; i++) {
+
+
+
+
         var field = cols[i]['sortCol']['field'];
         var sign = cols[i]['sortAsc'] ? 1 : -1;
         dynamic value1 = dataRow1[field], value2 = dataRow2[field];

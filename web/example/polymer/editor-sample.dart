@@ -14,21 +14,28 @@ import 'package:polymer_elements/iron_icon.dart';
 import 'package:polymer_elements/editor_icons.dart';
 import 'dart:async';
 import 'package:logging/logging.dart';
+
 main() async {
   Logger.root.level = Level.OFF;
   Logger.root.onRecord.listen((LogRecord rec) {
     print('${rec.level.name}: ${rec.time}: ${rec.message}');
   });
   await initPolymer();
-  grid.SlickGrid g = init();
-  g.init();
+  //grid.SlickGrid g = init();
+  //g.init();
 }
 
 grid.SlickGrid init() {
   Element el = querySelector('#grid');
   List<grid.Column> column = [
-    new grid.Column.fromMap(
-        {'width':120,'id': "%", 'name': "Polymer Editor", 'field': "pc", 'sortable': true, 'editor': new PercentCompleteEditor()}),
+    new grid.Column.fromMap({
+      'width': 120,
+      'id': "%",
+      'name': "Polymer Editor",
+      'field': "pc",
+      'sortable': true,
+      'editor': new PercentCompleteEditor()
+    }),
     new grid.Column.fromMap({'name': 'text editor', 'field': "dtitle", 'sortable': true, 'editor': 'TextEditor'}),
     new grid.Column.fromMap({'width': 80, 'field': "duration", 'sortable': true, 'editor': 'DoubleEditor'}),
     new grid.Column.fromMap({'name': 'date editor', 'field': "StartDate", 'width': 180, 'editor': new DateEditor()}),
@@ -86,7 +93,7 @@ grid.SlickGrid init() {
 
   sg.onBeforeEditCell.subscribe((e, args) {
     //swap editor here
-  //  print(args['column']);
+    //  print(args['column']);
   });
   sg.onSort.subscribe((e, args) {
     sg.commitCurrentEdit();

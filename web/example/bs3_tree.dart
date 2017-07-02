@@ -14,7 +14,7 @@ void main() {
   });
   querySelector('#slider1').onChange.listen((Event e){
     num minVal = (e.currentTarget as InputElement).valueAsNumber;
-    _data.setKeyword('percentComplete',(double val){
+    _data.addKeyword('percentComplete',(double val){
       if(val >=minVal) return true;
       return false;
     });
@@ -59,7 +59,7 @@ List makeData(int len){
         d["effortDriven"] = (i % 5 == 0);
         d["_collapsed"]=false;
       }
-  _data.setKeyword("_collapsed", false);
+  _data.addKeyword("_collapsed", false);
   return _data;
 }
 

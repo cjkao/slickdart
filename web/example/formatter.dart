@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 import 'package:slickdart/slick_cell_selection.dart' as cellMode;
+import 'package:slickdart/slick_column.dart';
 
 void main() {
   grid.SlickGrid g = init();
@@ -35,7 +36,7 @@ grid.SlickGrid init() {
       'field': "dtitle",
       'sortable': true,
       'editor': 'TextEditor',
-      'formatter': new SuperFormater()
+      'formatter':  SuperFormatter.mySpecial
     }),
     new grid.Column()
       ..formatter = LinkFormatter
@@ -100,36 +101,33 @@ grid.SlickGrid init() {
   return sg;
 }
 
-class SuperFormater {
-  call(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
+class SuperFormatter {
+  static TFormatter mySpecial= (int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
     /**demo code for ser/deser */
     var colStr = JSON.encode(columnDef);
     new grid.Column.fromJSON(colStr);
     /** end */
-    return value;
-  }
+    return "$value";
+  };
 
-  toString() {
-    return 'SuperFormater';
-  }
 }
 
 /// see [grid.TFormatter]
 SuperFormatter2(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
   var colStr = JSON.encode(columnDef.toString());
   // grid.Column col = new grid.Column.fromJSON(colStr);
-  return value;
+  return "$value";
 }
 
 /// see [grid.TFormatter]
-ButtonFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
+String ButtonFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
   if (row % 4 == 0) return 'T';
   return '<input type="button" value="$value" style="width:100%;padding:0;">';
 }
 
 /// see [grid.TFormatter]
-LinkFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
+String LinkFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
   if (value % 5 == 0) return "<a href='#'>Link - $value</a>";
   if (value % 3 == 0) return "<div style='color:red;text-align:right;width:100%;'>$value</div>";
-  return value;
+  return "$value";
 }

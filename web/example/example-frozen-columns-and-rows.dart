@@ -53,7 +53,7 @@ grid.SlickGrid init() {
     'multiColumnSort': false,
     'topPanelHeight': 25,
     'enableColumnReorder': false,
-    'frozenColumn': 0,
+//    'frozenColumn': 0,
     'frozenRow': 1,
   };
   grid.SlickGrid sg = new grid.SlickGrid(el, data, column, opt);

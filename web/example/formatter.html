@@ -47,19 +47,15 @@
       </pre>
       <h3>Formatter class</h3>
       <pre><code class='dart'>
-        class SuperFormater {
-          call(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
-            /**demo code for ser/deser */
-            var colStr = JSON.encode(columnDef);
-            new grid.Column.fromJSON(colStr);
-            /** end */
-            return value;
-          }
-
-          toString() {
-            return 'SuperFormater';
-          }
-        }
+class SuperFormatter {
+  static TFormatter mySpecial= (int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
+    /**demo code for ser/deser */
+    var colStr = JSON.encode(columnDef);
+    new grid.Column.fromJSON(colStr);
+    /** end */
+    return "$value";
+  };
+}
 
       </code>
       </pre>
