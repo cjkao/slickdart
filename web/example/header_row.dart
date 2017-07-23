@@ -2,6 +2,7 @@ import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
 import 'package:slickdart/plugin/autotooltip.dart';
+import 'package:throttle_debounce/throttle_debounce.dart';
 
 void main() {
   cj.SlickGrid grid = init();
@@ -29,7 +30,8 @@ void main() {
 cj.SlickGrid init() {
   Element el = querySelector('#grid');
   List<cj.Column> column = [
-    new cj.Column.fromMap({'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true}),
+    new cj.Column.fromMap(
+        {'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true}),
     new cj.Column.fromMap({
       'width': 120,
       'id': "duration",
@@ -38,15 +40,31 @@ cj.SlickGrid init() {
       'sortable': true,
       'editor': 'TextEditor'
     }),
-    new cj.Column.fromMap({'id': "%", 'name': "(nubmer)", 'field': "pc2", 'sortable': true, 'editor': 'TextEditor'}),
+    new cj.Column.fromMap({
+      'id': "%",
+      'name': "int (nubmer)",
+      'field': "pc2",
+      'sortable': true,
+      'editor': 'TextEditor'
+    }),
     new cj.Column.fromMap({'id': "start", 'name': "finish", 'field': "finish"}),
-    new cj.Column.fromMap({'id': "%_2", 'name': "(number)", 'field': "pc", 'editor': 'TextEditor'}),
-    new cj.Column.fromMap({'id': "effort", 'name': "(bool)", 'field': "effortDriven", 'width': 300})
+    new cj.Column.fromMap({
+      'id': "%_2",
+      'name': "String (number)",
+      'field': "pc",
+      'editor': 'TextEditor'
+    }),
+    new cj.Column.fromMap({
+      'id': "effort",
+      'name': "(bool)",
+      'field': "effortDriven",
+      'width': 300
+    })
   ];
   //cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   // column.insert(0,checkboxCol.getColumnDefinition());
   cj.FilteredList data = new cj.FilteredList();
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 55; i++) {
     data.add({
       'dtitle': new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100),
@@ -82,12 +100,27 @@ cj.SlickGrid init() {
     InputElement inputEl = new InputElement();
     inputEl.dataset['columnId'] = col.field;
     headerEl.append(inputEl);
+    int counter = 0;
+//    var callback =
+    var debounce =
+    new Debouncer(const Duration(milliseconds: 300), (List args) {
+      if(col.field=="effortDriven"){
+          if( inputEl.value.toLowerCase() == "true")    data.addKeyword(col.field,  true);
+          else if (inputEl.value.toLowerCase() == "false")data.addKeyword(col.field,  false);
+          else data.addKeyword(col.field,  ""); //clear input filter
+      }else{
 
-    inputEl.onKeyUp.listen((KeyboardEvent ke) {
-      data.addKeyword(col.field, inputEl.value);
+        data.addKeyword(col.field, inputEl.value);
+      }
       sg.invalidate();
+      counter++;
+      print("$counter ${inputEl.value}");
+    }, [], false);
+    inputEl.onKeyUp.listen((e) {
+      debounce.debounce();
     });
   });
   sg.onSort.subscribe(cj.basicSorter);
   return sg;
 }
+
