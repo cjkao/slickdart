@@ -73,7 +73,7 @@ typedef void MenuFun(MouseEvent e);
    */
 class HeaderMenu  extends IPlugin{
 
-    Map _opt;
+    Map<String,dynamic> _opt;
     //Column _parent;
     HeaderMenu(this._opt){
 
@@ -174,14 +174,15 @@ class HeaderMenu  extends IPlugin{
      // var menu = $menuButton.data("menu");
      // var columnDef = $menuButton.data("column");
       if(column.header.length==0) return;
+      core.EventData ed=new core.EventData.fromDom(e);
       // Let the user modify the menu or cancel altogether,
       // or provide alternative menu implementation.
-      List<MenuItem> menuList = column.header['menu']['items'].map((_) => new MenuItem(_)).toList() as List<MenuItem>;
-      if (onBeforeMenuShow.notify({
+      List<MenuItem> menuList = (column.header['menu']['items'] as List).map((_) => new MenuItem(_)).toList() as List<MenuItem>;
+      if (onBeforeMenuShow.notify(<String,dynamic>{
           "grid": _grid,
           "column": column,
           "menu": menuList
-        }, e) == false) {
+        }, ed) == false) {
         return;
       }
 
@@ -247,6 +248,7 @@ class HeaderMenu  extends IPlugin{
   MenuFun  _handleMenuItemClickFun(Function f,Column column,MenuItem item) => (MouseEvent e) => f(column,item,e);
     _menuItemClick(Column column,MenuItem item,MouseEvent e) {
       _log.finest('click:${column.name} ${item.command}');
+      core.EventData ed=new core.EventData.fromDom(e);
 
       if (item.disabled) {
         return;
@@ -255,12 +257,12 @@ class HeaderMenu  extends IPlugin{
       _hideMenu();
 
       if (item.command != null && item.command != '') {
-        onCommand.notify({
+        onCommand.notify(<String,dynamic>{
             "grid": _grid,
             "column": column,
             "command": item.command,
             "item": item
-          }, e);
+          }, ed);
       }
 
       // Stop propagation so that it doesn't register as a header click event.
@@ -280,11 +282,12 @@ class HeaderMenu  extends IPlugin{
    *    iconImage:    A url to the icon imag
  */
 class MenuItem{
-  Map _opt={};
+  Map<String,dynamic> _opt=<String,dynamic>{};
+  bool disabled=false;
   MenuItem(this._opt){
     if(_opt['command']==null) _opt['command']='';
     if(_opt['title']==null) _opt['title']='';
-    if(_opt['disabled']==null) _opt['disabled']=false;
+  //  if(_opt['disabled']==null) _opt['disabled']=false;
   }
   factory MenuItem.forMap({String title, String command:'', bool disabled:false,
                             String iconCssClass,String iconImage, String tooltip }){
@@ -294,7 +297,7 @@ class MenuItem{
     });
   }
   String get title =>        _opt['title'];
-  bool get disabled =>     _opt['disabled'];
+//  bool get disabled =>     _opt['disabled'];
   String get command =>      _opt['command'];
   String get iconCssClass => _opt['iconCssClass'];
   String get iconImage =>    _opt['iconImage'];
@@ -305,5 +308,5 @@ class MenuItem{
   void set iconCssClass   (_) => _opt['iconCssClass']   = _;
   void set iconImage      (_) => _opt['iconImage']      = _;
   void set tooltip        (_) => _opt['tooltip']        = _;
-  set disabled       (bool _) => _opt['disabled']       = _;
+ // set disabled       (bool _) => _opt['disabled']       = _;
 }
