@@ -31,7 +31,6 @@ class RowSelectionModel extends SelectionModel {
   SlickGrid _grid;
   var _ranges = <core.Range>[];
   var _handler = new core.EventHandler();
-  bool _inHandler = false;
   Map _options;
   Map _defaults = {'selectActiveRow': true};
   RowSelectionModel(Map options) {
@@ -100,7 +99,7 @@ class RowSelectionModel extends SelectionModel {
 
   void setSelectedRanges(ranges) {
     _ranges = ranges;
-    onSelectedRangesChanged.notify(_ranges);
+    onSelectedRangesChanged.notifyList(_ranges);
   }
 
   getSelectedRanges() {

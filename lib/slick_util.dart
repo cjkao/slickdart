@@ -146,6 +146,7 @@ class FilteredList extends ListBase {
   _foldHelper() {
     return new UnmodifiableListView(srcList.fold([], (List init, val) {
       var test = filter.keys.every((k) {
+        _log.finest("${val[k]} ${filter[k]}");
         if (val[k] is String) {
           return val[k].contains(filter[k]) ||
               this.ignoreCase && "${val[k]}".toUpperCase().contains(filter[k].toString().toUpperCase());
