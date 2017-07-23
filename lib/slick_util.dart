@@ -99,7 +99,7 @@ class FilteredList extends ListBase {
    */
   Map<String, dynamic> filter = {};
 
-  FilteredList([this.srcList, this.ignoreCase]) {
+  FilteredList([this.srcList, this.ignoreCase=false]) {
     srcList ??= new List();
   }
   //Constructor from a Map
@@ -148,7 +148,7 @@ class FilteredList extends ListBase {
       var test = filter.keys.every((k) {
         if (val[k] is String) {
           return val[k].contains(filter[k]) ||
-              this.ignoreCase && (val[k] as String).toUpperCase().contains(filter[k].toString().toUpperCase());
+              this.ignoreCase && "${val[k]}".toUpperCase().contains(filter[k].toString().toUpperCase());
         } else if (val[k] is bool) {
           return val[k] == filter[k];
         } else {
@@ -166,7 +166,7 @@ class FilteredList extends ListBase {
   }
 
   operator [](index) => filter.length == 0 ? srcList[index] : viewList[index];
-  operator []=(index, value) => srcList.add(value);
+  operator []=(index, value) => srcList[index]=(value);
   //for grid internal mask
   get length => filter.length == 0 ? srcList.length : viewList.length;
   set length(val) {
