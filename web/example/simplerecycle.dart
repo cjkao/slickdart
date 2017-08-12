@@ -7,7 +7,7 @@ import 'dart:async';
 
 main() async {
   for (int i = 0; i < 11110; ++i) {
-    await new Future.delayed(new Duration(milliseconds: 100), () {
+    await new Future.delayed(new Duration(milliseconds: 1000), () {
       build();
     });
     querySelector('#rec').text = '$i';
@@ -65,6 +65,8 @@ build() {
 
   sg.invalidate();
   sg.render();
-  sg.unSubscribe();
+  new Future.delayed(new Duration(milliseconds: 1000), () {
+    sg.unSubscribe();
+  });
 //  data.clear();
 }

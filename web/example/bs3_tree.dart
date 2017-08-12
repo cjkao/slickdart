@@ -1,3 +1,4 @@
+library bs3.tree;
 import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
