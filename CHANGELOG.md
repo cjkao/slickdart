@@ -1,3 +1,5 @@
+# Version 0.2.0-beta.1
+- Add EvtArgs, EvtCallback
 # Version 0.1.8+9(2017/01)
 - fix detached state and show/hidden state
 

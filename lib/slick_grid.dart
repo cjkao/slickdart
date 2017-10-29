@@ -14,7 +14,7 @@ import 'slick_util.dart';
 import 'slick_dnd.dart';
 import 'slick_column.dart';
 import 'row_height.dart' as heightIdx;
-
+//import 'slick_core2.dart' as core2;
 final Logger _log = new Logger('cj.grid');
 
 /**
@@ -150,8 +150,9 @@ class SlickGrid {
    */
   _storeFormatter() {
     allColumns.where((_) => _.formatter != null).forEach((_) {
-      _options.formatterFactory[_.id] = _.formatter as TFormatter;
+      _options.formatterFactory[_.id] = _.formatter;// as TFormatter;
       _.formatter = _.id;
+      _.gridOption=this.gridOptions;
     });
   }
 
@@ -335,7 +336,9 @@ class SlickGrid {
   int getColumnIndex(String id) => columnsById[id];
   List getSortColumns() => sortColumns;
   List<Column> getColumns() => columns;
-  handleSelectedRangesChanged(core.EventData e, List<core.Range> ranges) {
+  handleSelectedRangesChanged(core.EventData e,core.EvtArgs args ) {
+  // handleSelectedRangesChanged(core.EventData e, List<core.Range> ranges) {
+    List<core.Range> ranges = args[RANGES];
     selectedRows = [];
     Map<int, Map<String, String>> hash = {};
     for (var i = 0; i < ranges.length; i++) {
@@ -355,7 +358,7 @@ class SlickGrid {
 
     setCellCssStyles(_options.selectedCellCssClass, hash);
 
-    trigger(onSelectedRowsChanged, {'rows': getSelectedRows()}, e);
+    trigger(onSelectedRowsChanged, <String,dynamic>{'rows': getSelectedRows()}, e);
   }
 
   ///
@@ -377,7 +380,7 @@ class SlickGrid {
     _cellCssClasses[key] = hash;
     _updateCellCssStylesOnRenderedRows(hash, prevHash);
 
-    trigger(onCellCssStylesChanged, {"key": key, "hash": hash});
+    trigger(onCellCssStylesChanged, <String,dynamic>{"key": key, "hash": hash});
   }
 
   _updateCellCssStylesOnRenderedRows(
@@ -1819,11 +1822,12 @@ class SlickGrid {
   trigger(core.Event evt, [Map<String, dynamic> args, core.EventData e]) {
     //[core.EventData e]
     if (e == null) e = new core.EventData();
-    if (args == null) args = {};
-    args['grid'] = this;
-    return evt.notify(args, e, this);
+    if (args == null) args =<String,dynamic>{};
+    core.EvtArgs nargs=new core.EvtArgs(this);
+    nargs.addAll(args);
+   // args['grid'] = this;
+    return evt.notify(nargs, e, this);
   }
-
   void validateAndEnforceOptions() {
     if (_options.autoHeight == true) {
       _options.leaveSpaceForNewRows = false;
@@ -2188,10 +2192,12 @@ class SlickGrid {
       item.classes.remove("slick-header-column-sorted");
       Element chlidIndicator = item.querySelector('.slick-sort-indicator');
       if (chlidIndicator != null) {
-        item
+        var classSet=item
             .querySelector('.slick-sort-indicator')
-            .classes
-            .removeAll(["slick-sort-indicator-asc", "slick-sort-indicator-desc"]);
+            .classes;
+        classSet.remove("slick-sort-indicator-asc",);
+        classSet.remove("slick-sort-indicator-desc",);
+//            .removeAll(["slick-sort-indicator-asc", "slick-sort-indicator-desc"]);
       }
     });
     sortColumns.forEach((Map<String, dynamic> col) {
@@ -2632,8 +2638,10 @@ class SlickGrid {
       }
     }
   }
-
-  void handleDblClick(MouseEvent e) {
+  ///
+  /// e MouseEvent
+  ///
+  void handleDblClick(Event e) {
     core.EventData evt = new core.EventData.fromDom(e);
     var cell = getCellFromEvent(evt);
     if (cell == null || (currentEditor != null && activeRow == cell['row'] && activeCell == cell['cell'])) {
@@ -2812,7 +2820,7 @@ class SlickGrid {
       //fecth it from formatterFactorys
       return _options.formatterFactory[column.id];
     } else //this only happen when suppply a new column is not from grid constructor
-      return column.formatter as TFormatter;
+      return column.formatter;// as TFormatter;
   }
 
   scrollRowIntoView(int row, [doPaging]) {
@@ -3014,7 +3022,7 @@ class SlickGrid {
 
     if (activeCellNode != null) {
       var d = getDataItem(activeRow);
-      activeCellNode.classes.removeAll(['editable', 'invalid']);
+      activeCellNode.classes.removeAll(<String>['editable', 'invalid']);
       if (d != null) {
         var column = columns[activeCell];
         TFormatter formatter = getFormatter(activeRow, column);
@@ -3256,6 +3264,8 @@ class SlickGrid {
     // if there is a corresponding row (if not, this is the Add New row or this data hasn't been loaded yet)
     if (item != null) {
       var value = getDataItemValueForColumn(item, m);
+
+      // var f=getFormatter(row, m);
       stringArray.add(getFormatter(row, m)(row, cell, value, m, item));
     }
 

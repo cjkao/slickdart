@@ -5,7 +5,7 @@ import 'package:logging/logging.dart';
 import 'slick_column.dart';
 
 export 'slick_column.dart';
-export 'slick_core.dart' show EventData;
+export 'slick_core.dart' show EventData,EvtArgs;
 export 'slick_editor.dart';
 export 'slick_grid.dart';
 export 'slick_selectionmodel.dart';

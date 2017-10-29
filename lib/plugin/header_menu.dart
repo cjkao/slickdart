@@ -1,5 +1,7 @@
 library slick.plugin.headermenu;
 import 'dart:html';
+import 'package:slickdart/slick_core.dart';
+
 import '../slick_grid.dart';
 import '../slick_column.dart';
 import '../slick_util.dart';
@@ -177,12 +179,11 @@ class HeaderMenu  extends IPlugin{
       core.EventData ed=new core.EventData.fromDom(e);
       // Let the user modify the menu or cancel altogether,
       // or provide alternative menu implementation.
-      List<MenuItem> menuList = (column.header['menu']['items'] as List).map((_) => new MenuItem(_)).toList() as List<MenuItem>;
-      if (onBeforeMenuShow.notify(<String,dynamic>{
-          "grid": _grid,
+      List<MenuItem> menuList = (column.header['menu']['items'] as List).map((_) => new MenuItem(_)).toList() ;
+      if (onBeforeMenuShow.notify(new EvtArgs.fromArgs(<String,dynamic>{
           "column": column,
           "menu": menuList
-        }, ed) == false) {
+        },_grid), ed) == false) {
         return;
       }
 
@@ -257,12 +258,11 @@ class HeaderMenu  extends IPlugin{
       _hideMenu();
 
       if (item.command != null && item.command != '') {
-        onCommand.notify(<String,dynamic>{
-            "grid": _grid,
+        onCommand.notify(new EvtArgs.fromArgs(<String,dynamic>{
             "column": column,
             "command": item.command,
             "item": item
-          }, ed);
+          },_grid), ed);
       }
 
       // Stop propagation so that it doesn't register as a header click event.

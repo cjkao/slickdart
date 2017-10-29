@@ -99,13 +99,7 @@ grid.SlickGrid init() {
     ..explicitInitialization = false
     ..multiColumnSort = false
     ..dynamicHeight = true;
-  Map opt = {
-    'explicitInitialization': false,
-    'multiColumnSort': false,
-    'dynamicHeight': true,
-//             'frozenColumn': 0,
-//                             'frozenRow':0,
-  };
+
   grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opts);
   sg.onSort.subscribe(grid.basicSorter);
 

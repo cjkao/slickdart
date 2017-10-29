@@ -6,7 +6,7 @@ import 'package:slickdart/slick_cell_selection.dart' as cellMode;
 Map<int, Map<String, String>> hash = {};
 Map<String, String> getMeta(int row) {
   var rdata = csv.data[row];
-
+  print("HI");
   if (rdata['gss_code'] == filterStr) {
     //build column style hash
     hash[row] = {'UNITID': 'bold', 'school_id': 'bold'};

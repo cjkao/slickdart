@@ -1,7 +1,10 @@
 library slick.core;
 
+//import 'dart:async';
+import 'dart:collection';
 import 'package:logging/logging.dart';
 import 'dart:html' as html;
+import 'package:slickdart/slick_grid.dart';
 
 Logger _log = new Logger('slick.core');
 
@@ -10,24 +13,70 @@ Logger _log = new Logger('slick.core');
 //import 'dart:math' as math;
 //import 'dart:mirrors';
 EditorLock GlobalEditorLock = new EditorLock();
+///
+/// Event Arguments, specialized map, retrun [SlickGrid] when using 'grid'
+///
+class EvtArgs extends MapBase<String,dynamic>{
+  EventData eventData;
+  Map<String,dynamic> _map={};
+  SlickGrid _grid;
+  EvtArgs(this._grid);
+  factory EvtArgs.fromArgs(Map<String,dynamic> m,SlickGrid _grid){
+       var evt=new EvtArgs(_grid);
+       evt._map=m;
+       return evt;
+  }
+  @override
+  operator [](Object key) {
+    if(key=="grid") return _grid;
+    return _map[key];
+  }
 
+  @override
+  void operator []=(String key, value) {
+    _map[key]=value;
+  }
+
+  @override
+  void clear() {
+    _map.clear();
+
+  }
+
+  // TODO: implement keys
+  @override
+  Iterable<String> get keys => _map.keys;
+
+  @override
+  remove(Object key) {
+    _map.remove(key);
+  }
+  @override
+  addAll(Map<String, dynamic> other){
+    _map.addAll(other);
+  }
+}
 //parm:  List<core.Range>, Map
 //e: KeyboardEvent, EventData
-typedef handlerFunction(EventData e, dynamic parm);
-
+typedef EvtCallback = void Function(EventData e,EvtArgs  parm);
 /**
  * utility to get dom width / height
  */
 class Dimension {
   static int getCalcWidth(html.Element elem) {
-    return (elem.getBoundingClientRect().width).floor();
+    return (elem
+        .getBoundingClientRect()
+        .width).floor();
   }
 
   static int getCalcHeight(html.Element elem) {
-    int height = (elem.getBoundingClientRect().height).floor();
+    int height = (elem
+        .getBoundingClientRect()
+        .height).floor();
 
     if (height == 0) {
-      _log.severe('% height or display=none will not possible to know grid height,use vh instead');
+      _log.severe(
+          '% height or display=none will not possible to know grid height,use vh instead');
     }
     return height;
   }
@@ -38,12 +87,15 @@ class Dimension {
  */
 class EventData {
   html.Event domEvent;
+
   factory EventData.fromDom(html.Event e) {
     EventData ed = new EventData();
     ed.domEvent = e;
     return ed;
   }
+
   EventData() {}
+
   get target => domEvent.target;
 
   preventDefault() {
@@ -52,8 +104,10 @@ class EventData {
 
   bool _isPropagationStopped = false;
   bool _isImmediatePropagationStopped = false;
+
   String toString() {
-    return 'evd pg:' + (_isPropagationStopped ? 'T' : 'F') + ' imStp ' + (_isImmediatePropagationStopped ? 'T' : 'F');
+    return 'evd pg:' + (_isPropagationStopped ? 'T' : 'F') + ' imStp ' +
+        (_isImmediatePropagationStopped ? 'T' : 'F');
   }
 
   /***
@@ -96,9 +150,8 @@ class EventData {
 /** TODO
  * consider refactor this to stream
  */
-class Event {
+class Event  {
   List<Function> handlers = [];
-  //StreamController sc;
   /***
    * Adds an event handler to be called when the event is fired.
    * <p>Event handler will receive two arguments - an <code>EventData</code> and the <code>data</code>
@@ -106,10 +159,10 @@ class Event {
    * @method subscribe
    * @param fn {Function} Event handler.
    */
-  subscribe(handlerFunction fn) {
+  subscribe(EvtCallback fn) {
     handlers.add(fn);
-  }
 
+  }
   /***
    * Removes an event handler added with <code>subscribe(fn)</code>.
    * @method unsubscribe
@@ -130,27 +183,42 @@ class Event {
    *      The scope ("this") within which the handler will be executed.
    *      If not specified, the scope will be set to the <code>Event</code> instance.
    */
-  notify(args, [dynamic e, scope]) {
+  notify(EvtArgs args, [EventData e, SlickGrid scope]) {
     e ??= new EventData();
     // scope = scope || this;
     var returnValue;
+  //  args["grid"]=scope;
     for (int i = 0;
-        i < handlers.length && !(e is EventData && (e.isPropagationStopped() || e.isImmediatePropagationStopped()));
-        i++) {
+    i < handlers.length && !(e is EventData &&
+        (e.isPropagationStopped() || e.isImmediatePropagationStopped()));
+    i++) {
       returnValue = Function.apply(handlers[i], [e, args]);
     }
 
     return returnValue;
   }
+  ///
+  ///  for range change notification
+  ///
+  ///
+  // notifyList(List<Range> args) {
+  //   EventData e = new EventData();
+  //   var returnValue;
+  //   for (int i = 0; i < handlers.length ; i++) {
+  //     returnValue = Function.apply(handlers[i], [e, args]);
+  //   }
+
+  //   return returnValue;
+  // }
 }
+
 
 class EventHandler {
   List<Map<String, dynamic>> handlers = [];
 
-  subscribe(Event event, handlerFunction handler) {
+  subscribe(Event event, EvtCallback handler) {
     handlers.add({'event': event, 'handler': handler});
     event.subscribe(handler);
-
     return this; // allow chaining
   }
 
@@ -163,7 +231,6 @@ class EventHandler {
         return this;
       }
     }
-
     return this; // allow chaining
   }
 
@@ -173,7 +240,6 @@ class EventHandler {
       handlers[i]['event'].unsubscribe(handlers[i]['handler']);
     }
     handlers = [];
-
     return this; // allow chaining
   }
 }
@@ -189,6 +255,7 @@ class EventHandler {
  */
 class Range {
   int fromRow, fromCell, toRow, toCell;
+
   Range(this.fromRow, this.fromCell, [this.toRow, this.toCell]) {
     if (toRow == null && toCell == null) {
       toRow = fromRow;
@@ -254,7 +321,8 @@ class Range {
    * @return {Boolean}
    */
   bool contains(int row, int cell) {
-    return row >= this.fromRow && row <= this.toRow && cell >= this.fromCell && cell <= this.toCell;
+    return row >= this.fromRow && row <= this.toRow && cell >= this.fromCell &&
+        cell <= this.toCell;
   }
 
   /***
@@ -278,6 +346,7 @@ class Range {
  */
 class NonDataItem {
   bool _nonDataRow = true;
+
   bool get nonDataRow => _nonDataRow;
 }
 
@@ -354,19 +423,19 @@ class Group extends NonDataItem {
    */
   Object groupingKey = null;
 
-  /***
-   * Compares two Group instances.
-   * @method equals
-   * @return {Boolean}
-   * @param group {Group} Group instance to compare to.
-  operator==(Group group){
+/***
+ * Compares two Group instances.
+ * @method equals
+ * @return {Boolean}
+ * @param group {Group} Group instance to compare to.
+    operator==(Group group){
     return this.value == group.value &&
-        this.count == group.count &&
-        this.collapsed == group.collapsed &&
-        this.title == group.title;
-  }
+    this.count == group.count &&
+    this.collapsed == group.collapsed &&
+    this.title == group.title;
+    }
 
-   */
+ */
 }
 
 /***
@@ -408,7 +477,9 @@ class EditorLock {
    * @return {Boolean}
    */
   bool isActive([editController]) {
-    return (editController != null ? activeEditController == editController : activeEditController != null);
+    return (editController != null
+        ? activeEditController == editController
+        : activeEditController != null);
   }
 
   /***
@@ -456,7 +527,9 @@ class EditorLock {
    * @return {Boolean}
    */
   bool commitCurrentEdit() {
-    return (activeEditController != null ? activeEditController['commitCurrentEdit']() : true);
+    return (activeEditController != null
+        ? activeEditController['commitCurrentEdit']()
+        : true);
   }
 
   /***
@@ -467,6 +540,8 @@ class EditorLock {
    * @return {Boolean}
    */
   bool cancelCurrentEdit() {
-    return (activeEditController != null ? activeEditController['cancelCurrentEdit']() : true);
+    return (activeEditController != null
+        ? activeEditController['cancelCurrentEdit']()
+        : true);
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'package:slickdart/slick_custom.dart';
 import 'package:slickdart/slick.dart';
-import 'package:slickdart/slick_cell_selection.dart' as cellMode;
+// import 'package:slickdart/slick_cell_selection.dart' as cellMode;
 import 'dart:math';
 
 Map<int, Map<String, String>> hash = {};
@@ -36,7 +36,7 @@ main() {
     gw0 = document.querySelector("$GRID_TAG.second");
     gw0.init(new MetaList(csv.data, getMeta), [], option: opt);
 
-    gw0.grid.onSort.subscribe((EventData e, dynamic parm) {
+    gw0.grid.onSort.subscribe((EventData e,EvtArgs parm) {
       hash.clear();
       gw0.grid.invalidate();
     });
@@ -56,6 +56,7 @@ CsvAdapter csv;
 String filterStr;
 
 List<Column> getColDefs(List<Column> cols) {
+
   List<Column> newCols = cols.map((col) => new Column.fromColumn(col)..sortable = true).toList();
   CheckboxSelectColumn checkboxCol = new CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
   newCols.insert(0, checkboxCol.getColumnDefinition());

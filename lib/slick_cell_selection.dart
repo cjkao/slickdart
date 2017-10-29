@@ -6,7 +6,7 @@ import 'slick_grid.dart';
 import 'package:logging/logging.dart';
 //import 'slick_column.dart' show CheckboxSelectColumn;
 import 'dart:async';
-import 'slick_selectionmodel.dart' show SelectionModel;
+import 'slick_selectionmodel.dart' show SelectionModel,RANGES;
 
 Logger _log = new Logger('cj.row.select');
 Element _activeCanvas;
@@ -91,7 +91,8 @@ class CellRangeSelector extends IPlugin {
   StreamSubscription<MouseEvent> moveSubscribe;
   StreamSubscription<MouseEvent> upSubscribe;
   //dd callback
-  handleDownOnCanvas(core.EventData ed, [Map<String, int> parm]) {
+core.EvtCallback get handleDownOnCanvas  =>(core.EventData ed, [core.EvtArgs parm]) {
+      // handleDownOnCanvas(core.EventData ed, [Map<String, int> parm]) {
     moveSubscribe?.cancel();
     upSubscribe?.cancel();
     moveSubscribe = null;
@@ -123,7 +124,9 @@ class CellRangeSelector extends IPlugin {
     upSubscribe = _activeCanvas.onMouseUp.listen((e) {
       _log.finest('up $e');
       moveSubscribe.pause();
-      onCellRangeSelected.notify({'range': newRange});
+      var inform=new core.EvtArgs(_grid) ;
+      inform[RANGES]=newRange;
+      onCellRangeSelected.notify(inform);
     });
     if (parm.containsKey('row')) {
       centerCell
@@ -137,7 +140,8 @@ class CellRangeSelector extends IPlugin {
       assert(false);
     }
     decorator.show(newRange);
-  }
+  // };
+  };
 
   destroy() {
     _handler.unsubscribeAll();
@@ -196,23 +200,24 @@ class CellSelectionModel extends SelectionModel {
 
   void setSelectedRanges(List<core.Range> ranges) {
     _ranges = _removeInvalidRanges(ranges);
-    onSelectedRangesChanged.notify(_ranges);
+     var args = new core.EvtArgs.fromArgs(<String,dynamic>{RANGES:_ranges}, _grid);
+    onSelectedRangesChanged.notify(args);
   }
 
   List<core.Range> getSelectedRanges() {
     return _ranges;
   }
 
-  _handleBeforeCellRangeSelected(core.EventData e, args) {
+ core.EvtCallback get _handleBeforeCellRangeSelected=>(core.EventData e,core.EvtArgs args) {
     if (_grid.getEditorLock().isActive()) {
       e.stopPropagation();
-      return false;
+//      return false;
     }
-  }
+  };
 
-  _handleCellRangeSelected(core.EventData e, args) {
-    setSelectedRanges(<core.Range>[args['range']]);
-  }
+  core.EvtCallback get _handleCellRangeSelected =>(core.EventData e, core.EvtArgs args) {
+    setSelectedRanges(<core.Range>[args[RANGES]]);
+  };
 
   /**
    * args: object
@@ -220,18 +225,18 @@ class CellSelectionModel extends SelectionModel {
         grid: SlickGrid
        row: 6
    */
-  _handleActiveCellChange(core.EventData e, Map<String, dynamic> args) {
+  core.EvtCallback get _handleActiveCellChange =>(core.EventData e, core.EvtArgs args) {
     if (_options['selectActiveCell'] && args['row'] != null && args['cell'] != null) {
       setSelectedRanges([new core.Range(args['row'], args['cell'])]);
     }
-  }
+  };
 
-  _handleResizeCol(core.EventData e, Map<String, dynamic> args) {
+   core.EvtCallback get _handleResizeCol=>(core.EventData e,core.EvtArgs  args) {
     if (_selector.newRange == null) return;
     this._selector.decorator.show(_selector.newRange);
-  }
+  };
 
-  _handleKeyDown(core.EventData evtData, [args]) {
+   core.EvtCallback get _handleKeyDown=>(core.EventData evtData, [core.EvtArgs  args]) {
     KeyboardEvent e = evtData.domEvent;
     /***
        * byte codes
@@ -291,5 +296,5 @@ class CellSelectionModel extends SelectionModel {
       e.preventDefault();
       e.stopPropagation();
     }
-  }
+  };
 }

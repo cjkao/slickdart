@@ -2,7 +2,7 @@ import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
 import 'package:slickdart/plugin/autotooltip.dart';
-import 'package:throttle_debounce/throttle_debounce.dart';
+//import 'package:throttle_debounce/throttle_debounce.dart';
 
 void main() {
   cj.SlickGrid grid = init();
@@ -100,25 +100,25 @@ cj.SlickGrid init() {
     InputElement inputEl = new InputElement();
     inputEl.dataset['columnId'] = col.field;
     headerEl.append(inputEl);
-    int counter = 0;
+    // int counter = 0;
 //    var callback =
-    var debounce =
-    new Debouncer(const Duration(milliseconds: 300), (List args) {
-      if(col.field=="effortDriven"){
-          if( inputEl.value.toLowerCase() == "true")    data.addKeyword(col.field,  true);
-          else if (inputEl.value.toLowerCase() == "false")data.addKeyword(col.field,  false);
-          else data.addKeyword(col.field,  ""); //clear input filter
-      }else{
-
-        data.addKeyword(col.field, inputEl.value);
-      }
-      sg.invalidate();
-      counter++;
-      print("$counter ${inputEl.value}");
-    }, [], false);
-    inputEl.onKeyUp.listen((e) {
-      debounce.debounce();
-    });
+//    var debounce =
+//    new Debouncer(const Duration(milliseconds: 300), (List args) {
+//      if(col.field=="effortDriven"){
+//          if( inputEl.value.toLowerCase() == "true")    data.addKeyword(col.field,  true);
+//          else if (inputEl.value.toLowerCase() == "false")data.addKeyword(col.field,  false);
+//          else data.addKeyword(col.field,  ""); //clear input filter
+//      }else{
+//
+//        data.addKeyword(col.field, inputEl.value);
+//      }
+//      sg.invalidate();
+//      counter++;
+//      print("$counter ${inputEl.value}");
+//    }, [], false);
+//    inputEl.onKeyUp.listen((e) {
+//      debounce.debounce();
+//    });
   });
   sg.onSort.subscribe(cj.basicSorter);
   return sg;

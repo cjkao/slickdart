@@ -17,10 +17,10 @@ main() {
 //
 // });
  test('test that time has passed', () {
-   var duration = const Duration(milliseconds: 200);
-   var time = new DateTime.now();
+  //  var duration = const Duration(milliseconds: 200);
+  //  var time = new DateTime.now();
    CsvAdapter csv;
-   Timer.run(()=>expectAsync(() {
+   Timer.run(()=>expectAsync0(() {
      File f= new File('gss.csv');
      String fstr=f.readAsStringSync();
      print (fstr);
