@@ -1,39 +1,55 @@
 name: slickdart
-version: 0.1.8+9
+version: 0.2.0-beta.1
 authors:
   - CJKAO <kaopeter@gmail.com>
-  - tonosama-atlacatl
-  - yyyangd
 description: Basic grid component port from SlickGrid with dynamic row height, frozen column enhancement
 homepage: https://cjkao.github.io/slickdart
 environment:
-  sdk: '>=1.8.0 <2.0.0'
+  sdk: '>1.8.0 <=2.0.0-dev.10.0'
 dependencies:
   browser: ^0.10.0
   logging: '>=0.11.0 <2.0.0'
-
 dev_dependencies:
 #  dnd: any
 #  angular: 1.1.2+2
 #  angular2: ^2.0.0
 #  angular_ui: any
+#  html5: ^0.1.7
   test: any
-  polymer: ^1.0.0-rc.17
-  polymer_elements: ^1.0.0-rc.8
+  polymer: ^1.0.0-rc.19
+  polymer_elements: ^1.0.0-rc.10
   web_components: ^0.12.0
+#  throttle_debounce: "^0.1.2+1"
 #  dev_compiler: any
 #  initialize: any
 #  datepicker: any
 #  pubviz: any
 #transformers:
+
+#
+#dependency_overrides:
+# polymer:
+#  hosted:
+#   name: polymer
+#   url: "http://pub.dart-polymer.com"
+#  version: "1.0.0-rc.19.unofficial.1"
+# polymer_interop:
+#  hosted:
+#   name: polymer_interop
+#   url: "http://pub.dart-polymer.com"
+#  version: "1.0.0-rc.11.exp.20170724.0"
+
 transformers:
 #- polymer:
-#    entry_points: web/example/EditorSample.html
+#    entry_points: web/example/polymer/editor-sample.html
 - $dart2js:
     csp: false
     sourceMaps: true
-    checked: false
-    minify: true
+    checked: true
+    minify: false
     commandLineOptions:
     - --trust-type-annotations
     - --trust-primitives
+#web:
+#  compiler:
+#    debug: dartdevc
