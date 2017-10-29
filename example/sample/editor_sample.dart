@@ -1,53 +1,52 @@
 import 'dart:html';
-import 'package:slickdart/slick.dart' as grid;
+import 'package:slickdart/slick.dart' ;
 import 'dart:math' as math;
-import 'package:slickdart/slick_editor.dart';
-import 'package:slickdart/slick_selectionmodel.dart';
+
 
 //import 'package:bootjack_datepicker/bootjack_datepicker.dart';
 //import 'package:datepicker/components/date_input.dart';
 //import 'package:polymer/polymer.dart';
 void main() {
-  grid.SlickGrid g = prepareGrid();
+  SlickGrid g = prepareGrid();
   g.init();
 }
 
-grid.SlickGrid prepareGrid() {
+SlickGrid prepareGrid() {
   Element el = querySelector('#grid');
-  List<grid.Column> column = [
-    new grid.Column.fromMap({'name': 'string', 'field': "str", 'sortable': true, 'editor': 'TextEditor'}),
-    new grid.Column.fromMap({'field': "int", 'sortable': true, 'editor': 'IntEditor'}),
-    new grid.Column.fromMap({'field': "double", 'sortable': true, 'editor': 'DoubleEditor'}),
-    new grid.Column.fromMap({
+  List<Column> column = [
+    new Column.fromMap({'name': 'string', 'field': "str", 'sortable': true, 'editor': 'TextEditor'}),
+    new Column.fromMap({'field': "int", 'sortable': true, 'editor': 'IntEditor'}),
+    new Column.fromMap({'field': "double", 'sortable': true, 'editor': 'DoubleEditor'}),
+    new Column.fromMap({
       'name': 'checkbox-str',
       'field': "checkbox2",
       'width': 140,
       'editor': 'CheckboxEditor',
-      'formatter': grid.CheckmarkFormatter
+      'formatter': CheckmarkFormatter
     }),
-    new grid.Column.fromMap({'name': 'date editor', 'field': "StartDate", 'width': 140, 'editor': new DateEditor()}),
-    new grid.Column.fromMap({
+    new Column.fromMap({'name': 'date editor', 'field': "StartDate", 'width': 140, 'editor': new DateEditor()}),
+    new Column.fromMap({
       'id': 'checkbox1',
       'field': "checkbox",
       'width': 140,
       'editor': new CheckboxEditor(),
-      'formatter': grid.CheckmarkFormatter
+      'formatter': CheckmarkFormatter
     }),
-    new grid.Column.fromMap({
+    new Column.fromMap({
       'id': "%",
       'name': "percent",
       'field': "pc",
       'sortable': true,
       'editor': new PercentCompleteEditor(),
-      'formatter': grid.PercentCompleteBarFormatter
+      'formatter': PercentCompleteBarFormatter
     }),
-    new grid.Column.fromMap({
+    new Column.fromMap({
       'name': 'int List Editor',
       'field': "intlist",
       'width': 100,
       'editor': new SelectListEditor({0: "Label_0", 1: "Lable_1", 2: "Label_2"})
     }),
-    new grid.Column.fromMap({
+    new Column.fromMap({
       'name': 'str List Editor',
       'field': "City",
       'width': 100,
@@ -69,14 +68,14 @@ grid.SlickGrid prepareGrid() {
       'StartDate': '200${i%9}-01-31'
     });
   }
-  grid.GridOptions opt = new grid.GridOptions()
+  GridOptions opt = new GridOptions()
     ..forceFitColumns = false
     ..editable = true
     ..enableColumnReorder = true
     ..multiColumnSort = true
     ..enableColumnReorder = true
     ..autoCommitOnBlur = true;
-  grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
+  SlickGrid sg = new SlickGrid.fromOpt(el, data, column, opt);
 
   sg.setSelectionModel(new RowSelectionModel(sg.options));
 
@@ -89,7 +88,7 @@ grid.SlickGrid prepareGrid() {
     print(args['new']);
     sg.commitCurrentEdit();
   });
-  sg.onSort.subscribe(grid.basicSorter);
+  sg.onSort.subscribe(basicSorter);
 
   /// 'editor': currentEditor,
   ///        'cellNode': activeCellNode,

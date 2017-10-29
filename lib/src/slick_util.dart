@@ -6,7 +6,7 @@ import 'dart:collection';
 import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'dart:convert';
-import 'slick_column.dart' show TFormatter;
+import 'slick_column.dart' show TFormatter,Column;
 
 Logger _log = new Logger('slick.util');
 
@@ -532,10 +532,10 @@ class GridOptions {
   }
 }
 
-String _defaultFormatter(int row, int cell, dynamic value, columnDef, dataContext) {
+TFormatter get  _defaultFormatter=> (int row, int cell, dynamic value,Column columnDef,Map dataContext) {
   if (value == null) {
     return "";
   }
   if (value is num || value is bool) return value.toString();
   return HTML_ESCAPE.convert(value);
-}
+};

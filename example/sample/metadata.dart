@@ -3,7 +3,7 @@ import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 
 String searchStr = '';
-List srcData = [];
+List<Map<String,dynamic>> srcData = [];
 void main() {
   grid.SlickGrid sg = makeGrid();
   sg.init();

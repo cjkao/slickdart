@@ -5,8 +5,6 @@ import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 import 'dart:async';
-import 'package:slickdart/slick_editor.dart';
-import 'package:slickdart/slick_selectionmodel.dart';
 import 'dart:html' show Element, MouseEvent;
 import 'package:web_components/web_components.dart' show HtmlImport;
 import 'package:polymer/polymer.dart';
@@ -72,7 +70,7 @@ class PercentElement extends PolymerElement {
 
 ///percent editor
 ///
-class PercentCompleteEditor extends Editor {
+class PercentCompleteEditor extends grid.Editor {
   Element $picker;
   TextInputElement _$input;
   PercentElement floatMenu = null;
@@ -84,7 +82,7 @@ class PercentCompleteEditor extends Editor {
   /// hover on icon and set value from PercentElement
   ///
   @override
-  set editorParm(EditorParm m) {
+  set editorParm(grid.EditorParm m) {
     super.editorParm = m;
     //$input = new DateInputElement(); //
     $input = new TextInputElement(); //$("<INPUT type=text class='editor-percentcomplete' />");

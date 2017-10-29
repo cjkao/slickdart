@@ -1,22 +1,20 @@
 import 'dart:html';
-import 'package:slickdart/slick.dart' as grid;
+import 'package:slickdart/slick.dart' ;
 import 'dart:math' as math;
-import 'package:slickdart/slick_editor.dart';
-import 'package:slickdart/slick_selectionmodel.dart';
 
 void main() {
-  grid.SlickGrid g = init();
+  SlickGrid g = init();
   g.init();
 }
 
-grid.SlickGrid init() {
+SlickGrid init() {
   Element el = querySelector('#grid');
-  List<grid.Column> column = [
-    new grid.Column.fromMap({'field': "dtitle", 'sortable': true, 'editor': 'TextEditor'}),
-    new grid.Column.fromMap({'width': 120, 'field': "duration", 'sortable': true}),
-    new grid.Column.fromMap({'field': "StartDate", 'width': 140, 'editor': new DateEditor()}),
-    new grid.Column.fromMap({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true}),
-    new grid.Column.fromMap({
+  List<Column> column = [
+    new Column.fromMap({'field': "dtitle", 'sortable': true, 'editor': 'TextEditor'}),
+    new Column.fromMap({'width': 120, 'field': "duration", 'sortable': true}),
+    new Column.fromMap({'field': "StartDate", 'width': 140, 'editor': new DateEditor()}),
+    new Column.fromMap({'id': "%", 'name': "percent", 'field': "pc", 'sortable': true}),
+    new Column.fromMap({
       'name': 'List Editor',
       'field': "City",
       'width': 100,
@@ -33,20 +31,20 @@ grid.SlickGrid init() {
       'StartDate': '2012/01/31'
     });
   }
-  grid.GridOptions opt = new grid.GridOptions()
+  GridOptions opt = new GridOptions()
     ..forceFitColumns = false
     ..editable = true
     ..enableColumnReorder = true
     ..multiColumnSort = true
     ..enableColumnReorder = true;
-  grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
+  SlickGrid sg = new SlickGrid.fromOpt(el, data, column, opt);
 
   sg.setSelectionModel(new RowSelectionModel(sg.options));
 
   sg.onBeforeEditCell.subscribe((e, args) {
     print(args['column']);
   });
-  sg.onSort.subscribe(grid.basicSorter);
+  sg.onSort.subscribe(basicSorter);
 
   return sg;
 }

@@ -5,7 +5,7 @@ import 'dart:html';
 import 'dart:convert';
 //import 'slick.dart';
 import 'dart:math' as math;
-import 'package:slickdart/slick_util.dart';
+import 'slick_util.dart';
 import 'slick_grid.dart';
 import 'slick_core.dart' as core;
 import 'slick_util.dart' as util;

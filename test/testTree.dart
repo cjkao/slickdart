@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:slickdart/row_height.dart';
+import 'package:slickdart/src/row_height.dart';
 main() {
  test('An empty test', () {
    List list=[];

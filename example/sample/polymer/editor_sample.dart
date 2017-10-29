@@ -2,9 +2,8 @@ library grid.example.polymer;
 
 import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
+import 'package:slickdart/slick_custom.dart';
 import 'dart:math' as math;
-import 'package:slickdart/slick_editor.dart';
-import 'package:slickdart/slick_selectionmodel.dart';
 import 'package:polymer/polymer.dart';
 import 'percent_element.dart';
 //import 'package:bootjack_datepicker/bootjack_datepicker.dart';
@@ -43,7 +42,7 @@ grid.SlickGrid init() {
       'id': 'checkbox1',
       'field': "checkbox",
       'width': 140,
-      'editor': new CheckboxEditor(),
+      'editor': new grid.CheckboxEditor(),
       'formatter': grid.CheckmarkFormatter
     }),
     new grid.Column.fromMap({
@@ -58,13 +57,13 @@ grid.SlickGrid init() {
       'name': 'int List Editor',
       'field': "intlist",
       'width': 100,
-      'editor': new SelectListEditor({0: "Label_0", 1: "Lable_1", 2: "Label_2"})
+      'editor': new grid.SelectListEditor({0: "Label_0", 1: "Lable_1", 2: "Label_2"})
     }),
     new grid.Column.fromMap({
       'name': 'str List Editor',
       'field': "City",
       'width': 100,
-      'editor': new SelectListEditor({"NY": "New York", "TPE": "Taipei"})
+      'editor': new grid.SelectListEditor({"NY": "New York", "TPE": "Taipei"})
     }),
   ];
   List data = [];
@@ -89,7 +88,7 @@ grid.SlickGrid init() {
     ..enableColumnReorder = true;
   grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
 
-  sg.setSelectionModel(new RowSelectionModel(sg.options));
+  sg.setSelectionModel(new grid.RowSelectionModel(sg.options));
 
   sg.onBeforeEditCell.subscribe((e, args) {
     //swap editor here
@@ -125,7 +124,7 @@ grid.SlickGrid init() {
  * data type: accept int and string type from src data
  * display name: always string
  */
-class DateEditor extends Editor {
+class DateEditor extends grid.Editor {
   // Map _opts;
 
   Map validate() {
@@ -134,7 +133,7 @@ class DateEditor extends Editor {
 
   void destroy() => $input.remove();
   void focus() => $input.focus();
-  set editorParm(EditorParm m) {
+  set editorParm(grid.EditorParm m) {
     super.editorParm = m;
     $input = new DateInputElement(); //
     editorParm.activeCellNode.append($input);

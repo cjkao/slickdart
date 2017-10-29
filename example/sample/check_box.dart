@@ -1,9 +1,6 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
-import 'package:slickdart/slick_selectionmodel.dart';
-import 'package:slickdart/slick_column.dart';
-
 void main() {
   grid.SlickGrid g = init();
   g.init();
@@ -45,13 +42,13 @@ void main() {
 
 grid.SlickGrid init() {
   Element el = querySelector('#grid');
-  List<grid.Column> column = new ColumnList.fromMap([
+  List<grid.Column> column = new grid.ColumnList.fromMap([
     {'width': 130, 'field': "idi", 'name': 'ID', 'sortable': true, 'editor': 'TextEditor'},
     {'width': 120, 'field': "duration", 'sortable': true},
     {'field': "pc", 'sortable': true},
     {'width': 400, 'field': "finish"}
   ]);
-  CheckboxSelectColumn checkboxCol = new CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
+  grid.CheckboxSelectColumn checkboxCol = new grid.CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
   column.insert(0, checkboxCol.getColumnDefinition());
   List data = [];
   for (var i = 0; i < 50; i++) {
@@ -72,7 +69,7 @@ grid.SlickGrid init() {
     ..enableColumnReorder = true
     ..frozenColumn = 2;
   grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
-  RowSelectionModel rsm = new RowSelectionModel({'selectActiveRow': true});
+  grid.RowSelectionModel rsm = new grid.RowSelectionModel({'selectActiveRow': true});
   sg.onSelectedRowsChanged.subscribe((var e, args) {
     rsm.getSelectedRows().forEach(print);
   });

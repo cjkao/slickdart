@@ -38,29 +38,27 @@
       <div>
       <h3>Formatter function, see grid.TFormatter</h3>
       <pre><code class='dart'>
-        LinkFormatter(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
+       TFormatter get LinkFormatter =>(int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
           if(value %5==0) return &quot;&lt;a href='#'&gt;Link - $value&lt;/a&gt;&quot;;
           if(value %3==0) return &quot;&lt;div style='color:red;text-align:right;width:100%;'&gt;$value&lt;/div&gt;&quot;;
           return value;
-        }
+        };
       </code>
       </pre>
-      <h3>Formatter class</h3>
+      <h3>Formatter getter</h3>
       <pre><code class='dart'>
-class SuperFormatter {
-  static TFormatter mySpecial= (int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
+   TFormatter get mySpecial=> (int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
     /**demo code for ser/deser */
     var colStr = JSON.encode(columnDef);
     new grid.Column.fromJSON(colStr);
     /** end */
     return "$value";
   };
-}
 
       </code>
       </pre>
 
-      <h3>Apply Formatter class</h3>
+      <h3>Apply Formatter </h3>
       <pre><code class='dart'>
       new grid.Column()
         ..formatter = LinkFormatter

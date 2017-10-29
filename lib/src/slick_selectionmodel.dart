@@ -1,7 +1,7 @@
 library slick.selection;
 
 import 'dart:html';
-import 'package:slickdart/slick_core.dart';
+import 'slick_core.dart';
 
 import 'slick_core.dart' as core;
 import 'slick_grid.dart';

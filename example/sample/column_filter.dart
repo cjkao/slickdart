@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
-import 'package:slickdart/slick_selectionmodel.dart';
 
 String searchStr = '';
 grid.FilteredList srcData = new grid.FilteredList();
@@ -77,7 +76,7 @@ grid.SlickGrid makeGrid() {
 
   sg = new grid.SlickGrid.fromOpt(el, new grid.MetaList(srcData, getMeta), column, opt);
 
-  RowSelectionModel rsm = new RowSelectionModel({'selectActiveRow': true});
+  grid.RowSelectionModel rsm = new grid.RowSelectionModel({'selectActiveRow': true});
   sg.onSelectedRowsChanged.subscribe((var e, args) {
     rsm.getSelectedRows().forEach(print);
   });

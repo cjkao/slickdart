@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
-import 'package:slickdart/plugin/autotooltip.dart';
+import 'package:slickdart/plugin.dart';
 import 'package:logging/logging.dart';
 void main() {
   Logger.root.level = Level.ALL;

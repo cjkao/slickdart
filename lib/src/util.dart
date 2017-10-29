@@ -1,6 +1,7 @@
 library slick.sort.util;
 
-import 'package:slickdart/slick.dart';
+import 'slick_grid.dart';
+import 'slick_core.dart';
 
 ///
 /// args :   key: multiColumnSort: bool,sortCols: List of cols,  grid: instance of Grid

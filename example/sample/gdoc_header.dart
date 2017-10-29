@@ -1,9 +1,7 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
-import 'package:slickdart/plugin/autotooltip.dart';
-import 'package:slickdart/plugin/header_menu.dart';
-import 'package:slickdart/slick_editor.dart';
+import 'package:slickdart/plugin.dart';
 import 'package:logging/logging.dart' as log;
 
 List<cj.Column> columnList;
@@ -147,7 +145,7 @@ cj.SlickGrid setup() {
   return sg;
 }
 
-class NumberEditor extends TextEditor {
+class NumberEditor extends cj.TextEditor {
   NumberEditor([_ep]) : super(_ep);
 
   void applyValue(item, state) {

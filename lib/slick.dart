@@ -1,19 +1,18 @@
 library slick;
 
-import 'package:logging/logging.dart';
+// import 'package:logging/logging.dart';
 
-import 'slick_column.dart';
+// import 'src/slick_column.dart';
 
-export 'slick_column.dart';
-export 'slick_core.dart' show EventData,EvtArgs;
-export 'slick_editor.dart';
-export 'slick_grid.dart';
-export 'slick_selectionmodel.dart';
-export 'slick_dnd.dart';
-export 'slick_util.dart';
-export 'slick_formatters.dart';
+export 'src/slick_column.dart';
+export 'src/slick_core.dart' show EventData,EvtArgs;
+export 'src/slick_editor.dart';
+export 'src/slick_grid.dart';
+export 'src/slick_selectionmodel.dart';
+// export 'src/slick_dnd.dart';
+export 'src/slick_util.dart';
+export 'src/slick_formatters.dart';
+
 export 'src/util.dart';
-part 'parser.dart';
-
-Logger _log = new Logger('slick');
-//import 'dart:html';
+export 'src/parser.dart';
+export 'src/slick_cell_selection.dart' show CellSelectionModel;

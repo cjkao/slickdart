@@ -1,6 +1,6 @@
 library slick.plugin.headermenu;
 import 'dart:html';
-import 'package:slickdart/slick_core.dart';
+import '../slick_core.dart';
 
 import '../slick_grid.dart';
 import '../slick_column.dart';

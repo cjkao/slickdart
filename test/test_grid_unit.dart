@@ -33,8 +33,8 @@ void main() {
         }
   );
   test('measureScrollBar',(){
-     grid.SlickGrid g=init();
-    //g.measureScrollbar();
+    //  grid.SlickGrid g=init();
+    // g.measureScrollbar();
   });
 
   test('disableSelection', (){
@@ -50,8 +50,8 @@ void main() {
   });
   test('regex',(){
 //    assert('.l12345'.contains('.l123'));
-    RegExp r= new RegExp("\.l\\d+");
-    bool result ='a.l123456'.contains(r"\.l\\d+");
+    // RegExp r= new RegExp("\.l\\d+");
+    // bool result ='a.l123456'.contains(r"\.l\\d+");
     var m=r"\.l\\d+".matchAsPrefix('.l12345');
     expect (m,null);
   });
@@ -102,7 +102,7 @@ void main() {
   });
 
   test ('stream', (){
-    var data = [1,2,3,4,5];
+    // var data = [1,2,3,4,5];
     var future = new Future(() {
       return 1;
     });

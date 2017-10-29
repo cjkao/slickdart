@@ -2,7 +2,7 @@ library bs3.tree;
 import 'dart:html';
 import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
-import 'package:slickdart/plugin/autotooltip.dart';
+import 'package:slickdart/plugin.dart';
 import 'dart:collection';
 
 cj.HierarchFilterList _data=new cj.HierarchFilterList.withKeyField("_parent","id", "_collapsed");

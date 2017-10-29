@@ -4,7 +4,7 @@ library slick.core;
 import 'dart:collection';
 import 'package:logging/logging.dart';
 import 'dart:html' as html;
-import 'package:slickdart/slick_grid.dart';
+import 'slick_grid.dart';
 
 Logger _log = new Logger('slick.core');
 

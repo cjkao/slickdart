@@ -1,6 +1,6 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
-import 'package:slickdart/plugin/autotooltip.dart';
+import 'package:slickdart/plugin.dart';
 
 import 'dart:math' as math;
 import 'dart:async';
