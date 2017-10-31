@@ -157,7 +157,7 @@ class RowSelectionModel extends SelectionModel {
   /**
    * args: {row: 0, cell: 0, grid: Instance of 'SlickGrid'}
    */
-  EvtCallback handleClick(core.EventData evt, [EvtArgs args]) => (evt, args) {
+  EvtCallback get handleClick=>(core.EventData evt, [EvtArgs args]) {
         _log.finest('handle from:' +
             this.runtimeType.toString() +
             ' ' +
