@@ -1,11 +1,11 @@
 name: slickdart
-version: 0.2.0-beta.1
+version: 0.2.0-beta.2
 authors:
   - CJKAO <kaopeter@gmail.com>
 description: Basic grid component port from SlickGrid with dynamic row height, frozen column enhancement
 homepage: https://cjkao.github.io/slickdart
 environment:
-  sdk: '>1.8.0 <=2.0.0-dev.5.0'
+  sdk: '>1.8.0 <=2.0.0-dev.20.0'
 dependencies:
   browser: ^0.10.0
   logging: '>=0.11.0 <2.0.0'
@@ -50,6 +50,6 @@ transformers:
     commandLineOptions:
     - --trust-type-annotations
     - --trust-primitives
-#web:
-#  compiler:
-#    debug: dartdevc
+web:
+  compiler:
+    debug: dartdevc
