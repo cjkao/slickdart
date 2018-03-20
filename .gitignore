@@ -5,7 +5,7 @@ build/
 **/packages
 .packages
 pubspec.lock
-
+.dart_tool
 
 
 tonosama_slickdart.iml
