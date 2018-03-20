@@ -10,6 +10,7 @@ targets:
         # These are globs for the entrypoints you want to compile.
         generate_for:
           - web/bs3.dart
+          - example/**.dart
         #- test/**.browser_test.dart
         #- example/**.dart
         #options:
