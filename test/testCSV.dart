@@ -26,8 +26,8 @@ main() {
      String fstr=f.readAsStringSync();
      print (fstr);
      csv= new CsvAdapter(fstr);
-     print (JSON.encode(csv.columns));
-     print (JSON.encode(csv.data));
+     print (json.encode(csv.columns));
+     print (json.encode(csv.data));
      expect(csv.columns, 3);
 
    }));

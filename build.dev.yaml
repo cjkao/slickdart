@@ -1,0 +1,19 @@
+targets:
+  $default:
+    builders:
+      build_web_compilers|entrypoint:
+        options:
+          compiler: dartdevc
+          dart2js_args:
+          - --checked
+          - --use-old-frontend 
+        # These are globs for the entrypoints you want to compile.
+        generate_for:
+          - example/**.dart
+        #- test/**.browser_test.dart
+        #- example/**.dart
+        #options:
+        #  compiler: dart2js
+          # List any dart2js specific args here, or omit it.
+        #  dart2js_args:
+        #  - --checked

@@ -321,13 +321,13 @@ class JGrid extends HtmlElement {
       return cols.map((col) => '"${_[col.field]}"').join(",");
     }).join("\r\n");
 
-    context.callMethod('setClipboard', [
-      data,
-      copyLink,
-      () => rmenu.classes
-        ..clear()
-        ..add('hide')
-    ]);
+    // context.callMethod('setClipboard', [
+      // data,
+      // copyLink,
+      // () => rmenu.classes
+        // ..clear()
+        // ..add('hide')
+    // ]);
     //  rmenu.onMouseLeave.listen((_)=> rmenu.classes..clear()..add('hide')     );
     e.stopPropagation();
     e.preventDefault();

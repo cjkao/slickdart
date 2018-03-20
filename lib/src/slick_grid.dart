@@ -1207,7 +1207,7 @@ class SlickGrid {
       return "";
     }
     if (value is num || value is bool) return value.toString();
-    return HTML_ESCAPE.convert(value);
+    return htmlEscape.convert(value);
   }
 
   /**
@@ -1793,7 +1793,7 @@ class SlickGrid {
         maxPageX = pageX + math.min(shrinkLeewayOnRight, stretchLeewayOnLeft);
         minPageX = pageX - math.min(shrinkLeewayOnLeft, stretchLeewayOnRight);
         Map dragInfo = {'pageX': pageX, 'columnIdx': i, 'minPageX': minPageX, 'maxPageX': maxPageX};
-        event.dataTransfer.setData("text", JSON.encode(dragInfo));
+        event.dataTransfer.setData("text", json.encode(dragInfo));
         this._colResizeInfo = dragInfo;
       });
 

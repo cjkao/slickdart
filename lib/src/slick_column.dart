@@ -229,7 +229,7 @@ class Column {
   }
 
   factory Column.fromJSON(String src) {
-    Map<String, dynamic> m = JSON.decode(src) as Map<String, dynamic>;
+    Map<String, dynamic> m = json.decode(src) as Map<String, dynamic>;
     return new Column.fromMap(m); //c._src..addAll(src) ;
   }
 
@@ -254,7 +254,7 @@ class Column {
     'sortable': false,
     'minWidth': 30,
     'width': 80,
-    'maxWidth': 100000000000000000000,
+    'maxWidth': 1000000000000000000,
     'rerenderOnResize': false,
     'headerCssClass': null,
     'defaultSortAsc': true,

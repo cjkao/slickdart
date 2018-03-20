@@ -1,13 +1,33 @@
+
+- [slickdart](#slickdart)
+- [Parameter Description](#parameter-description)
+- [Example](#example)
+- [Known Constraint](#known-constraint)
+- [GridOptions](#gridoptions)
+- [Formatter](#formatter)
+- [Dynamic Row Height](#dynamic-row-height)
+- [Customer Element](#customer-element)
+- [MetaData](#metadata)
+- [Filtered View](#filtered-view)
+- [Header Row](#header-row)
+- [Dropdown Menu on Header Column](#dropdown-menu-on-header-column)
+- [Copy or Download Grid (only available in custom element: cj-grid)](#copy-or-download-grid-only-available-in-custom-element-cj-grid)
+- [Collapsing use case](#collapsing-use-case)
+- [Cell Selection](#cell-selection)
+- [Programming select rows](#programming-select-rows)
+- [Editing](#editing)
+- [Simulate Row Split](#simulate-row-split)
+- [TODO](#todo)
+- [Cmds](#cmds)
+
 slickdart
 =========
-
 slick grid clone, for mobile,desktop devices
 
 ** Sort performance is not fast as javascript version
 
 Parameter Description
 =======================
-
 * When enable 'selectActiveRow' on row selection model and with CheckboxSelectColumn in first row
   click on first column out side of check box will uncheck other rows if multiple row selected
 
@@ -19,26 +39,9 @@ Example
 
 Known Constraint
 ========================
-* col-span (not tested)
 * using keyboard navigation on non-editable cell and goes out of viewport will not
   immediate update screen until it on editable area
 * Let forzen column editable cause display unsync in un-frozen area   
-
-
-TODO
-========================
-- [ ] keyboard navigation when focus on uneditable cell
-- [X] cell span
-- [X] ease of use, (Map adapter, auto column declare, width calculation and sorting)
-- [X] column reorder
-- [ ] adjust row height via mouse
-- [x] efficent dynamic row height on frozen column
-  - sort column should re-calcule height
-  - how about insert row or delete row?
-- [x] low performance on horzontal scrolling, fixed by extend buffer to 4block
-- [x] Frozen column, also editable
-- [x] Resize column
-- [x] auto tooltip
 
 
 
@@ -68,15 +71,6 @@ Current design
   - put '_height' on row object to specify pixel height  
   - add {'dynamicHeight': true} option to turn on it  
   - on sorting or change data, using resetDynHeight() to re-calculate height
-
-Mobile Device
-==============================
-- Lumia 925  => fast scrolling on vertical and horizontal
-- HTC One (M7) Chrome => fast scrolling on both vertical and horizontal
-- HTC One (M7) Firefox => smooth but slower than chrome
-- HTC One (M7) Content Shell => fast
-- IPAD2 => fast
-- Black Berry => fast
 
 Customer Element
 ==============================
@@ -255,3 +249,14 @@ Add style to upper row
     white-space: normal;
 }
 ```
+
+TODO
+========================
+- [ ] keyboard navigation when focus on uneditable cell
+- [ ] adjust row height via mouse
+
+
+Cmds
+=======================
+dev mode
+```pub run build_runner serve -c dev example```

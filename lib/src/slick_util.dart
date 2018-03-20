@@ -537,5 +537,5 @@ TFormatter get  _defaultFormatter=> (int row, int cell, dynamic value,Column col
     return "";
   }
   if (value is num || value is bool) return value.toString();
-  return HTML_ESCAPE.convert(value);
+  return htmlEscape.convert(value);
 };
