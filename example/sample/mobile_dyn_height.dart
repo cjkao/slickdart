@@ -8,7 +8,7 @@ void main() {
   // print (g.$headerScroller.querySelectorAll('.slick-header-column').length);
 }
 
-String AlertFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow) {
+String AlertFormatter(int row, int cell,dynamic value, grid.Column columnDef, Map dataRow) {
   if (dataRow['_height'] != null && dataRow['_height'] > 70) {
     return '''
         <p style=' white-space: normal;'>CSS word-wrapping in div</p>
@@ -29,7 +29,7 @@ String AlertFormatter(int row, int cell, int value, grid.Column columnDef, Map d
   }
 }
 
-String SplitFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow) {
+String SplitFormatter(int row, int cell, dynamic value, grid.Column columnDef, Map dataRow) {
   if (dataRow['_height'] != null && dataRow['_height'] > 90) {
     return '''
         <div class="h40">

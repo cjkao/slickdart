@@ -6,7 +6,7 @@ String searchStr = '';
 grid.FilteredList srcData = new grid.FilteredList();
 
 
-String alertFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow) {
+String alertFormatter(int row, int cell, value, grid.Column columnDef, Map dataRow) {
   if (dataRow['_height'] != null && dataRow['_height'] > 70) {
     return '''
         <p style=' white-space: normal;'>CSS word-wrapping in div</p>
