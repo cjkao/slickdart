@@ -21,7 +21,7 @@ main() {
   registerElem();
   List<Column> cols;
   HttpRequest.getString('gss1983_Code-small.csv').then((data) {
-    csv = new CsvAdapter(data);
+    csv =  CsvAdapter(data);
     cols = getColDefs(csv.columns);
     cols[1]
       ..width = 20
@@ -33,8 +33,8 @@ main() {
       'multiColumnSort': true,
       'editable': false,
     };
-    gw0 = document.querySelector("$GRID_TAG.second");
-    gw0.init(new MetaList(csv.data, getMeta), [], option: opt);
+    gw0 = JGrid( document.querySelector("$GRID_TAG.second"));
+    gw0.init( MetaList(csv.data, getMeta), [], option: opt);
 
     gw0.grid.onSort.subscribe((EventData e,EvtArgs parm) {
       hash.clear();

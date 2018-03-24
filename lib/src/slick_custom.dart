@@ -24,7 +24,7 @@ registerElem() {
 
 _setupBlockElement() {
   if (_styleElement == null) {
-    document.registerElement(GRID_TAG, JGrid);
+    // document.registerElement(GRID_TAG, JGrid);
     _styleElement = new StyleElement();
     document.head.append(_styleElement);
     CssStyleSheet sheet = _styleElement.sheet;
@@ -63,13 +63,16 @@ _addContext() {
  * shadow root does not work well in firefox!
  * consider shadowroot an optional approach
  */
-class JGrid extends HtmlElement {
+class JGrid  {
   ShadowRoot shadowRoot;
+  get attributes => he.attributes;
+  HtmlElement he;
   // List _tmpCols=[];
   SlickGrid grid;
   Element rmenu;
-  JGrid.created() : super.created() {
-    shadowRoot = this.createShadowRoot()
+  JGrid(this.he) {
+    this.shadowRoot=he.createShadowRoot();//.shadowRoot;
+    this.shadowRoot //= this.createShadowRoot()
       ..innerHtml = """
 <style>
  .slick-header.ui-state-default,.slick-headerrow.ui-state-default{width:100%;overflow:hidden;border-left:0}
@@ -235,7 +238,7 @@ class JGrid extends HtmlElement {
     if (grid != null) grid.unSubscribe();
   }
 
-  factory JGrid(text) => new Element.tag(GRID_TAG);
+  // factory JGrid(text) => new Element.tag(GRID_TAG);
 
   SlickGrid _prepareGrid(Element el, List<Column> colDefs, {Map opt}) {
     //Element el =querySelector('#grid');
@@ -261,7 +264,7 @@ class JGrid extends HtmlElement {
   //context menu to export as csv
 //  Timer _rightClickTimer;
   _setupContextMenu() {
-    String downloadName = this.getAttribute('download');
+    String downloadName = he.getAttribute('download');
     if (downloadName == null) return;
 
     Element elGrid = shadowRoot.querySelector('#grid');
@@ -302,7 +305,7 @@ class JGrid extends HtmlElement {
     rmenu.classes
       ..clear()
       ..add("show");
-    var bound = this.getBoundingClientRect();
+    var bound = he.getBoundingClientRect();
     rmenu.style.position = 'absolute';
     rmenu.style.top = '${e.client.y- bound.top}px';
     rmenu.style.left = '${e.client.x- bound.left}px';

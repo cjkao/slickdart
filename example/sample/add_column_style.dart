@@ -31,7 +31,7 @@ main() {
       'multiColumnSort': true,
       'editable': false,
     };
-    gw0 = document.querySelector("$GRID_TAG.second");
+    gw0 =new JGrid( document.querySelector("$GRID_TAG.second"));
     gw0.init(new MetaList(csv.data, getMeta), cols, option: opt);
     gw0.grid.setSelectionModel(new CellSelectionModel(opt));
     gw0.grid.setCellCssStyles("fixed", {

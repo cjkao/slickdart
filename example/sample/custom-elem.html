@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="bootstrap.css" rel="stylesheet" media="screen">
-    <script src="../packages/slickdart/plugin/copy/Clipboard.min.js"></script>
+    <script src="../packages/slickdart/src/plugin/copy/Clipboard.min.js"></script>
     <style>
         /*
     cj-grid{
@@ -39,13 +39,11 @@
     <script type="text/javascript">
     </script>
 
-    <script src="../packages/web_components/webcomponents.min.js"></script>
 </head>
 
 <body>
     <script type="application/javascript" src="custom_elem.dart.js"></script>
-    <script src="../packages/browser/dart.js"></script>
-    <h2>Custom Grid Element on ShadowDOM v0</h2>
+    <h2>Custom Grid Element with ShadowDom</h2>
     <div class='container'>
         <div class='row'>To inspect dart object, open console, select cj-grid, we can find dart object is export to javascript and inspectable in javascript console
             <pre><code class='dart'>
@@ -67,7 +65,7 @@ column.toString$0()  // call toString function in dart object that produce json 
                                 .slick-header-column {
                                     border-style: solid solid solid solid;
                                     border-width: 1px 1px 0 0px;
-                                    */
+                                    
                                 }
 
                                 .slick-header-column.ui-state-default {
