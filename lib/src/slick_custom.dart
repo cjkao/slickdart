@@ -71,7 +71,8 @@ class JGrid  {
   SlickGrid grid;
   Element rmenu;
   JGrid(this.he) {
-    this.shadowRoot=he.createShadowRoot();//.shadowRoot;
+    this.shadowRoot=he.attachShadow({ "mode": 'open' });
+//    this.shadowRoot=he.createShadowRoot();//.shadowRoot;
     this.shadowRoot //= this.createShadowRoot()
       ..innerHtml = """
 <style>
