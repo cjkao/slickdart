@@ -1,0 +1,15 @@
+<h2>Heroes</h2>
+<ul class="heroes">
+  <li *ngFor="let x of heroes"
+      [class.selected]="x == hero"
+      (click)="onSelect(x)">
+    <span class="badge">{{x.id}}</span> 
+    {{x.name}}
+  </li>
+</ul>
+<div *ngIf="hero != null">
+  <h2>
+   <img src="data/{{hero.id}}.png"> {{hero.name | uppercase}} is my hero
+  </h2>
+  <button (click)="gotoDetail()">View Details</button>
+</div>

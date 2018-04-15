@@ -9,16 +9,10 @@ targets:
         options:
           compiler: dart2js
           dart2js_args:
-#          - --checked
-#          - --use-old-frontend
+           # List any dart2js specific args here, or omit it.
+          - --checked
           - --fast-startup
           - --trust-type-annotations
           - --trust-primitives
-        # These are globs for the entrypoints you want to compile.
-       #- test/**.browser_test.dart
-        #- example/**.dart
-        #options:
-        #  compiler: dart2js
-          # List any dart2js specific args here, or omit it.
-        #  dart2js_args:
-        #  - --checked
+          - --csp
+          - --minify

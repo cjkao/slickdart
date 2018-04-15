@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'package:slickdart/slick.dart' ;
+import 'package:slickdart/slick.dart';
 import 'dart:math' as math;
 
 //import 'package:bootjack_datepicker/bootjack_datepicker.dart';
@@ -13,9 +13,16 @@ void main() {
 SlickGrid prepareGrid() {
   Element el = querySelector('#grid');
   List<Column> column = [
-    new Column.fromMap({'name': 'string', 'field': "str", 'sortable': true, 'editor': 'TextEditor'}),
-    new Column.fromMap({'field': "int", 'sortable': true, 'editor': 'IntEditor'}),
-    new Column.fromMap({'field': "double", 'sortable': true, 'editor': 'DoubleEditor'}),
+    new Column.fromMap({
+      'name': 'string',
+      'field': "str",
+      'sortable': true,
+      'editor': 'TextEditor'
+    }),
+    new Column.fromMap(
+        {'field': "int", 'sortable': true, 'editor': 'IntEditor'}),
+    new Column.fromMap(
+        {'field': "double", 'sortable': true, 'editor': 'DoubleEditor'}),
     new Column.fromMap({
       'name': 'checkbox-str',
       'field': "checkbox2",
@@ -23,7 +30,12 @@ SlickGrid prepareGrid() {
       'editor': 'CheckboxEditor',
       'formatter': CheckmarkFormatter
     }),
-    new Column.fromMap({'name': 'date editor', 'field': "StartDate", 'width': 140, 'editor': new DateEditor()}),
+    new Column.fromMap({
+      'name': 'date editor',
+      'field': "StartDate",
+      'width': 140,
+      'editor': new DateEditor()
+    }),
     new Column.fromMap({
       'id': 'checkbox1',
       'field': "checkbox",
@@ -115,7 +127,10 @@ class DateEditor extends InputEditor {
 
   Map validate() {
     var date = ($input as DateInputElement).valueAsDate;
-    return {'valid': date.isAfter(new DateTime(2012, 01, 08)), 'msg': 'not valid date'};
+    return {
+      'valid': date.isAfter(new DateTime(2012, 01, 08)),
+      'msg': 'not valid date'
+    };
   }
 
   //void destroy() => $input.remove();
@@ -135,7 +150,8 @@ class DateEditor extends InputEditor {
 
   loadValue(item) {
     super.loadValue(item);
-    var dateStr = (item[this.editorParm.columnDef.field] as String).replaceAll('/', '-');
+    var dateStr =
+        (item[this.editorParm.columnDef.field] as String).replaceAll('/', '-');
     ($input as DateInputElement)
       ..value = dateStr
       ..min = '2012-01-08';
@@ -145,7 +161,11 @@ class DateEditor extends InputEditor {
   String serializeValue() {
     print(($input as DateInputElement).value);
     //return '2013/09/16';
-    return ($input as DateInputElement).valueAsDate?.toIso8601String()?.split("T")?.first;
+    return ($input as DateInputElement)
+        .valueAsDate
+        ?.toIso8601String()
+        ?.split("T")
+        ?.first;
   }
 
   void applyValue(item, state) {
@@ -166,12 +186,15 @@ class PercentCompleteEditor extends Editor {
   set editorParm(EditorParm m) {
     super.editorParm = m;
     //$input = new DateInputElement(); //
-    $input = new TextInputElement(); //$("<INPUT type=text class='editor-percentcomplete' />");
+    $input =
+        new TextInputElement(); //$("<INPUT type=text class='editor-percentcomplete' />");
     _$input = $input;
-    $input.style.width = '${editorParm.activeCellNode.getBoundingClientRect().width-35}px';
+    $input.style.width =
+        '${editorParm.activeCellNode.getBoundingClientRect().width-35}px';
     editorParm.activeCellNode.append($input);
     $picker = new DivElement()
-      ..classes.add('editor-percentcomplete-picker'); // $("<div class='' />").appendTo(args.container);
+      ..classes.add(
+          'editor-percentcomplete-picker'); // $("<div class='' />").appendTo(args.container);
 
     editorParm.activeCellNode.append($picker);
     $input..attributes['hidefocus'] = 'true';
@@ -234,11 +257,14 @@ class PercentCompleteEditor extends Editor {
 
   validate() {
     bool valid = false;
-    if (int.parse(_$input.value, onError: (_) => -1) > 0) {
+    if (int.tryParse(_$input.value) ?? -1 > 0) {
       valid = true;
     }
     if (!valid) {
-      return {'valid': false, 'msg': " '${_$input.value}' is not valid, Please enter positive number"};
+      return {
+        'valid': false,
+        'msg': " '${_$input.value}' is not valid, Please enter positive number"
+      };
     }
 
     return {'valid': true, 'msg': null};

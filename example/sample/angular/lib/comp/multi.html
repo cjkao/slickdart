@@ -1,0 +1,54 @@
+<section>
+    <div class='example-pane'>
+            <h2>Single selection</h2>
+            <material-dropdown-select
+                [buttonText]="singleSelectLanguageLabel"
+                [selection]="singleSelectModel"
+                [options]="languageOptions"
+                [itemRenderer]="itemRenderer"
+                [factoryRenderer]="factoryRenderer"
+                [labelFactory]="labelFactory"
+                [width]="width"
+                [popupMatchInputWidth]="popupMatchInputWidth"
+                [preferredPositions]="preferredPositions"
+                [slide]="slide"
+                [visible]="visible"
+                [deselectOnActivate]="deselectOnActivate"
+                [deselectLabel]="deselectLabel">
+              <div header>
+                <div *ngIf="withHeaderAndFooter">---Custom Header Section---</div>
+              </div>
+              <div listHeader>
+                <div *ngIf="withHeaderAndFooter">------Custom List Header Section------</div>
+              </div>
+              <div listFooter>
+                <div *ngIf="withHeaderAndFooter">------Custom List Footer Section------</div>
+              </div>
+              <div footer>
+                <div *ngIf="withHeaderAndFooter">---Custom Footer Section---</div>
+              </div>
+            </material-dropdown-select>
+      
+            <div>Model's selected value</div>
+            <div>{{singleSelectedLanguage}}</div>
+            <br><br><br>
+
+
+    </div>
+    <div class="options-pane">
+        <material-checkbox [(checked)]="useItemRenderer">
+            Use item renderer
+        </material-checkbox>
+        <h3>Multiple Selection w/ searchbox</h3>
+        <material-dropdown-select [buttonText]="multiSelectLanguageLabel" [options]="languageOptions" [selection]="multiSelectModel"
+            [itemRenderer]="itemRenderer" (visibleChange)="onDropdownVisibleChange($event)">
+            <div header>
+                <material-select-searchbox label="Search..." [filterable]="languageOptions">
+                </material-select-searchbox>
+            </div>
+        </material-dropdown-select>
+    </div>
+
+</section>
+<!-- space for dropdowns -->
+<div style="height:200px"></div>

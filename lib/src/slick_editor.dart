@@ -22,7 +22,8 @@ abstract class Editor {
   /// copy [item] to [defaultValue] when begin edit cell
   ///
   void loadValue(item) {
-    defaultValue = item[_ep.columnDef.field] != null ? item[_ep.columnDef.field] : "";
+    defaultValue =
+        item[_ep.columnDef.field] != null ? item[_ep.columnDef.field] : "";
   }
 
   ///
@@ -99,9 +100,11 @@ abstract class InputEditor extends Editor {
     _input
       ..onBlur.listen((Event _) {
         //  print(_input.classes.contains('keyup'));
-        if (_ep.grid.gridOptions.autoCommitOnBlur && !_input.classes.contains('keyup')) {
+        if (_ep.grid.gridOptions.autoCommitOnBlur &&
+            !_input.classes.contains('keyup')) {
           var ed = new core.EventData.fromDom(_);
-          _ep.grid.trigger(_ep.grid.onActiveCellBlur, {'old': defaultValue, 'new': _input.value}, ed);
+          _ep.grid.trigger(_ep.grid.onActiveCellBlur,
+              {'old': defaultValue, 'new': _input.value}, ed);
         }
         _input.classes.remove('keyup');
       })
@@ -114,7 +117,8 @@ abstract class InputEditor extends Editor {
   }
   Map validate() {
     if (_ep.columnDef.validator != null) {
-      var validationResults = _ep.columnDef.validator(($input as InputElement).value);
+      var validationResults =
+          _ep.columnDef.validator(($input as InputElement).value);
       if (!validationResults.valid) {
         return validationResults;
       }
@@ -142,7 +146,8 @@ class TextEditor extends InputEditor {
     _input
       ..onKeyDown.listen((KeyboardEvent e) {
         //cancel navigation when no selection
-        if ((e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT) && _input.selectionEnd == _input.selectionStart) {
+        if ((e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT) &&
+            _input.selectionEnd == _input.selectionStart) {
           e.stopImmediatePropagation();
         }
       })
@@ -169,7 +174,8 @@ class TextEditor extends InputEditor {
 
   String serializeValue() => _input.value;
   bool isValueChanged() {
-    return (!(_input.value == "" && defaultValue == null)) && (_input.value != defaultValue);
+    return (!(_input.value == "" && defaultValue == null)) &&
+        (_input.value != defaultValue);
   }
 }
 
@@ -211,18 +217,21 @@ class IntEditor extends InputEditor {
   }
 
   void applyValue(item, state) {
-    item[_ep.columnDef.field] = int.parse(state, onError: (_) => item[_ep.columnDef.field]);
+    item[_ep.columnDef.field] =
+        int.tryParse(state) ?? item[_ep.columnDef.field];
   }
 
   String serializeValue() => _input.value;
   bool isValueChanged() {
-    return (!(_input.value == "" && defaultValue == null)) && (_input.value != defaultValue);
+    return (!(_input.value == "" && defaultValue == null)) &&
+        (_input.value != defaultValue);
   }
 }
 
 class DoubleEditor extends IntEditor {
   void applyValue(item, state) {
-    item[_ep.columnDef.field] = num.parse(state, (_) => item[_ep.columnDef.field]);
+    item[_ep.columnDef.field] =
+        num.tryParse(state) ?? item[_ep.columnDef.field];
   }
 
   DoubleEditor([_ep]) : super(_ep);
@@ -257,7 +266,8 @@ class CheckboxEditor extends InputEditor {
     super.loadValue(item);
     //$input.value ='$defaultValue';
     _input.defaultValue = '$defaultValue';
-    if ((defaultValue is String && defaultValue.toLowerCase() == 'true') || (defaultValue is bool && defaultValue)) {
+    if ((defaultValue is String && defaultValue.toLowerCase() == 'true') ||
+        (defaultValue is bool && defaultValue)) {
       $input.attributes['checked'] = 'checked';
       ($input as CheckboxInputElement).checked = true;
     } else {
@@ -315,10 +325,12 @@ class SelectListEditor extends Editor {
     super.loadValue(item);
     OptionElement ope;
     if (_opts.keys.first is int) {
-      ope =
-          $input.children.firstWhere((_) => int.parse((_ as OptionElement).value) == item[editorParm.columnDef.field]);
+      ope = $input.children.firstWhere((_) =>
+          int.parse((_ as OptionElement).value) ==
+          item[editorParm.columnDef.field]);
     } else {
-      ope = $input.children.firstWhere((_) => (_ as OptionElement).value == item[editorParm.columnDef.field]);
+      ope = $input.children.firstWhere((_) =>
+          (_ as OptionElement).value == item[editorParm.columnDef.field]);
     }
     ope.selected = true;
   }
