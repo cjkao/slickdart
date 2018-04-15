@@ -46,4 +46,6 @@ class AppDrawer {
   void gotoMulti() {
     _router.navigate(multi.toUrl());
   }
+
+  void gotoGrid() => _router.navigate(heroGrid.toUrl());
 }

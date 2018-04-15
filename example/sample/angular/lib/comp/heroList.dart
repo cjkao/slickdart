@@ -23,7 +23,6 @@ class HeroListComponent implements OnInit {
   final Router _router;
   static List<Hero> heroes;
   HeroListComponent(this._service, this._router);
-
   Future<void> _getHeroes() async {
     heroes ??= await _service.getHeroes();
   }
@@ -38,5 +37,11 @@ class HeroListComponent implements OnInit {
       paths.hero.toUrl(parameters: {paths.idParam: id.toString()});
   void gotoDetail() {
     _router.navigate(_heroUrl(hero.id));
+  }
+
+  String _heroGridUrl(int id) =>
+      paths.heroGrid.toUrl(parameters: {paths.idParam: id.toString()});
+  void gotoGrid() {
+    _router.navigate(_heroGridUrl(hero.id));
   }
 }

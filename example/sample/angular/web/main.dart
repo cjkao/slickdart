@@ -4,8 +4,10 @@ import 'main.template.dart' as ng;
 import "package:example.ang/app_component.dart" as myapp;
 import "package:example.ang/app_component.template.dart" as myapp_gen;
 import 'package:angular_router/angular_router.dart';
+import 'package:slickdart/slick_custom.dart';
 
 void main() {
+  registerElem();
   bootstrapStatic(LoadingComponent, [], ng.initReflector);
   bootstrapStatic(myapp.AppComponent, [routerProvidersHash], ng.initReflector);
 }

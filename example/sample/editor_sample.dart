@@ -253,7 +253,7 @@ class PercentCompleteEditor extends Editor {
 
   validate() {
     bool valid = false;
-    if (int.tryParse(_$input.value) ?? -1 > 0) {
+    if ((int.tryParse(_$input.value) ?? -1) > 0) {
       valid = true;
     }
     if (!valid) {

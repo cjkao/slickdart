@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:js';
 import 'package:logging/logging.dart';
 import "slick_selectionmodel.dart";
+
 //import 'package:initialize/initialize.dart';
 //import 'plugin/header_menu.dart';
 Logger _log = new Logger('slick.cust');
@@ -28,7 +29,8 @@ _setupBlockElement() {
     _styleElement = new StyleElement();
     document.head.append(_styleElement);
     CssStyleSheet sheet = _styleElement.sheet;
-    final rule = '$GRID_TAG { display:block; }'; //force element to have column width from css
+    final rule =
+        '$GRID_TAG { display:block; }'; //force element to have column width from css
     sheet.insertRule(rule, 0);
     _addContext();
   }
@@ -63,7 +65,7 @@ _addContext() {
  * shadow root does not work well in firefox!
  * consider shadowroot an optional approach
  */
-class JGrid  {
+class JGrid {
   ShadowRoot shadowRoot;
   get attributes => he.attributes;
   HtmlElement he;
@@ -71,7 +73,7 @@ class JGrid  {
   SlickGrid grid;
   Element rmenu;
   JGrid(this.he) {
-    this.shadowRoot=he.attachShadow({ "mode": 'open' });
+    this.shadowRoot = he.attachShadow({"mode": 'open'});
 //    this.shadowRoot=he.createShadowRoot();//.shadowRoot;
     this.shadowRoot //= this.createShadowRoot()
       ..innerHtml = """
@@ -221,7 +223,9 @@ class JGrid  {
    * move style tag from external to shadowdom
    */
   _extractDistributeNodeStyle() {
-    List<Node> els = (this.shadowRoot.querySelector("content") as ContentElement).getDistributedNodes();
+    List<Node> els =
+        (this.shadowRoot.querySelector("content") as ContentElement)
+            .getDistributedNodes();
     els.where((_) {
       return _.nodeName == 'STYLE';
     }).forEach((_) {
@@ -247,7 +251,12 @@ class JGrid  {
 
     List data = [];
     if (opt == null) {
-      opt = {'multiColumnSort': true, 'editable': true, 'autoEdit': true, 'frozenColumn': 1};
+      opt = {
+        'multiColumnSort': true,
+        'editable': true,
+        'autoEdit': true,
+        'frozenColumn': 1
+      };
     }
     opt['explicitInitialization'] = true;
     SlickGrid sg = new SlickGrid(el, data, column, opt);
@@ -294,7 +303,8 @@ class JGrid  {
       data += grid.data.map((_) {
         return cols.map((col) => '"${_[col.field]}"').join(",");
       }).join("\r\n");
-      downloadLink.setAttribute('href', 'data:text/csv;base64,' + window.btoa(data));
+      downloadLink.setAttribute(
+          'href', 'data:text/csv;base64,' + window.btoa(data));
       downloadLink.setAttribute('download', downloadName);
       rmenu.classes
         ..clear()
@@ -326,11 +336,11 @@ class JGrid  {
     }).join("\r\n");
 
     // context.callMethod('setClipboard', [
-      // data,
-      // copyLink,
-      // () => rmenu.classes
-        // ..clear()
-        // ..add('hide')
+    // data,
+    // copyLink,
+    // () => rmenu.classes
+    // ..clear()
+    // ..add('hide')
     // ]);
     //  rmenu.onMouseLeave.listen((_)=> rmenu.classes..clear()..add('hide')     );
     e.stopPropagation();
@@ -350,7 +360,9 @@ class JGrid  {
         var field = cols[i]['sortCol']['field'];
         var sign = cols[i]['sortAsc'] ? 1 : -1;
         dynamic value1 = dataRow1[field], value2 = dataRow2[field];
-        var result = (value1 == value2 ? 0 : (value1.compareTo(value2) > 0 ? 1 : -1)) * sign;
+        var result =
+            (value1 == value2 ? 0 : (value1.compareTo(value2) > 0 ? 1 : -1)) *
+                sign;
         if (result != 0) {
           return result;
         }
