@@ -29,6 +29,7 @@ _setupBlockElement() {
     _styleElement = new StyleElement();
     document.head.append(_styleElement);
     CssStyleSheet sheet = _styleElement.sheet;
+    // window.customElements.define("cj-grid", JGrid);
     final rule =
         '$GRID_TAG { display:block; }'; //force element to have column width from css
     sheet.insertRule(rule, 0);
@@ -177,18 +178,18 @@ class JGrid {
     grid.data.clear();
     grid.data = data;
     _log.finest("height in shadow: ${ elGrid.getBoundingClientRect().height}");
-    int maxTry = 100;
+    int maxTry = 1800;
     int tryCnt = 0;
-    new Timer.periodic(new Duration(milliseconds: 100), (Timer t) {
+    new Timer.periodic(new Duration(milliseconds: 500), (Timer t) {
       //look for better solution
       double h = elGrid.getBoundingClientRect().height;
       _log.finest('after: $h');
       tryCnt++;
-      if (h > 0) {
-        grid.finishInitialization();
+      if (h > 1) {
         t.cancel();
+        grid.finishInitialization();
       }
-      if (tryCnt > maxTry) {
+      if (tryCnt > maxTry || !elGrid.attached()) {
         _log.severe("no element height within shadowdom");
         t.cancel();
       }
@@ -223,15 +224,8 @@ class JGrid {
    * move style tag from external to shadowdom
    */
   _extractDistributeNodeStyle() {
-    List<Node> els =
-        (this.shadowRoot.querySelector("content") as ContentElement)
-            .getDistributedNodes();
-    els.where((_) {
-      return _.nodeName == 'STYLE';
-    }).forEach((_) {
-      //print(_);
-      shadowRoot.append(_);
-    });
+    var els = (this.he.querySelector("style") as StyleElement);
+    if (els != null) shadowRoot.append(els);
   }
 
   void attached() {
@@ -335,14 +329,16 @@ class JGrid {
       return cols.map((col) => '"${_[col.field]}"').join(",");
     }).join("\r\n");
 
-    // context.callMethod('setClipboard', [
-    // data,
-    // copyLink,
-    // () => rmenu.classes
-    // ..clear()
-    // ..add('hide')
-    // ]);
-    //  rmenu.onMouseLeave.listen((_)=> rmenu.classes..clear()..add('hide')     );
+    context.callMethod('setClipboard', [
+      data,
+      copyLink,
+      () => rmenu.classes
+        ..clear()
+        ..add('hide')
+    ]);
+    rmenu.onMouseLeave.listen((_) => rmenu.classes
+      ..clear()
+      ..add('hide'));
     e.stopPropagation();
     e.preventDefault();
     //write menu box.

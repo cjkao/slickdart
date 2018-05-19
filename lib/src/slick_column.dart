@@ -276,17 +276,17 @@ class Column {
  * Virtual column that add to first column, including header as checkbox column
  */
 class CheckboxSelectColumn extends Column with IPlugin {
-  TFormatter checkboxSelectionFormatter()=>
-        (int row, int cell, value, Column columnDef, dataContext) {
-      if (dataContext != null) {
-        return _selectedRowsLookup.containsKey(row)
-            ? "<input type='checkbox' checked='checked'>"
-            : "<input type='checkbox'>";
-      }
-      return "";
-  };
+  TFormatter checkboxSelectionFormatter() =>
+      (int row, int cell, value, Column columnDef, dataContext) {
+        if (dataContext != null) {
+          return _selectedRowsLookup.containsKey(row)
+              ? "<input type='checkbox' checked='checked'>"
+              : "<input type='checkbox'>";
+        }
+        return "";
+      };
   Map _options;
-  Map<String,dynamic> _defaults = {
+  Map<String, dynamic> _defaults = {
     'columnId': "_checkbox_selector",
     'cssClass': null,
     'toolTip': "Select/Deselect All",
@@ -322,92 +322,92 @@ class CheckboxSelectColumn extends Column with IPlugin {
   CheckboxSelectColumn(Map options) {
     _options = new Map.from(_defaults);
     _options.addAll(options);
-   
   }
 
   destroy() {
     _handler.unsubscribeAll();
   }
 
- core.EvtCallback get handleSelectedRowsChanged =>(core.EventData e, dynamic args) {
-    List<int> selectedRows = _grid.getSelectedRows();
-    Map<int, bool> lookup = {};
-    int row, i;
-    for (i = 0; i < selectedRows.length; i++) {
-      row = selectedRows[i];
-      lookup[row] = true;
-      if (lookup[row] != _selectedRowsLookup[row]) {
-        _grid.invalidateRow(row);
-        _selectedRowsLookup.remove(row);
-      }
-    }
-    for (i in _selectedRowsLookup.keys) {
-      _grid.invalidateRow(i);
-    }
-    _selectedRowsLookup = lookup;
-    _grid.render();
-
-    if (selectedRows.length > 0 &&
-        selectedRows.length == _grid.getDataLength()) {
-      _grid.updateColumnHeader(
-          _options['columnId'],
-          new Element.html("<input type='checkbox' checked='checked'>"),
-          _options['toolTip']);
-    } else {
-      _grid.updateColumnHeader(_options['columnId'],
-          new Element.html("<input type='checkbox'>"), _options['toolTip']);
-    }
-  };
-
-core.EvtCallback  get handleKeyDown =>(core.EventData e, Map args) {
-    KeyboardEvent evt = e.domEvent;
-    if (evt.which == 32) {
-      if (_grid.columns[args['cell']].id == _options['columnId']) {
-        // if editing, try to commit
-        if (!_grid.getEditorLock().isActive() ||
-            _grid.getEditorLock().commitCurrentEdit()) {
-          toggleRowSelection(args['row']);
+  core.EvtCallback get handleSelectedRowsChanged =>
+      (core.EventData e, dynamic args) {
+        List<int> selectedRows = _grid.getSelectedRows();
+        Map<int, bool> lookup = {};
+        int row, i;
+        for (i = 0; i < selectedRows.length; i++) {
+          row = selectedRows[i];
+          lookup[row] = true;
+          if (lookup[row] != _selectedRowsLookup[row]) {
+            _grid.invalidateRow(row);
+            _selectedRowsLookup.remove(row);
+          }
         }
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }
-    }
-  };
+        for (i in _selectedRowsLookup.keys) {
+          _grid.invalidateRow(i);
+        }
+        _selectedRowsLookup = lookup;
+        _grid.render();
+
+        if (selectedRows.length > 0 &&
+            selectedRows.length == _grid.getDataLength()) {
+          _grid.updateColumnHeader(
+              _options['columnId'],
+              new Element.html("<input type='checkbox' checked='checked'>"),
+              _options['toolTip']);
+        } else {
+          _grid.updateColumnHeader(_options['columnId'],
+              new Element.html("<input type='checkbox'>"), _options['toolTip']);
+        }
+      };
+
+  core.EvtCallback get handleKeyDown => (core.EventData e, Map args) {
+        KeyboardEvent evt = e.domEvent;
+        if (evt.which == 32) {
+          if (_grid.columns[args['cell']].id == _options['columnId']) {
+            // if editing, try to commit
+            if (!_grid.getEditorLock().isActive() ||
+                _grid.getEditorLock().commitCurrentEdit()) {
+              toggleRowSelection(args['row']);
+            }
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }
+      };
 
   /**
      * args: {row: 3, cell: 4, grid: SlickGrid}
      */
- core.EvtCallback get handleClick=>(core.EventData evt, Map args) {
-    // core.EventData evt;
-    // if (e is core.EventData) {
-    //   evt = e;
-    // } 
-    // else {
-    //   evt = new core.EventData.fromDom(e);
-    // }
+  core.EvtCallback get handleClick => (core.EventData evt, Map args) {
+        // core.EventData evt;
+        // if (e is core.EventData) {
+        //   evt = e;
+        // }
+        // else {
+        //   evt = new core.EventData.fromDom(e);
+        // }
 
-    _log.finest('handle from:' +
-        this.runtimeType.toString() +
-        ' ' +
-        evt.target.toString());
+        _log.finest('handle from:' +
+            this.runtimeType.toString() +
+            ' ' +
+            evt.target.toString());
 //     var target= e.target ;
-    // clicking on a row select checkbox
-    if (_grid.columns[args['cell']].id == _options['columnId'] &&
-        evt.target is CheckboxInputElement) {
-      //Checkbox
-      // if editing, try to commit
-      if (_grid.getEditorLock().isActive() &&
-          !_grid.getEditorLock().commitCurrentEdit()) {
-        evt.preventDefault();
-        evt.stopImmediatePropagation();
-        return;
-      }
+        // clicking on a row select checkbox
+        if (_grid.columns[args['cell']].id == _options['columnId'] &&
+            evt.target is CheckboxInputElement) {
+          //Checkbox
+          // if editing, try to commit
+          if (_grid.getEditorLock().isActive() &&
+              !_grid.getEditorLock().commitCurrentEdit()) {
+            evt.preventDefault();
+            evt.stopImmediatePropagation();
+            return;
+          }
 
-      toggleRowSelection(args['row']);
-      evt.stopPropagation();
-      evt.stopImmediatePropagation();
-    }
-  };
+          toggleRowSelection(args['row']);
+          evt.stopPropagation();
+          evt.stopImmediatePropagation();
+        }
+      };
 
   /**
    * consider mutiple and single selection case
@@ -436,38 +436,38 @@ core.EvtCallback  get handleKeyDown =>(core.EventData e, Map args) {
    * change all row to selected state
    * args: {column: Column, grid: slickgrid}
    */
-  core.EvtCallback get handleHeaderClick =>(core.EventData evt, Map args) {
-    MouseEvent e = evt.domEvent;
+  core.EvtCallback get handleHeaderClick => (core.EventData evt, Map args) {
+        MouseEvent e = evt.domEvent;
 
-    if (_grid.gridOptions.multiSelect == false) {
-      e.preventDefault();
-      return;
-    }
-
-    if ((args['column'] as Column).id == _options['columnId'] &&
-        e.target is CheckboxInputElement) {
-      // if editing, try to commit
-      if (_grid.getEditorLock().isActive() &&
-          !_grid.getEditorLock().commitCurrentEdit()) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        return;
-      }
-
-      if (e.target is CheckboxInputElement &&
-          (e.target as CheckboxInputElement).checked) {
-        List<int> rows = [];
-        for (var i = 0; i < _grid.getDataLength(); i++) {
-          rows.add(i);
+        if (_grid.gridOptions.multiSelect == false) {
+          e.preventDefault();
+          return;
         }
-        _grid.setSelectedRows(rows);
-      } else {
-        _grid.setSelectedRows([]);
-      }
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-    }
-  };
+
+        if ((args['column'] as Column).id == _options['columnId'] &&
+            e.target is CheckboxInputElement) {
+          // if editing, try to commit
+          if (_grid.getEditorLock().isActive() &&
+              !_grid.getEditorLock().commitCurrentEdit()) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return;
+          }
+
+          if (e.target is CheckboxInputElement &&
+              (e.target as CheckboxInputElement).checked) {
+            List<int> rows = [];
+            for (var i = 0; i < _grid.getDataLength(); i++) {
+              rows.add(i);
+            }
+            _grid.setSelectedRows(rows);
+          } else {
+            _grid.setSelectedRows([]);
+          }
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+        }
+      };
 
   CheckboxSelectColumn getColumnDefinition() {
     InputElement elem = new InputElement();
@@ -486,5 +486,4 @@ core.EvtCallback  get handleKeyDown =>(core.EventData e, Map args) {
     return this;
     //return new Column.fromMap();
   }
-
 }

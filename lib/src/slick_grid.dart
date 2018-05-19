@@ -1134,7 +1134,8 @@ class SlickGrid {
   void finishInitialization() {
     if (!initialized) {
       viewportW = core.Dimension.getCalcWidth(container);
-      if (viewportW == 0) {
+      viewportH = core.Dimension.getCalcHeight(container);
+      if (viewportW == 0 || viewportH == 0) {
         new Future.delayed(
             new Duration(milliseconds: 100), finishInitialization);
         return;

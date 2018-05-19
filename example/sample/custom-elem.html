@@ -8,6 +8,13 @@
     <script src="../packages/slickdart/src/plugin/copy/Clipboard.min.js"></script>
     <style>
         /*
+        cj-grid:not(:defined) {
+            display: inline-block;
+            height: 100vh;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
     cj-grid{
      height:200px;
       border:1px solid black;
@@ -23,6 +30,7 @@
             /*   border: 1px solid; */
             display: inline-block;
         }
+
         /* style component using css */
 
         cj-grid.third {
@@ -45,7 +53,8 @@
     <script type="application/javascript" src="custom_elem.dart.js"></script>
     <h2>Custom Grid Element with ShadowDom</h2>
     <div class='container'>
-        <div class='row'>To inspect dart object, open console, select cj-grid, we can find dart object is export to javascript and inspectable in javascript console
+        <div class='row'>To inspect dart object, open console, select cj-grid, we can find dart object is export to javascript and inspectable
+            in javascript console
             <pre><code class='dart'>
 var grid= document.querySelector('cj-grid').grid; //this is SlickGrid object
 var column = grid.columns.$index(0,0);  // this is dart Column Object
@@ -65,7 +74,7 @@ column.toString$0()  // call toString function in dart object that produce json 
                                 .slick-header-column {
                                     border-style: solid solid solid solid;
                                     border-width: 1px 1px 0 0px;
-                                    
+
                                 }
 
                                 .slick-header-column.ui-state-default {
@@ -76,7 +85,7 @@ column.toString$0()  // call toString function in dart object that produce json 
                                 }
 
                                 .slick-header-column.ui-state-default.ui-state-hover {
-                                    background-color: #E3F3FF;
+                                    background-color: rgb(28, 168, 59);
                                 }
 
                                 .slick-header-column.slick-header-column-sorted {

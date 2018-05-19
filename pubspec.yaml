@@ -5,7 +5,7 @@ authors:
 description: Basic grid component port from SlickGrid with dynamic row height, frozen column enhancement
 homepage: https://cjkao.github.io/slickdart
 environment:
-  sdk: '>=2.0.0-dev.40.0 <2.0.0'
+  sdk: '>=2.0.0-dev.48.0 <2.0.0'
 dependencies:
 #  browser: ^0.10.0
   logging: '>=0.11.0 <2.0.0'

@@ -8,6 +8,8 @@ import "package:angular_router/angular_router.dart";
 import 'dart:html';
 import 'package:slickdart/slick_custom.dart';
 import 'package:slickdart/slick.dart';
+import 'package:angular_components/material_icon/material_icon.dart';
+import 'package:angular_components/material_button/material_button.dart';
 // import 'dart:math';
 
 // import '../route_path.dart' as paths;
@@ -18,6 +20,8 @@ import 'package:slickdart/slick.dart';
   styleUrls: ['heroGrid.css'],
   directives: [
     coreDirectives,
+    MaterialIconComponent,
+    MaterialButtonComponent,
   ],
   providers: const [coreDirectives],
   pipes: [commonPipes],
@@ -32,7 +36,7 @@ class HeroGridComponent implements AfterViewInit {
   Element gridEl;
   HeroGridComponent(this._service, this._router);
   JGrid gw0;
-
+  MetaList<Map> metaList;
   initGrid() async {
     List<Column> cols;
     csv = await _service.getGridData();
@@ -47,8 +51,10 @@ class HeroGridComponent implements AfterViewInit {
       'multiColumnSort': true,
       'editable': false,
     };
+    print(gridEl);
     gw0 = JGrid(gridEl);
-    gw0.init(MetaList(csv.data, getMeta), cols, option: opt);
+    metaList = MetaList(csv.data, getMeta);
+    gw0.init(metaList, cols, option: opt);
     gw0.grid.onSort.subscribe((EventData e, EvtArgs parm) {
       hash.clear();
       gw0.grid.invalidate();
@@ -64,7 +70,17 @@ class HeroGridComponent implements AfterViewInit {
       return {}; // {"cssClasses":'highlight'};
   }
 
+  bool showGrid = true;
   void ngAfterViewInit() => initGrid();
+  void hideGrid() {
+    showGrid = !showGrid;
+  }
+
+  void updateRec() {
+    metaList.first["gss_code"] = "1234";
+    gw0.grid.invalidate();
+    gw0.grid.render();
+  }
 }
 
 Map<int, Map<String, String>> hash = {};
