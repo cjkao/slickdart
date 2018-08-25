@@ -327,7 +327,7 @@ abstract class IMetaData {
   /// ```
   /// to customize cell style using [setCellCssStyles] function
   Map getMetaData(int rowId);
-  MetaRowCfg getMetaCfg(int rowId,String columnId);
+  MetaRowCfg getCellCfg(int rowId,String columnId);
 
   
   void setMetaData(metaFun fun);
@@ -367,17 +367,38 @@ class MetaList<T> extends ListBase<T> with IMetaData {
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
   void sort([int compare(T a, T b)]) => innerList.sort(compare);
-  rowParFun getMetaRow(int rowId) => (String col)=> getMetaCfg(rowId,col);
+  rowParFun getMetaRow(int rowId) => (String col)=> getCellCfg(rowId,col);
   static rowParFun simpleRow()=> (String col) {return MetaRowCfg();};
-  MetaRowCfg getMetaCfg(int rowId,String columnId){
+  // scroll  performance sensitive
+  // return max row span id from current row (for row cache clean up)
+  //
+  int curRowMaxSpan(int rowId){
+   if(_maxRowSpan[rowId]==null) return rowId;
+    return _maxRowSpan[rowId] +rowId;
+  }
+  int minRowToRender(int curRowId){
+   return _preRenderforRowSpan[curRowId] ?? curRowId;
+  }
+  // row Id, to spaned row count
+  Map<int,int> _maxRowSpan={};
+  // cur Row id -> smallest row id that have cell overwrite this row
+  Map<int,int> _preRenderforRowSpan={};
+  MetaRowCfg getCellCfg(int rowId,String columnId){
     var row=getMetaData(rowId);
     var colspan =1, rowspan=1, css="";
     if(row[COLUMN]!=null){
       colspan = row[COLUMN][columnId] ?? 1;
       rowspan = row[COLUMN][columnId +"!"] ?? 1;
     }
-    if(row[COLUMN]!=null){
+    if(row[COLUMN_CSS]!=null){
       css= row[COLUMN_CSS][columnId] ??"";
+    }
+    if(rowspan>1){
+      _maxRowSpan[rowId]??=1;
+      if(_maxRowSpan[rowId]<rowspan){
+        _maxRowSpan[rowId]= rowspan;
+        _preRenderforRowSpan[rowId+rowspan]=rowId;
+      }
     }
     return MetaRowCfg(colspan,rowspan,css);
     

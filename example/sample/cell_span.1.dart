@@ -8,12 +8,12 @@ Map<int, Map<String, int>> headerStructure={
    1:{'a1': 2, 'a3':2},
    2:{'a3':2, "b3":3},
    4:{'a3':2, "b3":3, 'a3!':2},
-   8:{'a4':2, 'a4!':3},
+   8:{'duration':1, 'duration!':8,'a4':2, 'a4!':3},
 };
 Map<int, Map<String, String>> headerCss={
    0:{'a1': "c1", "a5":"a5", "duration":"merged"},
    4:{'a3':"merged"},
-   8:{'a4':"merged"},
+   8:{'duration':'merged','a4':"merged"},
 };
 
 Map<String,Map<String,dynamic>> getMeta(int row) {
