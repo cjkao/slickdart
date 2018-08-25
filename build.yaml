@@ -2,20 +2,18 @@ targets:
   $default:
     builders:
       build_web_compilers|entrypoint:
-        generate_for:
-          - web/main.dart
-          #- web/bs3.dart
-          #- example/**.dart
-        options:
-          compiler: dart2js
-          dart2js_args:
-#          - --checked
-#          - --use-old-frontend
-          - --fast-startup
-          - --trust-type-annotations
-          - --trust-primitives
+        #options:
+        #  compiler: dartdevc
+        #  dart2js_args:
+        #  - --checked
+        #  - --use-old-frontend 
         # These are globs for the entrypoints you want to compile.
-       #- test/**.browser_test.dart
+        generate_for:
+          - web/**.dart
+          - example/sample/*.dart
+        #  - example/sample/angular/main.dart
+
+        #- test/**.browser_test.dart
         #- example/**.dart
         #options:
         #  compiler: dart2js

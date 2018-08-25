@@ -33,14 +33,17 @@ int maxSupportedCssHeight; // browser's breaking point
 class _RowCache {
   int columnCount;
   _RowCache(this.rowNode, columnCount) {
-    cellColSpans = new List.filled(columnCount, 1);
+    // print("new row cache $rowNode");
+    // cellColSpans = new List.filled(columnCount, 1);
+    // cellRowSpans = new List.filled(columnCount, 1);
   }
   //rowNode[0] => frozend column
   //rowNode[1] => main view
   List<Element> rowNode = []; // left view, and right view
   // ColSpans of rendered cells (by column idx).
   // Can also be used for checking whether a cell has been rendered.
-  List<int> cellColSpans;
+  // List<int> cellColSpans;
+  // List<int> cellRowSpans;
 
   // Cell nodes (by column idx).  Lazy-populated by ensureCellNodesInRowsCache().
   //not dense array, use map to replae
@@ -2661,39 +2664,46 @@ class SlickGrid {
     Queue processedRows = new Queue();
     var cellsAdded;
 //      int totalCellsAdded = 0;
-    var colspan;
+    // var colspan=1;
+    // var rowspan=1;
     //reuse for frozen rows
     _helper(int row) {
       if (!_rowsCache.keys.contains(row)) {
         return;
       }
+      var rowCfgFun= _data is MetaList ? (_data as MetaList).getMetaRow(row) :MetaList.simpleRow() ;
       cacheEntry = _rowsCache[row];
       // cellRenderQueue populated in renderRows() needs to be cleared first
       ensureCellNodesInRowsCache(row);
-      cleanUpCells(range, row);
+      cleanUpCells(range, row,rowCfgFun);
       // Render missing cells.
       cellsAdded = 0;
       var d = getDataItem(row);
       // TODO:  shorten this loop (index? heuristics? binary search?)
       for (int cell = 0, ii = columns.length; cell < ii; cell++) {
+        var  rowcfg=rowCfgFun(columns[cell].id);
         // Cells to the right are outside the range.
         if (_columnPosLeft[cell] > range['rightPx']) {
           break;
         }
         // Already rendered.
         if (cacheEntry.cellNodesByColumnIdx.keys.contains(cell)) {
-          colspan = cacheEntry.cellColSpans[cell];
-          cell += (colspan > 1 ? colspan - 1 : 0);
+          // colspan = cacheEntry.cellColSpans[cell];
+          cell += (rowcfg.colSpan > 1 ? rowcfg.colSpan - 1 : 0);
           continue;
         }
-        colspan = 1;
-        if (_columnPosRight[math.min(ii - 1, cell + colspan - 1)] >
+        //TODO fixme , unrendered, should not build from this algo
+        // rowspan = cacheEntry.cellRowSpans[cell];
+        if (_columnPosRight[math.min(ii - 1, cell + rowcfg.colSpan - 1)] >
                 range['leftPx'] ||
             _options.frozenColumn >= cell) {
-          _appendCellHtml(stringArray, row, cell, colspan, d);
+          _appendCellHtml2(stringArray, row, cell,  d,rowcfg);
+          if(row==0 && cell==1){
+            print("HI");
+          }
           cellsAdded++;
         }
-        cell += (colspan > 1 ? colspan - 1 : 0);
+        cell += (rowcfg.colSpan > 1 ? rowcfg.colSpan - 1 : 0);
       }
 
       if (cellsAdded > 0) {
@@ -2760,7 +2770,7 @@ class SlickGrid {
     }
   }
 
-  void cleanUpCells(range, int row) {
+  void cleanUpCells(range, int row,rowcfgFun) {
     if (hasFrozenRows // Ignore frozen rows
         &&
         ((_options.frozenBottom && row > actualFrozenRow) // Frozen bottom rows
@@ -2775,12 +2785,10 @@ class SlickGrid {
 
     // Remove cells outside the range.
     List cellsToRemove = [];
+    // MetaRowCfg mrCfg=MetaRowCfg();
     for (var i in cacheEntry.cellNodesByColumnIdx.keys) {
-      // Ignore frozen columns
-//        if (i <= _options.frozenColumn) {
-//            continue;
-//        }
-      var colspan = cacheEntry.cellColSpans[i];
+      // var colspan = cacheEntry.cellColSpans[i];
+      var colspan=rowcfgFun(columns[i].id).colSpan;
       if (_columnPosLeft[i] > range['rightPx'] ||
           _columnPosRight[math.min(columns.length - 1, i + colspan - 1)] <
               range['leftPx']) {
@@ -2795,11 +2803,9 @@ class SlickGrid {
     cellsToRemove.forEach((item) {
       cacheEntry.rowNode.forEach(
           (_) => _.children.remove(cacheEntry.cellNodesByColumnIdx[item]));
-//       cacheEntry.cellColSpans.removeAt(item);
-      cacheEntry.cellColSpans[item] = 1;
+      // cacheEntry.cellColSpans[item] = 1;
       cacheEntry.cellNodesByColumnIdx.remove(item);
       postProcessedRows[row]?.removeAt(cellToRemove);
-      //totalCellsRemoved++;
     });
   }
 
@@ -3378,6 +3384,9 @@ class SlickGrid {
 
       // Create an entry right away so that appendRowHtml() can
       // start populatating it.
+      // if(_rowsCache[i]!=null){
+      //   print("init $i");
+      // }
       _rowsCache[i] = new _RowCache(null, this.columns.length);
 
       _appendRowHtml(stringArrayL, stringArrayR, i, range, dataLength);
@@ -3467,38 +3476,37 @@ class SlickGrid {
     if (_options.frozenColumn > -1) {
       stringArrayR.add(rowHtml);
     }
-    int colspan = 1;
-
     //Column m;
+   
     for (var i = 0, ii = columns.length; i < ii; i++) {
-      //Column m = columns[i];
-      colspan = 1;
-      if (metadata != null &&
-          metadata[MetaList.COLUMN] != null &&
-          metadata[MetaList.COLUMN][columns[i].id] != null) {
-        colspan = metadata[MetaList.COLUMN][columns[i].id] ?? 1;
-        if (colspan > ii - i) {
-          colspan = ii - i;
-        }
+
+      var metaRow=MetaRowCfg();
+      if(metadata!=null){
+         metaRow=(_data as MetaList).getMetaCfg(row, columns[i].id);
+          //TODO fix me
+          //if (metaRow.colSpan > ii - i) {
+          //  metaRow.colSpan = ii - i;
+          //}
       }
 
-      if (_columnPosRight[math.min(ii - 1, i + colspan - 1)] >
+
+      if (_columnPosRight[math.min(ii - 1, i + metaRow.colSpan - 1)] >
           range['leftPx']) {
         if (_columnPosLeft[i] > range['rightPx']) {
           // All columns to the right are outside the range.
           break;
         }
         if ((_options.frozenColumn > -1) && (i > _options.frozenColumn)) {
-          _appendCellHtml(stringArrayR, row, i, colspan, d);
+          _appendCellHtml2(stringArrayR, row, i,  d,metaRow);
         } else {
-          _appendCellHtml(stringArrayL, row, i, colspan, d);
+          _appendCellHtml2(stringArrayL, row, i,  d,metaRow);
         }
       } else if ((_options.frozenColumn > -1) && (i <= _options.frozenColumn)) {
-        _appendCellHtml(stringArrayL, row, i, colspan, d);
+        _appendCellHtml2(stringArrayL, row, i,  d,metaRow);
       }
 
-      if (colspan > 1) {
-        i += (colspan - 1);
+      if (metaRow.colSpan > 1) {
+        i += (metaRow.colSpan - 1);
       }
     }
 
@@ -3514,9 +3522,9 @@ class SlickGrid {
      * item : data item
      */
   _appendCellHtml(
-      List<String> stringArray, int row, int cell, int colspan, var item) {
+      List<String> stringArray, int row, int cell, int colspan, var item, [int rowspan=0,String cssStr=""]) {
     Column m = columns[cell];
-    String cellCss = "slick-cell l$cell r" +
+    String cellCss = "slick-cell $cssStr l$cell r" +
         math.min(columns.length - 1, cell + colspan - 1).toString() +
         (m.cssClass != null ? " " + m.cssClass : "");
     if (row == activeRow && cell == activeCell) {
@@ -3531,8 +3539,10 @@ class SlickGrid {
       }
     }
     String style = '';
-    if (_data.length > row && _data[row]['_height'] != null) {
-      style = "style='height:${_data[row]['_height']-this._cellHeightDiff}px'";
+    if(rowspan>1){
+      style = "style='height:${this.gridOptions.rowHeight*rowspan-this._cellHeightDiff}px'";
+    }else if (_data.length > row && _data[row]['_height'] != null) {
+      style = "style='height:${_data[row]['_height']-this._cellHeightDiff}px;'";
     }
     stringArray.add("<div class='${cellCss}' ${style}>");
 
@@ -3547,8 +3557,49 @@ class SlickGrid {
     stringArray.add("</div>");
 
     _rowsCache[row].cellRenderQueue.addLast(cell);
-//      rowsCache[row].cellColSpans.insert(cell,colspan);
-    _rowsCache[row].cellColSpans[cell] = colspan;
+    // _rowsCache[row].cellColSpans[cell] = colspan;
+    // _rowsCache[row].cellRowSpans[cell] = rowspan;
+  }
+
+
+  /**
+     * cell render loop, generate cell html tag
+     * stringArray: output value
+     * item : data item
+     */
+  _appendCellHtml2(
+      List<String> stringArray, int row, int cell,  var item, MetaRowCfg cfg) {
+    Column m = columns[cell];
+    String cellCss = "slick-cell ${cfg.cssStr} l$cell r" +
+        math.min(columns.length - 1, cell + cfg.colSpan - 1).toString() +
+        (m.cssClass != null ? " " + m.cssClass : "");
+    if (row == activeRow && cell == activeCell) {
+      cellCss += (" active");
+    }
+
+    // TODO:  merge them together in the setter
+    for (var key in _cellCssClasses.keys) {
+      if (_cellCssClasses[key].containsKey(row) &&
+          _cellCssClasses[key][row].containsKey(m.id)) {
+        cellCss += (" " + _cellCssClasses[key][row][m.id]);
+      }
+    }
+    String style = '';
+    if(cfg.rowSpan>1){
+      style = "style='height:${this.gridOptions.rowHeight*cfg.rowSpan-this._cellHeightDiff}px'";
+    }else if (_data.length > row && _data[row]['_height'] != null) {
+      style = "style='height:${_data[row]['_height']-this._cellHeightDiff}px;'";
+    }
+    stringArray.add("<div class='${cellCss}' ${style}>");
+
+    // if there is a corresponding row (if not, this is the Add New row or this data hasn't been loaded yet)
+    if (item != null) {
+      var value = getDataItemValueForColumn(item, m);
+      // var f=getFormatter(row, m);
+      stringArray.add(getFormatter(row, m)(row, cell, value, m, item));
+    }
+    stringArray.add("</div>");
+    _rowsCache[row].cellRenderQueue.addLast(cell);
   }
 
   void clearTextSelection() {

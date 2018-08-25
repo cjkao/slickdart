@@ -259,4 +259,4 @@ TODO
 Cmds
 =======================
 dev mode
-```pub run build_runner serve -c dev example```
+```webdev serve  example```

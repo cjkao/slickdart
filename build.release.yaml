@@ -5,15 +5,15 @@ targets:
         generate_for:
           - web/main.dart
           #- web/bs3.dart
-          - example/**.dart
+          #- example/**.dart
         options:
           compiler: dart2js
           dart2js_args:
-           # List any dart2js specific args here, or omit it.
-          - --checked
+#          - --checked
+#          - --use-old-frontend
           - --fast-startup
-          - --csp
-          - --minify
+          - --trust-type-annotations
+          - --trust-primitives
         # These are globs for the entrypoints you want to compile.
        #- test/**.browser_test.dart
         #- example/**.dart

@@ -189,7 +189,7 @@ class JGrid {
         t.cancel();
         grid.finishInitialization();
       }
-      if (tryCnt > maxTry || !elGrid.attached()) {
+      if (tryCnt > maxTry) {
         _log.severe("no element height within shadowdom");
         t.cancel();
       }

@@ -77,6 +77,31 @@ column.toString$0()  // call toString function in dart object that produce json 
 
                                 }
 
+
+                                input[type=checkbox] {
+                                    width: 15px;
+                                    height: 15px;
+                                    cursor: pointer;
+                                    font-size: 14px;
+                                    visibility: hidden;
+                                }
+
+                                input[type=checkbox]:after {
+                                    content: " ";
+                                    background-color: #fff;
+                                    display: inline-block;
+                                    color: rgb(0, 121, 155);
+                                    width: 15px;
+                                    height: 15px;
+                                    visibility: visible;
+                                    border: 1px solid #00BFF0;
+                                    border-radius: 3px;
+                                }
+
+                                input[type=checkbox]:checked:after {
+                                    content: "\2714";
+                                }
+
                                 .slick-header-column.ui-state-default {
                                     font: 9pt arial, sans-serif;
                                     color: black;

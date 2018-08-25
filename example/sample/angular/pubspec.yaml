@@ -1,20 +1,20 @@
 name: example.ang
 version: 0.0.1
 environment:
-  sdk: '>=2.0.0-dev.40.0 <2.0.0'
+  sdk: '>=2.0.0-dev.60.0 <2.0.0'
 dependencies:
   angular: ^5.0.0-alpha
   angular_forms: ^2.0.0-alpha            
-  angular_components: ^0.9.0-alpha+12
+  angular_components: ^0.9.0-alpha+15
   slickdart:
     path: ../../../
   bootstrap_sass: any
   http: any
   angular_router: ^2.0.0-a
 dev_dependencies:
-  test: ^0.12.30
-  build_runner: ^0.8.9
-  build_web_compilers: ^0.3.8
+  test: ^1.0.0
+  build_runner: ^0.8.2
+  build_web_compilers: ^0.4.0
   build_test: ^0.10.2
   angular_test: ^2.0.0-a
   sass_builder: ^2.0.0

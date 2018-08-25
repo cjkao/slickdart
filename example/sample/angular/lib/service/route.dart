@@ -4,8 +4,9 @@ import 'package:angular_router/angular_router.dart';
 
 import '../route_path.dart' as paths;
 import '../comp/heroList.template.dart' as hlct;
-import '../comp/heroGrid.template.dart' as gd;
+import '../comp/heroGrid.template.dart' deferred as gd;
 import '../comp/multi.template.dart' as mul;
+import "dart:async";
 
 @Injectable()
 class Routes {
@@ -14,10 +15,9 @@ class Routes {
     component: hlct.HeroListComponentNgFactory,
   );
 
-  static final _heroGrid = new RouteDefinition(
-    routePath: paths.heroGrid,
-    component: gd.HeroGridComponentNgFactory,
-  );
+  static final _heroGrid = new RouteDefinition.defer(
+      routePath: paths.heroGrid, loader: loadGridView);
+
   static final _multi = new RouteDefinition(
     routePath: paths.multi,
     component: mul.MaterialDropdownSelectDemoComponentNgFactory,
@@ -27,4 +27,10 @@ class Routes {
   RouteDefinition get herogrid => _heroGrid;
 
   final List<RouteDefinition> all = [_heroes, _multi, _heroGrid];
+}
+
+// defer grid loading
+Future<ComponentFactory> loadGridView() async {
+  await gd.loadLibrary();
+  return gd.HeroGridComponentNgFactory;
 }

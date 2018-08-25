@@ -6,7 +6,7 @@ import 'dart:collection';
 import 'package:logging/logging.dart';
 import 'slick_core.dart' as core;
 import 'dart:convert';
-import 'slick_column.dart' show TFormatter,Column;
+import 'slick_column.dart' show TFormatter, Column;
 
 Logger _log = new Logger('slick.util');
 
@@ -71,7 +71,8 @@ Map<String, int> measureScrollbar() {
  * ancestorClzName : query condition
  *
  */
-Element findClosestAncestor(Element element, String cssSelector, [String scope]) {
+Element findClosestAncestor(Element element, String cssSelector,
+    [String scope]) {
   assert(element is Element);
   if (element == null) return null;
   do {
@@ -99,7 +100,7 @@ class FilteredList extends ListBase {
    */
   Map<String, dynamic> filter = {};
 
-  FilteredList([this.srcList, this.ignoreCase=false]) {
+  FilteredList([this.srcList, this.ignoreCase = false]) {
     srcList ??= new List();
   }
   //Constructor from a Map
@@ -149,7 +150,10 @@ class FilteredList extends ListBase {
         _log.finest("${val[k]} ${filter[k]}");
         if (val[k] is String) {
           return val[k].contains(filter[k]) ||
-              this.ignoreCase && "${val[k]}".toUpperCase().contains(filter[k].toString().toUpperCase());
+              this.ignoreCase &&
+                  "${val[k]}"
+                      .toUpperCase()
+                      .contains(filter[k].toString().toUpperCase());
         } else if (val[k] is bool) {
           return val[k] == filter[k];
         } else {
@@ -167,7 +171,7 @@ class FilteredList extends ListBase {
   }
 
   operator [](index) => filter.length == 0 ? srcList[index] : viewList[index];
-  operator []=(index, value) => srcList[index]=(value);
+  operator []=(index, value) => srcList[index] = (value);
   //for grid internal mask
   get length => filter.length == 0 ? srcList.length : viewList.length;
   set length(val) {
@@ -206,7 +210,8 @@ class FilteredList extends ListBase {
   int lastIndexOf(element, [int start]) => srcList.lastIndexOf(element, start);
   void insert(int index, element) => srcList.insert(index, element);
 
-  void insertAll(int index, Iterable iterable) => srcList.insertAll(index, iterable);
+  void insertAll(int index, Iterable iterable) =>
+      srcList.insertAll(index, iterable);
 
   void setAll(int index, Iterable iterable) => srcList.setAll(index, iterable);
 
@@ -222,8 +227,10 @@ class FilteredList extends ListBase {
   void setRange(int start, int end, Iterable iterable, [int skipCount = 0]) =>
       srcList.setRange(start, end, iterable, skipCount);
   void removeRange(int start, int end) => srcList.removeRange(start, end);
-  void fillRange(int start, int end, [fillValue]) => srcList.fillRange(start, end, fillValue);
-  void replaceRange(int start, int end, Iterable replacement) => srcList.replaceRange(start, end, replacement);
+  void fillRange(int start, int end, [fillValue]) =>
+      srcList.fillRange(start, end, fillValue);
+  void replaceRange(int start, int end, Iterable replacement) =>
+      srcList.replaceRange(start, end, replacement);
   Map<int, dynamic> asMap() => srcList.asMap();
 }
 
@@ -233,7 +240,7 @@ class FilteredList extends ListBase {
  *        false: hide row
  */
 typedef bool testShowItemFun(obj);
-
+typedef MetaRowCfg rowParFun(String colId);
 /// ### DataList in TREE View
 ///  filter follow up rows base on [_parent] and [_collapsed] and id field to render tree view
 ///
@@ -251,7 +258,10 @@ class HierarchFilterList extends FilteredList {
   /// * [items] List of row
   ///
   factory HierarchFilterList.withKeyField(
-      [String parentField = '_parent', String idField = 'id', String collapsedField = '_collapsed', List items]) {
+      [String parentField = '_parent',
+      String idField = 'id',
+      String collapsedField = '_collapsed',
+      List items]) {
     HierarchFilterList hier = new HierarchFilterList._(items);
     hier._parentField = parentField;
     hier._idField = idField;
@@ -290,6 +300,12 @@ class HierarchFilterList extends FilteredList {
 }
 
 typedef Map<String, dynamic> metaFun(int rowId);
+class MetaRowCfg{
+  const MetaRowCfg([this.colSpan=1,this.rowSpan=1,this.cssStr=""]);
+  final int rowSpan;
+  final int colSpan;
+  final String cssStr;
+}
 
 /**
  * meta data interface for data
@@ -307,18 +323,22 @@ abstract class IMetaData {
   ///  * 'columns'  to add span for column, value is {'column_name': span_cell_count}
   /// configuration example:
   /// ```
-  ///  {'columns': {"first_column": 2, 'second_col': 3}}
+  ///  {'columns': {"first_column": 2, 'second_col': 3}, columns_css:{"first_column":"style1", "second_col":"style2"}}
   /// ```
   /// to customize cell style using [setCellCssStyles] function
   Map getMetaData(int rowId);
+  MetaRowCfg getMetaCfg(int rowId,String columnId);
+
+  
   void setMetaData(metaFun fun);
 }
-
 class MetaList<T> extends ListBase<T> with IMetaData {
   static const COLUMN = 'columns';
+  static const COLUMN_CSS = 'columns_css';
   metaFun _func;
   List<T> innerList;
-  MetaList(this.innerList, [this._func]) {}
+  MetaList(this.innerList, [this._func]) {
+  }
 
   Map getMetaData(int rowId) {
     return _func(rowId);
@@ -329,7 +349,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
   }
 
   int get length => innerList.length;
-
+  // int get rowSpan(int row, int cell);
   void set length(int length) {
     innerList.length = length;
   }
@@ -347,6 +367,21 @@ class MetaList<T> extends ListBase<T> with IMetaData {
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
   void sort([int compare(T a, T b)]) => innerList.sort(compare);
+  rowParFun getMetaRow(int rowId) => (String col)=> getMetaCfg(rowId,col);
+  static rowParFun simpleRow()=> (String col) {return MetaRowCfg();};
+  MetaRowCfg getMetaCfg(int rowId,String columnId){
+    var row=getMetaData(rowId);
+    var colspan =1, rowspan=1, css="";
+    if(row[COLUMN]!=null){
+      colspan = row[COLUMN][columnId] ?? 1;
+      rowspan = row[COLUMN][columnId +"!"] ?? 1;
+    }
+    if(row[COLUMN]!=null){
+      css= row[COLUMN_CSS][columnId] ??"";
+    }
+    return MetaRowCfg(colspan,rowspan,css);
+    
+  }
 }
 
 // code hint for setup grid
@@ -380,6 +415,7 @@ class GridOptions {
   bool editable = false;
   /** single click on editable cell will load editor */
   bool autoEdit = true;
+
   /// commit current
   bool autoCommitOnBlur = false;
   /**  keyboard up,down,left,right, page up , page down
@@ -402,6 +438,7 @@ class GridOptions {
   int headerRowHeight = 25;
   bool showTopPanel = false;
   int topPanelHeight = 25;
+
   ///  Formatter factory, specify by -->
   ///  column_id : TFormatter function
   ///
@@ -489,53 +526,76 @@ class GridOptions {
   }
 
   _processMap(Map opt) {
-    if (opt['explicitInitialization'] != null) this.explicitInitialization = opt['explicitInitialization'];
+    if (opt['explicitInitialization'] != null)
+      this.explicitInitialization = opt['explicitInitialization'];
     if (opt['rowHeight'] != null) this.rowHeight = opt['rowHeight'];
-    if (opt['defaultColumnWidth'] != null) this.defaultColumnWidth = opt['defaultColumnWidth'];
+    if (opt['defaultColumnWidth'] != null)
+      this.defaultColumnWidth = opt['defaultColumnWidth'];
     if (opt['enableAddRow'] != null) this.enableAddRow = opt['enableAddRow'];
-    if (opt['leaveSpaceForNewRows'] != null) this.leaveSpaceForNewRows = opt['leaveSpaceForNewRows'];
+    if (opt['leaveSpaceForNewRows'] != null)
+      this.leaveSpaceForNewRows = opt['leaveSpaceForNewRows'];
     if (opt['editable'] != null) this.editable = opt['editable'];
     if (opt['autoEdit'] != null) this.autoEdit = opt['autoEdit'];
-    if (opt['enableCellNavigation'] != null) this.enableCellNavigation = opt['enableCellNavigation'];
-    if (opt['enableColumnReorder'] != null) this.enableColumnReorder = opt['enableColumnReorder'];
-    if (opt['asyncEditorLoading'] != null) this.asyncEditorLoading = opt['asyncEditorLoading'];
-    if (opt['asyncEditorLoadDelay'] != null) this.asyncEditorLoadDelay = opt['asyncEditorLoadDelay'];
-    if (opt['forceFitColumns'] != null) this.forceFitColumns = opt['forceFitColumns'];
-    if (opt['enableAsyncPostRender'] != null) this.enableAsyncPostRender = opt['enableAsyncPostRender'];
-    if (opt['asyncPostRenderDelay'] != null) this.asyncPostRenderDelay = opt['asyncPostRenderDelay'];
+    if (opt['enableCellNavigation'] != null)
+      this.enableCellNavigation = opt['enableCellNavigation'];
+    if (opt['enableColumnReorder'] != null)
+      this.enableColumnReorder = opt['enableColumnReorder'];
+    if (opt['asyncEditorLoading'] != null)
+      this.asyncEditorLoading = opt['asyncEditorLoading'];
+    if (opt['asyncEditorLoadDelay'] != null)
+      this.asyncEditorLoadDelay = opt['asyncEditorLoadDelay'];
+    if (opt['forceFitColumns'] != null)
+      this.forceFitColumns = opt['forceFitColumns'];
+    if (opt['enableAsyncPostRender'] != null)
+      this.enableAsyncPostRender = opt['enableAsyncPostRender'];
+    if (opt['asyncPostRenderDelay'] != null)
+      this.asyncPostRenderDelay = opt['asyncPostRenderDelay'];
     if (opt['autoHeight'] != null) this.autoHeight = opt['autoHeight'];
     if (opt['editorLock'] != null) this.editorLock = opt['editorLock'];
     if (opt['showHeaderRow'] != null) this.showHeaderRow = opt['showHeaderRow'];
-    if (opt['headerRowHeight'] != null) this.headerRowHeight = opt['headerRowHeight'];
+    if (opt['headerRowHeight'] != null)
+      this.headerRowHeight = opt['headerRowHeight'];
     if (opt['showTopPanel'] != null) this.showTopPanel = opt['showTopPanel'];
-    if (opt['topPanelHeight'] != null) this.topPanelHeight = opt['topPanelHeight'];
-    if (opt['formatterFactory'] != null) this.formatterFactory = opt['formatterFactory'] as Map<String, TFormatter>;
+    if (opt['topPanelHeight'] != null)
+      this.topPanelHeight = opt['topPanelHeight'];
+    if (opt['formatterFactory'] != null)
+      this.formatterFactory =
+          opt['formatterFactory'] as Map<String, TFormatter>;
     if (opt['editorFactory'] != null) this.editorFactory = opt['editorFactory'];
-    if (opt['cellFlashingCssClass'] != null) this.cellFlashingCssClass = opt['cellFlashingCssClass'];
-    if (opt['selectedCellCssClass'] != null) this.selectedCellCssClass = opt['selectedCellCssClass'];
+    if (opt['cellFlashingCssClass'] != null)
+      this.cellFlashingCssClass = opt['cellFlashingCssClass'];
+    if (opt['selectedCellCssClass'] != null)
+      this.selectedCellCssClass = opt['selectedCellCssClass'];
     if (opt['multiSelect'] != null) this.multiSelect = opt['multiSelect'];
-    if (opt['enableTextSelectionOnCells'] != null) this.enableTextSelectionOnCells = opt['enableTextSelectionOnCells'];
+    if (opt['enableTextSelectionOnCells'] != null)
+      this.enableTextSelectionOnCells = opt['enableTextSelectionOnCells'];
     if (opt['dataItemColumnValueExtractor'] != null)
       this.dataItemColumnValueExtractor = opt['dataItemColumnValueExtractor'];
     if (opt['fullWidthRows'] != null) this.fullWidthRows = opt['fullWidthRows'];
-    if (opt['multiColumnSort'] != null) this.multiColumnSort = opt['multiColumnSort'];
-    if (opt['defaultFormatter'] != null) this.defaultFormatter = opt['defaultFormatter'] as TFormatter;
-    if (opt['forceSyncScrolling'] != null) this.forceSyncScrolling = opt['forceSyncScrolling'];
+    if (opt['multiColumnSort'] != null)
+      this.multiColumnSort = opt['multiColumnSort'];
+    if (opt['defaultFormatter'] != null)
+      this.defaultFormatter = opt['defaultFormatter'] as TFormatter;
+    if (opt['forceSyncScrolling'] != null)
+      this.forceSyncScrolling = opt['forceSyncScrolling'];
     if (opt['frozenColumn'] != null) this.frozenColumn = opt['frozenColumn'];
     if (opt['frozenRow'] != null) this.frozenRow = opt['frozenRow'];
     if (opt['frozenBottom'] != null) this.frozenBottom = opt['frozenBottom'];
     if (opt['dynamicHeight'] != null) this.dynamicHeight = opt['dynamicHeight'];
-    if (opt['syncColumnCellResize'] != null) this.syncColumnCellResize = opt['syncColumnCellResize'];
-    if (opt['editCommandHandler'] != null) this.editCommandHandler = opt['editCommandHandler'];
+    if (opt['syncColumnCellResize'] != null)
+      this.syncColumnCellResize = opt['syncColumnCellResize'];
+    if (opt['editCommandHandler'] != null)
+      this.editCommandHandler = opt['editCommandHandler'];
 
 //      editCommandHandler
   }
 }
 
-TFormatter get  _defaultFormatter=> (int row, int cell, dynamic value,Column columnDef,Map dataContext) {
-  if (value == null) {
-    return "";
-  }
-  if (value is num || value is bool) return value.toString();
-  return htmlEscape.convert(value);
-};
+TFormatter get _defaultFormatter =>
+    (int row, int cell, dynamic value, Column columnDef, Map dataContext) {
+      if (value == null) {
+        return "";
+      }
+      if (value is num || value is bool) return value.toString();
+      return htmlEscape.convert(value);
+    };

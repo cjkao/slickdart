@@ -1,5 +1,4 @@
 ## debug mode
-pub run build_runner serve --config=debug
-
+webdev serve 
 ## Release mode
-pub run build_runner serve
+webdev build -o output

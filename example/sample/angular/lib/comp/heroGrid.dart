@@ -10,6 +10,7 @@ import 'package:slickdart/slick_custom.dart';
 import 'package:slickdart/slick.dart';
 import 'package:angular_components/material_icon/material_icon.dart';
 import 'package:angular_components/material_button/material_button.dart';
+import 'package:angular_components/material_input/material_input.dart';
 // import 'dart:math';
 
 // import '../route_path.dart' as paths;
@@ -21,9 +22,10 @@ import 'package:angular_components/material_button/material_button.dart';
   directives: [
     coreDirectives,
     MaterialIconComponent,
+    MaterialInputComponent,
     MaterialButtonComponent,
   ],
-  providers: const [coreDirectives],
+  providers: const [coreDirectives, NgModel],
   pipes: [commonPipes],
 )
 class HeroGridComponent implements AfterViewInit {
@@ -36,7 +38,8 @@ class HeroGridComponent implements AfterViewInit {
   Element gridEl;
   HeroGridComponent(this._service, this._router);
   JGrid gw0;
-  MetaList<Map> metaList;
+  Map curValue = {};
+  MetaList metaList;
   initGrid() async {
     List<Column> cols;
     csv = await _service.getGridData();
@@ -59,6 +62,14 @@ class HeroGridComponent implements AfterViewInit {
       hash.clear();
       gw0.grid.invalidate();
     });
+    gw0.grid.onSelectedRowsChanged.subscribe(rowChange);
+  }
+
+  void rowChange(EventData e, EvtArgs parm) {
+    print(parm);
+    if ((parm["rows"] as List).length > 0) {
+      curValue = metaList[parm["rows"][0]];
+    }
   }
 
   Map<String, String> getMeta(int row) {

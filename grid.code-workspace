@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "example/sample/angular",
+			"name": "angular"
+		}
+	],
+	"settings": {}
+}
