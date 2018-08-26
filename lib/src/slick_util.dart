@@ -74,12 +74,13 @@ Map<String, int> measureScrollbar() {
 Element findClosestAncestor(Element element, String cssSelector,
     [String scope]) {
   assert(element is Element);
-  if (element == null) return null;
-  do {
-    if (element.matches(cssSelector)) return element;
-    element = element.parent;
-  } while (element != null);
-  return null;
+  // if (element == null) return null;
+  return element?.closest(cssSelector);
+  // do {
+  //   if (element.matches(cssSelector)) return element;
+  //   element = element.parent;
+  // } while (element != null);
+  // return null;
 }
 
 /// ### Give grid class illusion of data
@@ -241,6 +242,7 @@ class FilteredList extends ListBase {
  */
 typedef bool testShowItemFun(obj);
 typedef MetaRowCfg rowParFun(String colId);
+
 /// ### DataList in TREE View
 ///  filter follow up rows base on [_parent] and [_collapsed] and id field to render tree view
 ///
@@ -300,8 +302,9 @@ class HierarchFilterList extends FilteredList {
 }
 
 typedef Map<String, dynamic> metaFun(int rowId);
-class MetaRowCfg{
-  const MetaRowCfg([this.colSpan=1,this.rowSpan=1,this.cssStr=""]);
+
+class MetaRowCfg {
+  const MetaRowCfg([this.colSpan = 1, this.rowSpan = 1, this.cssStr = ""]);
   final int rowSpan;
   final int colSpan;
   final String cssStr;
@@ -326,21 +329,33 @@ abstract class IMetaData {
   ///  {'columns': {"first_column": 2, 'second_col': 3}, columns_css:{"first_column":"style1", "second_col":"style2"}}
   /// ```
   /// to customize cell style using [setCellCssStyles] function
-  Map getMetaData(int rowId);
-  MetaRowCfg getCellCfg(int rowId,String columnId);
+  Map<String,dynamic> getMetaData(int rowId);
 
-  
+  ///
+  /// per cell style, row,col span and css, also update cache
+  ///
+  MetaRowCfg getCellCfg(int rowId, String columnId);
+
+  ///
+  /// minimal row to render if row span from previous rows
+  ///
+  int minRowToRender(int curRowId);
+
+  ///
+  ///  return partial function for client to process columns
+  ///
+  rowParFun getMetaRow(int rowId);
   void setMetaData(metaFun fun);
 }
+
 class MetaList<T> extends ListBase<T> with IMetaData {
   static const COLUMN = 'columns';
   static const COLUMN_CSS = 'columns_css';
   metaFun _func;
   List<T> innerList;
-  MetaList(this.innerList, [this._func]) {
-  }
+  MetaList(this.innerList, [this._func]) {}
 
-  Map getMetaData(int rowId) {
+  Map<String,dynamic> getMetaData(int rowId) {
     return _func(rowId);
   }
 
@@ -367,41 +382,44 @@ class MetaList<T> extends ListBase<T> with IMetaData {
 
   void addAll(Iterable<T> all) => innerList.addAll(all);
   void sort([int compare(T a, T b)]) => innerList.sort(compare);
-  rowParFun getMetaRow(int rowId) => (String col)=> getCellCfg(rowId,col);
-  static rowParFun simpleRow()=> (String col) {return MetaRowCfg();};
+  rowParFun getMetaRow(int rowId) => (String col) => getCellCfg(rowId, col);
+  static rowParFun simpleRow() => (String col) {
+        return MetaRowCfg();
+      };
   // scroll  performance sensitive
   // return max row span id from current row (for row cache clean up)
   //
-  int curRowMaxSpan(int rowId){
-   if(_maxRowSpan[rowId]==null) return rowId;
-    return _maxRowSpan[rowId] +rowId;
+  int curRowMaxSpan(int rowId) {
+    if (_maxRowSpan[rowId] == null) return rowId;
+    return _maxRowSpan[rowId] + rowId;
   }
-  int minRowToRender(int curRowId){
-   return _preRenderforRowSpan[curRowId] ?? curRowId;
+
+  int minRowToRender(int curRowId) {
+    return _preRenderforRowSpan[curRowId] ?? curRowId;
   }
+
   // row Id, to spaned row count
-  Map<int,int> _maxRowSpan={};
-  // cur Row id -> smallest row id that have cell overwrite this row
-  Map<int,int> _preRenderforRowSpan={};
-  MetaRowCfg getCellCfg(int rowId,String columnId){
-    var row=getMetaData(rowId);
-    var colspan =1, rowspan=1, css="";
-    if(row[COLUMN]!=null){
+  Map<int, int> _maxRowSpan = {};
+  // cur Row id -> smallest row id that have cell overlay on this row
+  Map<int, int> _preRenderforRowSpan = {};
+  MetaRowCfg getCellCfg(int rowId, String columnId) {
+    var row = getMetaData(rowId);
+    var colspan = 1, rowspan = 1, css = "";
+    if (row[COLUMN] != null) {
       colspan = row[COLUMN][columnId] ?? 1;
-      rowspan = row[COLUMN][columnId +"!"] ?? 1;
+      rowspan = row[COLUMN][columnId + "!"] ?? 1;
     }
-    if(row[COLUMN_CSS]!=null){
-      css= row[COLUMN_CSS][columnId] ??"";
+    if (row[COLUMN_CSS] != null) {
+      css = row[COLUMN_CSS][columnId] ?? "";
     }
-    if(rowspan>1){
-      _maxRowSpan[rowId]??=1;
-      if(_maxRowSpan[rowId]<rowspan){
-        _maxRowSpan[rowId]= rowspan;
-        _preRenderforRowSpan[rowId+rowspan]=rowId;
+    if (rowspan > 1) {
+      _maxRowSpan[rowId] ??= 1;
+      if (_maxRowSpan[rowId] < rowspan) {
+        _maxRowSpan[rowId] = rowspan;
+        _preRenderforRowSpan[rowId + rowspan] = rowId;
       }
     }
-    return MetaRowCfg(colspan,rowspan,css);
-    
+    return MetaRowCfg(colspan, rowspan, css);
   }
 }
 
@@ -424,7 +442,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
 class GridOptions {
   bool explicitInitialization = false;
   int rowHeight = 25;
-  int defaultColumnWidth = 80;
+  int defaultColumnWidth = 0;
 
   /// extra one row  on end of data row, the new added row have renedered cells */
   bool enableAddRow = false;

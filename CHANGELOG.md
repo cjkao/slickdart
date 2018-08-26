@@ -1,5 +1,11 @@
+# Version 0.2.0 (2018.08)
+- Enable row span
+- fix defaultColumnWidth in GridOption
+- fix row frozen with top panel 
+
 # Version 0.2.0-beta.2
 - Add EvtArgs, EvtCallback
+
 # Version 0.1.8+9(2017/01)
 - fix detached state and show/hidden state
 

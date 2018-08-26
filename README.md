@@ -6,7 +6,7 @@
 - [GridOptions](#gridoptions)
 - [Formatter](#formatter)
 - [Dynamic Row Height](#dynamic-row-height)
-- [Customer Element](#customer-element)
+- [Customer Element (need polyfill for IE)](#customer-element-need-polyfill-for-ie)
 - [MetaData](#metadata)
 - [Filtered View](#filtered-view)
 - [Header Row](#header-row)
@@ -72,7 +72,7 @@ Current design
   - add {'dynamicHeight': true} option to turn on it  
   - on sorting or change data, using resetDynHeight() to re-calculate height
 
-Customer Element
+Customer Element (need polyfill for IE)
 ==============================
 Initial support customer element, see example: custom-elem.dart
 
@@ -94,7 +94,8 @@ registerElem();
 
 MetaData
 =============================
-Only support row css styles, see example: metadata.dart, add dynamic height recalculate
+1. support row css styles, see example: metadata.dart, add dynamic height recalculate
+1. support col span and row span, see example: cell-span.1.dart
 
 Filtered View
 ========================================

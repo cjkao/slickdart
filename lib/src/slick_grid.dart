@@ -136,9 +136,10 @@ class SlickGrid {
    * @param columns column definition
    */
   SlickGrid(this.container, this._data, this.allColumns, [Map options]) {
+    this._options.addAll(options);
+    _applyGridOptionColumnWidth(this.allColumns);
     this.columns =
         new List<Column>.from(this.allColumns.where((c) => c.visible));
-    this._options.addAll(options);
     _storeFormatter();
   }
   /**
@@ -146,10 +147,20 @@ class SlickGrid {
    */
   SlickGrid.fromOpt(this.container, this._data, this.allColumns,
       [GridOptions options]) {
+    this._options = options;
+    _applyGridOptionColumnWidth(this.allColumns);
     this.columns =
         new List<Column>.from(this.allColumns.where((c) => c.visible));
-    this._options = options;
+    
     _storeFormatter();
+  }
+  ///
+  ///  accept default column width from gridOptions
+  ///
+  _applyGridOptionColumnWidth(List<Column> columnList){
+    if(_options.defaultColumnWidth>0){
+      columnList.where((_)=> _.useSysDefaultWidth).forEach((_)=>_.width=_options.defaultColumnWidth);
+    }
   }
   /**
    * append formatter to option's internal formatter factory
@@ -753,6 +764,9 @@ class SlickGrid {
         paneTopH = frozenRowsHeight;
         paneBottomH = viewportH - frozenRowsHeight;
       }
+      //  if(_options.showTopPanel){
+      //   paneTopH+=_options.topPanelHeight;
+      //  }
     } else {
       paneTopH = viewportH;
     }
@@ -763,6 +777,7 @@ class SlickGrid {
     if (_options.frozenColumn > -1 && _options.autoHeight) {
       paneTopH += scrollbarDimensions['height'];
     }
+   
 
     // The top viewport does not contain the top panel or header row
     viewportTopH = paneTopH - topPanelH - headerRowH;
@@ -2345,7 +2360,8 @@ class SlickGrid {
           ? _viewportHeaderHeight
           : headerScrollerHeight;
       int vboxDelta = getVBoxDelta($headerScroller.first);
-      int topPanelHeight = _options.showTopPanel == true
+      // int topPanelHeight = _options.showTopPanel == true
+      topPanelH= _options.showTopPanel == true
           ? _options.topPanelHeight + getVBoxDelta($topPanelScroller.first)
           : 0;
       int headerRowHeight = _options.showHeaderRow == true
@@ -2356,7 +2372,8 @@ class SlickGrid {
           paddingBottom -
           _viewportHeaderHeight -
           vboxDelta -
-          topPanelHeight -
+          // topPanelHeight -
+          topPanelH -
           headerRowHeight;
       headerRowH = headerRowHeight;
     }
@@ -2479,7 +2496,7 @@ class SlickGrid {
   }
 
   void cleanupRows(Map<String, int> rangeToKeep) {
-    print('clean row $rangeToKeep');
+    _log.finest('clean row $rangeToKeep');
    
     for (int i in new List.from(_rowsCache.keys)) {
       var removeFrozenRow = true;
@@ -2937,12 +2954,20 @@ class SlickGrid {
       }
     }
     var x2 = x1 + columns[cell].width;
-    int spanCnt = getColspan(row, cell);
-    if (spanCnt > 1) {
-      for (int i = 1; i < spanCnt; ++i) {
-        x2 += columns[cell + i].width;
-      }
+    if(_data is MetaList){
+      var cfg=(_data as MetaList).getCellCfg(row, columns[cell].id);
+      
+      // if (cfg.colSpan > 1) {
+        for (int i = 1; i < cfg.colSpan; ++i) {
+           x2 += columns[cell + i].width;
+        }
+        y2=y1+this.gridOptions.rowHeight*cfg.rowSpan;//+this._cellHeightDiff;
+        // y2=y1+ _data[row]['_height'];
+      // }
+      // if(cfg.rowSpan>1)
     }
+    // int spanCnt = getColspan(row, cell);
+    
 
     return {'top': y1, 'left': x1, 'bottom': y2, 'right': x2};
   }

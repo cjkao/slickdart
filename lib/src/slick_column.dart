@@ -69,7 +69,7 @@ class Column {
   ///link gridOption to store TFormatter or Editor
   ///
   GridOptions gridOption;
-
+  bool useSysDefaultWidth=false;
   ///
   /// GridOption for formatter access
   ///
@@ -225,6 +225,9 @@ class Column {
       src['name'] = '${src['field']}';
     }
     c._src..addAll(src);
+    if(src["width"]==null){
+       c.useSysDefaultWidth=true;
+    }
     return c;
   }
 
@@ -232,7 +235,7 @@ class Column {
     Map<String, dynamic> m = json.decode(src) as Map<String, dynamic>;
     return new Column.fromMap(m); //c._src..addAll(src) ;
   }
-
+ 
   factory Column.fromColumn(Column old) {
     Column c = new Column();
     c._src..addAll(old._src);
@@ -242,7 +245,6 @@ class Column {
   dynamic operator [](String crit) {
     return _src[crit];
   }
-
   Column merge(Column newCol) {
     this._src.addAll(newCol._src);
     return this;
