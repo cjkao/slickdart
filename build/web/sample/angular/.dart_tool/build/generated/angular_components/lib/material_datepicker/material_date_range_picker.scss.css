@@ -1,0 +1,79 @@
+:host {
+  user-select: none;
+}
+
+.popup-contents {
+  display: inline-block;
+  font-size: 13px;
+  height: inherit;
+  max-height: inherit;
+  min-height: inherit;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  max-height: inherit;
+  min-height: inherit;
+}
+
+.separator {
+  flex-grow: 1;
+}
+
+.apply-bar {
+  align-items: center;
+  background-color: #fff;
+  border-top: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  color: #4285f4;
+  display: none;
+  font-size: 13px;
+  flex-shrink: 0;
+  height: 48px;
+  padding-right: 8px;
+}
+
+.apply-bar.visible {
+  display: flex;
+}
+
+.main-content {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  height: 72px;
+}
+:host(.disabled) .main-content {
+  cursor: not-allowed;
+}
+
+.main-line {
+  display: flex;
+}
+
+.range-title {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.comparison-title {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.menu-lookalike ::ng-deep .icon {
+  margin-left: 16px;
+}
+
+.next-prev-buttons {
+  position: relative;
+  top: -3px;
+}

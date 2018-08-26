@@ -1,0 +1,6 @@
+:host {
+  display: flex;
+}
+:host material-datepicker {
+  margin-right: 16px;
+}

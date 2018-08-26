@@ -1,0 +1,36 @@
+:host {
+  height: 24px;
+  white-space: nowrap;
+}
+
+.next, .prev {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  height: 24px;
+  opacity: 0.54;
+  padding: 0;
+  transition: opacity 130ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 24px;
+}
+
+.disabled.next, .disabled.prev {
+  opacity: 0.26;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.next:hover:not(.disabled), .prev:hover:not(.disabled),
+.next:focus:not(.disabled),
+.prev:focus:not(.disabled) {
+  opacity: 0.87;
+}
+
+.next glyph, .prev glyph {
+  color: inherit;
+}
+
+.prev {
+  margin-right: 8px;
+}

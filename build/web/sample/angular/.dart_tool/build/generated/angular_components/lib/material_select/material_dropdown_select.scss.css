@@ -1,0 +1,16 @@
+:host {
+  display: inline-flex;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  outline: none;
+}
+.options-list .options-wrapper {
+  flex-direction: column;
+}
+.options-list .options-wrapper [label] {
+  padding: 0 16px;
+}

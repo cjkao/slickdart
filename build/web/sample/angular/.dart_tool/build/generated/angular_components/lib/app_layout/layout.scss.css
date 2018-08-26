@@ -1,0 +1,214 @@
+material-drawer material-list {
+  padding: 0;
+}
+material-drawer material-list [label] {
+  display: block;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 32px;
+  padding: 0 24px;
+  position: relative;
+  white-space: nowrap;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.54);
+  display: flex;
+}
+material-drawer material-list [label].disabled {
+  pointer-events: none;
+}
+material-drawer material-list [label] ::ng-deep .material-list-item-primary {
+  color: rgba(0, 0, 0, 0.54);
+  width: 40px;
+}
+material-drawer material-list [label].disabled ::ng-deep .material-list-item-primary {
+  color: rgba(0, 0, 0, 0.38);
+}
+material-drawer material-list [label] ::ng-deep .material-list-item-secondary {
+  color: rgba(0, 0, 0, 0.54);
+  margin-left: auto;
+}
+material-drawer material-list [label].disabled ::ng-deep .material-list-item-secondary {
+  color: rgba(0, 0, 0, 0.38);
+}
+material-drawer material-list [label] ::ng-deep .submenu-icon {
+  transform: rotate(-90deg);
+}
+material-drawer material-list material-list-item,
+material-drawer material-list [label] {
+  font-weight: 500;
+  height: 48px;
+  padding: 0 16px;
+}
+material-drawer material-list material-list-item material-icon,
+material-drawer material-list [label] material-icon {
+  color: rgba(0, 0, 0, 0.54);
+  margin-right: 32px;
+}
+material-drawer[persistent], material-drawer[permanent] {
+  width: 256px;
+}
+material-drawer[persistent]:not([end]) ~ material-content,
+material-drawer[persistent]:not([end]) ~ .material-content, material-drawer[permanent]:not([end]) ~ material-content,
+material-drawer[permanent]:not([end]) ~ .material-content {
+  margin-left: 256px;
+}
+material-drawer[persistent][end] ~ material-content,
+material-drawer[persistent][end] ~ .material-content, material-drawer[permanent][end] ~ material-content,
+material-drawer[permanent][end] ~ .material-content {
+  margin-right: 256px;
+}
+material-drawer[persistent].mat-drawer-collapsed:not([end]) {
+  transform: translateX(-100%);
+}
+material-drawer[persistent].mat-drawer-collapsed:not([end]) ~ material-content,
+material-drawer[persistent].mat-drawer-collapsed:not([end]) ~ .material-content {
+  margin-left: 0;
+}
+material-drawer[persistent].mat-drawer-collapsed[end] {
+  transform: translateX(100%);
+}
+material-drawer[persistent].mat-drawer-collapsed[end] ~ material-content,
+material-drawer[persistent].mat-drawer-collapsed[end] ~ .material-content {
+  margin-right: 0;
+}
+material-drawer[persistent], material-drawer[permanent] {
+  background-color: #fff;
+  bottom: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  left: 0;
+}
+material-drawer[persistent][end], material-drawer[permanent][end] {
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  border-right: initial;
+  left: initial;
+  right: 0;
+}
+material-drawer[persistent] {
+  transition-duration: 150ms;
+  transition-property: transform, width;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+material-drawer[persistent] ~ material-content,
+material-drawer[persistent] ~ .material-content {
+  transition-duration: 150ms;
+  transition-property: margin-left, margin-right;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+material-content,
+.material-content {
+  display: block;
+  min-height: 100%;
+  position: relative;
+  z-index: 0;
+}
+
+.material-header {
+  background-color: #3f51b5;
+  border: 0;
+  box-sizing: border-box;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  height: 64px;
+  justify-content: flex-start;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  z-index: 0;
+}
+.material-header.shadow {
+  /*! @noflip */
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+.material-header ~ material-drawer[permanent], .material-header ~ material-drawer[persistent] {
+  top: 64px;
+}
+.material-header ~ material-content,
+.material-header ~ .material-content {
+  min-height: calc(100% - 64px);
+}
+.material-header.dense-header {
+  height: 48px;
+}
+.material-header.dense-header .material-header-row {
+  height: 48px;
+}
+.material-header.dense-header ~ material-drawer[permanent], .material-header.dense-header ~ material-drawer[persistent] {
+  top: 48px;
+}
+.material-header.dense-header ~ material-content,
+.material-header.dense-header ~ .material-content {
+  min-height: calc(100% - 48px);
+}
+
+.material-header-row {
+  align-items: center;
+  align-self: stretch;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  height: 64px;
+  margin: 0 12px;
+  position: relative;
+}
+@media (max-width: 599px) {
+  .material-header-row {
+    margin: 0 8px;
+  }
+}
+.material-header-row > .material-drawer-button {
+  cursor: pointer;
+}
+.material-header-row .material-header-title {
+  bottom: 0;
+  box-sizing: border-box;
+  display: block;
+  height: 20px;
+  left: 80px;
+  line-height: 1;
+  margin-bottom: auto;
+  margin-top: auto;
+  position: absolute;
+  top: 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+.material-header-row .material-spacer {
+  flex-grow: 1;
+}
+.material-header-row material-button {
+  margin: 0 4px;
+}
+@media (max-width: 599px) {
+  .material-header-row material-button {
+    margin: 0 0px;
+  }
+}
+.material-header-row .material-navigation {
+  margin: 0 12px;
+}
+@media (max-width: 599px) {
+  .material-header-row .material-navigation {
+    margin: 0 8px;
+  }
+}
+.material-header-row > * {
+  flex-shrink: 0;
+}
+
+.mat-drawer-spacer {
+  height: 56px;
+}

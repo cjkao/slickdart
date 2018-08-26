@@ -1,0 +1,46 @@
+:host {
+  display: flex;
+}
+
+.btn.btn-yes,
+.btn.btn-no {
+  height: 36px;
+  margin: 0 4px;
+}
+
+.btn:not([disabled]).highlighted[raised] {
+  background-color: #4285f4;
+  color: #fff;
+}
+.btn:not([disabled]).highlighted:not([raised]) {
+  color: #4285f4;
+}
+
+.spinner {
+  align-items: center;
+  display: flex;
+  margin-right: 24px;
+  min-width: 128px;
+}
+
+:host(.no-margin) .btn {
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+:host(.no-margin) .btn .content {
+  padding-right: 0;
+}
+
+:host[reverse] {
+  flex-direction: row-reverse;
+}
+:host[reverse] .spinner {
+  justify-content: flex-end;
+}
+
+:host[dense] .btn.btn-yes ::ng-deep:not([icon]),
+:host[dense] .btn.btn-no ::ng-deep:not([icon]) {
+  height: 32px;
+  font-size: 13px;
+}

@@ -1,0 +1,6 @@
+:host {
+  display: block;
+}
+:host[centerStrip] > material-tab-strip {
+  margin: 0 auto;
+}

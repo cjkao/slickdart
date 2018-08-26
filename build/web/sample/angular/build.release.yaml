@@ -1,0 +1,18 @@
+targets:
+  $default:
+    builders:
+      build_web_compilers|entrypoint:
+        generate_for:
+          #- web/main.dart
+          #- web/bs3.dart
+          - example/**.dart
+        options:
+          compiler: dart2js
+          dart2js_args:
+           # List any dart2js specific args here, or omit it.
+          - --checked
+          - --fast-startup
+          - --trust-type-annotations
+          - --trust-primitives
+          - --csp
+          - --minify

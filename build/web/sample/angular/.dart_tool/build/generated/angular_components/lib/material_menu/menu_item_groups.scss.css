@@ -1,0 +1,137 @@
+:host {
+  display: block;
+  outline: none;
+}
+
+.group-header {
+  display: block;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 32px;
+  padding: 0 24px;
+  position: relative;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.54);
+  height: 24px;
+  line-height: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+.group-header.disabled {
+  pointer-events: none;
+}
+.group-header ::ng-deep .material-list-item-primary {
+  color: rgba(0, 0, 0, 0.54);
+  width: 40px;
+}
+.group-header.disabled ::ng-deep .material-list-item-primary {
+  color: rgba(0, 0, 0, 0.38);
+}
+.group-header ::ng-deep .material-list-item-secondary {
+  color: rgba(0, 0, 0, 0.54);
+  margin-left: auto;
+}
+.group-header.disabled ::ng-deep .material-list-item-secondary {
+  color: rgba(0, 0, 0, 0.38);
+}
+.group-header ::ng-deep .submenu-icon {
+  transform: rotate(-90deg);
+}
+.group-header.is-collapsible {
+  cursor: pointer;
+}
+
+.expansion-icon {
+  align-items: center;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.menu-item {
+  display: block;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 32px;
+  padding: 0 24px;
+  position: relative;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  outline: none;
+}
+.menu-item.disabled {
+  pointer-events: none;
+}
+.menu-item ::ng-deep .material-list-item-primary {
+  color: rgba(0, 0, 0, 0.54);
+  width: 40px;
+}
+.menu-item.disabled ::ng-deep .material-list-item-primary {
+  color: rgba(0, 0, 0, 0.38);
+}
+.menu-item ::ng-deep .material-list-item-secondary {
+  color: rgba(0, 0, 0, 0.54);
+  margin-left: auto;
+}
+.menu-item.disabled ::ng-deep .material-list-item-secondary {
+  color: rgba(0, 0, 0, 0.38);
+}
+.menu-item ::ng-deep .submenu-icon {
+  transform: rotate(-90deg);
+}
+.menu-item:not([separator=present]):hover, .menu-item:not([separator=present]):focus, .menu-item:not([separator=present]).active {
+  background: #eeeeee;
+}
+.menu-item:not([separator=present]).disabled {
+  background: none;
+  color: rgba(0, 0, 0, 0.38);
+  cursor: default;
+  pointer-events: all;
+}
+.menu-item material-icon.disabled {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+:host-context([dir=rtl]) .group-header ::ng-deep .submenu-icon, :host-context([dir=rtl]) .menu-item ::ng-deep .submenu-icon {
+  transform: rotate(90deg);
+}
+
+.menu-item.active ::ng-deep .secondary-icon.hover-icon {
+  opacity: inherit;
+}
+
+.mouse-driven .menu-item:not(:hover) {
+  background-color: inherit;
+}
+.mouse-driven .menu-item:hover ::ng-deep .secondary-icon.hover-icon {
+  opacity: inherit;
+}
+
+.keyboard-driven .menu-item:not(.active) {
+  background-color: inherit;
+}
+.keyboard-driven .menu-item.is-menu-parent {
+  background: #eeeeee;
+}
+
+.group:not(.empty):not(:first-child) {
+  border-top: 1px solid #e0e0e0;
+  margin-top: 7px;
+  padding-top: 8px;
+}
+
+.menu-item-label {
+  flex: 1;
+}
+
+.item-group-list {
+  padding: 8px 0;
+}
+
+.suffix-list {
+  margin-left: 24px;
+}

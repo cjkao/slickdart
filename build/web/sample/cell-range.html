@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Slickdart</title>
+
+     <link rel="stylesheet" href="../packages/slickdart/slick.grid.css" type="text/css"/>
+     <link rel="stylesheet" href="../packages/slickdart/slick_default_theme.css" type="text/css"/>
+     <script src="../packages/slickdart/src/plugin/copy/Clipboard.min.js"></script>
+
+  </head>
+  <body>
+
+<div style="width:600px; height:600px">
+        <button id='reset'>reset to 500k row</button>
+        <button id='del'>del row</button>
+        <input type='checkbox' id='check-multi'>mutiple select
+        <ul>
+        <li>use shift key to select consecutive rows
+        <li>use cmd key or checkbox to select mutiple rows
+        <li>checked row won't reflex change if direct insert row before any checked one
+        <li>assign new data will reset selected rows
+        <li>reordered row also change selected rows
+        </ul>
+
+        <p>
+
+        <div class="grid-header" style="width:100%">
+            <label>No multiple select case</label>
+        </div>
+        <div id="grid" style="width:100%;height:90%;border:1px solid gray"></div>
+</div>
+    <script type="application/javascript" src="cell_range.dart.js"></script>
+    <script src="ga.js"></script>
+  </body>
+
+</html>

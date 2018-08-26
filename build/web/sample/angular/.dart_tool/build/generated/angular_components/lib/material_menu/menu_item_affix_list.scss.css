@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+:host:hover ::ng-deep .secondary-icon.hover-icon {
+  opacity: inherit;
+}
+
+.material-list-item-primary.caption-text {
+  margin: 0 8px;
+}
+
+.material-list-item-primary.secondary-icon {
+  transition: color 218ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 24px;
+}
+.material-list-item-primary.secondary-icon:not(.disabled):hover {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.secondary-icon.hover-icon {
+  opacity: 0;
+  transition: opacity 218ms cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,26 @@
+  <material-list *deferredContent>
+    <div *ngIf="hasHero()"><img src="data/{{hero.id}}.png"></div>
+    <div group class="mat-drawer-spacer">{{title}}
+
+    </div>
+    <div group>
+      <material-list-item>
+        <material-icon icon="inbox"></material-icon>Inbox
+      </material-list-item>
+      <material-list-item (click)="gotoGrid()">
+        <material-icon icon="grid_on"  ></material-icon>Grid
+      </material-list-item>
+      <material-list-item (click)="gotoMulti()">
+        <material-icon icon="send"></material-icon>View Multi
+      </material-list-item>
+      <material-list-item>
+        <material-icon icon="drafts"></material-icon>Drafts
+      </material-list-item>
+    </div>
+    <div group>
+      <div label>Tags</div>
+      <material-list-item>
+        <material-icon icon="star"></material-icon>Favorites
+      </material-list-item>
+    </div>
+  </material-list>

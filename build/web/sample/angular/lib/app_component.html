@@ -1,0 +1,41 @@
+<material-drawer  persistent #drawer="drawer"
+    [class.custom-width]="customWidth"
+    [attr.end]="end ? '' : null" >
+    <my-drawer></my-drawer>
+</material-drawer>
+<div class="material-content">
+  <header class="material-header shadow">
+  <div class="material-header-row">
+    <material-button icon
+        class="material-drawer-button" (trigger)="drawer.toggle()">
+      <material-icon icon="menu"></material-icon>
+    </material-button>
+    <span class="material-header-title">Simple Layout</span>
+    <div class="material-spacer"></div>
+    <nav class="material-navigation">
+        <a [routerLink]="routes.multi.toUrl()"
+        routerLinkActive="active-route">multi</a>
+    </nav>
+    <nav class="material-navigation">
+      <a [routerLink]="routes.heroes.toUrl()"
+      routerLinkActive="active-route">Heroes</a>
+    </nav>
+    <nav class="material-navigation">
+      <a>Link 3</a>
+    </nav>
+    </div>
+  </header>
+  <h1>{{title}}</h1>
+  <router-outlet [routes]="routes.all"></router-outlet>
+
+
+  <div class="controls">
+    <h3>Options</h3>
+    <material-toggle [(checked)]="end" label="end">
+    </material-toggle>
+    <material-toggle [(checked)]="customWidth" label="custom width">
+    </material-toggle>
+  </div>
+
+
+</div>

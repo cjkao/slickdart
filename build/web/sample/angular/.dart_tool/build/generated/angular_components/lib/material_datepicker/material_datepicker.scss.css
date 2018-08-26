@@ -1,0 +1,116 @@
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 344px;
+  font-size: 13px;
+}
+.popup-content.compact {
+  width: 260px;
+}
+
+material-calendar-picker, .calendar-placeholder {
+  height: 384px;
+}
+material-calendar-picker.compact, .calendar-placeholder.compact {
+  height: 288px;
+}
+
+material-calendar-picker.num-week-rows-6, .calendar-placeholder.num-week-rows-6 {
+  height: 336px;
+}
+material-calendar-picker.num-week-rows-6.compact, .calendar-placeholder.num-week-rows-6.compact {
+  height: 252px;
+}
+
+material-calendar-picker.num-week-rows-7, .calendar-placeholder.num-week-rows-7 {
+  height: 384px;
+}
+material-calendar-picker.num-week-rows-7.compact, .calendar-placeholder.num-week-rows-7.compact {
+  height: 288px;
+}
+
+material-calendar-picker.num-week-rows-8, .calendar-placeholder.num-week-rows-8 {
+  height: 432px;
+}
+material-calendar-picker.num-week-rows-8.compact, .calendar-placeholder.num-week-rows-8.compact {
+  height: 324px;
+}
+
+material-calendar-picker.num-week-rows-9, .calendar-placeholder.num-week-rows-9 {
+  height: 480px;
+}
+material-calendar-picker.num-week-rows-9.compact, .calendar-placeholder.num-week-rows-9.compact {
+  height: 360px;
+}
+
+material-calendar-picker.num-week-rows-10, .calendar-placeholder.num-week-rows-10 {
+  height: 528px;
+}
+material-calendar-picker.num-week-rows-10.compact, .calendar-placeholder.num-week-rows-10.compact {
+  height: 396px;
+}
+
+material-calendar-picker.num-week-rows-11, .calendar-placeholder.num-week-rows-11 {
+  height: 576px;
+}
+material-calendar-picker.num-week-rows-11.compact, .calendar-placeholder.num-week-rows-11.compact {
+  height: 432px;
+}
+
+material-calendar-picker.num-week-rows-12, .calendar-placeholder.num-week-rows-12 {
+  height: 624px;
+}
+material-calendar-picker.num-week-rows-12.compact, .calendar-placeholder.num-week-rows-12.compact {
+  height: 468px;
+}
+
+.date-input {
+  box-sizing: border-box;
+  display: flex;
+  padding: 0 24px;
+}
+.date-input material-input {
+  padding: 0;
+}
+
+.popup-content.compact .date-input {
+  padding: 0 20px;
+}
+
+.icon {
+  opacity: 0.54;
+}
+
+.menu-lookalike {
+  width: 176px;
+}
+.menu-lookalike ::ng-deep .icon {
+  margin-left: 16px;
+}
+
+material-select-item {
+  box-sizing: border-box;
+  width: 344px;
+  font-size: inherit;
+}
+
+.preset-dates-wrapper {
+  padding: 16px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.primary-label {
+  font-size: 12px;
+}
+
+.inner-label-wrapper {
+  color: #4285f4;
+  font-size: 12px;
+  padding: 16px 24px;
+  padding-bottom: 8px;
+}
+:host(.compact) .inner-label-wrapper {
+  padding: 16px 20px;
+  padding-bottom: 0;
+}

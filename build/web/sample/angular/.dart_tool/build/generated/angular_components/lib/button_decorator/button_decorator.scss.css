@@ -1,0 +1,6 @@
+[buttonDecorator] {
+  cursor: pointer;
+}
+[buttonDecorator].is-disabled {
+  cursor: not-allowed;
+}

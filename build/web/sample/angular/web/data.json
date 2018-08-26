@@ -1,0 +1,50 @@
+{
+    "dep": "12A01",
+    "emps": [
+        "A",
+        "B",
+        "C"
+    ],
+    "heros": [
+        {
+            "name": "Errig",
+            "power": "The Rabbit Slayer",
+            "mana": "Lord Of The White"
+        },
+        {
+            "name": "Jilrys",
+            "power": "The death loard",
+            "mana": "Geena Davis, The Lord Of The Tea"
+        },
+        {
+            "name": "Gezzys",
+            "power": "Destroyer Of Life",
+            "mana": "Randy Couture, The Black"
+        },
+        {
+            "name": "Cighesdor",
+            "power": "Braveheart",
+            "mana": "Lord Of The Thunder"
+        },
+        {
+            "name": "Aquaman",
+            "power": "Hercules",
+            "mana": "Tom Cruise, Jack Reacherd"
+        },
+        {
+            "name": "Captain Come",
+            "power": "Ice",
+            "mana": "Bourne"
+        },
+        {
+            "name": "Daredevil",
+            "power": "Gateway",
+            "mana": "Shooter"
+        },
+        {
+            "name": "Flaming",
+            "power": "Havok",
+            "mana": "Lord Of The Ass"
+        }
+    ]
+}

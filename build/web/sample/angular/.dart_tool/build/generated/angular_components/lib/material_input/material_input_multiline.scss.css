@@ -1,0 +1,11 @@
+.mirror-text {
+  visibility: hidden;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.line-height-measure {
+  visibility: hidden;
+  position: absolute;
+}

@@ -1,0 +1,86 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  height: 32px;
+  cursor: pointer;
+}
+.container.is-disabled {
+  cursor: not-allowed;
+}
+.container.is-disabled .knob-real {
+  background-color: #757575;
+}
+.container.is-disabled .knob:focus .knob-hover-shadow,
+.container.is-disabled .knob:hover .knob-hover-shadow {
+  display: none;
+}
+.container.is-disabled .left-track-container > .track {
+  background-color: #757575;
+}
+.container.is-disabled .right-track-container > .track {
+  background-color: #bdbdbd;
+}
+
+.track-container {
+  align-items: center;
+  display: flex;
+  height: 4px;
+}
+
+.track {
+  height: 2px;
+  width: 100%;
+}
+
+.left-track-container > .track {
+  background-color: #4285f4;
+}
+
+.right-track-container > .track {
+  background-color: #9e9e9e;
+}
+
+.knob {
+  height: 16px;
+  position: relative;
+  width: 0;
+}
+
+.knob-real {
+  background-color: #4285f4;
+  border-radius: 50%;
+  height: 16px;
+  position: absolute;
+  width: 16px;
+}
+
+.knob-hover-shadow {
+  border-radius: 50%;
+  height: 32px;
+  margin: -8px;
+  position: absolute;
+  transition: background-color 0.5s linear;
+  width: 32px;
+}
+
+.knob-drag-shadow {
+  border-radius: 50%;
+  height: 20px;
+  margin: -2px;
+  position: absolute;
+  width: 20px;
+}
+
+.is-dragging.knob-drag-shadow {
+  background-color: #4285f4;
+}
+
+.knob:focus,
+.knob:hover {
+  outline: none;
+}
+.knob:focus .knob-hover-shadow,
+.knob:hover .knob-hover-shadow {
+  background-color: rgba(66, 133, 244, 0.5);
+}

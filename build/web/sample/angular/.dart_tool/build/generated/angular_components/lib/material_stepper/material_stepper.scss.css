@@ -1,0 +1,185 @@
+:host {
+  display: block;
+}
+
+.step-line {
+  border-color: #bdbdbd;
+  border-style: solid;
+  position: absolute;
+}
+.step-line[orientation=horizontal] {
+  border-width: 1px 0 0;
+  height: 0;
+  top: 14px;
+  right: 8px;
+}
+.step-line[orientation=horizontal][size=default] {
+  width: 64px;
+}
+.step-line[orientation=horizontal][size=mini] {
+  width: 24px;
+}
+.step-line[orientation=vertical] {
+  border-width: 0 1px 0 0;
+  height: 100%;
+  left: 13px;
+  top: 27px;
+  width: 0;
+}
+.step-line[orientation=vertical][last=true] {
+  height: 0;
+}
+
+.stepper[orientation=horizontal] {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.stepper[orientation=vertical] {
+  display: inline-block;
+}
+.stepper[orientation=vertical][size=default] {
+  display: block;
+}
+.stepper[orientation=vertical][size=mini] {
+  max-width: 400px;
+}
+
+.stepper-step-index {
+  border: 2px solid #fff;
+  border-radius: 100%;
+  box-sizing: content-box;
+  color: #fff;
+  cursor: default;
+  font-size: 13px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  width: 24px;
+}
+.stepper-step-index[orientation=horizontal] {
+  flex-shrink: 0;
+}
+.stepper-step-index[orientation=vertical] {
+  position: absolute;
+}
+.stepper-step-index[active=true] {
+  background-color: #4285f4;
+}
+.stepper-step-index[active=false] {
+  background-color: #9e9e9e;
+}
+.stepper-step-index[complete=true] {
+  background-color: #4285f4;
+}
+
+.stepper-step {
+  box-sizing: border-box;
+  cursor: default;
+  outline-width: 0;
+  position: relative;
+}
+.stepper-step[orientation=horizontal] {
+  display: flex;
+  flex-direction: row;
+}
+.stepper-step[orientation=vertical] {
+  padding-bottom: 40px;
+  width: auto;
+}
+.stepper-step[orientation=vertical][active=false][selectable=true]:hover {
+  background-color: #eeeeee;
+}
+.stepper-step[orientation=vertical][active=false][selectable=true]:hover .edit-icon {
+  color: #616161;
+}
+
+.stepper-step-header {
+  box-sizing: border-box;
+}
+.stepper-step-header[orientation=horizontal] {
+  margin: 5px 80px 0 0;
+  padding-left: 8px;
+  flex-shrink: 0;
+}
+.stepper-step-header[orientation=horizontal][size=mini] {
+  margin-right: 40px;
+}
+.stepper-step-header[orientation=vertical] {
+  height: 100%;
+  margin: 0 0 0 40px;
+  padding: 5px 64px 0 0;
+}
+.stepper-step-header .edit-icon {
+  display: none;
+}
+.stepper-step-header .edit-icon[orientation=vertical][size=default] {
+  display: inherit;
+  padding-left: 16px;
+  vertical-align: sub;
+}
+.stepper-step-header .edit-icon[orientation=vertical][size=default] ::ng-deep .material-icon-i {
+  font-size: 16px;
+}
+
+.stepper-step-name {
+  font-size: 15px;
+  font-weight: 400;
+  color: #000;
+  margin: 0 auto;
+}
+.stepper-step-name[active=true] {
+  font-weight: 500;
+}
+.stepper-step-name[active=false] {
+  color: #9e9e9e;
+}
+.stepper-step-name[complete=true] {
+  color: #000;
+}
+
+.stepper-content[orientation=vertical][size=default] {
+  padding-left: 40px;
+}
+.stepper-content[orientation=vertical][size=mini] {
+  display: inline-block;
+  top: 0;
+  vertical-align: top;
+}
+
+.stepper-step-optional {
+  font-size: 15px;
+  font-weight: 400;
+  color: #bdbdbd;
+  text-align: center;
+  width: 80px;
+}
+.stepper-step-optional[orientation=horizontal] {
+  font-size: 12px;
+  font-weight: 400;
+}
+.stepper-step-optional[orientation=horizontal][optional=false] {
+  width: 0;
+}
+.stepper-step-optional[orientation=vertical] {
+  float: right;
+}
+.stepper-step-optional[orientation=vertical][size=mini] {
+  float: none;
+}
+
+.stepper-step-summary {
+  font-size: 12px;
+  font-weight: 400;
+  color: #757575;
+  padding-top: 16px;
+}
+
+.can-select {
+  cursor: pointer;
+}
+
+.button-container {
+  display: block;
+  padding-top: 24px;
+}

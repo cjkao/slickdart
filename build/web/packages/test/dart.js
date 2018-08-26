@@ -3,9 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // This script runs in HTML files and loads the corresponding test scripts for
-// either Dartium or a JS browser. It's used by "pub serve" and user-authored
-// HTML files; when running without "pub serve", the default HTML file manually
-// chooses between serving a Dart or JS script tag.
+// a JS browser. It's used by "pub serve" and user-authored HTML files;
 window.onload = function() {
 
 // Sends an error message to the server indicating that the script failed to
@@ -18,6 +16,11 @@ var sendLoadException = function(message) {
     "data": [0, {"type": "loadException", "message": message}]
   }, window.location.origin);
 }
+
+// Listen for dartLoadException events and forward to the server.
+window.addEventListener('dartLoadException', function(e) {
+  sendLoadException(e.detail);
+});
 
 // The basename of the current page.
 var name = window.location.href.replace(/.*\//, '').replace(/#.*/, '');
@@ -48,13 +51,7 @@ if (link.href == '') {
 
 var script = document.createElement('script');
 
-// Load the compiled JS for a normal browser, and the Dart code for Dartium.
-if (navigator.userAgent.indexOf('(Dart)') === -1) {
-  script.src = link.href + '.browser_test.dart.js';
-} else {
-  script.src = link.href + '.browser_test.dart';
-  script.type = 'application/dart';
-}
+script.src = link.href + '.browser_test.dart.js';
 
 script.onerror = function(event) {
   var message = "Failed to load script at " + script.src +

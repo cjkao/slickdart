@@ -1,0 +1,24 @@
+<h2>Heroes Grid</h2>
+<material-button (trigger)="hideGrid()">
+  <material-icon icon="lightbulb_outline"></material-icon>
+  hide and change grid
+</material-button>
+<material-button (trigger)="updateRec()">
+  <material-icon icon="create"></material-icon>
+  update data
+</material-button>
+
+<!--  *ngIf="showGrid" -->
+<div [hidden]="showGrid">
+
+  <cj-grid #grid style='height:50vh' class='second'>
+    <style>
+      .slick-cell-checkboxsel input {
+        transform: scale(2);
+
+      }
+    </style>
+  </cj-grid>
+  {{curValue["gss_code"]}}
+  <material-input [(ngModel)]='curValue["gss_code"]'></material-input>
+</div>

@@ -1,0 +1,13 @@
+:host:hover material-icon, :host:focus material-icon {
+  color: #3367d6;
+}
+:host material-icon {
+  color: rgba(0, 0, 0, 0.54);
+  cursor: pointer;
+}
+:host.acx-theme-dark:hover material-icon, :host.acx-theme-dark:focus material-icon {
+  color: #fff;
+}
+:host.acx-theme-dark material-icon {
+  color: #fff;
+}

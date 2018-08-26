@@ -1,0 +1,95 @@
+material-fab.invisible {
+  opacity: 0;
+}
+
+.close-menu {
+  height: 56px;
+  background-color: #eeeeee;
+}
+.close-menu:hover {
+  background-color: #eeeeee;
+}
+.close-menu:hover .close-icon {
+  opacity: 1;
+}
+
+.close-icon {
+  opacity: 0.54;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+}
+
+.menu-content {
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  overflow: hidden;
+  transition: border-radius 130ms cubic-bezier(0.4, 0, 0.2, 1), width 218ms cubic-bezier(0, 0, 0.2, 1);
+  height: 56px;
+  max-height: 100vh;
+  width: 56px;
+}
+.menu-content[animated] {
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.menu-content[elevation="1"] {
+  /*! @noflip */
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+.menu-content[elevation="2"] {
+  /*! @noflip */
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+.menu-content[elevation="3"] {
+  /*! @noflip */
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+}
+.menu-content[elevation="4"] {
+  /*! @noflip */
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+.menu-content[elevation="5"] {
+  /*! @noflip */
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+.menu-content[elevation="6"] {
+  /*! @noflip */
+  box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+}
+.menu-content ::ng-deep .menu-item-label {
+  white-space: normal;
+  line-height: 1.25em;
+}
+.menu-content.visible {
+  border-radius: 2px;
+  height: auto;
+  width: 240px;
+}
+.menu-content.visible.has-icons {
+  width: 280px;
+}
+.menu-content.closing {
+  transition: border-radius 218ms cubic-bezier(0, 0, 0.2, 1), width 130ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content-wrapper {
+  flex: 1;
+  opacity: 0;
+  overflow: auto;
+  transition: opacity 218ms cubic-bezier(0, 0, 0.2, 1);
+}
+.content-wrapper menu-item-groups ::ng-deep .menu-item {
+  height: 56px;
+}
+.content-wrapper.visible {
+  opacity: 1;
+}
+.content-wrapper.closing {
+  transition: opacity 130ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.menu-groups {
+  padding: 8px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}

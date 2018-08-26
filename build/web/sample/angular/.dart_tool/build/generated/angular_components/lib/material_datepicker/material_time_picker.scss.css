@@ -1,0 +1,19 @@
+:host dropdown-button {
+  width: 144px;
+}
+:host dropdown-button ::ng-deep .icon {
+  margin-left: 16px;
+}
+:host dropdown-button .button-text {
+  padding-left: 24px;
+}
+
+.time-input-box {
+  width: 144px;
+}
+.time-input-box ::ng-deep .bottom-section {
+  padding: 0 0 0 8px;
+}
+.time-input-box ::ng-deep .top-section {
+  padding: 8px 32px 8px 24px;
+}

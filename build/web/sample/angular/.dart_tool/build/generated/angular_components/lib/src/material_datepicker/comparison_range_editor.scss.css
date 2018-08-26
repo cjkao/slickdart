@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.comparison-toggle-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+  height: 32px;
+  padding: 0 16px;
+}
+
+.comparison-toggle {
+  display: inline-flex;
+}
+
+.comparison-option-dropdown {
+  flex-grow: 1;
+  display: inline-block;
+  padding: 0 8px;
+  position: relative;
+}
+
+material-select-item {
+  font-size: inherit;
+}
+
+.fake-popup {
+  background-color: #fff;
+  left: 0;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}

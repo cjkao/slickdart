@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="bootstrap.css" rel="stylesheet" media="screen">
+    <style>
+        cj-grid {
+            height: 400px;
+            margin: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="application/javascript" src="cust_meta.dart.js"></script>
+    <div class='container'>
+        <div class='row'>
+            Experiment for meta data rendering for specific row
+        </div>
+        <div class='row'>
+            <div class='col-xs-12'>
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label class="sr-only">Gs Code</label>
+                            <div class="input-group-addon">GS_CODE@</div>
+                            <input type="text" class="form-control inputgs" placeholder="Enter GS Code to pin color" value='101'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="input-group">
+                            <label class="sr-only" for="">Color</label>
+                            <div class="input-group-addon">Color@</div>
+                            <input type="text" class="form-control" placeholder="color" value='yellow'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="">Reset</label>
+                        <input class="empty btn btn-default" type="button" value="clean selection">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Panel 1, bind surface</div>
+                    <div class="panel-body">
+                        <cj-grid style='width:100%;' class='second'>
+                            <style>
+                                input.editor-text {
+                                    width: 100%;
+                                    height: 100%;
+                                    border: 0;
+                                    margin: 0;
+                                    background: transparent;
+                                    outline: 0;
+                                    padding: 0;
+                                }
+
+                                div.slick-row.highlight {
+                                    background-color: pink;
+                                }
+                            </style>
+                        </cj-grid>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='right-pane'></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="ga.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+.options-pane {
+  flex: 1;
+  padding: 16px;
+  background: #e0e0e0;
+}
+.options-pane material-checkbox {
+  margin-left: 0;
+}

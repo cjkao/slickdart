@@ -1,0 +1,314 @@
+:host ::ng-deep {
+  line-height: 48px;
+  user-select: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.87);
+  contain: content;
+}
+:host ::ng-deep .header-day {
+  width: 48px;
+  height: 48px;
+}
+:host ::ng-deep .scroll-container {
+  width: 344px;
+}
+:host ::ng-deep .calendar-container {
+  width: 336px;
+}
+:host ::ng-deep .month {
+  width: 336px;
+  height: 288px;
+}
+:host ::ng-deep .month-title {
+  width: 144px;
+  height: 48px;
+  padding-left: 16px;
+}
+:host ::ng-deep .day-slot {
+  width: 48px;
+  height: 48px;
+}
+:host ::ng-deep .day-slot.left::before {
+  border-left-width: 24px;
+}
+:host ::ng-deep .day-slot.right::before {
+  border-right-width: 24px;
+}
+:host ::ng-deep .day-slot.today::after, :host ::ng-deep .day-slot.hover::after, :host ::ng-deep .day-slot.boundary::after {
+  line-height: 44px;
+}
+:host ::ng-deep .day-slot.left.left-preview::before {
+  border-left-width: 0;
+  box-shadow: inset 24px 0 0 #fff;
+}
+:host ::ng-deep .day-slot.right.right-preview::before {
+  border-right-width: 0;
+  box-shadow: inset -24px 0 0 #fff;
+}
+:host ::ng-deep ::ng-deep ::-webkit-scrollbar {
+  background-color: rgba(0, 0, 0, 0);
+  height: 4px;
+  width: 4px;
+}
+:host ::ng-deep ::ng-deep ::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+:host ::ng-deep ::ng-deep ::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.26);
+  min-height: 48px;
+  min-width: 48px;
+}
+:host ::ng-deep ::ng-deep ::-webkit-scrollbar-thumb:hover {
+  background-color: #4285f4;
+}
+:host ::ng-deep ::ng-deep ::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+:host ::ng-deep ::ng-deep .highlight.highlight-default::before {
+  background: #c6dafc;
+}
+:host ::ng-deep ::ng-deep .left.left-default::before {
+  border-left-color: #c6dafc;
+}
+:host ::ng-deep ::ng-deep .right.right-default::before {
+  border-right-color: #c6dafc;
+}
+:host ::ng-deep ::ng-deep .boundary.highlight.highlight-default:not(.active):not(.hover)::after {
+  background: #c6dafc;
+}
+:host ::ng-deep ::ng-deep .boundary.boundary-default.active:not(.hover) {
+  color: #fff;
+}
+:host ::ng-deep ::ng-deep .boundary.boundary-default.active:not(.hover)::after {
+  background: #4285f4;
+}
+:host ::ng-deep ::ng-deep .highlight.highlight-range::before {
+  background: #c6dafc;
+}
+:host ::ng-deep ::ng-deep .left.left-range::before {
+  border-left-color: #c6dafc;
+}
+:host ::ng-deep ::ng-deep .right.right-range::before {
+  border-right-color: #c6dafc;
+}
+:host ::ng-deep ::ng-deep .boundary.highlight.highlight-range:not(.active):not(.hover)::after {
+  background: #c6dafc;
+}
+:host ::ng-deep ::ng-deep .boundary.boundary-range.active:not(.hover) {
+  color: #fff;
+}
+:host ::ng-deep ::ng-deep .boundary.boundary-range.active:not(.hover)::after {
+  background: #4285f4;
+}
+:host ::ng-deep ::ng-deep .highlight.highlight-comparison::before {
+  background: #fce8b2;
+}
+:host ::ng-deep ::ng-deep .left.left-comparison::before {
+  border-left-color: #fce8b2;
+}
+:host ::ng-deep ::ng-deep .right.right-comparison::before {
+  border-right-color: #fce8b2;
+}
+:host ::ng-deep ::ng-deep .boundary.highlight.highlight-comparison:not(.active):not(.hover)::after {
+  background: #fce8b2;
+}
+:host ::ng-deep ::ng-deep .boundary.boundary-comparison.active:not(.hover) {
+  color: rgba(0, 0, 0, 0.87);
+}
+:host ::ng-deep ::ng-deep .boundary.boundary-comparison.active:not(.hover)::after {
+  background: #f4b400;
+}
+:host ::ng-deep ::ng-deep .highlight.highlight-range.highlight-comparison::before {
+  background: #b7e1cd;
+}
+:host ::ng-deep ::ng-deep .left.left-range.left-comparison::before {
+  border-left-color: #b7e1cd;
+}
+:host ::ng-deep ::ng-deep .right.right-range.right-comparison::before {
+  border-right-color: #b7e1cd;
+}
+:host ::ng-deep ::ng-deep .boundary.highlight.highlight-range.highlight-comparison:not(.active):not(.hover)::after {
+  background: #b7e1cd;
+}
+:host ::ng-deep ::ng-deep .boundary.boundary-range.boundary-comparison.active:not(.hover) {
+  color: #fff;
+}
+:host ::ng-deep ::ng-deep .boundary.boundary-range.boundary-comparison.active:not(.hover)::after {
+  background: #0f9d58;
+}
+:host ::ng-deep .header-day {
+  display: inline-block;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.54);
+}
+:host ::ng-deep .scroll-container {
+  flex-grow: 1;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  will-change: transform;
+}
+:host ::ng-deep .calendar-container {
+  position: absolute;
+  top: 0;
+  /*! @noflip */
+  left: 0;
+  overflow: hidden;
+  contain: strict;
+}
+:host ::ng-deep .month {
+  position: absolute;
+  background: #fff;
+  top: 0;
+  /*! @noflip */
+  left: 0;
+  overflow: hidden;
+  counter-reset: day;
+  box-sizing: border-box;
+  will-change: transform;
+  contain: size layout paint;
+}
+:host ::ng-deep .month-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.54);
+  z-index: 1;
+  pointer-events: none;
+  contain: strict;
+  box-sizing: border-box;
+}
+:host ::ng-deep .day-slot {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: top;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 0;
+  contain: size layout paint;
+}
+:host ::ng-deep .day-slot::before, :host ::ng-deep .day-slot::after {
+  display: block;
+  position: absolute;
+  overflow: hidden;
+  box-sizing: border-box;
+  contain: strict;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+:host ::ng-deep .day-slot.invisible {
+  pointer-events: none;
+  color: transparent;
+}
+:host ::ng-deep .day-slot.disabled {
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.38);
+}
+:host ::ng-deep .day-slot.hidden {
+  visibility: hidden;
+}
+:host ::ng-deep .day-slot.boundary.start::before {
+  left: 50%;
+}
+:host ::ng-deep .day-slot.boundary.end::before {
+  right: 50%;
+}
+:host ::ng-deep .day-slot.boundary.left::before {
+  left: 0;
+  border-left-style: solid;
+}
+:host ::ng-deep .day-slot.boundary.right::before {
+  right: 0;
+  border-right-style: solid;
+}
+:host ::ng-deep .day-slot.highlight::before {
+  content: "";
+  top: 2px;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  z-index: -2;
+}
+:host ::ng-deep .day-slot.hover::after, :host ::ng-deep .day-slot.today::after, :host ::ng-deep .day-slot.boundary::after {
+  content: "";
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border-radius: 100%;
+  z-index: -1;
+}
+:host ::ng-deep .day-slot.today::after {
+  box-shadow: inset 0 0 0 1px #eeeeee;
+}
+:host ::ng-deep .day-slot.highlight-preview::before {
+  border-top: 1px dashed rgba(0, 0, 0, 0.38);
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.38);
+}
+:host ::ng-deep .day-slot.boundary-preview::after {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.38);
+}
+:host ::ng-deep .day-slot.hover::after {
+  background: #eeeeee;
+}
+:host ::ng-deep .calendar-container.not-firefox .day-slot.visible::after, :host ::ng-deep .calendar-container.not-firefox .day-slot.disabled::after {
+  counter-increment: day;
+  content: counter(day);
+}
+
+:host.compact ::ng-deep {
+  line-height: 36px;
+}
+:host.compact ::ng-deep .header-day {
+  width: 36px;
+  height: 36px;
+}
+:host.compact ::ng-deep .scroll-container {
+  width: 260px;
+}
+:host.compact ::ng-deep .calendar-container {
+  width: 252px;
+}
+:host.compact ::ng-deep .month {
+  width: 252px;
+  height: 216px;
+}
+:host.compact ::ng-deep .month-title {
+  width: 108px;
+  height: 36px;
+  padding-left: 12px;
+}
+:host.compact ::ng-deep .day-slot {
+  width: 36px;
+  height: 36px;
+}
+:host.compact ::ng-deep .day-slot.left::before {
+  border-left-width: 18px;
+}
+:host.compact ::ng-deep .day-slot.right::before {
+  border-right-width: 18px;
+}
+:host.compact ::ng-deep .day-slot.today::after, :host.compact ::ng-deep .day-slot.hover::after, :host.compact ::ng-deep .day-slot.boundary::after {
+  line-height: 32px;
+}
+:host.compact ::ng-deep .day-slot.left.left-preview::before {
+  border-left-width: 0;
+  box-shadow: inset 18px 0 0 #fff;
+}
+:host.compact ::ng-deep .day-slot.right.right-preview::before {
+  border-right-width: 0;
+  box-shadow: inset -18px 0 0 #fff;
+}
