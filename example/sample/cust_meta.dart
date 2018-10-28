@@ -21,7 +21,7 @@ main() {
     csv.columns[0]
       ..width = 14
       ..name = 'id';
-    gw0 = JGrid(document.querySelector("$GRID_TAG.second"));
+    gw0 = new JGrid(document.querySelector("$GRID_TAG.second"));
     gw0.init(new MetaList(csv.data, getMeta), cols);
     gw0.grid.setSelectionModel(new RowSelectionModel({}));
   });

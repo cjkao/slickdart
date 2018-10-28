@@ -232,7 +232,7 @@ class Column {
   }
 
   factory Column.fromJSON(String src) {
-    Map<String, dynamic> m = json.decode(src) as Map<String, dynamic>;
+    Map<String, dynamic> m = JSON.decode(src) as Map<String, dynamic>;
     return new Column.fromMap(m); //c._src..addAll(src) ;
   }
  

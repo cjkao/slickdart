@@ -7,7 +7,7 @@ import 'package:slickdart/plugin.dart';
 import 'dart:collection';
 
 cj.HierarchFilterList _data =
-    cj.HierarchFilterList.withKeyField("_parent", "id", "_collapsed");
+    new cj.HierarchFilterList.withKeyField("_parent", "id", "_collapsed");
 void main() {
   cj.SlickGrid grid = prepareGrid();
   grid.init();
@@ -28,9 +28,9 @@ void main() {
 List makeData(int len) {
 //  _data=[];
   var indent = 0;
-  Queue parents = Queue();
+  Queue parents = new Queue();
   ;
-  var rand = math.Random(1);
+  var rand = new math.Random(1);
   for (int i = 0; i < len; i++) {
     var row = {};
     _data.add(row);
@@ -67,21 +67,21 @@ List makeData(int len) {
 cj.SlickGrid prepareGrid() {
   Element el = querySelector('#grid');
   List<cj.Column> column = [
-    cj.Column.fromMap({
+    new cj.Column.fromMap({
       'field': "title",
       'name': "TASK",
       'width': 220,
       'sortable': false,
       'formatter': TaskNameFormatter
     }),
-    cj.Column.fromMap({
+    new cj.Column.fromMap({
       'field': "duration",
       'name': "A",
       'width': 60,
       'sortable': false,
       'editor': 'TextEditor'
     }),
-    cj.Column.fromMap({
+    new cj.Column.fromMap({
       'field': "percentComplete",
       'name': 'Complete Rate',
       'width': 140,
@@ -89,9 +89,9 @@ cj.SlickGrid prepareGrid() {
       'editor': 'DoubleEditor',
       'formatter': cj.PercentCompleteBarFormatter
     }),
-    cj.Column.fromMap({'field': "finish", 'name': "C"}),
-    cj.Column.fromMap({'field': "start", 'name': "D"}),
-    cj.Column.fromMap({'field': "effortDriven", 'name': "E", 'width': 200})
+    new cj.Column.fromMap({'field': "finish", 'name': "C"}),
+    new cj.Column.fromMap({'field': "start", 'name': "D"}),
+    new cj.Column.fromMap({'field': "effortDriven", 'name': "E", 'width': 200})
   ];
 //  cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
 //  column.insert(0,checkboxCol.getColumnDefinition());
@@ -105,10 +105,10 @@ cj.SlickGrid prepareGrid() {
     ..frozenColumn = 0
     ..enableColumnReorder = true;
 
-  cj.SlickGrid sg = cj.SlickGrid.fromOpt(el, makeData(50), column, opt);
-  sg.setSelectionModel(cj.RowSelectionModel({'selectActiveRow': false}));
+  cj.SlickGrid sg = new cj.SlickGrid.fromOpt(el, makeData(50), column, opt);
+  sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
 //  sg.registerPlugin(checkboxCol);
-  sg.registerPlugin(AutoTooltips());
+  sg.registerPlugin(new AutoTooltips());
 
   //sg.setSelectionModel(new CellSelectionModel(sg.options));
   //args: {rows:[...], grid: SlickGrid }

@@ -218,7 +218,7 @@ class IntEditor extends InputEditor {
 
   void applyValue(item, state) {
     item[_ep.columnDef.field] =
-        int.tryParse(state) ?? item[_ep.columnDef.field];
+        int.parse(state,onError: (_)=>item[_ep.columnDef.field])  ;
   }
 
   String serializeValue() => _input.value;
@@ -231,7 +231,7 @@ class IntEditor extends InputEditor {
 class DoubleEditor extends IntEditor {
   void applyValue(item, state) {
     item[_ep.columnDef.field] =
-        num.tryParse(state) ?? item[_ep.columnDef.field];
+        num.parse(state,(_)=>item[_ep.columnDef.field])  ;
   }
 
   DoubleEditor([_ep]) : super(_ep);

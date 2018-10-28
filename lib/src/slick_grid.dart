@@ -1313,7 +1313,7 @@ class SlickGrid {
       return "";
     }
     if (value is num || value is bool) return value.toString();
-    return htmlEscape.convert(value);
+    return const HtmlEscape().convert(value);
   }
 
   /**
@@ -1693,30 +1693,32 @@ class SlickGrid {
     var cstyle = el.getComputedStyle();
     if (el.style.boxSizing != "border-box") {
       _headerColumnWidthDiff +=
-          num.tryParse(cstyle.borderLeftWidth.replaceAll('px', '')).round() ??
+          num.parse(cstyle.borderLeftWidth.replaceAll('px', '')).round() ??
               0;
       _headerColumnWidthDiff += num
-              .tryParse(
+              .parse(
                 cstyle.borderRightWidth.replaceAll('px', ''),
+                (_)=> 0
               )
-              .round() ??
-          0;
+              .round() 
+          ;
       _headerColumnWidthDiff += num
               .parse(
                 cstyle.paddingLeft.replaceAll('px', ''),
+                (_)=>0
               )
-              .round() ??
-          0;
+              .round() 
+          ;
       _headerColumnWidthDiff +=
-          num.parse(cstyle.paddingRight.replaceAll('px', '')).round() ?? 0;
+          num.parse(cstyle.paddingRight.replaceAll('px', ''),(_)=>0).round() ;
       _headerColumnHeightDiff +=
-          num.parse(cstyle.borderTopWidth.replaceAll('px', '')).round() ?? 0;
+          num.parse(cstyle.borderTopWidth.replaceAll('px', ''),(_)=>0).round() ;
       _headerColumnHeightDiff +=
-          num.parse(cstyle.borderBottomWidth.replaceAll('px', '')).round() ?? 0;
+          num.parse(cstyle.borderBottomWidth.replaceAll('px', ''),(_)=>0).round() ;
       _headerColumnHeightDiff +=
-          num.parse(cstyle.paddingTop.replaceAll('px', '')).round() ?? 0;
+          num.parse(cstyle.paddingTop.replaceAll('px', ''),(_)=>0).round() ;
       _headerColumnHeightDiff +=
-          num.parse(cstyle.paddingBottom.replaceAll('px', '')).round() ?? 0;
+          num.parse(cstyle.paddingBottom.replaceAll('px', ''),(_)=>0).round() ;
     }
     el.remove();
     var r = _createElem($canvas.first, clz: 'slick-row');
@@ -1726,22 +1728,22 @@ class SlickGrid {
     _cellWidthDiff = _cellHeightDiff = 0;
     if (el.style.boxSizing != "border-box") {
       _cellWidthDiff +=
-          num.tryParse(cs2.borderLeftWidth.replaceAll('px', '')).round() ?? 0;
+          num.parse(cs2.borderLeftWidth.replaceAll('px', ''),(_)=>0).round() ;
       _cellWidthDiff +=
-          num.parse(cs2.borderRightWidth.replaceAll('px', '')).round() ?? 0;
+          num.parse(cs2.borderRightWidth.replaceAll('px', ''),(_)=>0).round() ;
       _cellWidthDiff +=
-          num.parse(cs2.paddingLeft.replaceAll('px', '')).round() ?? 0;
+          num.parse(cs2.paddingLeft.replaceAll('px', ''),(_)=>0).round() ;
       _cellWidthDiff +=
-          num.parse(cs2.paddingRight.replaceAll('px', '')).round() ?? 0;
+          num.parse(cs2.paddingRight.replaceAll('px', ''),(_)=>0).round() ;
 
       _cellHeightDiff +=
-          num.parse(cs2.borderTopWidth.replaceAll('px', '')).round() ?? 0;
+          num.parse(cs2.borderTopWidth.replaceAll('px', ''),(_)=>0).round() ;
       _cellHeightDiff +=
-          num.parse(cs2.borderBottomWidth.replaceAll('px', '')).round() ?? 0;
+          num.parse(cs2.borderBottomWidth.replaceAll('px', ''),(_)=>0).round() ;
       _cellHeightDiff +=
-          num.parse(cs2.paddingTop.replaceAll('px', '')).round() ?? 0;
+          num.parse(cs2.paddingTop.replaceAll('px', ''),(_)=>0).round() ;
       _cellHeightDiff +=
-          num.parse(cs2.paddingBottom.replaceAll('px', '')).round() ?? 0;
+          num.parse(cs2.paddingBottom.replaceAll('px', ''),(_)=>0).round() ;
     }
     r.remove();
 
@@ -1963,7 +1965,7 @@ class SlickGrid {
           'minPageX': minPageX,
           'maxPageX': maxPageX
         };
-        event.dataTransfer.setData("text", json.encode(dragInfo));
+        event.dataTransfer.setData("text", JSON.encode(dragInfo));
         this._colResizeInfo = dragInfo;
       });
 
@@ -2097,10 +2099,10 @@ class SlickGrid {
 
   int getVBoxDelta(Element $el) {
     var style = $el.getComputedStyle();
-    int delta = int.tryParse(style.borderTopWidth.replaceAll("px", '')) ?? 0;
-    delta += int.tryParse(style.borderBottomWidth.replaceAll('px', '')) ?? 0;
-    delta += int.tryParse(style.paddingTop.replaceAll('px', '')) ?? 0;
-    delta += int.tryParse(style.paddingBottom.replaceAll('px', '')) ?? 0;
+    int delta = int.parse(style.borderTopWidth.replaceAll("px", ''),onError:(_)=>0) ;
+    delta += int.parse(style.borderBottomWidth.replaceAll('px', ''),onError:(_)=>0) ;
+    delta += int.parse(style.paddingTop.replaceAll('px', ''),onError:(_)=>0) ;
+    delta += int.parse(style.paddingBottom.replaceAll('px', ''),onError:(_)=>0) ;
     return delta;
   }
 
@@ -2351,9 +2353,9 @@ class SlickGrid {
       CssStyleDeclaration csd = container.getComputedStyle();
       int height = core.Dimension.getCalcHeight(container);
       if (height == 0) height = viewportH;
-      int paddingTop = int.tryParse(csd.paddingTop.replaceAll('px', '')) ?? 0;
+      int paddingTop = int.parse(csd.paddingTop.replaceAll('px', ''),onError:(_)=>0) ;
       int paddingBottom =
-          int.tryParse(csd.paddingBottom.replaceAll('px', '')) ?? 0;
+          int.parse(csd.paddingBottom.replaceAll('px', ''),onError: (_)=>0) ;
       int headerScrollerHeight =
           core.Dimension.getCalcHeight($headerScroller.first);
       _viewportHeaderHeight = headerScrollerHeight == 0
@@ -3501,7 +3503,7 @@ class SlickGrid {
    
     for (var i = 0, ii = columns.length; i < ii; i++) {
 
-      var metaCell=MetaRowCfg();
+      var metaCell=new MetaRowCfg();
       if(metadata!=null){
          metaCell=(_data as MetaList).getCellCfg(row, columns[i].id);
           //TODO fix me

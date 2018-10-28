@@ -101,7 +101,7 @@ grid.SlickGrid init() {
 
 grid.TFormatter mySpecial= (int row, int cell, dynamic value, grid.Column columnDef, dataContext) {
     /**demo code for ser/deser */
-    var colStr = json.encode(columnDef);
+    var colStr = JSON.encode(columnDef);
     new grid.Column.fromJSON(colStr);
     /** end */
     return "$value";

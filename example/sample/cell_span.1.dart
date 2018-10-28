@@ -26,7 +26,7 @@ main() async {
     print('${rec.level.name}: ${rec.time}: ${rec.message}');
   });
   headerFormat = new Map<String, Map<String, dynamic>>.from(
-      json.decode(await HttpRequest.getString('cell_span_head.json')));
+      JSON.decode(await HttpRequest.getString('cell_span_head.json')));
   g.init();
   querySelector('#reset').onClick.listen((e) {
     List _data = genData(50000);

@@ -10,7 +10,7 @@ main() async {
   var cols = getColDefs(csv.columns);
   cols[1]..width=20..name='id';
   csv.columns[0]..width=14..name='id';
-  JGrid gw0 =JGrid( document.querySelector("$GRID_TAG"));
+  JGrid gw0 =new JGrid( document.querySelector("$GRID_TAG"));
 
 //  gw0.setStyle(""".slick-pane-top .slick-row {   background-color: #a9F9FF;    }""");
 //  gw0.setStyle(""".slick-pane-top .slick-row {   color: #11FF11;    }""");

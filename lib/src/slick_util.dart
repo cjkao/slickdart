@@ -384,7 +384,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
   void sort([int compare(T a, T b)]) => innerList.sort(compare);
   rowParFun getMetaRow(int rowId) => (String col) => getCellCfg(rowId, col);
   static rowParFun simpleRow() => (String col) {
-        return MetaRowCfg();
+        return new MetaRowCfg();
       };
   // scroll  performance sensitive
   // return max row span id from current row (for row cache clean up)
@@ -419,7 +419,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
         _preRenderforRowSpan[rowId + rowspan] = rowId;
       }
     }
-    return MetaRowCfg(colspan, rowspan, css);
+    return new MetaRowCfg(colspan, rowspan, css);
   }
 }
 
@@ -636,5 +636,5 @@ TFormatter get _defaultFormatter =>
         return "";
       }
       if (value is num || value is bool) return value.toString();
-      return htmlEscape.convert(value);
+      return const HtmlEscape().convert(value);
     };
