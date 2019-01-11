@@ -1,3 +1,5 @@
+# Version 0.1.9+1
+- fix polyfill webcomponent issue
 # Version 0.2.0 (2018.08)
 - Enable row span
 - fix defaultColumnWidth in GridOption
