@@ -80,7 +80,7 @@ class Column {
   Map<String, dynamic> _src = {};
   Function get asyncPostRender => _src['asyncPostRender'];
   bool get defaultSortAsc => _src['defaultSortAsc'];
-  Function get editor => _src['editor'];
+  Editor get editor => _src['editor'];
   bool get focusable => _src['focusable'];
   /**
    * Warning!!, it throw exception after serialize and deserialization with JSON
