@@ -18,7 +18,6 @@
 - [Editing](#editing)
 - [Simulate Row Split](#simulate-row-split)
 - [TODO](#todo)
-- [Cmds](#cmds)
 
 slickdart
 =========
@@ -256,8 +255,3 @@ TODO
 - [ ] keyboard navigation when focus on uneditable cell
 - [ ] adjust row height via mouse
 
-
-Cmds
-=======================
-dev mode
-```webdev serve  example```

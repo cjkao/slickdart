@@ -73,7 +73,7 @@ class JGrid {
   // List _tmpCols=[];
   SlickGrid grid;
   Element rmenu;
-  JGrid(this.he) {
+  JGrid([this.he]) {
     this.shadowRoot = he.attachShadow({"mode": 'open'});
 //    this.shadowRoot=he.createShadowRoot();//.shadowRoot;
     this.shadowRoot //= this.createShadowRoot()

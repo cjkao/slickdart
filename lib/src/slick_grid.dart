@@ -441,26 +441,7 @@ class SlickGrid {
   /// [idx] column index
   Map<String, CssStyleRule> getColumnCssRules(idx) {
     if (stylesheet == null) {
-      if (container.parent == null) {
-        //shadowRoot   && (container.parentNode as ShadowRoot).firstChild is StyleElement/
-        //  print('parent is null!!!!');
-        stylesheet = ((container.parentNode as ShadowRoot)
-                .querySelector('style#$_style_id') as StyleElement)
-            .sheet;
-      } else {
-        List<CssStyleSheet> sheets = [];
-        document.styleSheets.forEach((s) => sheets.add(s as CssStyleSheet));
-        for (int i = 0; i < sheets.length; i++) {
-          if (sheets[i]?.ownerNode == $style) {
-            //|| sheets[i].owningElement for IE8
-            stylesheet = sheets[i];
-            break;
-          }
-        }
-      }
-
-      //    stylesheet=$style;
-
+      stylesheet=$style.sheet;
       if (stylesheet == null) {
         throw new ArgumentError("Cannot find stylesheet.");
       }
@@ -3950,8 +3931,7 @@ class SlickGrid {
   // todo dynmic height , remove height
   void createCssRules() {
     $style = new StyleElement();
-    $style.id = _style_id;
-//      $style =  container.createFragment("<style type='text/css' rel='stylesheet' />", treeSanitizer : _treeSanitizer).children.first;
+    $style.id = _style_id +"_${new math.Random().nextInt(1000000)}";
     if (container.parent == null) {
       _log.finest('it is shadow');
       (container.parentNode as ShadowRoot).children.insert(0, $style);
