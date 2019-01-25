@@ -161,7 +161,6 @@ class Event  {
    */
   subscribe(EvtCallback fn) {
     handlers.add(fn);
-
   }
   /***
    * Removes an event handler added with <code>subscribe(fn)</code>.

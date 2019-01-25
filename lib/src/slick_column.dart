@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:math' as math;
 import 'slick_util.dart';
 import 'slick_grid.dart';
+import 'slick_editor.dart';
 import 'slick_core.dart' as core;
 import 'slick_util.dart' as util;
 import 'package:logging/logging.dart';
@@ -137,7 +138,7 @@ class Column {
     _src['defaultSortAsc'] = item;
   }
 
-  void set editor(Function item) {
+  void set editor(Editor item) {
     _src['editor'] = item;
   }
 
