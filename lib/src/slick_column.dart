@@ -71,11 +71,13 @@ class Column {
   ///
   GridOptions gridOption;
   bool useSysDefaultWidth=false;
+  final String NO_ID= "noid_";
   ///
   /// GridOption for formatter access
   ///
   Column() {
     _src.addAll(_columnDefaults);
+    _src["id"]= NO_ID + new math.Random().nextInt(10000000).toString();
   }
   Map<String, dynamic> _src = {};
   Function get asyncPostRender => _src['asyncPostRender'];
@@ -86,13 +88,15 @@ class Column {
    * Warning!!, it throw exception after serialize and deserialization with JSON
    * return type could be [String] or [TFormatter]
    */
-  TFormatter get formatter {
-    var tmp = _src['formatter'];
-    if (tmp is String) {
-      return gridOption?.formatterFactory[this.id];
-    }
-    return tmp;
-  }
+  TFormatter get formatter => _src['formatter'] is String ? gridOption?.formatterFactory[this.id] :  _src['formatter'];
+  
+  // () {
+  //   var tmp = _src['formatter'];
+  //   if (tmp is String) {
+  //     return gridOption?.formatterFactory[this.id];
+  //   }
+  //   return tmp;
+  // }
 
   String get headerCssClass => _src['headerCssClass'];
   String get cssClass => _src['cssClass'];
@@ -203,6 +207,10 @@ class Column {
 
   void set field(String item) {
     _src['field'] = item;
+    if(_src["id"]==null || _src["id"].toString().startsWith(NO_ID)){
+      _src["id"]='${_src['field']}-${new math.Random().nextInt(1000000)}';
+    }
+    if(_src["name"==null]) _src["name"]=_src["field"];
   }
 
   void set header(Map _) {
@@ -214,7 +222,7 @@ class Column {
   }
 
   /**
-   * [field] is attribute name in map object
+   * [field] is attribute name in map object, must exist for formatter to lookup in [GridOption]
    * [name] is display name on column header
    */
   factory Column.fromMap(Map<String, dynamic> src) {
@@ -377,9 +385,9 @@ class CheckboxSelectColumn extends Column with IPlugin {
         }
       };
 
-  /**
-     * args: {row: 3, cell: 4, grid: SlickGrid}
-     */
+  //
+  //   * args: {row: 3, cell: 4, grid: SlickGrid}
+  //
   core.EvtCallback get handleClick => (core.EventData evt, Map args) {
         // core.EventData evt;
         // if (e is core.EventData) {
