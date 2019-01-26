@@ -1,4 +1,7 @@
 
+# Version 0.2.0+3/0.1.9+3 (2019.01)
+- fix Column class to init id when set field
+
 # Version 0.2.0+2/0.1.9+2 (2019.01)
 - fix type error on column editor
 
