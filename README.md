@@ -15,7 +15,7 @@
 - [Collapsing use case](#collapsing-use-case)
 - [Cell Selection](#cell-selection)
 - [Programming select rows](#programming-select-rows)
-- [Editing](#editing)
+- [Cell Editor](#cell-editor)
 - [Simulate Row Split](#simulate-row-split)
 - [TODO](#todo)
 
@@ -56,6 +56,11 @@ var grid = new SlickGrid.fromOpt(el,data,[],opt);
 ```
 Formatter
 ====================
+Formatter adopt TFormatter function interface.
+```dart
+typedef TFormatter = String Function(
+    int row, int cell, dynamic value, Column columnDef, Map dataContext);
+```
 Specify formatter in inital columns will auto collect formatter to
 GridOption's [FormatterFactory],
 if dynamic swap column, and need special formatter Function,
@@ -167,7 +172,7 @@ Example: Bs3_tree.dart
 Cell Selection
 ================================================
 Support one selection area only, can not cross frozen area
-```
+```dart
     grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
     var cellSelectModel = new CellSelectionModel();
     cellSelectModel.onSelectedRangesChanged.subscribe((var e, args) {
@@ -178,15 +183,16 @@ Support one selection area only, can not cross frozen area
 
 Programming select rows
 ===============================================
-```
+```dart
 grid.setSelectedRows([rowIndex1,rowIndex2...etc]);
 grid.invalidate();
 ```
 
-Editing
+Cell Editor
 ==============================================
-* Commit Edit
-```
+Cell editor need to extend  `Editor` class, refer to slick_editor.dart file
+* Commit Edit cell
+```dart
 getEditorLock().commitCurrentEdit()
 // or
 commitCurrentEdit();
@@ -196,8 +202,8 @@ cancelEditAndSetFocus();
 
 ```
 
-* enable text selection
-```
+* Enable text selection
+```dart
 new GridOptions()..enableTextSelectionOnCells=true;
 ```
 
@@ -206,6 +212,36 @@ new GridOptions()..enableTextSelectionOnCells=true;
   2. cell defocused, `isValueChanged()` -> false -> make cell back to normal. if `isValueChanged()==true`, call `validate()` 
      1. if `validate()==false`, add `invalid` class to cell
      2. if `validate()=true`, generate Edit Command object and call `serialize()`, if GridOption provide editCommandHandler, call handler, else call `applyValue()` to update data row
+
+
+* Dropdown list Editor
+Drop down list editor within cell using standard input-select element, 
+see SelectListEditor. Constructor accept a map with format as {value: display_name,...}
+
+sample code:
+```dart
+  //enable editable in GridOption
+  new grid.GridOptions()..editable = true
+  //set editor for column
+  new Column()
+      ..field = "City"
+      // NY is value, "New York" is display name on the Select Option
+      ..editor = new SelectListEditor({"NY": "New York", "TPE": "Taipei"})
+      ..formatter =(int row, int cell, value, Column columnDef, Map dataContext)
+                 { return value=="NY" ? "NEW YORK" : "TAIPEI";}
+}
+```
+
+* Checkbox Editor
+A check box to reneder true/false value
+
+Sample code:
+```dart
+   new grid.Column.fromMap(
+        {'field': "...", 'editor': new CheckboxEditor(),  'formatter': CheckmarkFormatter}),
+```
+
+
 
 Simulate Row Split
 =================================
