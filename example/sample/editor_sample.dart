@@ -120,8 +120,15 @@ SlickGrid prepareGrid() {
 ///
 class DateEditor extends InputEditor {
   // Map _opts;
-
+  bool canEmpty=false;
   Map validate() {
+    var orgDate=($input as DateInputElement).value;
+    if(canEmpty && orgDate==""){
+        return {
+          'valid': true,
+          'msg': 'no value'
+        };
+    }
     var date = ($input as DateInputElement).valueAsDate;
     return {
       'valid': date.isAfter(new DateTime(2012, 01, 08)),
@@ -142,7 +149,7 @@ class DateEditor extends InputEditor {
   /**
    * opt: { option_value: option_display_name,....}
    */
-  DateEditor();
+  DateEditor({this.canEmpty=true});
 
   loadValue(item) {
     super.loadValue(item);
@@ -155,8 +162,8 @@ class DateEditor extends InputEditor {
   }
 
   String serializeValue() {
-    print(($input as DateInputElement).value);
-    //return '2013/09/16';
+    // print(($input as DateInputElement).value);
+    if(($input as DateInputElement).value=="") return "";
     return ($input as DateInputElement)
         .valueAsDate
         ?.toIso8601String()
@@ -170,7 +177,8 @@ class DateEditor extends InputEditor {
 
   bool isValueChanged() {
     var value = ($input as DateInputElement).value;
-    return value != '' && this.defaultValue != value;
+    return  this.defaultValue != value;
+    //return value != '' && this.defaultValue != value;
   }
 }
 

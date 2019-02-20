@@ -1,4 +1,7 @@
 
+# Version 0.2.0+4/0.1.9+3 (2019.01)
+- Add sample for DateEditor to accept empty string, see editor_sample.dart
+
 # Version 0.2.0+3/0.1.9+3 (2019.01)
 - fix Column class to init id when set field
 

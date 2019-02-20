@@ -201,6 +201,11 @@ cancelEditAndSetFocus();
 new GridOptions()..enableTextSelectionOnCells=true;
 ```
 
+* Editor Flow
+  1. click cell -> trigger `loadValue()`, `serialize()` value (for value change event)
+  2. cell defocused, `isValueChanged()` -> false -> make cell back to normal. if `isValueChanged()==true`, call `validate()` 
+     1. if `validate()==false`, add `invalid` class to cell
+     2. if `validate()=true`, generate Edit Command object and call `serialize()`, if GridOption provide editCommandHandler, call handler, else call `applyValue()` to update data row
 
 Simulate Row Split
 =================================
