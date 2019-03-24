@@ -10,69 +10,69 @@ import 'dart:async';
 import 'package:logging/logging.dart';
 Logger _log = new Logger('log.headermenu');
 typedef void MenuFun(MouseEvent e);
-/***
-   * A plugin to add drop-down menus to column headers.
-   *
-   * USAGE:
-   * To specify a menu in a column header, extend the column definition like so:
-   *
-   *   var columns = [
-   *     {
-   *       id: 'myColumn',
-   *       name: 'My column',
-   *
-   *       // This is the relevant part
-   *       header: {
-   *          menu: {
-   *              items: [
-   *                {
-   *                  // menu item options
-   *                },
-   *                {
-   *                  // menu item options
-   *                }
-   *              ]
-   *          }
-   *       }
-   *     }
-   *   ];
-   *
-   *
-   * Available menu options:
-   *    tooltip:      Menu button tooltip.
-   *
-   *
-   * Available menu item options:
-   *    title:        Menu item text.
-   *    disabled:     Whether the item is disabled.
-   *    tooltip:      Item tooltip.
-   *    command:      A command identifier to be passed to the onCommand event handlers.
-   *    iconCssClass: A CSS class to be added to the menu item icon.
-   *    iconImage:    A url to the icon image.
-   *
-   *
-   * The plugin exposes the following events:
-   *    onBeforeMenuShow:   Fired before the menu is shown.  You can customize the menu or dismiss it by returning false.
-   *        Event args:
-   *            grid:     Reference to the grid.
-   *            column:   Column class instance.
-   *            menu:     MenuItem List.  Note that you can change the menu items here.
-   *
-   *    onCommand:    Fired on menu item click for buttons with 'command' specified.
-   *        Event args:
-   *            grid:     Reference to the grid.
-   *            column:   Column definition.
-   *            command:  Button command identified.
-   *            button:   Button options.  Note that you can change the button options in your
-   *                      event handler, and the column header will be automatically updated to
-   *                      reflect them.  This is useful if you want to implement something like a
-   *                      toggle button.
-   *
-   *
-   * @param options {Object} Options:
-   *    buttonCssClass:   an extra CSS class to add to the menu button
-   *    buttonImage:      a url to the menu button image (default '../images/down.gif')
-   */
+///   
+///    A plugin to add drop-down menus to column headers.
+///   
+///    USAGE:
+///    To specify a menu in a column header, extend the column definition like so:
+///   
+///      var columns = [
+///        {
+///          id: 'myColumn',
+///          name: 'My column',
+///   
+///          // This is the relevant part
+///          header: {
+///             menu: {
+///                 items: [
+///                   {
+///                     // menu item options
+///                   },
+///                   {
+///                     // menu item options
+///                   }
+///                 ]
+///             }
+///          }
+///        }
+///      ];
+///   
+///   
+///    Available menu options:
+///       tooltip:      Menu button tooltip.
+///   
+///   
+///    Available menu item options:
+///       title:        Menu item text.
+///       disabled:     Whether the item is disabled.
+///       tooltip:      Item tooltip.
+///       command:      A command identifier to be passed to the onCommand event handlers.
+///       iconCssClass: A CSS class to be added to the menu item icon.
+///       iconImage:    A url to the icon image.
+///   
+///   
+///    The plugin exposes the following events:
+///       onBeforeMenuShow:   Fired before the menu is shown.  You can customize the menu or dismiss it by returning false.
+///           Event args:
+///               grid:     Reference to the grid.
+///               column:   Column class instance.
+///               menu:     MenuItem List.  Note that you can change the menu items here.
+///   
+///       onCommand:    Fired on menu item click for buttons with 'command' specified.
+///           Event args:
+///               grid:     Reference to the grid.
+///               column:   Column definition.
+///               command:  Button command identified.
+///               button:   Button options.  Note that you can change the button options in your
+///                         event handler, and the column header will be automatically updated to
+///                         reflect them.  This is useful if you want to implement something like a
+///                         toggle button.
+///   
+///   
+///    @param options {Object} Options:
+///       buttonCssClass:   an extra CSS class to add to the menu button
+///       buttonImage:      a url to the menu button image (default '../images/down.gif')
+///   /
 class HeaderMenu  extends IPlugin{
 
     Map<String,dynamic> _opt;
@@ -80,13 +80,13 @@ class HeaderMenu  extends IPlugin{
     HeaderMenu(this._opt){
 
     }
-    /**
-     * We can add or modify the menu here, or cancel it by returning false
-     */
+    /// 
+    /// We can add or modify the menu here, or cancel it by returning false
+    /// 
     core.Event onBeforeMenuShow = new core.Event();
     core.Event onCommand = new core.Event();
-    void set buttonCssClass (_) => _opt['buttonCssClass'] = _;
-    void set buttonImage    (_) => _opt['buttonImage']    = _;
+    set buttonCssClass (_) => _opt['buttonCssClass'] = _;
+    set buttonImage    (_) => _opt['buttonImage']    = _;
     String get buttonCssClass => _opt['buttonCssClass'];
     String get buttonImage => _opt['buttonImage'];
     String get tooltip => _opt['tooltip'];
@@ -135,11 +135,11 @@ class HeaderMenu  extends IPlugin{
         _$activeHeaderColumn.classes.remove("slick-header-column-active");
       }
     }
-    /**
-     * [e] Event
-     * [args] : {"node": $header,
-                 "column": Column}
-     */
+    ///  
+    ///  [e] Event
+    ///  [args] : {"node": $header,
+    ///            "column": Column}
+    ///  
     handleHeaderCellRendered(core.EventData e,Map args) {
       //_parent = args['column'];
 //      Map menu = {};
@@ -175,7 +175,7 @@ class HeaderMenu  extends IPlugin{
     _showMenu(Column column,MouseEvent e) {
      // var menu = $menuButton.data("menu");
      // var columnDef = $menuButton.data("column");
-      if(column.header.length==0) return;
+      if(column.header.isEmpty) return;
       core.EventData ed=new core.EventData.fromDom(e);
       // Let the user modify the menu or cancel altogether,
       // or provide alternative menu implementation.
@@ -273,14 +273,14 @@ class HeaderMenu  extends IPlugin{
 //      print('menu item click: ${e.target}');
 //    }
 }
-/**
- *  *    title:        Menu item text.
-   *    disabled:     Whether the item is disabled.
-   *    tooltip:      Item tooltip.
-   *    command:      A command identifier to be passed to the onCommand event handlers.
-   *    iconCssClass: A CSS class to be added to the menu item icon.
-   *    iconImage:    A url to the icon imag
- */
+///
+///   title:        Menu item text.
+///  disabled:     Whether the item is disabled.
+///  tooltip:      Item tooltip.
+///  command:      A command identifier to be passed to the onCommand event handlers.
+///  iconCssClass: A CSS class to be added to the menu item icon.
+///  iconImage:    A url to the icon imag
+///
 class MenuItem{
   Map<String,dynamic> _opt=<String,dynamic>{};
   bool disabled=false;
@@ -289,7 +289,7 @@ class MenuItem{
     if(_opt['title']==null) _opt['title']='';
   //  if(_opt['disabled']==null) _opt['disabled']=false;
   }
-  factory MenuItem.forMap({String title, String command:'', bool disabled:false,
+  factory MenuItem.forMap({String title, String command='', bool disabled=false,
                             String iconCssClass,String iconImage, String tooltip }){
     return new MenuItem({
       'title': title, 'command': command, 'disabled':disabled,
@@ -303,10 +303,10 @@ class MenuItem{
   String get iconImage =>    _opt['iconImage'];
   String get tooltip =>      _opt['tooltip'];
 
-  void set title          (_) => _opt['title']          = _;
-  void set command        (_) => _opt['command']        = _;
-  void set iconCssClass   (_) => _opt['iconCssClass']   = _;
-  void set iconImage      (_) => _opt['iconImage']      = _;
-  void set tooltip        (_) => _opt['tooltip']        = _;
+  set title          (_) => _opt['title']          = _;
+  set command        (_) => _opt['command']        = _;
+  set iconCssClass   (_) => _opt['iconCssClass']   = _;
+  set iconImage      (_) => _opt['iconImage']      = _;
+  set tooltip        (_) => _opt['tooltip']        = _;
  // set disabled       (bool _) => _opt['disabled']       = _;
 }

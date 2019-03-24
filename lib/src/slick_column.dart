@@ -45,7 +45,7 @@ class ColumnList extends ListBase<Column> {
   List innerList = new List();
   int get length => innerList.length;
 
-  void set length(int length) {
+  set length(int length) {
     innerList.length = length;
   }
 
@@ -129,102 +129,102 @@ class Column {
   }
 
   bool get cannotTriggerInsert => _src['cannotTriggerInsert'];
-  void set asyncPostRender(item) => _src['asyncPostRender'] = item;
-  void set toolTip(item) {
+  set asyncPostRender(item) => _src['asyncPostRender'] = item;
+  set toolTip(item) {
     _src['toolTip'] = item;
   }
 
-  void set cannotTriggerInsert(item) {
+  set cannotTriggerInsert(item) {
     _src['cannotTriggerInsert'] = item;
   }
 
-  void set defaultSortAsc(item) {
+  set defaultSortAsc(item) {
     _src['defaultSortAsc'] = item;
   }
 
-  void set editor(Editor item) {
+  set editor(Editor item) {
     _src['editor'] = item;
   }
 
-  void set focusable(bool item) {
+  set focusable(bool item) {
     _src['focusable'] = item;
   }
 
   ///  Give TFormatter only if in Grid initialize
   ///  [item] is String or [TFormatter]
   ///  give String and then assing in GridOption is better
-  void set formatter(dynamic item) {
+  set formatter(dynamic item) {
     _src['formatter'] = item;
   }
 
-  void set headerCssClass(String item) {
+  set headerCssClass(String item) {
     _src['headerCssClass'] = item;
   }
 
-  void set cssClass(String item) {
+  set cssClass(String item) {
     _src['cssClass'] = item;
   }
 
-  void set id(String item) {
+  set id(String item) {
     _src['id'] = item;
   } // "range"
 
-  void set previousWidth(int item) {
+  set previousWidth(int item) {
     _src['previousWidth'] = item;
   } // "range"
 
-  void set minWidth(int item) {
+  set minWidth(int item) {
     _src['minWidth'] = item;
   } //: 30
 
-  void set name(var item) {
+  set name(var item) {
     _src['name'] = item;
   } //: "Range"
 
-  void set rerenderOnResize(bool item) {
+  set rerenderOnResize(bool item) {
     _src['rerenderOnResize'] = item;
   }
 
-  void set resizable(bool item) {
+  set resizable(bool item) {
     _src['resizable'] = item;
   }
 
-  void set selectable(bool item) {
+  set selectable(bool item) {
     _src['selectable'] = item;
   }
 
-  void set sortable(bool item) {
+  set sortable(bool item) {
     _src['sortable'] = item;
   }
 
-  void set width(int item) {
+  set width(int item) {
     _src['width'] = item;
   }
 
-  void set maxWidth(int item) {
+  set maxWidth(int item) {
     _src['maxWidth'] = item;
   }
 
-  void set field(String item) {
+  set field(String item) {
     _src['field'] = item;
     if(_src["id"]==null || _src["id"].toString().startsWith(NO_ID)){
       _src["id"]='${_src['field']}-${new math.Random().nextInt(1000000)}';
     }
-    if(_src["name"==null]) _src["name"]=_src["field"];
+    if(_src["name"]==null) _src["name"]=_src["field"];
   }
 
-  void set header(Map _) {
+  set header(Map _) {
     _src['header'] = _;
   }
 
-  void set visible(bool item) {
+  set visible(bool item) {
     _src['visible'] = item;
   }
 
-  /**
-   * [field] is attribute name in map object, must exist for formatter to lookup in [GridOption]
-   * [name] is display name on column header
-   */
+  ///  
+  ///  [field] is attribute name in map object, must exist for formatter to lookup in [GridOption]
+  ///  [name] is display name on column header
+  ///  
   factory Column.fromMap(Map<String, dynamic> src) {
     Column c = new Column();
     if (src['id'] == null) {
@@ -283,9 +283,9 @@ class Column {
   }
 }
 
-/**
- * Virtual column that add to first column, including header as checkbox column
- */
+///  
+///  Virtual column that add to first column, including header as checkbox column
+///  
 class CheckboxSelectColumn extends Column with IPlugin {
   TFormatter checkboxSelectionFormatter() =>
       (int row, int cell, value, Column columnDef, dataContext) {
@@ -358,7 +358,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
         _selectedRowsLookup = lookup;
         _grid.render();
 
-        if (selectedRows.length > 0 &&
+        if (selectedRows.isNotEmpty &&
             selectedRows.length == _grid.getDataLength()) {
           _grid.updateColumnHeader(
               _options['columnId'],

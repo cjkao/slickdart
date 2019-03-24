@@ -128,7 +128,7 @@ class RowSelectionModel extends SelectionModel {
             return x - y;
           });
 
-          if (selectedRows.length == 0) {
+          if (selectedRows.isEmpty) {
             selectedRows = [activeRow['row']];
           }
 
@@ -184,7 +184,7 @@ class RowSelectionModel extends SelectionModel {
 //          return (o != cell['row']);
 //        });
             _grid.setActiveCell(cell['row'], cell['cell']);
-          } else if (selection.length > 0 && domEvt.shiftKey) {
+          } else if (selection.isNotEmpty && domEvt.shiftKey) {
             int last = selection.last;
             int from = math.min(cell['row'], last);
             int to = math.max(cell['row'], last);

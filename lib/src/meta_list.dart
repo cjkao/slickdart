@@ -1,12 +1,12 @@
 library slick.util;
 import 'slick_util.dart';
-import 'dart:html';
-import 'dart:math';
-import 'dart:collection';
-import 'package:logging/logging.dart';
-import 'slick_core.dart' as core;
-import 'dart:convert';
-import 'slick_column.dart' show TFormatter, Column;
+// import 'dart:html';
+// import 'dart:math';
+// import 'dart:collection';
+// import 'package:logging/logging.dart';
+// import 'slick_core.dart' as core;
+// import 'dart:convert';
+// import 'slick_column.dart' show TFormatter, Column;
 ///fixme
 ///
 class HeaderMergeMetaList<T> extends MetaList<T> {

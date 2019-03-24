@@ -44,7 +44,7 @@ List makeData(int len) {
       parents.removeLast();
     }
 
-    if (parents.length > 0) {
+    if (parents.isNotEmpty) {
       parent = parents.last;
     } else {
       parent = null;

@@ -64,7 +64,7 @@ grid.SlickGrid makeGrid() {
   grid.SlickGrid sg;
   Map<String, String> getMeta(int row) {
     Map item = sg.data[row];
-    bool exist = item.values.any((_) => searchStr.length > 0 && _ is String && _.contains(searchStr));
+    bool exist = item.values.any((_) => searchStr.isNotEmpty  && _ is String && _.contains(searchStr));
     if (exist) {
       return {"cssClasses": "highlight"};
     } else if (row % 2 == 5) {

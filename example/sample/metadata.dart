@@ -17,7 +17,7 @@ void main() {
       if (z.values.any((_) => _ is String && _.contains(searchStr))) return true;
       return false;
     }).toList();
-    if (newList.length > 0) {
+    if (newList.isNotEmpty) {
       print('list len: ${newList.length}');
       sg.data
         ..clear()
@@ -84,7 +84,7 @@ grid.SlickGrid makeGrid() {
   List tdata = []..addAll(srcData);
   Map<String, String> getMeta(int row) {
     Map item = sg.data[row];
-    bool exist = item.values.any((_) => searchStr.length > 0 && _ is String && _.contains(searchStr));
+    bool exist = item.values.any((_) => searchStr.isNotEmpty && _ is String && _.contains(searchStr));
     if (exist) {
       return {"cssClasses": "highlight"};
     } else if (row % 2 == 5) {

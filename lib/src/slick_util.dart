@@ -122,7 +122,7 @@ class FilteredList extends ListBase {
 
   void addKeyword(String key, Object val) {
     //_viewList=[];
-    if (val is String && val.length == 0) {
+    if (val is String && val.isEmpty) {
       filter.remove(key);
     } else {
       filter[key] = val;
@@ -171,10 +171,10 @@ class FilteredList extends ListBase {
     }));
   }
 
-  operator [](index) => filter.length == 0 ? srcList[index] : viewList[index];
+  operator [](index) => filter.isEmpty ? srcList[index] : viewList[index];
   operator []=(index, value) => srcList[index] = (value);
   //for grid internal mask
-  get length => filter.length == 0 ? srcList.length : viewList.length;
+  get length => filter.isEmpty ? srcList.length : viewList.length;
   set length(val) {
     srcList.length = val;
   }
@@ -198,7 +198,7 @@ class FilteredList extends ListBase {
 
   void sort([int compare(a, b)]) {
     srcList.sort(compare);
-    if (viewList != null && viewList.length > 0) viewList = _foldHelper();
+    if (viewList != null && viewList.isNotEmpty) viewList = _foldHelper();
   }
 
   Iterable get reversed => srcList.reversed;
@@ -365,7 +365,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
 
   int get length => innerList.length;
   // int get rowSpan(int row, int cell);
-  void set length(int length) {
+  set length(int length) {
     innerList.length = length;
   }
 
@@ -425,20 +425,20 @@ class MetaList<T> extends ListBase<T> with IMetaData {
 
 // code hint for setup grid
 
-/**
- * Grid Configuration
- * Example:
- *   var opt = new GridOptions()..explicitInitialization=false
-                                ..multiColumnSort=true
-                                ..editable=true
-                                ..autoEdit=true
-                                ..frozenColumn = 1
-                                ..enableColumnReorder=true;
-
-     var sg= new SlickGrid.fromOpt(el,makeData(500),column,opt);
- *
- *
- */
+///  
+///   Grid Configuration
+///   Example:
+///     var opt = new GridOptions()..explicitInitialization=false
+///                                ..multiColumnSort=true
+///                                ..editable=true
+///                                ..autoEdit=true
+///                                ..frozenColumn = 1
+///                                ..enableColumnReorder=true;
+///
+///     var sg= new SlickGrid.fromOpt(el,makeData(500),column,opt);
+///  
+///  
+///  
 class GridOptions {
   bool explicitInitialization = false;
   int rowHeight = 25;
@@ -457,10 +457,9 @@ class GridOptions {
 
   /// commit current
   bool autoCommitOnBlur = false;
-  /**  keyboard up,down,left,right, page up , page down
-   *  set to false also disable edit mode
-   *  default: true
-   */
+  //  keyboard up,down,left,right, page up , page down
+  // set to false also disable edit mode
+  // default: true
   bool enableCellNavigation = true;
   /** drag and drop column to reorder rendered column */
   bool enableColumnReorder = false;
@@ -482,20 +481,20 @@ class GridOptions {
   ///  column_id : TFormatter function
   ///
   Map<String, TFormatter> formatterFactory = <String, TFormatter>{};
-  var editorFactory = null;
+  var editorFactory;// = null;
   String cellFlashingCssClass = "flashing";
   String selectedCellCssClass = "selected";
   bool multiSelect = true;
   bool enableTextSelectionOnCells = false;
-  Function dataItemColumnValueExtractor = null; //function to extract value
+  Function dataItemColumnValueExtractor; // = null; //function to extract value
   /** true: canvas width or all column width, false: all column sum width */
   bool fullWidthRows = false;
   bool multiColumnSort = false;
   TFormatter defaultFormatter = _defaultFormatter;
-  /** force viewport render row on scrolling
-   *  false: delegate to timer also cause empty view port on long scrolling
-   *  default: false
-   */
+  // force viewport render row on scrolling
+  // false: delegate to timer also cause empty view port on long scrolling
+  // default: false
+  //
   bool forceSyncScrolling = false;
   /** frozen column index, 0 base */
   int frozenColumn = -1; //frozen index
@@ -509,7 +508,7 @@ class GridOptions {
    */
   bool syncColumnCellResize = false;
   //for commit current editor
-  Function editCommandHandler = null;
+  Function editCommandHandler;
   GridOptions([Map<String, dynamic> opt]) {
     //adapt map config
     if (opt != null) {

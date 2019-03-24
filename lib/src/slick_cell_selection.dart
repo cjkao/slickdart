@@ -72,7 +72,7 @@ class CellRangeSelector extends IPlugin {
   //bool _dragging;
   CellRangeDecorator decorator;
   core.Range centerCell = new core.Range(0, 0);
-  core.Range newRange = null;
+  core.Range newRange;
 //  v/ar _self = this;
   var _handler = new core.EventHandler();
 
@@ -238,13 +238,13 @@ class CellSelectionModel extends SelectionModel {
 
    core.EvtCallback get _handleKeyDown=>(core.EventData evtData, [core.EvtArgs  args]) {
     KeyboardEvent e = evtData.domEvent;
-    /***
-       * byte codes
-       * 37 left
-       * 38 up
-       * 39 right
-       * 40 down
-       */
+    /// 
+    ///  byte codes
+    ///  37 left
+    ///  38 up
+    ///  39 right
+    ///  40 down
+    /// 
     List<core.Range> ranges;
     core.Range last;
     Map<String, int> active = _grid.getActiveCell();
@@ -255,7 +255,7 @@ class CellSelectionModel extends SelectionModel {
         !e.altKey &&
         (e.which == 37 || e.which == 39 || e.which == 38 || e.which == 40)) {
       ranges = getSelectedRanges();
-      if (ranges.length == 0) ranges.add(new core.Range(active['row'], active['cell']));
+      if (ranges.isEmpty) ranges.add(new core.Range(active['row'], active['cell']));
 
       // keyboard can work with last range only
       last = ranges.removeLast();
@@ -282,7 +282,7 @@ class CellSelectionModel extends SelectionModel {
       // define new selection range
       var new_last = new core.Range(
           active['row'], active['cell'], active['row'] + dirRow * dRow, active['cell'] + dirCell * dCell);
-      if (_removeInvalidRanges([new_last]).length > 0) {
+      if (_removeInvalidRanges([new_last]).isNotEmpty) {
         ranges.add(new_last);
         int viewRow = dirRow > 0 ? new_last.toRow : new_last.fromRow;
         int viewCell = dirCell > 0 ? new_last.toCell : new_last.fromCell;

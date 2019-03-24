@@ -11,7 +11,7 @@ abstract class Editor {
   EditorParm _ep;
   Element $input;
   EditorParm get editorParm => _ep;
-  void set editorParm(EditorParm m) {
+  set editorParm(EditorParm m) {
     _ep = m;
   }
 

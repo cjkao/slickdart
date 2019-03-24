@@ -59,9 +59,9 @@ class EvtArgs extends MapBase<String,dynamic>{
 //parm:  List<core.Range>, Map
 //e: KeyboardEvent, EventData
 typedef EvtCallback = void Function(EventData e,EvtArgs  parm);
-/**
- * utility to get dom width / height
- */
+///  
+///  utility to get dom width / height
+///  
 class Dimension {
   static int getCalcWidth(html.Element elem) {
     return (elem
@@ -82,9 +82,9 @@ class Dimension {
   }
 }
 
-/**
- * wrap browser event and append propogation status
- */
+///   
+///   wrap browser event and append propogation status
+///   
 class EventData {
   html.Event domEvent;
 
@@ -110,78 +110,78 @@ class EventData {
         (_isImmediatePropagationStopped ? 'T' : 'F');
   }
 
-  /***
-   * Stops event from propagating up the DOM tree.
-   * @method stopPropagation
-   */
+  ///  *
+  ///  Stops event from propagating up the DOM tree.
+  ///  @method stopPropagation
+  ///  
   stopPropagation() {
     this.domEvent.stopPropagation();
     _isPropagationStopped = true;
   }
 
-  /***
-   * Returns whether stopPropagation was called on this event object.
-   * @method isPropagationStopped
-   * @return {Boolean}
-   */
+  ///  *
+  ///  Returns whether stopPropagation was called on this event object.
+  ///  @method isPropagationStopped
+  ///  @return {Boolean}
+  ///  
   isPropagationStopped() {
     return _isPropagationStopped;
   }
 
-  /***
-   * Prevents the rest of the handlers from being executed.
-   * @method stopImmediatePropagation
-   */
+  ///  *
+  ///  Prevents the rest of the handlers from being executed.
+  ///  @method stopImmediatePropagation
+  ///  
   stopImmediatePropagation() {
     this.domEvent.stopImmediatePropagation();
     _isImmediatePropagationStopped = true;
   }
 
-  /***
-   * Returns whether stopImmediatePropagation was called on this event object.\
-   * @method isImmediatePropagationStopped
-   * @return {Boolean}
-   */
+  ///  *
+  ///  Returns whether stopImmediatePropagation was called on this event object.\
+  ///  @method isImmediatePropagationStopped
+  ///  @return {Boolean}
+  ///  
   isImmediatePropagationStopped() {
     return _isImmediatePropagationStopped;
   }
 }
 
-/** TODO
- * consider refactor this to stream
- */
+///  TODO: consider refactor this to stream
+/// 
+/// 
 class Event  {
   List<Function> handlers = [];
-  /***
-   * Adds an event handler to be called when the event is fired.
-   * <p>Event handler will receive two arguments - an <code>EventData</code> and the <code>data</code>
-   * object the event was fired with.<p>
-   * @method subscribe
-   * @param fn {Function} Event handler.
-   */
+  /// 
+  /// Adds an event handler to be called when the event is fired.
+  /// <p>Event handler will receive two arguments - an <code>EventData</code> and the <code>data</code>
+  /// object the event was fired with.<p>
+  /// @method subscribe
+  /// @param fn {Function} Event handler.
+  /// 
   subscribe(EvtCallback fn) {
     handlers.add(fn);
   }
-  /***
-   * Removes an event handler added with <code>subscribe(fn)</code>.
-   * @method unsubscribe
-   * @param fn {Function} Event handler to be removed.
-   */
+  ///  *
+  ///  Removes an event handler added with <code>subscribe(fn)</code>.
+  ///  @method unsubscribe
+  ///  @param fn {Function} Event handler to be removed.
+  ///  
   bool unsubscribe(Function fn) => handlers.remove(fn);
 
-  /***
-   * Fires an event notifying all subscribers.
-   * @method notify
-   * @param args {Object} Additional data object to be passed to all handlers.
-   * @param e {EventData}
-   *      Optional.
-   *      An <code>EventData</code> object to be passed to all handlers.
-   *      For DOM events, an existing W3C/jQuery event object can be passed in.
-   * @param scope {Object}
-   *      Optional.
-   *      The scope ("this") within which the handler will be executed.
-   *      If not specified, the scope will be set to the <code>Event</code> instance.
-   */
+  ///  
+  ///  Fires an event notifying all subscribers.
+  ///  @method notify
+  ///  @param args {Object} Additional data object to be passed to all handlers.
+  ///  @param e {EventData}
+  ///       Optional.
+  ///       An <code>EventData</code> object to be passed to all handlers.
+  ///       For DOM events, an existing W3C/jQuery event object can be passed in.
+  ///  @param scope {Object}
+  ///       Optional.
+  ///       The scope ("this") within which the handler will be executed.
+  ///       If not specified, the scope will be set to the <code>Event</code> instance.
+  ///  
   notify(EvtArgs args, [EventData e, SlickGrid scope]) {
     e ??= new EventData();
     // scope = scope || this;
@@ -243,15 +243,15 @@ class EventHandler {
   }
 }
 
-/***
- * A structure containing a range of cells.
- * @class Range
- * @constructor
- * @param fromRow {Integer} Starting row.
- * @param fromCell {Integer} Starting cell.
- * @param toRow {Integer} Optional. Ending row. Defaults to <code>fromRow</code>.
- * @param toCell {Integer} Optional. Ending cell. Defaults to <code>fromCell</code>.
- */
+///  *
+///  A structure containing a range of cells.
+///  @class Range
+///  @constructor
+///  @param fromRow {Integer} Starting row.
+///  @param fromCell {Integer} Starting cell.
+///  @param toRow {Integer} Optional. Ending row. Defaults to <code>fromRow</code>.
+///  @param toCell {Integer} Optional. Ending cell. Defaults to <code>fromCell</code>.
+///  
 class Range {
   int fromRow, fromCell, toRow, toCell;
 
@@ -261,74 +261,60 @@ class Range {
       toCell = fromCell;
     }
 
-    /***
-     * @property fromRow
-     * @type {Integer}
-     */
+
 //    fromRow = math.min(fromRow, toRow);
     if (fromRow > toRow) {
       var tmp = toRow;
       toRow = fromRow;
       fromRow = tmp;
     }
-    /***
-     * @property fromCell
-     * @type {Integer}
-     */
 //    this.fromCell = math.min(fromCell, toCell);
     if (fromCell > toCell) {
       var tmp = toCell;
       toCell = fromCell;
       fromCell = tmp;
     }
-    /***
-     * @property toRow
-     * @type {Integer}
-     */
+
 //    this.toRow = math.max(fromRow, toRow);
 
-    /***
-     * @property toCell
-     * @type {Integer}
-     */
 //    this.toCell = math.max(fromCell, toCell);
   }
 
-  /***
-   * Returns whether a range represents a single row.
-   * @method isSingleRow
-   * @return {Boolean}
-   */
+  ///  *
+  ///  Returns whether a range represents a single row.
+  ///  @method isSingleRow
+  ///  @return {Boolean}
+  ///  
   bool isSingleRow() {
     return this.fromRow == this.toRow;
   }
 
-  /***
-   * Returns whether a range represents a single cell.
-   * @method isSingleCell
-   * @return {Boolean}
-   */
+  ///  *
+  ///  Returns whether a range represents a single cell.
+  ///  @method isSingleCell
+  ///  @return {Boolean}
+  ///  
   bool isSingleCell() {
     return this.fromRow == this.toRow && this.fromCell == this.toCell;
   }
 
-  /***
-   * Returns whether a range contains a given cell.
-   * @method contains
-   * @param row {Integer}
-   * @param cell {Integer}
-   * @return {Boolean}
-   */
+  ///  *
+  ///  Returns whether a range contains a given cell.
+  ///  @method contains
+  ///  @param row {Integer}
+  ///  @param cell {Integer}
+  ///  @return {Boolean}
+  ///  
   bool contains(int row, int cell) {
     return row >= this.fromRow && row <= this.toRow && cell >= this.fromCell &&
         cell <= this.toCell;
   }
 
-  /***
-   * Returns a readable representation of a range.
-   * @method toString
-   * @return {String}
-   */
+  ///   *
+  ///   Returns a readable representation of a range.
+  ///   @method toString
+  ///   @return {String}
+  ///   
   String toString() {
     if (this.isSingleCell()) {
       return "( + $fromRow : $fromCell )";
@@ -338,31 +324,31 @@ class Range {
   }
 }
 
-/***
- * A base class that all special / non-data rows (like Group and GroupTotals) derive from.
- * @class NonDataItem
- * @constructor
- */
+///  *
+///  A base class that all special / non-data rows (like Group and GroupTotals) derive from.
+///  @class NonDataItem
+///  @constructor
+///  
 class NonDataItem {
   bool _nonDataRow = true;
 
   bool get nonDataRow => _nonDataRow;
 }
 
-/***
- * Information about a group of rows.
- * @class Group
- * @extends Slick.NonDataItem
- * @constructor
- */
+///  *
+///  Information about a group of rows.
+///  @class Group
+///  @extends Slick.NonDataItem
+///  @constructor
+///  
 class Group extends NonDataItem {
   // bool __group = true;
 
-  /**
-   * Grouping level, starting with 0.
-   * @property level
-   * @type {Number}
-   */
+  ///  
+  ///  Grouping level, starting with 0.
+  ///  @property level
+  ///  @type {Number}
+  ///  
   int level = 0;
 
   /***
@@ -377,28 +363,28 @@ class Group extends NonDataItem {
    * @property value
    * @type {Object}
    */
-  Object value = null;
+  Object value;
 
   /***
    * Formatted display value of the group.
    * @property title
    * @type {String}
    */
-  String title = null;
+  String title;
 
   /***
    * Whether a group is collapsed.
    * @property collapsed
    * @type {Boolean}
    */
-  bool collapsed = false;
+  bool collapsed;
 
   /***
    * GroupTotals, if any.
    * @property totals
    * @type {GroupTotals}
    */
-  GroupTotals totals = null;
+  GroupTotals totals;
 
   /**
    * Rows that are part of the group.
@@ -412,7 +398,7 @@ class Group extends NonDataItem {
    * @property groups
    * @type {Array}
    */
-  List groups = null;
+  List groups;
 
   /**
    * A unique key used to identify the group.  This key can be used in calls to DataView
@@ -420,7 +406,7 @@ class Group extends NonDataItem {
    * @property groupingKey
    * @type {Object}
    */
-  Object groupingKey = null;
+  Object groupingKey;
 
 /***
  * Compares two Group instances.
@@ -437,24 +423,24 @@ class Group extends NonDataItem {
  */
 }
 
-/***
- * Information about group totals.
- * An instance of GroupTotals will be created for each totals row and passed to the aggregators
- * so that they can store arbitrary data in it.  That data can later be accessed by group totals
- * formatters during the display.
- * @class GroupTotals
- * @extends Slick.NonDataItem
- * @constructor
- */
+///   *
+///   Information about group totals.
+///   An instance of GroupTotals will be created for each totals row and passed to the aggregators
+///   so that they can store arbitrary data in it.  That data can later be accessed by group totals
+///   formatters during the display.
+///   @class GroupTotals
+///   @extends Slick.NonDataItem
+///   @constructor
+///   
 class GroupTotals extends NonDataItem {
 //  bool __groupTotals = true;
 
-  /***
-   * Parent Group.
-   * @param group
-   * @type {Group}
-   */
-  Group group = null;
+  ///  *
+  ///  Parent Group.
+  ///  @param group
+  ///  @type {Group}
+  ///  
+  Group group;
 }
 
 /***
@@ -466,7 +452,7 @@ class GroupTotals extends NonDataItem {
  * @constructor
  */
 class EditorLock {
-  var activeEditController = null;
+  var activeEditController;
 
   /***
    * Returns true if a specified edit controller is active (has the edit lock).

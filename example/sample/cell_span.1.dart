@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import "package:slickdart/slick.dart";
 import 'package:logging/logging.dart';
 import 'dart:convert';
-import 'dart:async';
+// import 'dart:async';
 
 final int TOP_ROW = 2;
 
@@ -123,7 +123,7 @@ SlickGrid buildGrid() {
   cellSelectModel.onSelectedRangesChanged.subscribe((var e, args) {
     cellSelectModel.getSelectedRanges().forEach(print);
     var ranges = cellSelectModel.getSelectedRanges();
-    if (ranges.length == 0) return;
+    if (ranges.isEmpty) return;
     var range = ranges.first;
     var fromCell = '${range.fromCell}';
     int len = range.toCell - range.fromCell + 1;
