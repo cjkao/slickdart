@@ -5,7 +5,8 @@ library slick;
 // import 'src/slick_column.dart';
 
 export 'src/slick_column.dart';
-export 'src/slick_core.dart' show EventData,EvtArgs;
+export 'src/checkbox_column.dart';
+export 'src/slick_core.dart' show EventData, EvtArgs;
 export 'src/slick_editor.dart';
 export 'src/slick_grid.dart';
 export 'src/slick_selectionmodel.dart';

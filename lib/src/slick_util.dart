@@ -120,6 +120,11 @@ class FilteredList extends ListBase {
     viewList = _foldHelper();
   }
 
+  ///
+  /// add filter:[val] by [key]  column field,
+  /// Only support one keyword per column,
+  /// if [val] is empty string, then remove the filter
+  ///
   void addKeyword(String key, Object val) {
     //_viewList=[];
     if (val is String && val.isEmpty) {
@@ -329,7 +334,7 @@ abstract class IMetaData {
   ///  {'columns': {"first_column": 2, 'second_col': 3}, columns_css:{"first_column":"style1", "second_col":"style2"}}
   /// ```
   /// to customize cell style using [setCellCssStyles] function
-  Map<String,dynamic> getMetaData(int rowId);
+  Map<String, dynamic> getMetaData(int rowId);
 
   ///
   /// per cell style, row,col span and css, also update cache
@@ -355,7 +360,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
   List<T> innerList;
   MetaList(this.innerList, [this._func]) {}
 
-  Map<String,dynamic> getMetaData(int rowId) {
+  Map<String, dynamic> getMetaData(int rowId) {
     return _func(rowId);
   }
 
@@ -425,7 +430,7 @@ class MetaList<T> extends ListBase<T> with IMetaData {
 
 // code hint for setup grid
 
-///  
+///
 ///   Grid Configuration
 ///   Example:
 ///     var opt = new GridOptions()..explicitInitialization=false
@@ -436,9 +441,9 @@ class MetaList<T> extends ListBase<T> with IMetaData {
 ///                                ..enableColumnReorder=true;
 ///
 ///     var sg= new SlickGrid.fromOpt(el,makeData(500),column,opt);
-///  
-///  
-///  
+///
+///
+///
 class GridOptions {
   bool explicitInitialization = false;
   int rowHeight = 25;
@@ -481,7 +486,7 @@ class GridOptions {
   ///  column_id : TFormatter function
   ///
   Map<String, TFormatter> formatterFactory = <String, TFormatter>{};
-  var editorFactory;// = null;
+  var editorFactory; // = null;
   String cellFlashingCssClass = "flashing";
   String selectedCellCssClass = "selected";
   bool multiSelect = true;

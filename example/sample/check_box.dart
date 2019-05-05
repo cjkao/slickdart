@@ -1,12 +1,13 @@
 import 'dart:html';
 import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
+
 void main() {
   grid.SlickGrid g = init();
   g.init();
   querySelector('#reset').onClick.listen((e) {
     List _data = [];
-    for (var i = 0; i < 500000; i++) {
+    for (var i = 1; i <= 500000; i++) {
       _data.add({
         'idi': i,
         'title': new math.Random().nextInt(1000).toString(),
@@ -14,7 +15,6 @@ void main() {
         'pc': i
       });
     }
-//    g.data.clear();
     g.data = _data;
     g.invalidate();
     g.render();
@@ -43,12 +43,19 @@ void main() {
 grid.SlickGrid init() {
   Element el = querySelector('#grid');
   List<grid.Column> column = new grid.ColumnList.fromMap([
-    {'width': 130, 'field': "idi", 'name': 'ID', 'sortable': true, 'editor': 'TextEditor'},
+    {
+      'width': 130,
+      'field': "idi",
+      'name': 'ID',
+      'sortable': true,
+      'editor': 'TextEditor'
+    },
     {'width': 120, 'field': "duration", 'sortable': true},
     {'field': "pc", 'sortable': true},
     {'width': 400, 'field': "finish"}
   ]);
-  grid.CheckboxSelectColumn checkboxCol = new grid.CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
+  var checkboxCol =
+      grid.CheckboxSelectColumnV2({'cssClass': "slick-cell-checkboxsel"});
   column.insert(0, checkboxCol.getColumnDefinition());
   List data = [];
   for (var i = 0; i < 50; i++) {
@@ -69,9 +76,15 @@ grid.SlickGrid init() {
     ..enableColumnReorder = true
     ..frozenColumn = 2;
   grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
-  grid.RowSelectionModel rsm = new grid.RowSelectionModel({'selectActiveRow': true});
+  grid.RowSelectionModel rsm =
+      new grid.RowSelectionModel({'selectActiveRow': true});
   sg.onSelectedRowsChanged.subscribe((var e, args) {
-    rsm.getSelectedRows().forEach(print);
+    var txt = "selected row id:" + rsm.getSelectedRows().join(",");
+    if (txt.length > 100) txt = txt.substring(0, 100) + "...";
+
+    querySelector(".selections").text = txt;
+
+    // rsm.getSelectedRows().forEach(print);
   });
   sg.setSelectionModel(rsm);
   sg.registerPlugin(checkboxCol);

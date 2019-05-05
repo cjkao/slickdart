@@ -70,26 +70,29 @@ class Column {
   ///link gridOption to store TFormatter or Editor
   ///
   GridOptions gridOption;
-  bool useSysDefaultWidth=false;
-  final String NO_ID= "noid_";
+  bool useSysDefaultWidth = false;
+  final String NO_ID = "noid_";
+
   ///
   /// GridOption for formatter access
   ///
   Column() {
-    _src.addAll(_columnDefaults);
-    _src["id"]= NO_ID + new math.Random().nextInt(10000000).toString();
+    src.addAll(_columnDefaults);
+    src["id"] = NO_ID + new math.Random().nextInt(10000000).toString();
   }
-  Map<String, dynamic> _src = {};
-  Function get asyncPostRender => _src['asyncPostRender'];
-  bool get defaultSortAsc => _src['defaultSortAsc'];
-  Editor get editor => _src['editor'];
-  bool get focusable => _src['focusable'];
+  Map<String, dynamic> src = {};
+  Function get asyncPostRender => src['asyncPostRender'];
+  bool get defaultSortAsc => src['defaultSortAsc'];
+  Editor get editor => src['editor'];
+  bool get focusable => src['focusable'];
   /**
    * Warning!!, it throw exception after serialize and deserialization with JSON
    * return type could be [String] or [TFormatter]
    */
-  TFormatter get formatter => _src['formatter'] is String ? gridOption?.formatterFactory[this.id] :  _src['formatter'];
-  
+  TFormatter get formatter => src['formatter'] is String
+      ? gridOption?.formatterFactory[this.id]
+      : src['formatter'];
+
   // () {
   //   var tmp = _src['formatter'];
   //   if (tmp is String) {
@@ -98,133 +101,133 @@ class Column {
   //   return tmp;
   // }
 
-  String get headerCssClass => _src['headerCssClass'];
-  String get cssClass => _src['cssClass'];
-  int get previousWidth => _src['previousWidth'];
+  String get headerCssClass => src['headerCssClass'];
+  String get cssClass => src['cssClass'];
+  int get previousWidth => src['previousWidth'];
   //visible
-  bool get visible => _src['visible'];
+  bool get visible => src['visible'];
 
-  String get toolTip => _src['toolTip'];
+  String get toolTip => src['toolTip'];
   /** unique id for differeicent from same field name
    *  for pick up Column element
    */
-  String get id => _src['id']; // "range"
-  int get minWidth => _src['minWidth']; //: 30
+  String get id => src['id']; // "range"
+  int get minWidth => src['minWidth']; //: 30
   /**
    * [name] could be string or element
    */
-  get name => _src['name']; //: "Range"
-  bool get rerenderOnResize => _src['rerenderOnResize'];
-  bool get resizable => _src['resizable'];
-  bool get selectable => _src['selectable'];
-  bool get sortable => _src['sortable'];
-  int get width => _src['width'];
-  int get maxWidth => _src['maxWidth'];
-  String get field => _src['field'];
-  get validator => _src['validator'];
+  get name => src['name']; //: "Range"
+  bool get rerenderOnResize => src['rerenderOnResize'];
+  bool get resizable => src['resizable'];
+  bool get selectable => src['selectable'];
+  bool get sortable => src['sortable'];
+  int get width => src['width'];
+  int get maxWidth => src['maxWidth'];
+  String get field => src['field'];
+  get validator => src['validator'];
   //for header menu plugin
   Map get header {
-    _src['header'] ??= {};
-    return _src['header'];
+    src['header'] ??= {};
+    return src['header'];
   }
 
-  bool get cannotTriggerInsert => _src['cannotTriggerInsert'];
-  set asyncPostRender(item) => _src['asyncPostRender'] = item;
+  bool get cannotTriggerInsert => src['cannotTriggerInsert'];
+  set asyncPostRender(item) => src['asyncPostRender'] = item;
   set toolTip(item) {
-    _src['toolTip'] = item;
+    src['toolTip'] = item;
   }
 
   set cannotTriggerInsert(item) {
-    _src['cannotTriggerInsert'] = item;
+    src['cannotTriggerInsert'] = item;
   }
 
   set defaultSortAsc(item) {
-    _src['defaultSortAsc'] = item;
+    src['defaultSortAsc'] = item;
   }
 
   set editor(Editor item) {
-    _src['editor'] = item;
+    src['editor'] = item;
   }
 
   set focusable(bool item) {
-    _src['focusable'] = item;
+    src['focusable'] = item;
   }
 
   ///  Give TFormatter only if in Grid initialize
   ///  [item] is String or [TFormatter]
   ///  give String and then assing in GridOption is better
   set formatter(dynamic item) {
-    _src['formatter'] = item;
+    src['formatter'] = item;
   }
 
   set headerCssClass(String item) {
-    _src['headerCssClass'] = item;
+    src['headerCssClass'] = item;
   }
 
   set cssClass(String item) {
-    _src['cssClass'] = item;
+    src['cssClass'] = item;
   }
 
   set id(String item) {
-    _src['id'] = item;
+    src['id'] = item;
   } // "range"
 
   set previousWidth(int item) {
-    _src['previousWidth'] = item;
+    src['previousWidth'] = item;
   } // "range"
 
   set minWidth(int item) {
-    _src['minWidth'] = item;
+    src['minWidth'] = item;
   } //: 30
 
   set name(var item) {
-    _src['name'] = item;
+    src['name'] = item;
   } //: "Range"
 
   set rerenderOnResize(bool item) {
-    _src['rerenderOnResize'] = item;
+    src['rerenderOnResize'] = item;
   }
 
   set resizable(bool item) {
-    _src['resizable'] = item;
+    src['resizable'] = item;
   }
 
   set selectable(bool item) {
-    _src['selectable'] = item;
+    src['selectable'] = item;
   }
 
   set sortable(bool item) {
-    _src['sortable'] = item;
+    src['sortable'] = item;
   }
 
   set width(int item) {
-    _src['width'] = item;
+    src['width'] = item;
   }
 
   set maxWidth(int item) {
-    _src['maxWidth'] = item;
+    src['maxWidth'] = item;
   }
 
   set field(String item) {
-    _src['field'] = item;
-    if(_src["id"]==null || _src["id"].toString().startsWith(NO_ID)){
-      _src["id"]='${_src['field']}-${new math.Random().nextInt(1000000)}';
+    src['field'] = item;
+    if (src["id"] == null || src["id"].toString().startsWith(NO_ID)) {
+      src["id"] = '${src['field']}-${new math.Random().nextInt(1000000)}';
     }
-    if(_src["name"]==null) _src["name"]=_src["field"];
+    if (src["name"] == null) src["name"] = src["field"];
   }
 
   set header(Map _) {
-    _src['header'] = _;
+    src['header'] = _;
   }
 
   set visible(bool item) {
-    _src['visible'] = item;
+    src['visible'] = item;
   }
 
-  ///  
+  ///
   ///  [field] is attribute name in map object, must exist for formatter to lookup in [GridOption]
   ///  [name] is display name on column header
-  ///  
+  ///
   factory Column.fromMap(Map<String, dynamic> src) {
     Column c = new Column();
     if (src['id'] == null) {
@@ -233,9 +236,9 @@ class Column {
     if (src['name'] == null) {
       src['name'] = '${src['field']}';
     }
-    c._src..addAll(src);
-    if(src["width"]==null){
-       c.useSysDefaultWidth=true;
+    c.src..addAll(src);
+    if (src["width"] == null) {
+      c.useSysDefaultWidth = true;
     }
     return c;
   }
@@ -244,18 +247,19 @@ class Column {
     Map<String, dynamic> m = json.decode(src) as Map<String, dynamic>;
     return new Column.fromMap(m); //c._src..addAll(src) ;
   }
- 
+
   factory Column.fromColumn(Column old) {
     Column c = new Column();
-    c._src..addAll(old._src);
+    c.src..addAll(old.src);
     return c;
   }
 
   dynamic operator [](String crit) {
-    return _src[crit];
+    return src[crit];
   }
+
   Column merge(Column newCol) {
-    this._src.addAll(newCol._src);
+    this.src.addAll(newCol.src);
     return this;
   }
 
@@ -275,17 +279,17 @@ class Column {
     'visible': true
   };
   String toString() {
-    return _src.toString();
+    return src.toString();
   }
 
   Map toJson() {
-    return _src;
+    return src;
   }
 }
 
-///  
+///
 ///  Virtual column that add to first column, including header as checkbox column
-///  
+///
 class CheckboxSelectColumn extends Column with IPlugin {
   TFormatter checkboxSelectionFormatter() =>
       (int row, int cell, value, Column columnDef, dataContext) {
@@ -297,13 +301,12 @@ class CheckboxSelectColumn extends Column with IPlugin {
         return "";
       };
   Map _options;
-  Map<String, dynamic> _defaults = {
+  Map<String, Object> _defaults = {
     'columnId': "_checkbox_selector",
     'cssClass': null,
     'toolTip': "Select/Deselect All",
     'width': 30,
-    'name': new Element.html('<input type="checkbox"></input>',
-        treeSanitizer: util.nullTreeSanitizer)
+    'name': InputElement()..type = "checkbox"
   };
   SlickGrid _grid;
   var _handler = new core.EventHandler();
@@ -483,7 +486,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
   CheckboxSelectColumn getColumnDefinition() {
     InputElement elem = new InputElement();
     elem.type = 'checkbox';
-    this._src.addAll({
+    this.src.addAll({
       'id': _options['columnId'],
       'name': elem, //"<input type='checkbox'>",
       'toolTip': _options['toolTip'],

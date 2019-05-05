@@ -4,11 +4,12 @@ import 'dart:math' as math;
 import 'package:slickdart/plugin.dart';
 //import 'package:throttle_debounce/throttle_debounce.dart';
 
+var _data = new cj.FilteredList();
 void main() {
   cj.SlickGrid grid = init();
   grid.init();
   querySelector('#reset').onClick.listen((e) {
-    cj.FilteredList _data = new cj.FilteredList();
+    _data.clear();
     for (var i = 0; i < 50000; i++) {
       _data.add({
         'dtitle': new math.Random().nextInt(100).toString(),
@@ -20,52 +21,51 @@ void main() {
         'effortDriven': (i % 5 == 0)
       });
     }
-    grid.data.clear();
-    grid.data.addAll(_data);
     grid.invalidate();
-//    grid.render();
   });
 }
 
 cj.SlickGrid init() {
   Element el = querySelector('#grid');
   List<cj.Column> column = [
-    new cj.Column.fromMap(
-        {'id': "title", 'name': "Title1", 'field': "dtitle", 'sortable': true}),
-    new cj.Column.fromMap({
+    cj.Column.fromMap({
+      'id': "title",
+      'name': "Title(str)",
+      'field': "dtitle",
+      'sortable': true
+    }),
+    cj.Column.fromMap({
       'width': 120,
       'id': "duration",
-      'name': "duration",
+      'name': "duration(num)",
       'field': "duration",
       'sortable': true,
       'editor': 'TextEditor'
     }),
-    new cj.Column.fromMap({
+    cj.Column.fromMap({
       'id': "%",
-      'name': "int (nubmer)",
+      'name': "int (num)",
       'field': "pc2",
       'sortable': true,
       'editor': 'TextEditor'
     }),
-    new cj.Column.fromMap({'id': "start", 'name': "finish", 'field': "finish"}),
-    new cj.Column.fromMap({
+    cj.Column.fromMap({'id': "start", 'name': "finish", 'field': "finish"}),
+    cj.Column.fromMap({
       'id': "%_2",
       'name': "String (number)",
       'field': "pc",
       'editor': 'TextEditor'
     }),
-    new cj.Column.fromMap({
+    cj.Column.fromMap({
       'id': "effort",
       'name': "(bool)",
       'field': "effortDriven",
       'width': 300
     })
   ];
-  //cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
-  // column.insert(0,checkboxCol.getColumnDefinition());
-  cj.FilteredList data = new cj.FilteredList();
+  _data.clear();
   for (var i = 0; i < 55; i++) {
-    data.add({
+    _data.add({
       'dtitle': new math.Random().nextInt(100).toString(),
       'duration': new math.Random().nextInt(100),
       'pc2': new math.Random().nextInt(10) * 100,
@@ -84,43 +84,30 @@ cj.SlickGrid init() {
     'showHeaderRow': true,
     'headerRowHeight': 25
   };
-  cj.SlickGrid sg = new cj.SlickGrid(el, data, column, opt);
+  cj.SlickGrid sg = new cj.SlickGrid(el, _data, column, opt);
   sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
   sg.registerPlugin(new AutoTooltips());
-
-//  sg.onSelectedRowsChanged.subscribe((cj.EventData e,Map args){
-//          querySelector('.right-pane')..children.clear()..appendText((args['rows'] as List).join(' '));
-//  });
 
   sg.onHeaderRowCellRendered.subscribe((cj.EventData e, Map args) {
     Element headerEl = args['node'];
     headerEl.children.clear();
     cj.Column col = args['column'];
     if (col.id == '_checkbox_selector') return;
-    InputElement inputEl = new InputElement();
-    inputEl.dataset['columnId'] = col.field;
+
+    var inputEl = InputElement()
+      ..dataset['columnId'] = col.field
+      ..onInput.listen((Event ke) {
+        var searchStr = (ke.currentTarget as InputElement).value;
+        if (col.field == 'effortDriven' && searchStr.isNotEmpty) {
+          _data.addKeyword(
+              col.field, searchStr.toLowerCase() == 'true' ? true : false);
+        } else {
+          _data.addKeyword(col.field, searchStr);
+        }
+        sg.invalidate();
+      });
     headerEl.append(inputEl);
-    // int counter = 0;
-//    var callback =
-//    var debounce =
-//    new Debouncer(const Duration(milliseconds: 300), (List args) {
-//      if(col.field=="effortDriven"){
-//          if( inputEl.value.toLowerCase() == "true")    data.addKeyword(col.field,  true);
-//          else if (inputEl.value.toLowerCase() == "false")data.addKeyword(col.field,  false);
-//          else data.addKeyword(col.field,  ""); //clear input filter
-//      }else{
-//
-//        data.addKeyword(col.field, inputEl.value);
-//      }
-//      sg.invalidate();
-//      counter++;
-//      print("$counter ${inputEl.value}");
-//    }, [], false);
-//    inputEl.onKeyUp.listen((e) {
-//      debounce.debounce();
-//    });
   });
   sg.onSort.subscribe(cj.basicSorter);
   return sg;
 }
-

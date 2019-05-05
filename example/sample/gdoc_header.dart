@@ -32,7 +32,13 @@ void main() {
 cj.SlickGrid setup() {
   Element el = querySelector('#grid');
   columnList = [
-    new cj.Column.fromMap({'name': "Title1", 'field': "dtitle", 'sortable': true, 'minWidth': 70, 'maxWidth': 100}),
+    new cj.Column.fromMap({
+      'name': "Title1",
+      'field': "dtitle",
+      'sortable': true,
+      'minWidth': 70,
+      'maxWidth': 100
+    }),
     new cj.Column.fromMap({
       'width': 120,
       'field': "duration",
@@ -49,10 +55,26 @@ cj.SlickGrid setup() {
       'minWidth': 90,
       'maxWidth': 200
     }),
-    new cj.Column.fromMap({'name': "finish", 'field': "finish", 'minWidth': 100, 'maxWidth': 200}),
-    new cj.Column.fromMap(
-        {'name': "String field", 'field': "pc", 'editor': 'TextEditor', 'minWidth': 110, 'maxWidth': 200}),
-    new cj.Column.fromMap({'name': "effort", 'field': "effortDriven", 'width': 150, 'minWidth': 120, 'maxWidth': 200})
+    new cj.Column.fromMap({
+      'name': "finish",
+      'field': "finish",
+      'minWidth': 100,
+      'maxWidth': 200
+    }),
+    new cj.Column.fromMap({
+      'name': "String field",
+      'field': "pc",
+      'editor': 'TextEditor',
+      'minWidth': 110,
+      'maxWidth': 200
+    }),
+    new cj.Column.fromMap({
+      'name': "effort",
+      'field': "effortDriven",
+      'width': 150,
+      'minWidth': 120,
+      'maxWidth': 200
+    })
   ];
 
   //append column menu
@@ -60,19 +82,34 @@ cj.SlickGrid setup() {
     columnList[i].header = {
       'menu': {
         'items': [
-          {'iconImage': "../images/sort-asc.gif", 'title': "Sort Ascending", 'command': "sort-asc"},
-          {'iconImage': "../images/sort-desc.gif", 'title': "Sort Descending", 'command': "sort-desc"},
+          {
+            'iconImage': "../images/sort-asc.gif",
+            'title': "Sort Ascending",
+            'command': "sort-asc"
+          },
+          {
+            'iconImage': "../images/sort-desc.gif",
+            'title': "Sort Descending",
+            'command': "sort-desc"
+          },
           {
             'title': "Hide Column",
             'command': "hide",
           },
-          {'iconCssClass': "icon-help", 'title': "Help", 'disabled': true, 'command': "help", 'tooltip': "No Help"}
+          {
+            'iconCssClass': "icon-help",
+            'title': "Help",
+            'disabled': true,
+            'command': "help",
+            'tooltip': "No Help"
+          }
         ]
       }
     };
   }
 
-  cj.CheckboxSelectColumn checkboxCol = new cj.CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
+  var checkboxCol =
+      new cj.CheckboxSelectColumnV2({'cssClass': "slick-cell-checkboxsel"});
   columnList.insert(0, checkboxCol.getColumnDefinition());
   List data = [];
   for (var i = 0; i < 50000; i++) {
