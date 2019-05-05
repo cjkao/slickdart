@@ -1,23 +1,25 @@
+/* ENTRYPOINT_EXTENTION_MARKER */
 (function() {
 var baseUrl = (function () {
-  // Attempt to detect base url using <base href> html tag
-  // base href should start with "/"
-  if (typeof document !== 'undefined') {
-    var el = document.getElementsByTagName('base');
-    if (el && el[0] && el[0].getAttribute("href") && el[0].getAttribute("href").startsWith("/")){
-      return el[0].href;
-    }
-  }
   // Attempt to detect --precompiled mode for tests, and set the base url
   // appropriately, otherwise set it to '/'.
   var pathParts = location.pathname.split("/");
   if (pathParts[0] == "") {
     pathParts.shift();
   }
-  var baseUrl;
   if (pathParts.length > 1 && pathParts[1] == "test") {
     return "/" + pathParts.slice(0, 2).join("/") + "/";
   }
+  // Attempt to detect base url using <base href> html tag
+  // base href should start and end with "/"
+  if (typeof document !== 'undefined') {
+    var el = document.getElementsByTagName('base');
+    if (el && el[0] && el[0].getAttribute("href") && el[0].getAttribute
+    ("href").startsWith("/") && el[0].getAttribute("href").endsWith("/")){
+      return el[0].getAttribute("href");
+    }
+  }
+  // return default value
   return "/";
 }());
 
@@ -31,8 +33,11 @@ let modulePaths = {
  "packages/angular/di.template": "packages/angular/di.template.ddc",
  "packages/angular/experimental": "packages/angular/experimental.ddc",
  "packages/angular/experimental.template": "packages/angular/experimental.template.ddc",
+ "packages/angular/meta": "packages/angular/meta.ddc",
+ "packages/angular/meta.template": "packages/angular/meta.template.ddc",
  "packages/angular/src/bootstrap/modules": "packages/angular/src/bootstrap/modules.ddc",
  "packages/angular/src/bootstrap/run.template": "packages/angular/src/bootstrap/run.template.ddc",
+ "packages/angular/src/common/directives/ng_for_identity": "packages/angular/src/common/directives/ng_for_identity.ddc",
  "packages/angular/src/core/application_tokens": "packages/angular/src/core/application_tokens.ddc",
  "packages/angular/src/core/application_tokens.template": "packages/angular/src/core/application_tokens.template.ddc",
  "packages/angular/src/core/change_detection/change_detection": "packages/angular/src/core/change_detection/change_detection.ddc",
@@ -40,6 +45,7 @@ let modulePaths = {
  "packages/angular/src/core/change_detection/directive_change_detector": "packages/angular/src/core/change_detection/directive_change_detector.ddc",
  "packages/angular/src/core/linker/view_type": "packages/angular/src/core/linker/view_type.ddc",
  "packages/angular/src/core/zone/ng_zone": "packages/angular/src/core/zone/ng_zone.ddc",
+ "packages/angular/src/meta": "packages/angular/src/meta.ddc",
  "packages/angular_components/angular_components": "packages/angular_components/angular_components.ddc",
  "packages/angular_components/angular_components.template": "packages/angular_components/angular_components.template.ddc",
  "packages/angular_components/annotations/rtl_annotation": "packages/angular_components/annotations/rtl_annotation.ddc",
@@ -49,6 +55,9 @@ let modulePaths = {
  "packages/angular_components/app_layout/material_drawer_base.template": "packages/angular_components/app_layout/material_drawer_base.template.ddc",
  "packages/angular_components/app_layout/material_persistent_drawer": "packages/angular_components/app_layout/material_persistent_drawer.ddc",
  "packages/angular_components/app_layout/material_persistent_drawer.template": "packages/angular_components/app_layout/material_persistent_drawer.template.ddc",
+ "packages/angular_components/app_layout/material_stackable_drawer": "packages/angular_components/app_layout/material_stackable_drawer.ddc",
+ "packages/angular_components/app_layout/material_stackable_drawer.scss.css.shim": "packages/angular_components/app_layout/material_stackable_drawer.scss.css.shim.ddc",
+ "packages/angular_components/app_layout/material_stackable_drawer.template": "packages/angular_components/app_layout/material_stackable_drawer.template.ddc",
  "packages/angular_components/app_layout/material_temporary_drawer": "packages/angular_components/app_layout/material_temporary_drawer.ddc",
  "packages/angular_components/app_layout/material_temporary_drawer.scss.css.shim": "packages/angular_components/app_layout/material_temporary_drawer.scss.css.shim.ddc",
  "packages/angular_components/app_layout/material_temporary_drawer.template": "packages/angular_components/app_layout/material_temporary_drawer.template.ddc",
@@ -139,6 +148,10 @@ let modulePaths = {
  "packages/angular_components/material_datepicker/calendar.template": "packages/angular_components/material_datepicker/calendar.template.ddc",
  "packages/angular_components/material_datepicker/comparison": "packages/angular_components/material_datepicker/comparison.ddc",
  "packages/angular_components/material_datepicker/comparison.template": "packages/angular_components/material_datepicker/comparison.template.ddc",
+ "packages/angular_components/material_datepicker/comparison_option": "packages/angular_components/material_datepicker/comparison_option.ddc",
+ "packages/angular_components/material_datepicker/comparison_option.template": "packages/angular_components/material_datepicker/comparison_option.template.ddc",
+ "packages/angular_components/material_datepicker/config": "packages/angular_components/material_datepicker/config.ddc",
+ "packages/angular_components/material_datepicker/config.template": "packages/angular_components/material_datepicker/config.template.ddc",
  "packages/angular_components/material_datepicker/date_input": "packages/angular_components/material_datepicker/date_input.ddc",
  "packages/angular_components/material_datepicker/date_input.template": "packages/angular_components/material_datepicker/date_input.template.ddc",
  "packages/angular_components/material_datepicker/date_range_editor": "packages/angular_components/material_datepicker/date_range_editor.ddc",
@@ -290,6 +303,13 @@ let modulePaths = {
  "packages/angular_components/material_spinner/material_spinner": "packages/angular_components/material_spinner/material_spinner.ddc",
  "packages/angular_components/material_spinner/material_spinner.scss.css.shim": "packages/angular_components/material_spinner/material_spinner.scss.css.shim.ddc",
  "packages/angular_components/material_spinner/material_spinner.template": "packages/angular_components/material_spinner/material_spinner.template.ddc",
+ "packages/angular_components/material_stepper/common": "packages/angular_components/material_stepper/common.ddc",
+ "packages/angular_components/material_stepper/common.template": "packages/angular_components/material_stepper/common.template.ddc",
+ "packages/angular_components/material_stepper/material_step": "packages/angular_components/material_stepper/material_step.ddc",
+ "packages/angular_components/material_stepper/material_step.template": "packages/angular_components/material_stepper/material_step.template.ddc",
+ "packages/angular_components/material_stepper/material_stepper": "packages/angular_components/material_stepper/material_stepper.ddc",
+ "packages/angular_components/material_stepper/material_stepper.scss.css.shim": "packages/angular_components/material_stepper/material_stepper.scss.css.shim.ddc",
+ "packages/angular_components/material_stepper/material_stepper.template": "packages/angular_components/material_stepper/material_stepper.template.ddc",
  "packages/angular_components/material_tab/fixed_material_tab_strip": "packages/angular_components/material_tab/fixed_material_tab_strip.ddc",
  "packages/angular_components/material_tab/fixed_material_tab_strip.scss.css.shim": "packages/angular_components/material_tab/fixed_material_tab_strip.scss.css.shim.ddc",
  "packages/angular_components/material_tab/fixed_material_tab_strip.template": "packages/angular_components/material_tab/fixed_material_tab_strip.template.ddc",
@@ -328,12 +348,14 @@ let modulePaths = {
  "packages/angular_components/mixins/highlight_assistant_mixin.template": "packages/angular_components/mixins/highlight_assistant_mixin.template.ddc",
  "packages/angular_components/mixins/material_dropdown_base": "packages/angular_components/mixins/material_dropdown_base.ddc",
  "packages/angular_components/mixins/material_dropdown_base.template": "packages/angular_components/mixins/material_dropdown_base.template.ddc",
+ "packages/angular_components/mixins/selection_input_adapter": "packages/angular_components/mixins/selection_input_adapter.ddc",
+ "packages/angular_components/mixins/selection_input_adapter.template": "packages/angular_components/mixins/selection_input_adapter.template.ddc",
  "packages/angular_components/mixins/track_layout_changes": "packages/angular_components/mixins/track_layout_changes.ddc",
  "packages/angular_components/mixins/track_layout_changes.template": "packages/angular_components/mixins/track_layout_changes.template.ddc",
  "packages/angular_components/model/a11y/active_item": "packages/angular_components/model/a11y/active_item.ddc",
  "packages/angular_components/model/a11y/active_item.template": "packages/angular_components/model/a11y/active_item.template.ddc",
- "packages/angular_components/model/a11y/active_item_mixin": "packages/angular_components/model/a11y/active_item_mixin.ddc",
- "packages/angular_components/model/a11y/active_item_mixin.template": "packages/angular_components/model/a11y/active_item_mixin.template.ddc",
+ "packages/angular_components/model/a11y/active_item_directive": "packages/angular_components/model/a11y/active_item_directive.ddc",
+ "packages/angular_components/model/a11y/active_item_directive.template": "packages/angular_components/model/a11y/active_item_directive.template.ddc",
  "packages/angular_components/model/a11y/keyboard_handler_mixin": "packages/angular_components/model/a11y/keyboard_handler_mixin.ddc",
  "packages/angular_components/model/a11y/keyboard_handler_mixin.template": "packages/angular_components/model/a11y/keyboard_handler_mixin.template.ddc",
  "packages/angular_components/model/action/async_action": "packages/angular_components/model/action/async_action.ddc",
@@ -401,6 +423,8 @@ let modulePaths = {
  "packages/angular_components/scorecard/scorecard": "packages/angular_components/scorecard/scorecard.ddc",
  "packages/angular_components/scorecard/scorecard.scss.css.shim": "packages/angular_components/scorecard/scorecard.scss.css.shim.ddc",
  "packages/angular_components/scorecard/scorecard.template": "packages/angular_components/scorecard/scorecard.template.ddc",
+ "packages/angular_components/scorecard/scorecard_bar": "packages/angular_components/scorecard/scorecard_bar.ddc",
+ "packages/angular_components/scorecard/scorecard_bar.template": "packages/angular_components/scorecard/scorecard_bar.template.ddc",
  "packages/angular_components/src/laminate/components/modal/modal_controller_directive": "packages/angular_components/src/laminate/components/modal/modal_controller_directive.ddc",
  "packages/angular_components/src/laminate/components/modal/modal_controller_directive.template": "packages/angular_components/src/laminate/components/modal/modal_controller_directive.template.ddc",
  "packages/angular_components/src/laminate/enums/base": "packages/angular_components/src/laminate/enums/base.ddc",
@@ -429,10 +453,12 @@ let modulePaths = {
  "packages/angular_components/src/model/action/async_action.template": "packages/angular_components/src/model/action/async_action.template.ddc",
  "packages/angular_components/src/model/selection/interfaces/selectable": "packages/angular_components/src/model/selection/interfaces/selectable.ddc",
  "packages/angular_components/src/model/selection/interfaces/selectable.template": "packages/angular_components/src/model/selection/interfaces/selectable.template.ddc",
- "packages/angular_components/src/scorecard/scorecard_bar": "packages/angular_components/src/scorecard/scorecard_bar.ddc",
- "packages/angular_components/src/scorecard/scorecard_bar.template": "packages/angular_components/src/scorecard/scorecard_bar.template.ddc",
  "packages/angular_components/src/utils/angular/managed_zone/managed_zone": "packages/angular_components/src/utils/angular/managed_zone/managed_zone.ddc",
  "packages/angular_components/src/utils/angular/managed_zone/managed_zone.template": "packages/angular_components/src/utils/angular/managed_zone/managed_zone.template.ddc",
+ "packages/angular_components/src/utils/angular/scroll_host/pan_controller_impl": "packages/angular_components/src/utils/angular/scroll_host/pan_controller_impl.ddc",
+ "packages/angular_components/src/utils/angular/scroll_host/pan_controller_impl.template": "packages/angular_components/src/utils/angular/scroll_host/pan_controller_impl.template.ddc",
+ "packages/angular_components/src/utils/angular/scroll_host/scroll_host_interface": "packages/angular_components/src/utils/angular/scroll_host/scroll_host_interface.ddc",
+ "packages/angular_components/src/utils/angular/scroll_host/scroll_host_interface.template": "packages/angular_components/src/utils/angular/scroll_host/scroll_host_interface.template.ddc",
  "packages/angular_components/src/utils/async/async_update_scheduler": "packages/angular_components/src/utils/async/async_update_scheduler.ddc",
  "packages/angular_components/src/utils/async/async_update_scheduler.template": "packages/angular_components/src/utils/async/async_update_scheduler.template.ddc",
  "packages/angular_components/stop_propagation/stop_propagation": "packages/angular_components/stop_propagation/stop_propagation.ddc",
@@ -453,6 +479,10 @@ let modulePaths = {
  "packages/angular_components/utils/angular/properties/properties.template": "packages/angular_components/utils/angular/properties/properties.template.ddc",
  "packages/angular_components/utils/angular/reference/reference": "packages/angular_components/utils/angular/reference/reference.ddc",
  "packages/angular_components/utils/angular/reference/reference.template": "packages/angular_components/utils/angular/reference/reference.template.ddc",
+ "packages/angular_components/utils/angular/scroll_host/angular_2": "packages/angular_components/utils/angular/scroll_host/angular_2.ddc",
+ "packages/angular_components/utils/angular/scroll_host/angular_2.template": "packages/angular_components/utils/angular/scroll_host/angular_2.template.ddc",
+ "packages/angular_components/utils/angular/scroll_host/interface": "packages/angular_components/utils/angular/scroll_host/interface.ddc",
+ "packages/angular_components/utils/angular/scroll_host/interface.template": "packages/angular_components/utils/angular/scroll_host/interface.template.ddc",
  "packages/angular_components/utils/async/async": "packages/angular_components/utils/async/async.ddc",
  "packages/angular_components/utils/async/async.template": "packages/angular_components/utils/async/async.template.ddc",
  "packages/angular_components/utils/browser/dom_iterator/dom_iterator": "packages/angular_components/utils/browser/dom_iterator/dom_iterator.ddc",
@@ -509,6 +539,7 @@ let modulePaths = {
  "packages/collection/src/iterable_zip": "packages/collection/src/iterable_zip.ddc",
  "packages/collection/src/priority_queue": "packages/collection/src/priority_queue.ddc",
  "packages/collection/src/utils": "packages/collection/src/utils.ddc",
+ "packages/dart2_constant/core": "packages/dart2_constant/core.ddc",
  "packages/dart_internal/extract_type_arguments": "packages/dart_internal/extract_type_arguments.ddc",
  "packages/example.ang/app_component": "packages/example.ang/app_component.ddc",
  "packages/example.ang/app_component.css.shim": "packages/example.ang/app_component.css.shim.ddc",
@@ -572,6 +603,33 @@ if(!window.$dartLoader) {
      moduleIdToUrl: new Map(),
      urlToModuleId: new Map(),
      rootDirectories: new Array(),
+     // Used in package:build_runner/src/server/build_updates_client/hot_reload_client.dart
+     moduleParentsGraph: new Map(),
+     moduleLoadingErrorCallbacks: new Map(),
+     forceLoadModule: function (moduleName, callback, onError) {
+       // dartdevc only strips the final extension when adding modules to source
+       // maps, so we need to do the same.
+       if (moduleName.endsWith('.ddc')) {
+         moduleName = moduleName.substring(0, moduleName.length - 4);
+       }
+       if (typeof onError != 'undefined') {
+         var errorCallbacks = $dartLoader.moduleLoadingErrorCallbacks;
+         if (!errorCallbacks.has(moduleName)) {
+           errorCallbacks.set(moduleName, new Set());
+         }
+         errorCallbacks.get(moduleName).add(onError);
+       }
+       requirejs.undef(moduleName);
+       requirejs([moduleName], function() {
+         if (typeof onError != 'undefined') {
+           errorCallbacks.get(moduleName).delete(onError);
+         }
+         if (typeof callback != 'undefined') {
+           callback();
+         }
+       });
+     },
+     getModuleLibraries: null, // set up by _initializeTools
    };
 }
 let customModulePaths = {};
@@ -598,6 +656,22 @@ for (let moduleName of Object.getOwnPropertyNames(modulePaths)) {
 (function() {
   var oldOnError = requirejs.onError;
   requirejs.onError = function(e) {
+    if (e.requireModules) {
+      if (e.message) {
+        // If error occurred on loading dependencies, we need to invalidate ancessor too.
+        var ancesor = e.message.match(/needed by: (.*)/);
+        if (ancesor) {
+          e.requireModules.push(ancesor[1]);
+        }
+      }
+      for (const module of e.requireModules) {
+        var errorCallbacks = $dartLoader.moduleLoadingErrorCallbacks.get(module);
+        if (errorCallbacks) {
+          for (const callback of errorCallbacks) callback(e);
+          errorCallbacks.clear();
+        }
+      }
+    }
     if (e.originalError && e.originalError.srcElement) {
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function() {
@@ -623,24 +697,25 @@ for (let moduleName of Object.getOwnPropertyNames(modulePaths)) {
 }());
 
 var baseUrl = (function () {
-  // Attempt to detect base url using <base href> html tag
-  // base href should start with "/"
-  if (typeof document !== 'undefined') {
-    var el = document.getElementsByTagName('base');
-    if (el && el[0] && el[0].getAttribute("href") && el[0].getAttribute("href").startsWith("/")){
-      return el[0].href;
-    }
-  }
   // Attempt to detect --precompiled mode for tests, and set the base url
   // appropriately, otherwise set it to '/'.
   var pathParts = location.pathname.split("/");
   if (pathParts[0] == "") {
     pathParts.shift();
   }
-  var baseUrl;
   if (pathParts.length > 1 && pathParts[1] == "test") {
     return "/" + pathParts.slice(0, 2).join("/") + "/";
   }
+  // Attempt to detect base url using <base href> html tag
+  // base href should start and end with "/"
+  if (typeof document !== 'undefined') {
+    var el = document.getElementsByTagName('base');
+    if (el && el[0] && el[0].getAttribute("href") && el[0].getAttribute
+    ("href").startsWith("/") && el[0].getAttribute("href").endsWith("/")){
+      return el[0].getAttribute("href");
+    }
+  }
+  // return default value
   return "/";
 }());
 ;
@@ -650,33 +725,70 @@ require.config({
     waitSeconds: 0,
     paths: customModulePaths
 });
-require(["web/main", "dart_sdk"], function(app, dart_sdk) {
+
+const modulesGraph = new Map();
+function getRegisteredModuleName(moduleMap) {
+  if ($dartLoader.moduleIdToUrl.has(moduleMap.name + '.ddc')) {
+    return moduleMap.name + '.ddc';
+  }
+  return moduleMap.name;
+}
+requirejs.onResourceLoad = function (context, map, depArray) {
+  const name = getRegisteredModuleName(map);
+  const depNameArray = depArray.map(getRegisteredModuleName);
+  if (modulesGraph.has(name)) {
+    // TODO Move this logic to better place
+    var previousDeps = modulesGraph.get(name);
+    var changed = previousDeps.length != depNameArray.length;
+    changed = changed || depNameArray.some(function(depName) {
+      return !previousDeps.includes(depName);
+    });
+    if (changed) {
+      console.warn("Dependencies graph change for module '" + name + "' detected. " +
+        "Dependencies was [" + previousDeps + "], now [" +  depNameArray.map((depName) => depName) +"]. " +
+        "Page can't be hot-reloaded, firing full page reload.");
+      window.location.reload();
+    }
+  } else {
+    modulesGraph.set(name, []);
+    for (const depName of depNameArray) {
+      if (!$dartLoader.moduleParentsGraph.has(depName)) {
+        $dartLoader.moduleParentsGraph.set(depName, []);
+      }
+      $dartLoader.moduleParentsGraph.get(depName).push(name);
+      modulesGraph.get(name).push(depName);
+    }
+  }
+};
+define("main.dart.bootstrap", ["web/main", "dart_sdk"], function(app, dart_sdk) {
   dart_sdk.dart.ignoreWhitelistedErrors(false);
   dart_sdk.dart.setStartAsyncSynchronously(true);
   dart_sdk._isolate_helper.startRootIsolate(() => {}, []);
 var baseUrl = (function () {
-  // Attempt to detect base url using <base href> html tag
-  // base href should start with "/"
-  if (typeof document !== 'undefined') {
-    var el = document.getElementsByTagName('base');
-    if (el && el[0] && el[0].getAttribute("href") && el[0].getAttribute("href").startsWith("/")){
-      return el[0].href;
-    }
-  }
   // Attempt to detect --precompiled mode for tests, and set the base url
   // appropriately, otherwise set it to '/'.
   var pathParts = location.pathname.split("/");
   if (pathParts[0] == "") {
     pathParts.shift();
   }
-  var baseUrl;
   if (pathParts.length > 1 && pathParts[1] == "test") {
     return "/" + pathParts.slice(0, 2).join("/") + "/";
   }
+  // Attempt to detect base url using <base href> html tag
+  // base href should start and end with "/"
+  if (typeof document !== 'undefined') {
+    var el = document.getElementsByTagName('base');
+    if (el && el[0] && el[0].getAttribute("href") && el[0].getAttribute
+    ("href").startsWith("/") && el[0].getAttribute("href").endsWith("/")){
+      return el[0].getAttribute("href");
+    }
+  }
+  // return default value
   return "/";
 }());
 
   dart_sdk._debugger.registerDevtoolsFormatter();
+  $dartLoader.getModuleLibraries = dart_sdk.dart.getModuleLibraries;
   if (window.$dartStackTraceUtility && !window.$dartStackTraceUtility.ready) {
     window.$dartStackTraceUtility.ready = true;
     let dart = dart_sdk.dart;
@@ -688,10 +800,24 @@ var baseUrl = (function () {
         return dart.getSourceMap(module);
       });
   }
-  if (window.postMessage) {
+  if (typeof document != 'undefined') {
     window.postMessage({ type: "DDC_STATE_CHANGE", state: "start" }, "*");
   }
 
   app.main.main();
+  var bootstrap = {
+      hot$onChildUpdate: function(childName, child) {
+        if (childName === "main.dart") {
+          child.main();
+          return true;
+        }
+      }
+    }
+  dart_sdk.dart.trackLibraries("main.dart.bootstrap", {
+    "main.dart.bootstrap": bootstrap
+  }, '');
+  return {
+    bootstrap: bootstrap
+  };
 });
 })();

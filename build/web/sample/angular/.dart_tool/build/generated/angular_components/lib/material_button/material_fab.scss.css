@@ -109,15 +109,6 @@
 :host .content {
   justify-content: center;
 }
-:host material-icon ::ng-deep .material-icon-i {
-  font-size: 24px;
-}
-:host glyph ::ng-deep i {
-  font-size: 24px;
-  height: 1em;
-  line-height: 1em;
-  width: 1em;
-}
 :host[mini] {
   font-size: 14px;
   font-weight: 500;
@@ -236,4 +227,15 @@
 :host.is-pressed[raised] {
   /*! @noflip */
   box-shadow: 0 12px 17px 2px rgba(0, 0, 0, 0.14), 0 5px 22px 4px rgba(0, 0, 0, 0.12), 0 7px 8px -4px rgba(0, 0, 0, 0.2);
+}
+
+material-icon ::ng-deep .material-icon-i.material-icon-i {
+  font-size: 24px;
+}
+
+glyph ::ng-deep i {
+  font-size: 24px;
+  height: 1em;
+  line-height: 1em;
+  width: 1em;
 }

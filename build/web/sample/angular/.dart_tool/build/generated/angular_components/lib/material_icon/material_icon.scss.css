@@ -7,22 +7,22 @@
 :host[light] {
   opacity: 0.54;
 }
-:host ::ng-deep .material-icon-i {
+:host .material-icon-i {
   font-size: 24px;
 }
-:host[size=x-small] ::ng-deep .material-icon-i {
+:host[size=x-small] .material-icon-i {
   font-size: 12px;
 }
-:host[size=small] ::ng-deep .material-icon-i {
+:host[size=small] .material-icon-i {
   font-size: 13px;
 }
-:host[size=medium] ::ng-deep .material-icon-i {
+:host[size=medium] .material-icon-i {
   font-size: 16px;
 }
-:host[size=large] ::ng-deep .material-icon-i {
+:host[size=large] .material-icon-i {
   font-size: 18px;
 }
-:host[size=x-large] ::ng-deep .material-icon-i {
+:host[size=x-large] .material-icon-i {
   font-size: 20px;
 }
 

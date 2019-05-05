@@ -76,10 +76,10 @@
   margin-left: auto;
   left: 8px;
 }
-.preset-dropdown-button glyph {
+.preset-dropdown-button material-icon {
   transform: rotate(-90deg);
 }
-:host-context([dir=rtl]) .preset-dropdown-button glyph {
+:host-context([dir=rtl]) .preset-dropdown-button material-icon {
   transform: rotate(90deg);
 }
 

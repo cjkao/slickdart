@@ -51,7 +51,6 @@
   margin: 0;
 }
 :host.disabled {
-  background: none;
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }

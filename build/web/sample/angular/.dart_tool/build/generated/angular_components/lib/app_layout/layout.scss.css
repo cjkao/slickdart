@@ -59,6 +59,7 @@ material-drawer[permanent][end] ~ .material-content {
 }
 material-drawer[persistent].mat-drawer-collapsed:not([end]) {
   transform: translateX(-100%);
+  -acx-workaround: true;
 }
 material-drawer[persistent].mat-drawer-collapsed:not([end]) ~ material-content,
 material-drawer[persistent].mat-drawer-collapsed:not([end]) ~ .material-content {
@@ -66,6 +67,7 @@ material-drawer[persistent].mat-drawer-collapsed:not([end]) ~ .material-content 
 }
 material-drawer[persistent].mat-drawer-collapsed[end] {
   transform: translateX(100%);
+  -acx-workaround: true;
 }
 material-drawer[persistent].mat-drawer-collapsed[end] ~ material-content,
 material-drawer[persistent].mat-drawer-collapsed[end] ~ .material-content {
@@ -125,7 +127,7 @@ material-content,
   padding: 0;
   position: relative;
   width: 100%;
-  z-index: 0;
+  z-index: 1;
 }
 .material-header.shadow {
   /*! @noflip */

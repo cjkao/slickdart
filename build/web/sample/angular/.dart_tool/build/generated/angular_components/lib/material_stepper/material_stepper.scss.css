@@ -118,7 +118,7 @@
   padding-left: 16px;
   vertical-align: sub;
 }
-.stepper-step-header .edit-icon[orientation=vertical][size=default] ::ng-deep .material-icon-i {
+.stepper-step-header .edit-icon[orientation=vertical][size=default] ::ng-deep .material-icon-i.material-icon-i {
   font-size: 16px;
 }
 

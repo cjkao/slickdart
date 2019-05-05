@@ -1,0 +1,54 @@
+label.cb {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 2px;
+  cursor: pointer;
+  font-size: 19px;
+  user-select: none;
+  /* On mouse-over, add a grey background color */
+}
+label.cb input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  /* When the checkbox is checked, add a blue background */
+  /* Show the checkmark when checked */
+}
+label.cb input:checked ~ .checkmark {
+  background-color: #2196f3;
+  border: 0;
+}
+label.cb input:checked ~ .checkmark:after {
+  display: block;
+}
+label.cb span.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  background-color: #eee;
+  border: 1px solid darkgray;
+  /* Create the checkmark/indicator (hidden when not checked) */
+  /* Style the checkmark/indicator */
+}
+label.cb span.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+label.cb span.checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+label.cb:hover input ~ .checkmark {
+  background-color: #bdeaf5;
+}

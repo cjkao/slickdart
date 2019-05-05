@@ -61,6 +61,7 @@
   align-items: center;
   color: rgba(0, 0, 0, 0.87);
   cursor: pointer;
+  min-height: 32px;
   outline: none;
 }
 .menu-item.disabled {
@@ -124,8 +125,21 @@
   padding-top: 8px;
 }
 
-.menu-item-label {
+.menu-item-label-section {
+  display: inline-flex;
   flex: 1;
+  flex-direction: column;
+  line-height: normal;
+  padding: 4px 0;
+}
+
+.menu-item-secondary-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(0, 0, 0, 0.54);
+  font: 400 12px / 20px Roboto, Noto, sans-serif;
+  letter-spacing: 0.02em;
 }
 
 .item-group-list {

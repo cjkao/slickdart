@@ -70,14 +70,15 @@ header.hidden {
   font-weight: 400;
   cursor: pointer;
   min-height: 48px;
+  min-width: 0;
   outline: none;
   padding: 0 24px;
   transition: min-height 436ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.header.closed:hover, .header.closed:focus {
+.header.closed:not(.is-disabled):hover, .header.closed:not(.is-disabled):focus {
   background-color: #eeeeee;
 }
-.header.disable-header-expansion {
+.header.disable-header-expansion, .header.is-disabled {
   cursor: default;
 }
 

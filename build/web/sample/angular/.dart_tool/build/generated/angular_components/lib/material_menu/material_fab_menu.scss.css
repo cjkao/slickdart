@@ -58,7 +58,9 @@ material-fab.invisible {
 }
 .menu-content ::ng-deep .menu-item-label {
   white-space: normal;
-  line-height: 1.25em;
+}
+.menu-content ::ng-deep .menu-item-secondary-label {
+  white-space: normal;
 }
 .menu-content.visible {
   border-radius: 2px;

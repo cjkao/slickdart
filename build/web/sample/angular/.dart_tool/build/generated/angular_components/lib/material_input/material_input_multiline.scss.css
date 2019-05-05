@@ -9,3 +9,7 @@
   visibility: hidden;
   position: absolute;
 }
+
+.staticHeight {
+  position: static;
+}
