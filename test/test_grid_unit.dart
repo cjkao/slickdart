@@ -8,30 +8,24 @@ import 'package:test/test.dart';
 grid.SlickGrid init() {
   Element el = querySelector('#grid');
   List<grid.Column> column = [
-    new grid.Column.fromMap(
-        {'id': "title", 'name': "Title1", 'field': "title"}),
-    new grid.Column.fromMap({
-      'id': "duration",
-      'name': "percentComplete",
-      'field': "percentComplete"
-    }),
-    new grid.Column.fromMap({'id': "%", 'name': "start", 'field': "start"}),
-    new grid.Column.fromMap(
-        {'id': "start", 'name': "finish", 'field': "finish"})
+    grid.Column.fromMap({'id': "title", 'name': "Title1", 'field': "title"}),
+    grid.Column.fromMap({'id': "duration", 'name': "percentComplete", 'field': "percentComplete"}),
+    grid.Column.fromMap({'id': "%", 'name': "start", 'field': "start"}),
+    grid.Column.fromMap({'id': "start", 'name': "finish", 'field': "finish"})
   ];
   List data = [];
   for (var i = 0; i < 500; i++) {
     data.add({
       'title': "Task $i",
       'duration': "5 days",
-      'percentComplete': new math.Random().nextInt(10) * 100,
+      'percentComplete': math.Random().nextInt(10) * 100,
       'start': "01/01/2009",
       'finish': "01/05/2009",
       'effortDriven': (i % 5 == 0)
     });
   }
   Map opt = {'explicitInitialization': false};
-  return new grid.SlickGrid(el, data, column, opt);
+  return grid.SlickGrid(el, data, column, opt);
 }
 
 void main() {
@@ -55,7 +49,7 @@ void main() {
   });
   test('regex', () {
 //    assert('.l12345'.contains('.l123'));
-    // RegExp r= new RegExp("\.l\\d+");
+    // RegExp r=  RegExp("\.l\\d+");
     // bool result ='a.l123456'.contains(r"\.l\\d+");
     var m = r"\.l\\d+".matchAsPrefix('.l12345');
     expect(m, null);
@@ -91,12 +85,12 @@ void main() {
       m3['a'] = 6;
       m3['b'] = 61;
       Map<Symbol, dynamic> m3p = {};
-      m3.forEach((k, v) => m3p[new Symbol(k)] = v);
+      m3.forEach((k, v) => m3p[Symbol(k)] = v);
       Function.apply(foo3, [], m3p);
     });
 
     test('multi class match', () {
-      Element e = new DivElement();
+      Element e = DivElement();
       e.classes.add('a');
       e.classes.add('c');
 
@@ -106,10 +100,10 @@ void main() {
 
     test('stream', () {
       // var data = [1,2,3,4,5];
-      var future = new Future(() {
+      var future = Future(() {
         return 1;
       });
-      var stream = new Stream.fromFuture(future);
+      var stream = Stream.fromFuture(future);
       stream.listen((value) => print("stream.listen: $value"));
     });
   });

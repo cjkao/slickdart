@@ -3,8 +3,7 @@ import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 
 String searchStr = '';
-grid.FilteredList srcData = new grid.FilteredList();
-
+grid.FilteredList srcData = grid.FilteredList();
 
 String alertFormatter(int row, int cell, value, grid.Column columnDef, Map dataRow) {
   if (dataRow['_height'] != null && dataRow['_height'] > 70) {
@@ -19,15 +18,13 @@ String alertFormatter(int row, int cell, value, grid.Column columnDef, Map dataR
         </div>
         ''';
   } else {
-    return value > 5
-        ? '<span class="label label-success">Success</span>'
-        : '<span class="label label-default">Default</span>';
+    return value > 5 ? '<span class="label label-success">Success</span>' : '<span class="label label-default">Default</span>';
   }
 }
 
 grid.SlickGrid makeGrid() {
   Element el = querySelector('#grid');
-  List<grid.Column> column = new grid.ColumnList.fromMap([
+  List<grid.Column> column = grid.ColumnList.fromMap([
     {'field': "title", 'sortable': true, 'width': 20},
     {'field': "percentComplete", 'width': 120, 'formatter': alertFormatter},
     {'field': "book", 'sortable': true, 'editor': 'TextEditor'},
@@ -41,21 +38,21 @@ grid.SlickGrid makeGrid() {
   for (var i = 0; i < 500; i++) {
     srcData.add({
       'title': i + 1,
-      'duration': 'd ${i*100}',
-      'percentComplete': new math.Random().nextInt(10),
-      'start': "01/01/20${i} ${new String.fromCharCode(new math.Random().nextInt(4) + 65) }"
-          "${new String.fromCharCode(new math.Random().nextInt(4) + 97) }",
-      'finish': "01/05/21${i+1}",
-      'book': "$i${new math.Random().nextInt(5)}",
+      'duration': 'd ${i * 100}',
+      'percentComplete': math.Random().nextInt(10),
+      'start': "01/01/20${i} ${String.fromCharCode(math.Random().nextInt(4) + 65)}"
+          "${String.fromCharCode(math.Random().nextInt(4) + 97)}",
+      'finish': "01/05/21${i + 1}",
+      'book': "$i${math.Random().nextInt(5)}",
       'effortDriven': (i % 5 == 0),
       'boolean': (i % 5 == 0)
     });
     if (i % 2 == 0) {
-      srcData[i]['_height'] = 50 + new math.Random().nextInt(100);
+      srcData[i]['_height'] = 50 + math.Random().nextInt(100);
     } else {}
   }
 
-  var opt = new grid.GridOptions()
+  var opt = grid.GridOptions()
     ..explicitInitialization = false
     ..multiSelect = false
     ..multiColumnSort = false
@@ -64,7 +61,7 @@ grid.SlickGrid makeGrid() {
   grid.SlickGrid sg;
   Map<String, String> getMeta(int row) {
     Map item = sg.data[row];
-    bool exist = item.values.any((_) => searchStr.isNotEmpty  && _ is String && _.contains(searchStr));
+    bool exist = item.values.any((_) => searchStr.isNotEmpty && _ is String && _.contains(searchStr));
     if (exist) {
       return {"cssClasses": "highlight"};
     } else if (row % 2 == 5) {
@@ -74,9 +71,9 @@ grid.SlickGrid makeGrid() {
     }
   }
 
-  sg = new grid.SlickGrid.fromOpt(el, new grid.MetaList(srcData, getMeta), column, opt);
+  sg = grid.SlickGrid.fromOpt(el, grid.MetaList(srcData, getMeta), column, opt);
 
-  grid.RowSelectionModel rsm = new grid.RowSelectionModel({'selectActiveRow': true});
+  grid.RowSelectionModel rsm = grid.RowSelectionModel({'selectActiveRow': true});
   sg.onSelectedRowsChanged.subscribe((var e, args) {
     rsm.getSelectedRows().forEach(print);
   });
@@ -87,13 +84,7 @@ grid.SlickGrid makeGrid() {
   return sg;
 }
 
-
-
 void main() {
-
-
-
-
   srcData.ignoreCase = true;
   grid.SlickGrid sg = makeGrid();
   sg.init();

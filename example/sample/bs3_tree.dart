@@ -5,9 +5,9 @@ import 'package:slickdart/slick.dart' as cj;
 import 'dart:math' as math;
 import 'package:slickdart/plugin.dart';
 import 'dart:collection';
+import 'package:slickdart/src/slick_formatters.dart';
 
-cj.HierarchFilterList _data =
-    cj.HierarchFilterList.withKeyField("_parent", "id", "_collapsed");
+cj.HierarchFilterList _data = cj.HierarchFilterList.withKeyField("_parent", "id", "_collapsed");
 void main() {
   cj.SlickGrid grid = prepareGrid();
   grid.init();
@@ -67,35 +67,23 @@ List makeData(int len) {
 cj.SlickGrid prepareGrid() {
   Element el = querySelector('#grid');
   List<cj.Column> column = [
-    cj.Column.fromMap({
-      'field': "title",
-      'name': "TASK",
-      'width': 220,
-      'sortable': false,
-      'formatter': TaskNameFormatter
-    }),
-    cj.Column.fromMap({
-      'field': "duration",
-      'name': "A",
-      'width': 60,
-      'sortable': false,
-      'editor': 'TextEditor'
-    }),
+    cj.Column.fromMap({'field': "title", 'name': "TASK", 'width': 220, 'sortable': false, 'formatter': TaskNameFormatter}),
+    cj.Column.fromMap({'field': "duration", 'name': "A", 'width': 60, 'sortable': false, 'editor': 'TextEditor'}),
     cj.Column.fromMap({
       'field': "percentComplete",
       'name': 'Complete Rate',
       'width': 140,
       'sortable': true,
       'editor': 'DoubleEditor',
-      'formatter': cj.PercentCompleteBarFormatter
+      'formatter': PercentCompleteBarFormatter
     }),
     cj.Column.fromMap({'field': "finish", 'name': "C"}),
     cj.Column.fromMap({'field': "start", 'name': "D"}),
     cj.Column.fromMap({'field': "effortDriven", 'name': "E", 'width': 200})
   ];
-//  cj.CheckboxSelectColumn checkboxCol=new cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
+//  cj.CheckboxSelectColumn checkboxCol= cj.CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
 //  column.insert(0,checkboxCol.getColumnDefinition());
-  var opt = new cj.GridOptions()
+  var opt = cj.GridOptions()
     ..explicitInitialization = false
     ..multiColumnSort = true
     ..editable = true
@@ -110,7 +98,7 @@ cj.SlickGrid prepareGrid() {
 //  sg.registerPlugin(checkboxCol);
   sg.registerPlugin(AutoTooltips());
 
-  //sg.setSelectionModel(new CellSelectionModel(sg.options));
+  //sg.setSelectionModel( CellSelectionModel(sg.options));
   //args: {rows:[...], grid: SlickGrid }
   sg.onSelectedRowsChanged.subscribe((cj.EventData e, Map args) {
     querySelector('.right-pane')
@@ -135,15 +123,12 @@ cj.SlickGrid prepareGrid() {
   return sg;
 }
 
-cj.TFormatter TaskNameFormatter =
-    (int row, int cell, dynamic value, cj.Column columnDef, dataContext) {
-  var spacer =
-      "<span style='display:inline-block;height:1px;width:${15 *dataContext["indent"]}px'></span>";
+cj.TFormatter TaskNameFormatter = (int row, int cell, dynamic value, cj.Column columnDef, dataContext) {
+  var spacer = "<span style='display:inline-block;height:1px;width:${15 * dataContext["indent"]}px'></span>";
   if (dataContext['_collapsed']) {
     return spacer + " <span class='toggle expand'></span>&nbsp;" + value;
   }
-  if (row + 1 < _data.length &&
-      _data[row + 1]['indent'] > _data[row]['indent']) {
+  if (row + 1 < _data.length && _data[row + 1]['indent'] > _data[row]['indent']) {
     {
       return spacer + " <span class='toggle collapse'></span>&nbsp;" + value;
     }

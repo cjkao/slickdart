@@ -3,7 +3,7 @@ import 'package:slickdart/slick.dart' as grid;
 import 'dart:math' as math;
 
 String searchStr = '';
-List<Map<String,dynamic>> srcData = [];
+List<Map<String, dynamic>> srcData = [];
 void main() {
   grid.SlickGrid sg = makeGrid();
   sg.init();
@@ -46,15 +46,13 @@ AlertFormatter(int row, int cell, int value, grid.Column columnDef, Map dataRow)
         </div>
         ''';
   } else {
-    return value > 5
-        ? '<span class="label label-success">Success</span>'
-        : '<span class="label label-default">Default</span>';
+    return value > 5 ? '<span class="label label-success">Success</span>' : '<span class="label label-default">Default</span>';
   }
 }
 
 grid.SlickGrid makeGrid() {
   Element el = querySelector('#grid');
-  List<grid.Column> column = new grid.ColumnList.fromMap([
+  List<grid.Column> column = grid.ColumnList.fromMap([
     {'field': "title", 'sortable': true, 'width': 20},
     {'field': "percentComplete", 'width': 120, 'formatter': AlertFormatter},
     {'field': "book", 'sortable': true, 'editor': 'TextEditor'},
@@ -67,16 +65,16 @@ grid.SlickGrid makeGrid() {
   for (var i = 0; i < 1500; i++) {
     srcData.add({
       'title': i + 1,
-      'duration': 'd ${i*100}',
-      'percentComplete': new math.Random().nextInt(10),
+      'duration': 'd ${i * 100}',
+      'percentComplete': math.Random().nextInt(10),
       'start': "01/01/20${i}",
       'finish': "01/05/2009",
       'finish1': "01/05/2009 $i",
-      'book': "$i${new math.Random().nextInt(5)}",
+      'book': "$i${math.Random().nextInt(5)}",
       'effortDriven': (i % 5 == 0)
     });
     if (i % 2 == 0) {
-      srcData[i]['_height'] = 50 + new math.Random().nextInt(100);
+      srcData[i]['_height'] = 50 + math.Random().nextInt(100);
     } else {}
   }
   Map opt = {'explicitInitialization': false, 'multiColumnSort': false, 'dynamicHeight': true, 'frozenColumn': 0};
@@ -105,7 +103,7 @@ grid.SlickGrid makeGrid() {
     }
   }
 
-  sg = new grid.SlickGrid(el, new grid.MetaList(tdata, getMeta), column, opt);
+  sg = grid.SlickGrid(el, grid.MetaList(tdata, getMeta), column, opt);
   sg.onSort.subscribe(grid.basicSorter);
 
   return sg;

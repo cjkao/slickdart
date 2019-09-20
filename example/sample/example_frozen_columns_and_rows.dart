@@ -10,7 +10,7 @@ void main() {
 
 grid.SlickGrid init() {
   Element el = querySelector('#myGrid');
-  List<grid.Column> column = new grid.ColumnList.fromMap([
+  List<grid.Column> column = grid.ColumnList.fromMap([
     {'field': "seq", 'sortable': true, 'width': 50},
     {'field': "percentComplete", 'sortable': true},
     {'field': "duration", 'name': "start3", 'sortable': true},
@@ -36,9 +36,9 @@ grid.SlickGrid init() {
   for (var i = 0; i < 300; i++) {
     data.add({
       'seq': i,
-      'title': 'aa nnn aaa' + new math.Random().nextInt(100).toString(),
-      'duration': new math.Random().nextInt(100).toString(),
-      'percentComplete': new math.Random().nextInt(10) * 100,
+      'title': 'aa nnn aaa' + math.Random().nextInt(100).toString(),
+      'duration': math.Random().nextInt(100).toString(),
+      'percentComplete': math.Random().nextInt(10) * 100,
       'start': "01/01/2009",
       'finish': "01/05/2009",
       'finish1': "01/05/2009 $i",
@@ -56,8 +56,8 @@ grid.SlickGrid init() {
 //    'frozenColumn': 0,
     'frozenRow': 1,
   };
-  grid.SlickGrid sg = new grid.SlickGrid(el, data, column, opt);
-  sg.registerPlugin(new AutoTooltips());
+  grid.SlickGrid sg = grid.SlickGrid(el, data, column, opt);
+  sg.registerPlugin(AutoTooltips());
   sg.onSort.subscribe(grid.basicSorter);
 
   return sg;

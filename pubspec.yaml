@@ -9,19 +9,7 @@ environment:
 dependencies:
   logging: '>=0.11.0 <2.0.0'
 dev_dependencies:
-  build_runner: ^1.1.0
-  build_web_compilers: ^1.0.0
-#  dnd: any
-#  angular: 1.1.2+2
-#  angular: ^5.0.0-alpha
-#  angular_ui: any
-#  html5: ^0.1.
-  test: ^1.0.0
-#  polymer: ^1.0.0-rc.19
-#  polymer_elements: ^1.0.0-rc.10
-#  web_components: ^0.12.5
-#  throttle_debounce: "^0.1.2+1"
-#  initialize: any
-#  datepicker: any
-#  pubviz: any
+  build_runner: ^1.7.0
+  build_web_compilers: ^2.4.0
+  test: ^1.6.0
 

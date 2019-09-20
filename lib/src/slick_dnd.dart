@@ -6,8 +6,9 @@ import 'slick_util.dart';
 import 'package:logging/logging.dart';
 import 'dart:html';
 
-Logger _log = new Logger('slick.dnd');
-const String _DND_TYPE='text';
+Logger _log = Logger('slick.dnd');
+const String _DND_TYPE = 'text';
+
 /// for column header DND
 class DragAndDrop {
   Element rootEl;
@@ -15,7 +16,7 @@ class DragAndDrop {
   Element _enter; //latest entered elem
   var _startPoint;
   SlickGrid _grid;
-  DragAndDrop(this._grid, this.rootEl) {}
+  DragAndDrop(this._grid, this.rootEl);
   install() {
     List<Element> cols = rootEl.querySelectorAll('.slick-header-column');
     for (Element col in cols) {

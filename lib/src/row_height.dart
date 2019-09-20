@@ -1,18 +1,18 @@
 library row_height;
 
 //import 'slick_core.dart';
-/**
- * left can be node
- * 1. add a row or del a row should reflect to tree
- * 2. construct a tree from rows
- * 3. lookup a row position
- * 4. given a position, reply a starting row
- *           n
- *         n      n
- *       n   n    n  n
- *      l l l l  l l l l
- *   a horzontal link list on leaf that reduce cost to search target row by pos
- */
+///
+/// left can be node
+/// 1. add a row or del a row should reflect to tree
+/// 2. construct a tree from rows
+/// 3. lookup a row position
+/// 4. given a position, reply a starting row
+///           n
+///         n      n
+///       n   n    n  n
+///      l l l l  l l l l
+///   a horzontal link list on leaf that reduce cost to search target row by pos
+///
 class Node {
   Node left, right;
   int height; //total height of this leaf
@@ -20,9 +20,9 @@ class Node {
   int startRow; //start row index of rows
 
 //  int defaultHeight=0; //0px
-  /**
-   * @param defaultHeight default height in px
-   */
+  ///
+  /// @param defaultHeight default height in px
+  ///
   Node() {
     //this.rows=rows;
   }
@@ -33,15 +33,15 @@ class Node {
     //recursive dividen rows and construct it
     if (rows.length > Root.THRESHOLD * 2) {
       int half = rows.length ~/ 2;
-      node.left = _createTree(new Node(), rows.sublist(0, half), root, beginIdx);
-      node.right = _createTree(new Node(), rows.sublist(half), root, beginIdx + half);
+      node.left = _createTree(Node(), rows.sublist(0, half), root, beginIdx);
+      node.right = _createTree(Node(), rows.sublist(half), root, beginIdx + half);
       node.numRow = rows.length;
       node.height = node.left.height + node.right.height;
       node.startRow = beginIdx;
       return node;
     } else {
       //root may cover all
-      Node leaf = new Leaf();
+      Node leaf = Leaf();
       //int defHeight=0;
       if (node == root) {
         leaf = root;
@@ -70,18 +70,19 @@ class Node {
 //    if(this)
 //    }
 
-  /**
-   * get y position relative first row,
-   * first row height=0
-   * @param rowId target rowId,zero based
-   * @param beginHeight start height of each block
-   * @return compuatd y axis relative to 0
-   */
+  ///
+  /// get y position relative first row,
+  /// first row height=0
+  /// @param rowId target rowId,zero based
+  /// @param beginHeight start height of each block
+  /// @return compuatd y axis relative to 0
+  ///
   int _getPositionHelper(int rowId, [int beginHeight = 0]) {
     if (!this._isLeaf()) {
       if (this.left != null && this.left._inScope(rowId)) return this.left._getPositionHelper(rowId, beginHeight);
-      if (this.right != null && this.right._inScope(rowId))
+      if (this.right != null && this.right._inScope(rowId)) {
         return this.right._getPositionHelper(rowId, this.left.height + beginHeight);
+      }
     } else {
       //leaf
       //begin hight + each item length in block to target rowid
@@ -106,8 +107,7 @@ class Node {
       return r.cache[rowId];
     }
     if (r.cache.containsKey(rowId - 1)) {
-      int curPos =
-          r.cache[rowId - 1] + (r.rows[rowId - 1]['_height'] != null ? r.rows[rowId - 1]['_height'] : r.defaultHeight);
+      int curPos = r.cache[rowId - 1] + (r.rows[rowId - 1]['_height'] != null ? r.rows[rowId - 1]['_height'] : r.defaultHeight);
       r.cache[rowId] = curPos;
       return r.cache[rowId];
     }
@@ -119,10 +119,10 @@ class Node {
     return npos;
   }
 
-  /**
-   * get rowId from position
-   * @param position current y postion relative to first row
-   */
+  ///
+  /// get rowId from position
+  /// @param position current y postion relative to first row
+  ///
   int getRowId(int position) {
     Node start = this;
     int beginHeight = 0;
@@ -139,8 +139,7 @@ class Node {
     Leaf curPos = start as Leaf;
     List arr = curPos.root.rows;
     for (int i = 0; i < start.numRow; ++i) {
-      int len =
-          arr[start.startRow + i]['_height'] != null ? arr[start.startRow + i]['_height'] : curPos.root.defaultHeight;
+      int len = arr[start.startRow + i]['_height'] != null ? arr[start.startRow + i]['_height'] : curPos.root.defaultHeight;
       if (beginHeight <= position && beginHeight + len > position) {
         return start.startRow + i;
       } else {
@@ -151,9 +150,9 @@ class Node {
   }
 }
 
-/**
- * a leaf is start or
- */
+///
+/// a leaf is start or
+///
 class Leaf extends Node {
   Root root;
 }

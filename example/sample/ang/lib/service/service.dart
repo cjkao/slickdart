@@ -8,7 +8,7 @@ import 'package:slickdart/slick.dart';
 
 @Injectable()
 class MyService {
-  var client = new BrowserClient();
+  var client = BrowserClient();
   Future<Map> getJson() async {
     var resp = await client.get("data.json");
     return json.decode(resp.body);

@@ -32,27 +32,14 @@ void main() {
 cj.SlickGrid setup() {
   Element el = querySelector('#grid');
   columnList = [
-    new cj.Column.fromMap({'name': "Title1", 'field': "dtitle", 'sortable': true, 'minWidth': 70, 'maxWidth': 100}),
-    new cj.Column.fromMap({
-      'width': 120,
-      'field': "duration",
-      'sortable': true,
-      'editor': new NumberEditor(),
-      'minWidth': 80,
-      'maxWidth': 200
-    }),
-    new cj.Column.fromMap({
-      'name': "percent",
-      'field': "pc2",
-      'sortable': true,
-      'editor': new NumberEditor(),
-      'minWidth': 90,
-      'maxWidth': 200
-    }),
-    new cj.Column.fromMap({'name': "finish", 'field': "finish", 'minWidth': 100, 'maxWidth': 200}),
-    new cj.Column.fromMap(
-        {'name': "String field", 'field': "pc", 'editor': 'TextEditor', 'minWidth': 110, 'maxWidth': 200}),
-    new cj.Column.fromMap({'name': "effort", 'field': "effortDriven", 'width': 150, 'minWidth': 120, 'maxWidth': 200})
+    cj.Column.fromMap({'name': "Title1", 'field': "dtitle", 'sortable': true, 'minWidth': 70, 'maxWidth': 100}),
+    cj.Column.fromMap(
+        {'width': 120, 'field': "duration", 'sortable': true, 'editor': NumberEditor(), 'minWidth': 80, 'maxWidth': 200}),
+    cj.Column.fromMap(
+        {'name': "percent", 'field': "pc2", 'sortable': true, 'editor': NumberEditor(), 'minWidth': 90, 'maxWidth': 200}),
+    cj.Column.fromMap({'name': "finish", 'field': "finish", 'minWidth': 100, 'maxWidth': 200}),
+    cj.Column.fromMap({'name': "String field", 'field': "pc", 'editor': 'TextEditor', 'minWidth': 110, 'maxWidth': 200}),
+    cj.Column.fromMap({'name': "effort", 'field': "effortDriven", 'width': 150, 'minWidth': 120, 'maxWidth': 200})
   ];
 
   //append column menu
@@ -72,21 +59,21 @@ cj.SlickGrid setup() {
     };
   }
 
-  cj.CheckboxSelectColumn checkboxCol = new cj.CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
+  cj.CheckboxSelectColumn checkboxCol = cj.CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
   columnList.insert(0, checkboxCol.getColumnDefinition());
   List data = [];
   for (var i = 0; i < 50000; i++) {
     data.add({
-      'dtitle': 'Str' + new math.Random().nextInt(100).toString(),
-      'duration': new math.Random().nextInt(100),
-      'pc2': new math.Random().nextInt(10) * 100,
-      'pc': (new math.Random().nextInt(10) * 100).toString(),
+      'dtitle': 'Str' + math.Random().nextInt(100).toString(),
+      'duration': math.Random().nextInt(100),
+      'pc2': math.Random().nextInt(10) * 100,
+      'pc': (math.Random().nextInt(10) * 100).toString(),
       'start': "01/01/2009",
-      'finish': (new math.Random().nextInt(10) + 10).toString() + "/05/2013",
+      'finish': (math.Random().nextInt(10) + 10).toString() + "/05/2013",
       'effortDriven': (i % 5 == 0)
     });
   }
-  cj.GridOptions opt = new cj.GridOptions();
+  cj.GridOptions opt = cj.GridOptions();
   opt
         ..explicitInitialization = false
         ..multiColumnSort = true
@@ -111,20 +98,20 @@ cj.SlickGrid setup() {
 //
 //         //    'forceFitColumns':true
 //  };
-  cj.SlickGrid sg = new cj.SlickGrid.fromOpt(el, data, columnList, opt);
-  sg.setSelectionModel(new cj.RowSelectionModel({'selectActiveRow': false}));
+  cj.SlickGrid sg = cj.SlickGrid.fromOpt(el, data, columnList, opt);
+  sg.setSelectionModel(cj.RowSelectionModel({'selectActiveRow': false}));
 
   sg.registerPlugin(checkboxCol);
-  sg.registerPlugin(new AutoTooltips());
+  sg.registerPlugin(AutoTooltips());
 
-  HeaderMenu headerMenuPlugin = new HeaderMenu({});
+  HeaderMenu headerMenuPlugin = HeaderMenu({});
   /**
    * args: grid, column , columnMenu
    */
   headerMenuPlugin.onBeforeMenuShow.subscribe((e, args) {
     // return false;
     List<MenuItem> menuList = args['menu'] as List<MenuItem>;
-    menuList.add(new MenuItem.forMap(title: 'item1', command: 'alert'));
+    menuList.add(MenuItem.forMap(title: 'item1', command: 'alert'));
   });
   headerMenuPlugin.onCommand.subscribe((e, args) {
     if (args['command'] == 'hide') {
@@ -152,6 +139,8 @@ class NumberEditor extends cj.TextEditor {
     try {
       int val = int.parse(state);
       super.applyValue(item, val);
-    } catch (e) {}
+    } catch (e) {
+      print("format error $state");
+    }
   }
 }

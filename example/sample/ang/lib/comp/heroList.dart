@@ -35,6 +35,7 @@ class HeroListComponent implements OnInit {
   void ngOnInit() => _getHeroes();
   String _heroUrl(int id) =>
       paths.hero.toUrl(parameters: {paths.idParam: id.toString()});
+
   void gotoDetail() {
     _router.navigate(_heroUrl(hero.id));
   }

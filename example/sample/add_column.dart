@@ -13,15 +13,16 @@ Map<String, String> getMeta(int row) {
     hash[row] = {'UNITID': 'bold', 'school_id': 'bold'};
 
     return {"cssClasses": "highlight"};
-  } else
-    return {}; // {"cssClasses":'highlight'};
+  } else {
+    return {};
+  } // {"cssClasses":'highlight'};
 }
 
 main() {
   registerElem();
   List<Column> cols;
   HttpRequest.getString('gss1983_Code-small.csv').then((data) {
-    csv =  CsvAdapter(data);
+    csv = CsvAdapter(data);
     cols = getColDefs(csv.columns);
     cols[1]
       ..width = 20
@@ -33,16 +34,16 @@ main() {
       'multiColumnSort': true,
       'editable': false,
     };
-    gw0 = JGrid( document.querySelector("$GRID_TAG.second"));
-    gw0.init( MetaList(csv.data, getMeta), [], option: opt);
+    gw0 = JGrid(document.querySelector("$GRID_TAG.second"));
+    gw0.init(MetaList(csv.data, getMeta), [], option: opt);
 
-    gw0.grid.onSort.subscribe((EventData e,EvtArgs parm) {
+    gw0.grid.onSort.subscribe((EventData e, EvtArgs parm) {
       hash.clear();
       gw0.grid.invalidate();
     });
   });
   querySelector('.btn').onClick.listen((_) {
-    int rndColCnt = new Random().nextInt(cols.length);
+    int rndColCnt = Random().nextInt(cols.length);
     cols.shuffle();
 
     gw0.grid
@@ -56,9 +57,8 @@ CsvAdapter csv;
 String filterStr;
 
 List<Column> getColDefs(List<Column> cols) {
-
-  List<Column> newCols = cols.map((col) => new Column.fromColumn(col)..sortable = true).toList();
-  CheckboxSelectColumn checkboxCol = new CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
+  List<Column> newCols = cols.map((col) => Column.fromColumn(col)..sortable = true).toList();
+  CheckboxSelectColumn checkboxCol = CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
   newCols.insert(0, checkboxCol.getColumnDefinition());
   return newCols;
 }

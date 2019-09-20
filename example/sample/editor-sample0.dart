@@ -13,59 +13,37 @@ void main() {
 SlickGrid prepareGrid() {
   Element el = querySelector('#grid');
   List<Column> column = [
-    new Column.fromMap({
-      'name': 'string',
-      'field': "str",
-      'sortable': true,
-      'editor': 'TextEditor'
-    }),
-    new Column.fromMap(
-        {'field': "int", 'sortable': true, 'editor': 'IntEditor'}),
-    new Column.fromMap(
-        {'field': "double", 'sortable': true, 'editor': 'DoubleEditor'}),
-    new Column.fromMap({
-      'name': 'checkbox-str',
-      'field': "checkbox2",
-      'width': 140,
-      'editor': 'CheckboxEditor',
-      'formatter': CheckmarkFormatter
-    }),
-    new Column.fromMap({
-      'name': 'date editor',
-      'field': "StartDate",
-      'width': 140,
-      'editor': new DateEditor()
-    }),
-    new Column.fromMap({
-      'id': 'checkbox1',
-      'field': "checkbox",
-      'width': 140,
-      'editor': new CheckboxEditor(),
-      'formatter': CheckmarkFormatter
-    }),
-    new Column.fromMap({
+    Column.fromMap({'name': 'string', 'field': "str", 'sortable': true, 'editor': 'TextEditor'}),
+    Column.fromMap({'field': "int", 'sortable': true, 'editor': 'IntEditor'}),
+    Column.fromMap({'field': "double", 'sortable': true, 'editor': 'DoubleEditor'}),
+    Column.fromMap(
+        {'name': 'checkbox-str', 'field': "checkbox2", 'width': 140, 'editor': 'CheckboxEditor', 'formatter': CheckmarkFormatter}),
+    Column.fromMap({'name': 'date editor', 'field': "StartDate", 'width': 140, 'editor': DateEditor()}),
+    Column.fromMap(
+        {'id': 'checkbox1', 'field': "checkbox", 'width': 140, 'editor': CheckboxEditor(), 'formatter': CheckmarkFormatter}),
+    Column.fromMap({
       'id': "%",
       'name': "percent",
       'field': "pc",
       'sortable': true,
-      'editor': new PercentCompleteEditor(),
+      'editor': PercentCompleteEditor(),
       'formatter': PercentCompleteBarFormatter
     }),
-    new Column.fromMap({
+    Column.fromMap({
       'name': 'int List Editor',
       'field': "intlist",
       'width': 100,
-      'editor': new SelectListEditor({0: "Label_0", 1: "Lable_1", 2: "Label_2"})
+      'editor': SelectListEditor({0: "Label_0", 1: "Lable_1", 2: "Label_2"})
     }),
-    new Column.fromMap({
+    Column.fromMap({
       'name': 'str List Editor',
       'field': "City",
       'width': 100,
-      'editor': new SelectListEditor({"NY": "New York", "TPE": "Taipei"})
+      'editor': SelectListEditor({"NY": " York", "TPE": "Taipei"})
     }),
   ];
   List data = [];
-  var rand = new math.Random();
+  var rand = math.Random();
   for (var i = 0; i < 50; i++) {
     data.add({
       'str': rand.nextInt(100).toString(),
@@ -76,10 +54,10 @@ SlickGrid prepareGrid() {
       'checkbox2': rand.nextBool() ? true : false,
       'intlist': rand.nextInt(2),
       'City': "NY",
-      'StartDate': '200${i%9}-01-31'
+      'StartDate': '200${i % 9}-01-31'
     });
   }
-  GridOptions opt = new GridOptions()
+  GridOptions opt = GridOptions()
     ..forceFitColumns = false
     ..editable = true
     ..enableColumnReorder = true
@@ -88,9 +66,9 @@ SlickGrid prepareGrid() {
     ..headerRowHeight = 50
     ..showHeaderRow = true
     ..autoCommitOnBlur = true;
-  SlickGrid sg = new SlickGrid.fromOpt(el, data, column, opt);
+  SlickGrid sg = SlickGrid.fromOpt(el, data, column, opt);
 
-  sg.setSelectionModel(new RowSelectionModel(sg.options));
+  sg.setSelectionModel(RowSelectionModel(sg.options));
 
   sg.onBeforeEditCell.subscribe((e, args) {
     //swap editor here
@@ -127,10 +105,7 @@ class DateEditor extends InputEditor {
 
   Map validate() {
     var date = ($input as DateInputElement).valueAsDate;
-    return {
-      'valid': date.isAfter(new DateTime(2012, 01, 08)),
-      'msg': 'not valid date'
-    };
+    return {'valid': date.isAfter(DateTime(2012, 01, 08)), 'msg': 'not valid date'};
   }
 
   //void destroy() => $input.remove();
@@ -143,15 +118,14 @@ class DateEditor extends InputEditor {
     $input.focus();
   }
 
-  /**
-   * opt: { option_value: option_display_name,....}
-   */
+  ///
+  /// opt: { option_value: option_display_name,....}
+  ///
   DateEditor();
 
   loadValue(item) {
     super.loadValue(item);
-    var dateStr =
-        (item[this.editorParm.columnDef.field] as String).replaceAll('/', '-');
+    var dateStr = (item[this.editorParm.columnDef.field] as String).replaceAll('/', '-');
     ($input as DateInputElement)
       ..value = dateStr
       ..min = '2012-01-08';
@@ -161,11 +135,7 @@ class DateEditor extends InputEditor {
   String serializeValue() {
     print(($input as DateInputElement).value);
     //return '2013/09/16';
-    return ($input as DateInputElement)
-        .valueAsDate
-        ?.toIso8601String()
-        ?.split("T")
-        ?.first;
+    return ($input as DateInputElement).valueAsDate?.toIso8601String()?.split("T")?.first;
   }
 
   void applyValue(item, state) {
@@ -185,16 +155,12 @@ class PercentCompleteEditor extends Editor {
   TextInputElement _$input;
   set editorParm(EditorParm m) {
     super.editorParm = m;
-    //$input = new DateInputElement(); //
-    $input =
-        new TextInputElement(); //$("<INPUT type=text class='editor-percentcomplete' />");
+    //$input =  DateInputElement(); //
+    $input = TextInputElement(); //$("<INPUT type=text class='editor-percentcomplete' />");
     _$input = $input;
-    $input.style.width =
-        '${editorParm.activeCellNode.getBoundingClientRect().width-35}px';
+    $input.style.width = '${editorParm.activeCellNode.getBoundingClientRect().width - 35}px';
     editorParm.activeCellNode.append($input);
-    $picker = new DivElement()
-      ..classes.add(
-          'editor-percentcomplete-picker'); // $("<div class='' />").appendTo(args.container);
+    $picker = DivElement()..classes.add('editor-percentcomplete-picker'); // $("<div class='' />").appendTo(args.container);
 
     editorParm.activeCellNode.append($picker);
     $input..attributes['hidefocus'] = 'true';
@@ -261,10 +227,7 @@ class PercentCompleteEditor extends Editor {
       valid = true;
     }
     if (!valid) {
-      return {
-        'valid': false,
-        'msg': " '${_$input.value}' is not valid, Please enter positive number"
-      };
+      return {'valid': false, 'msg': " '${_$input.value}' is not valid, Please enter positive number"};
     }
 
     return {'valid': true, 'msg': null};

@@ -7,7 +7,7 @@ import 'package:slickdart/slick.dart';
 main() {
   registerElem();
   HttpRequest.getString('gss1983_Code.csv').then((data) {
-    CsvAdapter csv =  CsvAdapter(data);
+    CsvAdapter csv = CsvAdapter(data);
     var cols = getColDefs(csv.columns);
     cols[1]
       ..width = 20
@@ -17,9 +17,8 @@ main() {
       ..name = 'id';
     JGrid gw0 = JGrid(document.querySelector("$GRID_TAG.first"));
     gw0.attributes['download'] = "f.csv";
-    gw0.init( MetaList(csv.data.sublist(1, 20), getMeta), cols);
-    gw0.grid
-        .setSelectionModel( RowSelectionModel({'selectActiveRow': false}));
+    gw0.init(MetaList(csv.data.sublist(1, 20), getMeta), cols);
+    gw0.grid.setSelectionModel(RowSelectionModel({'selectActiveRow': false}));
     gw0.grid.onSelectedRowsChanged.subscribe((EventData e, Map args) {
       querySelector('.right-pane')
         ..children.clear()
@@ -31,23 +30,19 @@ main() {
     var opts = {'multiColumnSort': true};
     csv.columns[3].sortable = true;
     csv.columns[1].sortable = true;
-    JGrid(document.querySelector("$GRID_TAG.third"))
-      ..init(csv.data.sublist(0, 10), csv.columns, option: opts);
-    JGrid(document.querySelector("$GRID_TAG.forth"))
-      ..init(csv.data.sublist(0, 10), csv.columns, option: {'frozenRow': 1});
+    JGrid(document.querySelector("$GRID_TAG.third"))..init(csv.data.sublist(0, 10), csv.columns, option: opts);
+    JGrid(document.querySelector("$GRID_TAG.forth"))..init(csv.data.sublist(0, 10), csv.columns, option: {'frozenRow': 1});
   });
 //load other grid fron internet
 //
 }
 
-/**
- * enable column sort
- */
+///
+/// enable column sort
+///
 List<Column> getColDefs(List<Column> cols) {
-  List<Column> newCols =
-      cols.map((col) => Column.fromColumn(col)..sortable = true).toList();
-  CheckboxSelectColumn checkboxCol =
-      CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
+  List<Column> newCols = cols.map((col) => Column.fromColumn(col)..sortable = true).toList();
+  CheckboxSelectColumn checkboxCol = CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
 
   newCols.insert(0, checkboxCol.getColumnDefinition());
   return newCols;
@@ -62,8 +57,9 @@ Map<String, String> getMeta(int row) {
 //          bool exist=item.values.any((_)=> searchStr.length>0 && _ is String && _.contains(searchStr) );
   if (row % 2 == 1) {
     return {"cssClasses": "highlight"};
-  } else
+  } else {
     return {};
+  }
 }
 
 get attributes => null;

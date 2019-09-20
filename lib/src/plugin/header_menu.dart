@@ -1,4 +1,5 @@
 library slick.plugin.headermenu;
+
 import 'dart:html';
 import '../slick_core.dart';
 
@@ -8,19 +9,21 @@ import '../slick_util.dart';
 import '../slick_core.dart' as core;
 import 'dart:async';
 import 'package:logging/logging.dart';
-Logger _log = new Logger('log.headermenu');
+
+Logger _log = Logger('log.headermenu');
 typedef void MenuFun(MouseEvent e);
-///   
+
+///
 ///    A plugin to add drop-down menus to column headers.
-///   
+///
 ///    USAGE:
 ///    To specify a menu in a column header, extend the column definition like so:
-///   
+///
 ///      var columns = [
 ///        {
 ///          id: 'myColumn',
 ///          name: 'My column',
-///   
+///
 ///          // This is the relevant part
 ///          header: {
 ///             menu: {
@@ -36,12 +39,12 @@ typedef void MenuFun(MouseEvent e);
 ///          }
 ///        }
 ///      ];
-///   
-///   
+///
+///
 ///    Available menu options:
 ///       tooltip:      Menu button tooltip.
-///   
-///   
+///
+///
 ///    Available menu item options:
 ///       title:        Menu item text.
 ///       disabled:     Whether the item is disabled.
@@ -49,15 +52,15 @@ typedef void MenuFun(MouseEvent e);
 ///       command:      A command identifier to be passed to the onCommand event handlers.
 ///       iconCssClass: A CSS class to be added to the menu item icon.
 ///       iconImage:    A url to the icon image.
-///   
-///   
+///
+///
 ///    The plugin exposes the following events:
 ///       onBeforeMenuShow:   Fired before the menu is shown.  You can customize the menu or dismiss it by returning false.
 ///           Event args:
 ///               grid:     Reference to the grid.
 ///               column:   Column class instance.
 ///               menu:     MenuItem List.  Note that you can change the menu items here.
-///   
+///
 ///       onCommand:    Fired on menu item click for buttons with 'command' specified.
 ///           Event args:
 ///               grid:     Reference to the grid.
@@ -67,212 +70,197 @@ typedef void MenuFun(MouseEvent e);
 ///                         event handler, and the column header will be automatically updated to
 ///                         reflect them.  This is useful if you want to implement something like a
 ///                         toggle button.
-///   
-///   
+///
+///
 ///    @param options {Object} Options:
 ///       buttonCssClass:   an extra CSS class to add to the menu button
 ///       buttonImage:      a url to the menu button image (default '../images/down.gif')
 ///   /
-class HeaderMenu  extends IPlugin{
+class HeaderMenu extends IPlugin {
+  Map<String, dynamic> _opt;
+  //Column _parent;
+  HeaderMenu(this._opt);
 
-    Map<String,dynamic> _opt;
-    //Column _parent;
-    HeaderMenu(this._opt){
+  ///
+  /// We can add or modify the menu here, or cancel it by returning false
+  ///
+  core.Event onBeforeMenuShow = core.Event();
+  core.Event onCommand = core.Event();
+  set buttonCssClass(_) => _opt['buttonCssClass'] = _;
+  set buttonImage(_) => _opt['buttonImage'] = _;
+  String get buttonCssClass => _opt['buttonCssClass'];
+  String get buttonImage => _opt['buttonImage'];
+  String get tooltip => _opt['tooltip'];
 
-    }
-    /// 
-    /// We can add or modify the menu here, or cancel it by returning false
-    /// 
-    core.Event onBeforeMenuShow = new core.Event();
-    core.Event onCommand = new core.Event();
-    set buttonCssClass (_) => _opt['buttonCssClass'] = _;
-    set buttonImage    (_) => _opt['buttonImage']    = _;
-    String get buttonCssClass => _opt['buttonCssClass'];
-    String get buttonImage => _opt['buttonImage'];
-    String get tooltip => _opt['tooltip'];
+  SlickGrid _grid;
+  core.EventHandler _handler = core.EventHandler();
+  Element _$menu;
+  Element _$activeHeaderColumn;
+  StreamSubscription _clickStream;
 
-    SlickGrid _grid;
-    core.EventHandler _handler = new core.EventHandler();
-    Element _$menu;
-    Element _$activeHeaderColumn;
-    StreamSubscription _clickStream;
-
-    init(grid) {
-      _grid = grid;
-      _handler
+  init(grid) {
+    _grid = grid;
+    _handler
         .subscribe(_grid.onHeaderCellRendered, handleHeaderCellRendered)
         .subscribe(_grid.onBeforeHeaderCellDestroy, handleBeforeHeaderCellDestroy);
 
-      // Force the grid to re-render the header now that the events are hooked up.
-      _grid.setColumns(_grid.getColumns());
+    // Force the grid to re-render the header now that the events are hooked up.
+    _grid.setColumns(_grid.getColumns());
 
-      // Hide the menu on outside click.
-      _clickStream=document.body.onClick.listen(_handleBodyClick);
-    }
+    // Hide the menu on outside click.
+    _clickStream = document.body.onClick.listen(_handleBodyClick);
+  }
 
-
-    destroy() {
-      _handler.unsubscribeAll();
-      _clickStream.cancel();
+  destroy() {
+    _handler.unsubscribeAll();
+    _clickStream.cancel();
 //      $(document.body).unbind("mousedown", handleBodyMouseDown);
+  }
+
+  _handleBodyClick(MouseEvent e) {
+    if (_$menu != null && _$menu != e.target) {
+      // && !$.contains($menu[0], e.target)
+      //  Future.delayed( Duration(milliseconds:50),(){
+      _hideMenu();
+      _log.finest('click');
+      //});
     }
+  }
 
-
-    _handleBodyClick(MouseEvent e) {
-      if (_$menu!=null && _$menu != e.target) { // && !$.contains($menu[0], e.target)
-       // new Future.delayed(new Duration(milliseconds:50),(){
-          _hideMenu();
-          _log.finest('click');
-        //});
-      }
+  _hideMenu() {
+    if (_$menu != null) {
+      _$menu.remove();
+      _$menu = null;
+      _$activeHeaderColumn.classes.remove("slick-header-column-active");
     }
+  }
 
-
-    _hideMenu() {
-      if (_$menu!=null) {
-        _$menu.remove();
-        _$menu = null;
-        _$activeHeaderColumn.classes.remove("slick-header-column-active");
-      }
-    }
-    ///  
-    ///  [e] Event
-    ///  [args] : {"node": $header,
-    ///            "column": Column}
-    ///  
-    handleHeaderCellRendered(core.EventData e,Map args) {
-      //_parent = args['column'];
+  ///
+  ///  [e] Event
+  ///  [args] : {"node": $header,
+  ///            "column": Column}
+  ///
+  handleHeaderCellRendered(core.EventData e, Map args) {
+    //_parent = args['column'];
 //      Map menu = {};
-      Column column=args['column'];
-      if(column.header['menu']==null) return;
-      //HeaderMenu menu =column.header['menu'];
-        var $el = new DivElement()
-          ..classes.add("slick-header-menubutton");
-        if (buttonCssClass!=null) {
-          $el.classes.add(buttonCssClass);
-        }
-        if (buttonImage!=null) {
-          $el.style.backgroundImage= "url(" + buttonImage + ")";
-        }
-        if (tooltip!=null) {
-          $el.attributes["title"]= tooltip;
-        }
-        $el.onClick.listen(_showMenuFun(_showMenu,args['column']) );
-        (args['node'] as Element).append($el);
+    Column column = args['column'];
+    if (column.header['menu'] == null) return;
+    //HeaderMenu menu =column.header['menu'];
+    var $el = DivElement()..classes.add("slick-header-menubutton");
+    if (buttonCssClass != null) {
+      $el.classes.add(buttonCssClass);
+    }
+    if (buttonImage != null) {
+      $el.style.backgroundImage = "url(" + buttonImage + ")";
+    }
+    if (tooltip != null) {
+      $el.attributes["title"] = tooltip;
+    }
+    $el.onClick.listen(_showMenuFun(_showMenu, args['column']));
+    (args['node'] as Element).append($el);
+  }
+
+  handleBeforeHeaderCellDestroy(core.EventData e, [Map args]) {
+    var column = args['column'];
+
+    if (column.header['menu'] != null) {
+      args['node'].find(".slick-header-menubutton").remove();
+    }
+  }
+
+  MenuFun _showMenuFun(Function f, Column column) => (e) => f(column, e);
+
+  _showMenu(Column column, MouseEvent e) {
+    // var menu = $menuButton.data("menu");
+    // var columnDef = $menuButton.data("column");
+    if (column.header.isEmpty) return;
+    core.EventData ed = core.EventData.fromDom(e);
+    // Let the user modify the menu or cancel altogether,
+    // or provide alternative menu implementation.
+    List<MenuItem> menuList = (column.header['menu']['items'] as List).map((_) => MenuItem(_)).toList();
+    if (onBeforeMenuShow.notify(EvtArgs.fromArgs(<String, dynamic>{"column": column, "menu": menuList}, _grid), ed) == false) {
+      return;
     }
 
-
-    handleBeforeHeaderCellDestroy(core.EventData e,[Map args]) {
-      var column = args['column'];
-
-      if (column.header['menu']!=null) {
-        args['node'].find(".slick-header-menubutton").remove();
-      }
+    if (_$menu == null) {
+      _$menu = Element.html("<div class='slick-header-menu'></div>");
+      _grid.container.children.add(_$menu);
     }
+    _$menu.children.clear();
 
-    MenuFun _showMenuFun(Function f, Column column)=>(e)=> f(column,e);
+    // Construct the menu items.
+    for (var i = 0; i < menuList.length; i++) {
+      var item = menuList[i];
 
-    _showMenu(Column column,MouseEvent e) {
-     // var menu = $menuButton.data("menu");
-     // var columnDef = $menuButton.data("column");
-      if(column.header.isEmpty) return;
-      core.EventData ed=new core.EventData.fromDom(e);
-      // Let the user modify the menu or cancel altogether,
-      // or provide alternative menu implementation.
-      List<MenuItem> menuList = (column.header['menu']['items'] as List).map((_) => new MenuItem(_)).toList() ;
-      if (onBeforeMenuShow.notify(new EvtArgs.fromArgs(<String,dynamic>{
-          "column": column,
-          "menu": menuList
-        },_grid), ed) == false) {
-        return;
-      }
-
-
-      if (_$menu==null) {
-        _$menu = new Element.html("<div class='slick-header-menu'></div>");
-        _grid.container.children.add(_$menu);
-      }
-      _$menu.children.clear();
-
-
-      // Construct the menu items.
-      for (var i = 0; i < menuList.length; i++) {
-        var item = menuList[i];
-
-        var $li = new Element.html("<div class='slick-header-menuitem'></div>");
-          //     ..dataset["command"]= item.command
-         // ..onClick.listen( handleMenuItemClickFun(menuItemClick,column,item));
-          _$menu.children.add($li);
-          $li.onClick.listen(_handleMenuItemClickFun(_menuItemClick,column,item));
-
-        if (item.disabled) {
-          $li.classes.add("slick-header-menuitem-disabled");
-        }
-
-        if (item.tooltip!=null) {
-          $li.attributes["title"]=item.tooltip;
-        }
-
-        var $icon = new Element.html("<div class='slick-header-menuicon'></div>");
-        $li.children.add($icon);
-
-        if (item.iconCssClass!=null) {
-          $icon.classes.add(item.iconCssClass);
-        }
-
-        if (item.iconImage!=null) {
-          $icon.style.backgroundImage= "url(" + item.iconImage + ")";
-        }
-
-        var span=new Element.html("<span class='slick-header-menucontent'></span>")..text=item.title;
-        $li.children.add(span);
-//          .text(item.title)
-//          .appendTo($li);
-      }
-
-
-      // Position the menu.
-      _$menu.style.top= '${ (e.target as Element).marginEdge.height}px';
-      _$menu.style.left= '${(e.target as Element).marginEdge.left}px';
-//        .offset({ top: $(this).offset().top + $(this).height(), left: $(this).offset().left });
-
-
-      // Mark the header as active to keep the highlighting.
-      _$activeHeaderColumn = findClosestAncestor(e.target,".slick-header-column");
-      _$activeHeaderColumn.classes.add("slick-header-column-active");
-
-      // Stop propagation so that it doesn't register as a header click event.
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-  MenuFun  _handleMenuItemClickFun(Function f,Column column,MenuItem item) => (MouseEvent e) => f(column,item,e);
-    _menuItemClick(Column column,MenuItem item,MouseEvent e) {
-      _log.finest('click:${column.name} ${item.command}');
-      core.EventData ed=new core.EventData.fromDom(e);
+      var $li = Element.html("<div class='slick-header-menuitem'></div>");
+      //     ..dataset["command"]= item.command
+      // ..onClick.listen( handleMenuItemClickFun(menuItemClick,column,item));
+      _$menu.children.add($li);
+      $li.onClick.listen(_handleMenuItemClickFun(_menuItemClick, column, item));
 
       if (item.disabled) {
-        return;
+        $li.classes.add("slick-header-menuitem-disabled");
       }
 
-      _hideMenu();
-
-      if (item.command != null && item.command != '') {
-        onCommand.notify(new EvtArgs.fromArgs(<String,dynamic>{
-            "column": column,
-            "command": item.command,
-            "item": item
-          },_grid), ed);
+      if (item.tooltip != null) {
+        $li.attributes["title"] = item.tooltip;
       }
 
-      // Stop propagation so that it doesn't register as a header click event.
-      e.preventDefault();
-      e.stopPropagation();
+      var $icon = Element.html("<div class='slick-header-menuicon'></div>");
+      $li.children.add($icon);
+
+      if (item.iconCssClass != null) {
+        $icon.classes.add(item.iconCssClass);
+      }
+
+      if (item.iconImage != null) {
+        $icon.style.backgroundImage = "url(" + item.iconImage + ")";
+      }
+
+      var span = Element.html("<span class='slick-header-menucontent'></span>")..text = item.title;
+      $li.children.add(span);
+//          .text(item.title)
+//          .appendTo($li);
     }
+
+    // Position the menu.
+    _$menu.style.top = '${(e.target as Element).marginEdge.height}px';
+    _$menu.style.left = '${(e.target as Element).marginEdge.left}px';
+//        .offset({ top: $(this).offset().top + $(this).height(), left: $(this).offset().left });
+
+    // Mark the header as active to keep the highlighting.
+    _$activeHeaderColumn = findClosestAncestor(e.target, ".slick-header-column");
+    _$activeHeaderColumn.classes.add("slick-header-column-active");
+
+    // Stop propagation so that it doesn't register as a header click event.
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  MenuFun _handleMenuItemClickFun(Function f, Column column, MenuItem item) => (MouseEvent e) => f(column, item, e);
+  _menuItemClick(Column column, MenuItem item, MouseEvent e) {
+    _log.finest('click:${column.name} ${item.command}');
+    core.EventData ed = core.EventData.fromDom(e);
+
+    if (item.disabled) {
+      return;
+    }
+
+    _hideMenu();
+
+    if (item.command != null && item.command != '') {
+      onCommand.notify(EvtArgs.fromArgs(<String, dynamic>{"column": column, "command": item.command, "item": item}, _grid), ed);
+    }
+
+    // Stop propagation so that it doesn't register as a header click event.
+    e.preventDefault();
+    e.stopPropagation();
+  }
 //    clickTest(e){
 //      print('menu item click: ${e.target}');
 //    }
 }
+
 ///
 ///   title:        Menu item text.
 ///  disabled:     Whether the item is disabled.
@@ -281,32 +269,36 @@ class HeaderMenu  extends IPlugin{
 ///  iconCssClass: A CSS class to be added to the menu item icon.
 ///  iconImage:    A url to the icon imag
 ///
-class MenuItem{
-  Map<String,dynamic> _opt=<String,dynamic>{};
-  bool disabled=false;
-  MenuItem(this._opt){
-    if(_opt['command']==null) _opt['command']='';
-    if(_opt['title']==null) _opt['title']='';
-  //  if(_opt['disabled']==null) _opt['disabled']=false;
+class MenuItem {
+  Map<String, dynamic> _opt = <String, dynamic>{};
+  bool disabled = false;
+  MenuItem(this._opt) {
+    if (_opt['command'] == null) _opt['command'] = '';
+    if (_opt['title'] == null) _opt['title'] = '';
+    //  if(_opt['disabled']==null) _opt['disabled']=false;
   }
-  factory MenuItem.forMap({String title, String command='', bool disabled=false,
-                            String iconCssClass,String iconImage, String tooltip }){
-    return new MenuItem({
-      'title': title, 'command': command, 'disabled':disabled,
-      'iconCssClass': iconCssClass, 'iconImage':iconImage, 'tooltip':tooltip
+  factory MenuItem.forMap(
+      {String title, String command = '', bool disabled = false, String iconCssClass, String iconImage, String tooltip}) {
+    return MenuItem({
+      'title': title,
+      'command': command,
+      'disabled': disabled,
+      'iconCssClass': iconCssClass,
+      'iconImage': iconImage,
+      'tooltip': tooltip
     });
   }
-  String get title =>        _opt['title'];
+  String get title => _opt['title'];
 //  bool get disabled =>     _opt['disabled'];
-  String get command =>      _opt['command'];
+  String get command => _opt['command'];
   String get iconCssClass => _opt['iconCssClass'];
-  String get iconImage =>    _opt['iconImage'];
-  String get tooltip =>      _opt['tooltip'];
+  String get iconImage => _opt['iconImage'];
+  String get tooltip => _opt['tooltip'];
 
-  set title          (_) => _opt['title']          = _;
-  set command        (_) => _opt['command']        = _;
-  set iconCssClass   (_) => _opt['iconCssClass']   = _;
-  set iconImage      (_) => _opt['iconImage']      = _;
-  set tooltip        (_) => _opt['tooltip']        = _;
- // set disabled       (bool _) => _opt['disabled']       = _;
+  set title(_) => _opt['title'] = _;
+  set command(_) => _opt['command'] = _;
+  set iconCssClass(_) => _opt['iconCssClass'] = _;
+  set iconImage(_) => _opt['iconImage'] = _;
+  set tooltip(_) => _opt['tooltip'] = _;
+  // set disabled       (bool _) => _opt['disabled']       = _;
 }

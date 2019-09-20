@@ -10,23 +10,23 @@ void main() {
 grid.SlickGrid builldGrid() {
   Element el = querySelector('#grid');
   List<grid.Column> column = [
-    new grid.Column.fromMap({'name': "id", 'field': "title", 'sortable': true}),
-    new grid.Column.fromMap({'width': 120, 'name': "PercentComplete2", 'field': "percentComplete", 'sortable': true}),
-    new grid.Column.fromMap({'name': "Start", 'field': "start", 'sortable': true}),
-    new grid.Column.fromMap({'field': "finish"}),
-    new grid.Column.fromMap({'name': "TitleA", 'field': "title", 'sortable': true}),
-    new grid.Column.fromMap({'width': 120, 'name': "Complete", 'field': "percentComplete", 'sortable': true}),
-    new grid.Column.fromMap({'name': "Start A", 'field': "start", 'sortable': true}),
-    new grid.Column.fromMap({'name': "Finish A", 'field': "finish"}),
-    new grid.Column.fromMap({'name': "Finish B", 'field': "finish"}),
-    new grid.Column.fromMap({'name': "Title C", 'field': "title", 'sortable': true}),
+    grid.Column.fromMap({'name': "id", 'field': "title", 'sortable': true}),
+    grid.Column.fromMap({'width': 120, 'name': "PercentComplete2", 'field': "percentComplete", 'sortable': true}),
+    grid.Column.fromMap({'name': "Start", 'field': "start", 'sortable': true}),
+    grid.Column.fromMap({'field': "finish"}),
+    grid.Column.fromMap({'name': "TitleA", 'field': "title", 'sortable': true}),
+    grid.Column.fromMap({'width': 120, 'name': "Complete", 'field': "percentComplete", 'sortable': true}),
+    grid.Column.fromMap({'name': "Start A", 'field': "start", 'sortable': true}),
+    grid.Column.fromMap({'name': "Finish A", 'field': "finish"}),
+    grid.Column.fromMap({'name': "Finish B", 'field': "finish"}),
+    grid.Column.fromMap({'name': "Title C", 'field': "title", 'sortable': true}),
   ];
   List data = [];
   for (var i = 0; i < 500; i++) {
     data.add({
       'title': i + 1,
-      'duration': new math.Random().nextInt(100).toString(),
-      'percentComplete': new math.Random().nextInt(10) * 100,
+      'duration': math.Random().nextInt(100).toString(),
+      'percentComplete': math.Random().nextInt(10) * 100,
       'start': {'a': "01/01/200$i", 'b': 'ccc'},
       'finish': "01/05/2009",
       'finish1': "01/05/2009 $i",
@@ -36,12 +36,12 @@ grid.SlickGrid builldGrid() {
       'effortDriven': (i % 5 == 0)
     });
   }
-  grid.GridOptions opt = new grid.GridOptions()
+  grid.GridOptions opt = grid.GridOptions()
     ..explicitInitialization = false
     ..multiColumnSort = false
     ..enableColumnReorder = true
     ..dataItemColumnValueExtractor = mapExtract;
-  grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
+  grid.SlickGrid sg = grid.SlickGrid.fromOpt(el, data, column, opt);
   return sg;
 }
 

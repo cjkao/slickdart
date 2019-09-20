@@ -1,0 +1,24 @@
+name: example.ang
+version: 0.0.1
+environment:
+  sdk: '>=2.3.0 <3.0.0'
+dependencies:
+  angular: ^6.0.0-alpha
+  angular_forms: ^2.1.3
+  angular_components: ^0.14.0-alpha
+  slickdart: ^0.2.0
+  # bootstrap_sass: any
+  http: any
+  angular_router: ^2.0.0-alpha+23
+dev_dependencies:
+  test: ^1.6.3
+  build_runner: ^1.5.0
+  build_web_compilers: ^2.1.0
+  sass_builder: ^2.0.2
+  # build_test: ^0.10.3
+  # angular_test: ^2.1.0
+  # sass_builder: ^2.1.0
+#transformers:
+#  - sass_builder:
+
+#      outputExtension: .scss.css

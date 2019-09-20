@@ -11,37 +11,35 @@ void main() {
 grid.SlickGrid init() {
   Element el = querySelector('#grid');
   var column = <grid.Column>[
-    new grid.Column.fromMap({'id': "title", 'name': "id", 'field': "title", 'sortable': true}),
-    new grid.Column.fromMap(
-        {'id': "duration", 'width': 120, 'name': "percentComplete2", 'field': "percentComplete", 'sortable': true}),
-    new grid.Column.fromMap({'id': "%", 'name': "start3", 'field': "start", 'sortable': true}),
-    new grid.Column.fromMap({'id': "start", 'name': "4finish", 'field': "finish"}),
-    new grid.Column.fromMap({'id': "title2", 'name': "5Title1", 'field': "title", 'sortable': true}),
-    new grid.Column.fromMap(
-        {'id': "duration2", 'width': 120, 'name': "6pppppppplete", 'field': "percentComplete", 'sortable': true}),
-    new grid.Column.fromMap({'id': "%2", 'name': "7start", 'field': "start", 'sortable': true}),
-    new grid.Column.fromMap({'id': "start2", 'name': "8finish", 'field': "finish"}),
-    new grid.Column.fromMap({'id': "start2", 'name': "9finish", 'field': "finish"}),
-    new grid.Column.fromMap({'id': "title2", 'name': "10 Title1", 'field': "title", 'sortable': true}),
-    new grid.Column.fromMap(
+    grid.Column.fromMap({'id': "title", 'name': "id", 'field': "title", 'sortable': true}),
+    grid.Column.fromMap({'id': "duration", 'width': 120, 'name': "percentComplete2", 'field': "percentComplete", 'sortable': true}),
+    grid.Column.fromMap({'id': "%", 'name': "start3", 'field': "start", 'sortable': true}),
+    grid.Column.fromMap({'id': "start", 'name': "4finish", 'field': "finish"}),
+    grid.Column.fromMap({'id': "title2", 'name': "5Title1", 'field': "title", 'sortable': true}),
+    grid.Column.fromMap({'id': "duration2", 'width': 120, 'name': "6pppppppplete", 'field': "percentComplete", 'sortable': true}),
+    grid.Column.fromMap({'id': "%2", 'name': "7start", 'field': "start", 'sortable': true}),
+    grid.Column.fromMap({'id': "start2", 'name': "8finish", 'field': "finish"}),
+    grid.Column.fromMap({'id': "start2", 'name': "9finish", 'field': "finish"}),
+    grid.Column.fromMap({'id': "title2", 'name': "10 Title1", 'field': "title", 'sortable': true}),
+    grid.Column.fromMap(
         {'id': "duration2", 'width': 120, 'name': "11 percentComplete", 'field': "percentComplete", 'sortable': true}),
-    new grid.Column.fromMap({'id': "%2", 'name': "12 start", 'field': "start", 'sortable': true}),
-    new grid.Column.fromMap({'id': "start2", 'name': "13 finish", 'field': "finish"}),
-    new grid.Column.fromMap({'id': "title2", 'name': "14 Title1", 'field': "title", 'sortable': true}),
-    new grid.Column.fromMap(
+    grid.Column.fromMap({'id': "%2", 'name': "12 start", 'field': "start", 'sortable': true}),
+    grid.Column.fromMap({'id': "start2", 'name': "13 finish", 'field': "finish"}),
+    grid.Column.fromMap({'id': "title2", 'name': "14 Title1", 'field': "title", 'sortable': true}),
+    grid.Column.fromMap(
         {'id': "duration2", 'width': 120, 'name': "15 percentComplete", 'field': "percentComplete", 'sortable': true}),
-    new grid.Column.fromMap({'id': "%2", 'name': "16 start", 'field': "start", 'sortable': true}),
-    new grid.Column.fromMap({'id': "start2", 'name': "17 finish", 'field': "finish1"}),
-    new grid.Column.fromMap({'id': "start2", 'name': "18 finish", 'field': "finish2"}),
-    new grid.Column.fromMap({'id': "start2", 'name': "19 finish", 'field': "finish3"}),
-    new grid.Column.fromMap({'id': "start2", 'name': "20 finish", 'field': "finish4"})
+    grid.Column.fromMap({'id': "%2", 'name': "16 start", 'field': "start", 'sortable': true}),
+    grid.Column.fromMap({'id': "start2", 'name': "17 finish", 'field': "finish1"}),
+    grid.Column.fromMap({'id': "start2", 'name': "18 finish", 'field': "finish2"}),
+    grid.Column.fromMap({'id': "start2", 'name': "19 finish", 'field': "finish3"}),
+    grid.Column.fromMap({'id': "start2", 'name': "20 finish", 'field': "finish4"})
   ];
   List data = [];
   for (var i = 0; i < 5000; i++) {
     data.add({
       'title': i + 1,
-      'duration': 'd ${i*100}',
-      'percentComplete': new math.Random().nextInt(10) * 100,
+      'duration': 'd ${i * 100}',
+      'percentComplete': math.Random().nextInt(10) * 100,
       'start': "01/01/20${i}",
       'finish': "01/05/2009",
       'finish1': "01/05/2009 $i",
@@ -51,14 +49,14 @@ grid.SlickGrid init() {
       'effortDriven': (i % 5 == 0)
     });
     if (i % 2 == 0) {
-      data[i]['_height'] = 50 + new math.Random().nextInt(100);
+      data[i]['_height'] = 50 + math.Random().nextInt(100);
     } else {}
   }
-  grid.GridOptions opt = new grid.GridOptions()
+  grid.GridOptions opt = grid.GridOptions()
     ..explicitInitialization = false
     ..multiColumnSort = false
     ..dynamicHeight = true;
-  grid.SlickGrid sg = new grid.SlickGrid.fromOpt(el, data, column, opt);
+  grid.SlickGrid sg = grid.SlickGrid.fromOpt(el, data, column, opt);
   sg.onSort.subscribe(grid.basicSorter);
 
   return sg;

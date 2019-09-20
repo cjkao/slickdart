@@ -1,5 +1,7 @@
 library slick.util;
+
 import 'slick_util.dart';
+
 // import 'dart:html';
 // import 'dart:math';
 // import 'dart:collection';
@@ -24,11 +26,9 @@ class HeaderMergeMetaList<T> extends MetaList<T> {
   };
 
   Map<String, Map<String, dynamic>> getMeta(int row) {
-    if (headerStructure.containsKey(row))
-      return {
-        MetaList.COLUMN: headerStructure[row],
-        MetaList.COLUMN_CSS: headerCss[row] ?? {}
-      };
+    if (headerStructure.containsKey(row)) {
+      return {MetaList.COLUMN: headerStructure[row], MetaList.COLUMN_CSS: headerCss[row] ?? {}};
+    }
     return {};
   }
 

@@ -3,17 +3,19 @@ import 'package:slickdart/slick_custom.dart';
 import 'package:slickdart/slick.dart';
 
 //import 'package:slickdart/parser.dart';
-Map<String,String> getMeta(int row) {
+Map<String, String> getMeta(int row) {
   var rdata = csv.data[row];
   if (rdata['gss_code'] == filterStr) {
     return {"cssClasses": "highlight"};
-  } else return {}; // {"cssClasses":'highlight'};
+  } else {
+    return {};
+  } // {"cssClasses":'highlight'};
 }
 
 main() {
   registerElem();
   HttpRequest.getString('gss1983_Code-small.csv').then((data) {
-    csv = new CsvAdapter(data);
+    csv = CsvAdapter(data);
     var cols = getColDefs(csv.columns);
     cols[1]
       ..width = 20
@@ -22,8 +24,8 @@ main() {
       ..width = 14
       ..name = 'id';
     gw0 = JGrid(document.querySelector("$GRID_TAG.second"));
-    gw0.init(new MetaList(csv.data, getMeta), cols);
-    gw0.grid.setSelectionModel(new RowSelectionModel({}));
+    gw0.init(MetaList(csv.data, getMeta), cols);
+    gw0.grid.setSelectionModel(RowSelectionModel({}));
   });
   querySelector('.inputgs').onChange.listen((Event _) {
     filterStr = (_.target as InputElement).value;
@@ -40,11 +42,11 @@ main() {
 
 JGrid gw0;
 CsvAdapter csv;
-String filterStr='101';
+String filterStr = '101';
 
 List<Column> getColDefs(List<Column> cols) {
-  List<Column> newCols = cols.map((col) => new Column.fromColumn(col)..sortable = true).toList();
-  CheckboxSelectColumn checkboxCol = new CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
+  List<Column> newCols = cols.map((col) => Column.fromColumn(col)..sortable = true).toList();
+  CheckboxSelectColumn checkboxCol = CheckboxSelectColumn({'cssClass': "slick-cell-checkboxsel"});
   newCols.insert(0, checkboxCol.getColumnDefinition());
   return newCols;
 }

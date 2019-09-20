@@ -1,3 +1,5 @@
 #  exclude:
 #    - web/**.dart
 include: package:pedantic/analysis_options.yaml
+analyzer:
+  exclude: [example/sample/ang/**]

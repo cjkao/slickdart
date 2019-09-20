@@ -22,8 +22,7 @@ abstract class Editor {
   /// copy [item] to [defaultValue] when begin edit cell
   ///
   void loadValue(item) {
-    defaultValue =
-        item[_ep.columnDef.field] != null ? item[_ep.columnDef.field] : "";
+    defaultValue = item[_ep.columnDef.field] != null ? item[_ep.columnDef.field] : "";
   }
 
   ///
@@ -93,18 +92,16 @@ class EditorParm {
 /// InputElement based editor
 /// add 'onActiveCellBlue' event, can be subscribe for auto commit
 abstract class InputEditor extends Editor {
-  InputElement _input = new InputElement();
+  InputElement _input = InputElement();
   InputEditor([_]) {
     $input = _input;
     _ep = _;
     _input
       ..onBlur.listen((Event _) {
         //  print(_input.classes.contains('keyup'));
-        if (_ep.grid.gridOptions.autoCommitOnBlur &&
-            !_input.classes.contains('keyup')) {
-          var ed = new core.EventData.fromDom(_);
-          _ep.grid.trigger(_ep.grid.onActiveCellBlur,
-              {'old': defaultValue, 'new': _input.value}, ed);
+        if (_ep.grid.gridOptions.autoCommitOnBlur && !_input.classes.contains('keyup')) {
+          var ed = core.EventData.fromDom(_);
+          _ep.grid.trigger(_ep.grid.onActiveCellBlur, {'old': defaultValue, 'new': _input.value}, ed);
         }
         _input.classes.remove('keyup');
       })
@@ -117,8 +114,7 @@ abstract class InputEditor extends Editor {
   }
   Map validate() {
     if (_ep.columnDef.validator != null) {
-      var validationResults =
-          _ep.columnDef.validator(($input as InputElement).value);
+      var validationResults = _ep.columnDef.validator(($input as InputElement).value);
       if (!validationResults.valid) {
         return validationResults;
       }
@@ -140,14 +136,13 @@ abstract class InputEditor extends Editor {
 class TextEditor extends InputEditor {
   set editorParm(EditorParm m) {
     super.editorParm = m;
-    $input = _input..type = 'text'; // = new InputElement(type: 'text');
+    $input = _input..type = 'text'; // =  InputElement(type: 'text');
     _input.classes.add('editor-text');
     _ep.activeCellNode.append($input);
     _input
       ..onKeyDown.listen((KeyboardEvent e) {
         //cancel navigation when no selection
-        if ((e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT) &&
-            _input.selectionEnd == _input.selectionStart) {
+        if ((e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.RIGHT) && _input.selectionEnd == _input.selectionStart) {
           e.stopImmediatePropagation();
         }
       })
@@ -161,9 +156,9 @@ class TextEditor extends InputEditor {
     return ($input as InputElement).value;
   }
 
-  /**
-     * item: a row of data
-     */
+  ///
+  ///   item: a row of data
+  ///
   void loadValue(item) {
     super.loadValue(item);
     _input
@@ -174,8 +169,7 @@ class TextEditor extends InputEditor {
 
   String serializeValue() => _input.value;
   bool isValueChanged() {
-    return (!(_input.value == "" && defaultValue == null)) &&
-        (_input.value != defaultValue);
+    return (!(_input.value == "" && defaultValue == null)) && (_input.value != defaultValue);
   }
 }
 
@@ -185,7 +179,7 @@ class TextEditor extends InputEditor {
 class IntEditor extends InputEditor {
   set editorParm(EditorParm m) {
     super.editorParm = m;
-    $input = _input..type = 'number'; // = new InputElement(type: 'number');
+    $input = _input..type = 'number'; // =  InputElement(type: 'number');
     _input
       ..pattern = '[-+]?[0-9]*'
       ..classes.add('editor-text');
@@ -206,9 +200,9 @@ class IntEditor extends InputEditor {
     return _input.value;
   }
 
-  /**
-     * item: a row of data
-     */
+  ///
+  ///  item: a row of data
+  ///
   void loadValue(item) {
     super.loadValue(item);
     _input.value = '$defaultValue';
@@ -217,21 +211,18 @@ class IntEditor extends InputEditor {
   }
 
   void applyValue(item, state) {
-    item[_ep.columnDef.field] =
-        int.tryParse(state) ?? item[_ep.columnDef.field];
+    item[_ep.columnDef.field] = int.tryParse(state) ?? item[_ep.columnDef.field];
   }
 
   String serializeValue() => _input.value;
   bool isValueChanged() {
-    return (!(_input.value == "" && defaultValue == null)) &&
-        (_input.value != defaultValue);
+    return (!(_input.value == "" && defaultValue == null)) && (_input.value != defaultValue);
   }
 }
 
 class DoubleEditor extends IntEditor {
   void applyValue(item, state) {
-    item[_ep.columnDef.field] =
-        num.tryParse(state) ?? item[_ep.columnDef.field];
+    item[_ep.columnDef.field] = num.tryParse(state) ?? item[_ep.columnDef.field];
   }
 
   DoubleEditor([_ep]) : super(_ep);
@@ -241,13 +232,13 @@ class DoubleEditor extends IntEditor {
   }
 }
 
-///  can be instinate by String of class name or using explict new keyword
+///  can be instinate by String of class name or using explict  keyword
 ///  source data type: bool
 ///
 class CheckboxEditor extends InputEditor {
-  // set editorParm (m) => _ep = new EditorParm(m);
+  // set editorParm (m) => _ep =  EditorParm(m);
   CheckboxEditor([_ep]) : super(_ep) {
-    $input = _input..type = 'checkbox'; // = new InputElement(type: 'checkbox');
+    $input = _input..type = 'checkbox'; // =  InputElement(type: 'checkbox');
     $input.classes.add('editor-checkbox');
     _ep?.activeCellNode?.append($input);
     $input //..attributes['value'] = 'true'
@@ -266,8 +257,7 @@ class CheckboxEditor extends InputEditor {
     super.loadValue(item);
     //$input.value ='$defaultValue';
     _input.defaultValue = '$defaultValue';
-    if ((defaultValue is String && defaultValue.toLowerCase() == 'true') ||
-        (defaultValue is bool && defaultValue)) {
+    if ((defaultValue is String && defaultValue.toLowerCase() == 'true') || (defaultValue is bool && defaultValue)) {
       $input.attributes['checked'] = 'checked';
       ($input as CheckboxInputElement).checked = true;
     } else {
@@ -290,11 +280,11 @@ class CheckboxEditor extends InputEditor {
   }
 }
 
-/**
- * default select option
- * data type: accept int and string type from src data
- * display name: always string
- */
+///
+/// default select option
+/// data type: accept int and string type from src data
+/// display name: always string
+///
 class SelectListEditor extends Editor {
   Map _opts;
 
@@ -306,8 +296,8 @@ class SelectListEditor extends Editor {
   void focus() => $input.focus();
   set editorParm(EditorParm m) {
     super.editorParm = m;
-    $input = new SelectElement();
-    _opts.forEach((key, dispVal) => $input.children.add(new OptionElement()
+    $input = SelectElement();
+    _opts.forEach((key, dispVal) => $input.children.add(OptionElement()
       ..value = '$key'
       ..text = dispVal));
     editorParm.activeCellNode.append($input);
@@ -325,12 +315,9 @@ class SelectListEditor extends Editor {
     super.loadValue(item);
     OptionElement ope;
     if (_opts.keys.first is int) {
-      ope = $input.children.firstWhere((_) =>
-          int.parse((_ as OptionElement).value) ==
-          item[editorParm.columnDef.field]);
+      ope = $input.children.firstWhere((_) => int.parse((_ as OptionElement).value) == item[editorParm.columnDef.field]);
     } else {
-      ope = $input.children.firstWhere((_) =>
-          (_ as OptionElement).value == item[editorParm.columnDef.field]);
+      ope = $input.children.firstWhere((_) => (_ as OptionElement).value == item[editorParm.columnDef.field]);
     }
     ope.selected = true;
   }

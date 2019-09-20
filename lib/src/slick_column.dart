@@ -12,25 +12,25 @@ import 'slick_core.dart' as core;
 import 'slick_util.dart' as util;
 import 'package:logging/logging.dart';
 
-Logger _log = new Logger('slick.column');
+Logger _log = Logger('slick.column');
 
 ///
 /// formatter interface
 ///
 // typedef String TFormatter(int row, int cell, dynamic value, Column columnDef, Map dataContext);
-typedef TFormatter = String Function(
-    int row, int cell, dynamic value, Column columnDef, Map dataContext);
+typedef TFormatter = String Function(int row, int cell, dynamic value, Column columnDef, Map dataContext);
 
-/**
- * create columns from list of map object
- */
+///
+///create columns from list of map object
+///
 class ColumnList extends ListBase<Column> {
   ColumnList();
-  /**
-   * must attribute: 'field'
-   */
+
+  ///
+  ///must attribute: 'field'
+  ///
   factory ColumnList.fromMap(List<Map<String, dynamic>> mList) {
-    ColumnList cols = new ColumnList();
+    ColumnList cols = ColumnList();
     mList.forEach((k) {
       if (!k.containsKey('id')) {
         k['id'] = k['field'];
@@ -38,11 +38,11 @@ class ColumnList extends ListBase<Column> {
       if (!k.containsKey('name')) {
         k['name'] = k['field'];
       }
-      cols.add(new Column.fromMap(k));
+      cols.add(Column.fromMap(k));
     });
     return cols;
   }
-  List innerList = new List();
+  List innerList = List();
   int get length => innerList.length;
 
   set length(int length) {
@@ -63,33 +63,35 @@ class ColumnList extends ListBase<Column> {
   void addAll(Iterable<Column> all) => innerList.addAll(all);
 }
 
-/**
- * Column configuration
- */
+///
+/// Column configuration
+///
 class Column {
   ///link gridOption to store TFormatter or Editor
   ///
   GridOptions gridOption;
-  bool useSysDefaultWidth=false;
-  final String NO_ID= "noid_";
+  bool useSysDefaultWidth = false;
+  final String NO_ID = "noid_";
+
   ///
   /// GridOption for formatter access
   ///
   Column() {
     _src.addAll(_columnDefaults);
-    _src["id"]= NO_ID + new math.Random().nextInt(10000000).toString();
+    _src["id"] = NO_ID + math.Random().nextInt(10000000).toString();
   }
   Map<String, dynamic> _src = {};
   Function get asyncPostRender => _src['asyncPostRender'];
   bool get defaultSortAsc => _src['defaultSortAsc'];
   Editor get editor => _src['editor'];
   bool get focusable => _src['focusable'];
-  /**
-   * Warning!!, it throw exception after serialize and deserialization with JSON
-   * return type could be [String] or [TFormatter]
-   */
-  TFormatter get formatter => _src['formatter'] is String ? gridOption?.formatterFactory[this.id] :  _src['formatter'];
-  
+
+  ///
+  /// Warning!!, it throw exception after serialize and deserialization with JSON
+  /// return type could be [String] or [TFormatter]
+  ///
+  TFormatter get formatter => _src['formatter'] is String ? gridOption?.formatterFactory[this.id] : _src['formatter'];
+
   // () {
   //   var tmp = _src['formatter'];
   //   if (tmp is String) {
@@ -105,14 +107,15 @@ class Column {
   bool get visible => _src['visible'];
 
   String get toolTip => _src['toolTip'];
-  /** unique id for differeicent from same field name
-   *  for pick up Column element
-   */
+
+  /// unique id for differeicent from same field name
+  /// for pick up Column element
+  ///
   String get id => _src['id']; // "range"
   int get minWidth => _src['minWidth']; //: 30
-  /**
-   * [name] could be string or element
-   */
+  ///
+  /// [name] could be string or element
+  ///
   get name => _src['name']; //: "Range"
   bool get rerenderOnResize => _src['rerenderOnResize'];
   bool get resizable => _src['resizable'];
@@ -207,10 +210,10 @@ class Column {
 
   set field(String item) {
     _src['field'] = item;
-    if(_src["id"]==null || _src["id"].toString().startsWith(NO_ID)){
-      _src["id"]='${_src['field']}-${new math.Random().nextInt(1000000)}';
+    if (_src["id"] == null || _src["id"].toString().startsWith(NO_ID)) {
+      _src["id"] = '${_src['field']}-${math.Random().nextInt(1000000)}';
     }
-    if(_src["name"]==null) _src["name"]=_src["field"];
+    if (_src["name"] == null) _src["name"] = _src["field"];
   }
 
   set header(Map _) {
@@ -221,32 +224,32 @@ class Column {
     _src['visible'] = item;
   }
 
-  ///  
+  ///
   ///  [field] is attribute name in map object, must exist for formatter to lookup in [GridOption]
   ///  [name] is display name on column header
-  ///  
+  ///
   factory Column.fromMap(Map<String, dynamic> src) {
-    Column c = new Column();
+    Column c = Column();
     if (src['id'] == null) {
-      src['id'] = '${src['field']}-${new math.Random().nextInt(100000)}';
+      src['id'] = '${src['field']}-${math.Random().nextInt(100000)}';
     }
     if (src['name'] == null) {
       src['name'] = '${src['field']}';
     }
     c._src..addAll(src);
-    if(src["width"]==null){
-       c.useSysDefaultWidth=true;
+    if (src["width"] == null) {
+      c.useSysDefaultWidth = true;
     }
     return c;
   }
 
   factory Column.fromJSON(String src) {
     Map<String, dynamic> m = json.decode(src) as Map<String, dynamic>;
-    return new Column.fromMap(m); //c._src..addAll(src) ;
+    return Column.fromMap(m); //c._src..addAll(src) ;
   }
- 
+
   factory Column.fromColumn(Column old) {
-    Column c = new Column();
+    Column c = Column();
     c._src..addAll(old._src);
     return c;
   }
@@ -254,6 +257,7 @@ class Column {
   dynamic operator [](String crit) {
     return _src[crit];
   }
+
   Column merge(Column newCol) {
     this._src.addAll(newCol._src);
     return this;
@@ -283,16 +287,13 @@ class Column {
   }
 }
 
-///  
+///
 ///  Virtual column that add to first column, including header as checkbox column
-///  
+///
 class CheckboxSelectColumn extends Column with IPlugin {
-  TFormatter checkboxSelectionFormatter() =>
-      (int row, int cell, value, Column columnDef, dataContext) {
+  TFormatter checkboxSelectionFormatter() => (int row, int cell, value, Column columnDef, dataContext) {
         if (dataContext != null) {
-          return _selectedRowsLookup.containsKey(row)
-              ? "<input type='checkbox' checked='checked'>"
-              : "<input type='checkbox'>";
+          return _selectedRowsLookup.containsKey(row) ? "<input type='checkbox' checked='checked'>" : "<input type='checkbox'>";
         }
         return "";
       };
@@ -302,19 +303,19 @@ class CheckboxSelectColumn extends Column with IPlugin {
     'cssClass': null,
     'toolTip': "Select/Deselect All",
     'width': 30,
-    'name': new Element.html('<input type="checkbox"></input>',
-        treeSanitizer: util.nullTreeSanitizer)
+    'name': Element.html('<input type="checkbox"></input>', treeSanitizer: util.nullTreeSanitizer)
   };
   SlickGrid _grid;
-  var _handler = new core.EventHandler();
+  var _handler = core.EventHandler();
 
   Map<int, bool> _selectedRowsLookup = {};
-  /**
-   * change for shadow dom element initialize
-   */
+
+  ///
+  /// change for shadow dom element initialize
+  ///
 //  dynamic operator[](String crit){
 //     if(crit=='name'){
-//       var el= new InputElement();
+//       var el=  InputElement();
 //           el.type='checkbox';
 //           return el;
 //     }
@@ -331,7 +332,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
   }
 
   CheckboxSelectColumn(Map options) {
-    _options = new Map.from(_defaults);
+    _options = Map.from(_defaults);
     _options.addAll(options);
   }
 
@@ -339,8 +340,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
     _handler.unsubscribeAll();
   }
 
-  core.EvtCallback get handleSelectedRowsChanged =>
-      (core.EventData e, dynamic args) {
+  core.EvtCallback get handleSelectedRowsChanged => (core.EventData e, dynamic args) {
         List<int> selectedRows = _grid.getSelectedRows();
         Map<int, bool> lookup = {};
         int row, i;
@@ -358,15 +358,11 @@ class CheckboxSelectColumn extends Column with IPlugin {
         _selectedRowsLookup = lookup;
         _grid.render();
 
-        if (selectedRows.isNotEmpty &&
-            selectedRows.length == _grid.getDataLength()) {
+        if (selectedRows.isNotEmpty && selectedRows.length == _grid.getDataLength()) {
           _grid.updateColumnHeader(
-              _options['columnId'],
-              new Element.html("<input type='checkbox' checked='checked'>"),
-              _options['toolTip']);
+              _options['columnId'], Element.html("<input type='checkbox' checked='checked'>"), _options['toolTip']);
         } else {
-          _grid.updateColumnHeader(_options['columnId'],
-              new Element.html("<input type='checkbox'>"), _options['toolTip']);
+          _grid.updateColumnHeader(_options['columnId'], Element.html("<input type='checkbox'>"), _options['toolTip']);
         }
       };
 
@@ -375,8 +371,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
         if (evt.which == 32) {
           if (_grid.columns[args['cell']].id == _options['columnId']) {
             // if editing, try to commit
-            if (!_grid.getEditorLock().isActive() ||
-                _grid.getEditorLock().commitCurrentEdit()) {
+            if (!_grid.getEditorLock().isActive() || _grid.getEditorLock().commitCurrentEdit()) {
               toggleRowSelection(args['row']);
             }
             e.preventDefault();
@@ -394,21 +389,16 @@ class CheckboxSelectColumn extends Column with IPlugin {
         //   evt = e;
         // }
         // else {
-        //   evt = new core.EventData.fromDom(e);
+        //   evt =  core.EventData.fromDom(e);
         // }
 
-        _log.finest('handle from:' +
-            this.runtimeType.toString() +
-            ' ' +
-            evt.target.toString());
+        _log.finest('handle from:' + this.runtimeType.toString() + ' ' + evt.target.toString());
 //     var target= e.target ;
         // clicking on a row select checkbox
-        if (_grid.columns[args['cell']].id == _options['columnId'] &&
-            evt.target is CheckboxInputElement) {
+        if (_grid.columns[args['cell']].id == _options['columnId'] && evt.target is CheckboxInputElement) {
           //Checkbox
           // if editing, try to commit
-          if (_grid.getEditorLock().isActive() &&
-              !_grid.getEditorLock().commitCurrentEdit()) {
+          if (_grid.getEditorLock().isActive() && !_grid.getEditorLock().commitCurrentEdit()) {
             evt.preventDefault();
             evt.stopImmediatePropagation();
             return;
@@ -420,9 +410,9 @@ class CheckboxSelectColumn extends Column with IPlugin {
         }
       };
 
-  /**
-   * consider mutiple and single selection case
-   */
+  ///
+  /// consider mutiple and single selection case
+  ///
   toggleRowSelection(int row) {
     List<int> list = _grid.getSelectedRows();
     if (_grid.gridOptions.multiSelect == false) {
@@ -443,10 +433,10 @@ class CheckboxSelectColumn extends Column with IPlugin {
     _grid.setSelectedRows(list);
   }
 
-  /**
-   * change all row to selected state
-   * args: {column: Column, grid: slickgrid}
-   */
+  ///
+  /// change all row to selected state
+  /// args: {column: Column, grid: slickgrid}
+  ///
   core.EvtCallback get handleHeaderClick => (core.EventData evt, Map args) {
         MouseEvent e = evt.domEvent;
 
@@ -455,18 +445,15 @@ class CheckboxSelectColumn extends Column with IPlugin {
           return;
         }
 
-        if ((args['column'] as Column).id == _options['columnId'] &&
-            e.target is CheckboxInputElement) {
+        if ((args['column'] as Column).id == _options['columnId'] && e.target is CheckboxInputElement) {
           // if editing, try to commit
-          if (_grid.getEditorLock().isActive() &&
-              !_grid.getEditorLock().commitCurrentEdit()) {
+          if (_grid.getEditorLock().isActive() && !_grid.getEditorLock().commitCurrentEdit()) {
             e.preventDefault();
             e.stopImmediatePropagation();
             return;
           }
 
-          if (e.target is CheckboxInputElement &&
-              (e.target as CheckboxInputElement).checked) {
+          if (e.target is CheckboxInputElement && (e.target as CheckboxInputElement).checked) {
             List<int> rows = [];
             for (var i = 0; i < _grid.getDataLength(); i++) {
               rows.add(i);
@@ -481,7 +468,7 @@ class CheckboxSelectColumn extends Column with IPlugin {
       };
 
   CheckboxSelectColumn getColumnDefinition() {
-    InputElement elem = new InputElement();
+    InputElement elem = InputElement();
     elem.type = 'checkbox';
     this._src.addAll({
       'id': _options['columnId'],
@@ -495,6 +482,6 @@ class CheckboxSelectColumn extends Column with IPlugin {
       'formatter': checkboxSelectionFormatter()
     });
     return this;
-    //return new Column.fromMap();
+    //return  Column.fromMap();
   }
 }

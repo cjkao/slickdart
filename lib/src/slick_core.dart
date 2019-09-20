@@ -6,41 +6,39 @@ import 'package:logging/logging.dart';
 import 'dart:html' as html;
 import 'slick_grid.dart';
 
-Logger _log = new Logger('slick.core');
-
 //import 'dart:collection';
 //import 'dart:convert';
 //import 'dart:math' as math;
 //import 'dart:mirrors';
-EditorLock GlobalEditorLock = new EditorLock();
+EditorLock GlobalEditorLock = EditorLock();
+
 ///
 /// Event Arguments, specialized map, retrun [SlickGrid] when using 'grid'
 ///
-class EvtArgs extends MapBase<String,dynamic>{
+class EvtArgs extends MapBase<String, dynamic> {
   EventData eventData;
-  Map<String,dynamic> _map={};
+  Map<String, dynamic> _map = {};
   SlickGrid _grid;
   EvtArgs(this._grid);
-  factory EvtArgs.fromArgs(Map<String,dynamic> m,SlickGrid _grid){
-       var evt=new EvtArgs(_grid);
-       evt._map=m;
-       return evt;
+  factory EvtArgs.fromArgs(Map<String, dynamic> m, SlickGrid _grid) {
+    var evt = EvtArgs(_grid);
+    evt._map = m;
+    return evt;
   }
   @override
   operator [](Object key) {
-    if(key=="grid") return _grid;
+    if (key == "grid") return _grid;
     return _map[key];
   }
 
   @override
   void operator []=(String key, value) {
-    _map[key]=value;
+    _map[key] = value;
   }
 
   @override
   void clear() {
     _map.clear();
-
   }
 
   // TODO: implement keys
@@ -51,50 +49,49 @@ class EvtArgs extends MapBase<String,dynamic>{
   remove(Object key) {
     _map.remove(key);
   }
+
   @override
-  addAll(Map<String, dynamic> other){
+  addAll(Map<String, dynamic> other) {
     _map.addAll(other);
   }
 }
+
 //parm:  List<core.Range>, Map
 //e: KeyboardEvent, EventData
-typedef EvtCallback = void Function(EventData e,EvtArgs  parm);
-///  
+typedef EvtCallback = void Function(EventData e, EvtArgs parm);
+
+///
 ///  utility to get dom width / height
-///  
+///
 class Dimension {
+  static final _log = Logger('slick.core');
   static int getCalcWidth(html.Element elem) {
-    return (elem
-        .getBoundingClientRect()
-        .width).floor();
+    return (elem.getBoundingClientRect().width).floor();
   }
 
   static int getCalcHeight(html.Element elem) {
-    int height = (elem
-        .getBoundingClientRect()
-        .height).floor();
+    int height = (elem.getBoundingClientRect().height).floor();
 
     if (height == 0) {
-      _log.severe(
-          '% height or display=none will not possible to know grid height,use vh instead');
+      _log.severe('% height or display=none will not possible to know grid height,use vh instead');
     }
     return height;
   }
 }
 
-///   
+///
 ///   wrap browser event and append propogation status
-///   
+///
 class EventData {
   html.Event domEvent;
 
   factory EventData.fromDom(html.Event e) {
-    EventData ed = new EventData();
+    EventData ed = EventData();
     ed.domEvent = e;
     return ed;
   }
 
-  EventData() {}
+  EventData();
 
   get target => domEvent.target;
 
@@ -106,14 +103,13 @@ class EventData {
   bool _isImmediatePropagationStopped = false;
 
   String toString() {
-    return 'evd pg:' + (_isPropagationStopped ? 'T' : 'F') + ' imStp ' +
-        (_isImmediatePropagationStopped ? 'T' : 'F');
+    return 'evd pg:' + (_isPropagationStopped ? 'T' : 'F') + ' imStp ' + (_isImmediatePropagationStopped ? 'T' : 'F');
   }
 
   ///  *
   ///  Stops event from propagating up the DOM tree.
   ///  @method stopPropagation
-  ///  
+  ///
   stopPropagation() {
     this.domEvent.stopPropagation();
     _isPropagationStopped = true;
@@ -123,7 +119,7 @@ class EventData {
   ///  Returns whether stopPropagation was called on this event object.
   ///  @method isPropagationStopped
   ///  @return {Boolean}
-  ///  
+  ///
   isPropagationStopped() {
     return _isPropagationStopped;
   }
@@ -131,7 +127,7 @@ class EventData {
   ///  *
   ///  Prevents the rest of the handlers from being executed.
   ///  @method stopImmediatePropagation
-  ///  
+  ///
   stopImmediatePropagation() {
     this.domEvent.stopImmediatePropagation();
     _isImmediatePropagationStopped = true;
@@ -141,35 +137,37 @@ class EventData {
   ///  Returns whether stopImmediatePropagation was called on this event object.\
   ///  @method isImmediatePropagationStopped
   ///  @return {Boolean}
-  ///  
+  ///
   isImmediatePropagationStopped() {
     return _isImmediatePropagationStopped;
   }
 }
 
 ///  TODO: consider refactor this to stream
-/// 
-/// 
-class Event  {
+///
+///
+class Event {
   List<Function> handlers = [];
-  /// 
+
+  ///
   /// Adds an event handler to be called when the event is fired.
   /// <p>Event handler will receive two arguments - an <code>EventData</code> and the <code>data</code>
   /// object the event was fired with.<p>
   /// @method subscribe
   /// @param fn {Function} Event handler.
-  /// 
+  ///
   subscribe(EvtCallback fn) {
     handlers.add(fn);
   }
+
   ///  *
   ///  Removes an event handler added with <code>subscribe(fn)</code>.
   ///  @method unsubscribe
   ///  @param fn {Function} Event handler to be removed.
-  ///  
+  ///
   bool unsubscribe(Function fn) => handlers.remove(fn);
 
-  ///  
+  ///
   ///  Fires an event notifying all subscribers.
   ///  @method notify
   ///  @param args {Object} Additional data object to be passed to all handlers.
@@ -181,27 +179,27 @@ class Event  {
   ///       Optional.
   ///       The scope ("this") within which the handler will be executed.
   ///       If not specified, the scope will be set to the <code>Event</code> instance.
-  ///  
+  ///
   notify(EvtArgs args, [EventData e, SlickGrid scope]) {
-    e ??= new EventData();
+    e ??= EventData();
     // scope = scope || this;
     var returnValue;
-  //  args["grid"]=scope;
+    //  args["grid"]=scope;
     for (int i = 0;
-    i < handlers.length && !(e is EventData &&
-        (e.isPropagationStopped() || e.isImmediatePropagationStopped()));
-    i++) {
+        i < handlers.length && !(e is EventData && (e.isPropagationStopped() || e.isImmediatePropagationStopped()));
+        i++) {
       returnValue = Function.apply(handlers[i], [e, args]);
     }
 
     return returnValue;
   }
+
   ///
   ///  for range change notification
   ///
   ///
   // notifyList(List<Range> args) {
-  //   EventData e = new EventData();
+  //   EventData e =  EventData();
   //   var returnValue;
   //   for (int i = 0; i < handlers.length ; i++) {
   //     returnValue = Function.apply(handlers[i], [e, args]);
@@ -210,7 +208,6 @@ class Event  {
   //   return returnValue;
   // }
 }
-
 
 class EventHandler {
   List<Map<String, dynamic>> handlers = [];
@@ -251,7 +248,7 @@ class EventHandler {
 ///  @param fromCell {Integer} Starting cell.
 ///  @param toRow {Integer} Optional. Ending row. Defaults to <code>fromRow</code>.
 ///  @param toCell {Integer} Optional. Ending cell. Defaults to <code>fromCell</code>.
-///  
+///
 class Range {
   int fromRow, fromCell, toRow, toCell;
 
@@ -260,7 +257,6 @@ class Range {
       toRow = fromRow;
       toCell = fromCell;
     }
-
 
 //    fromRow = math.min(fromRow, toRow);
     if (fromRow > toRow) {
@@ -284,7 +280,7 @@ class Range {
   ///  Returns whether a range represents a single row.
   ///  @method isSingleRow
   ///  @return {Boolean}
-  ///  
+  ///
   bool isSingleRow() {
     return this.fromRow == this.toRow;
   }
@@ -293,7 +289,7 @@ class Range {
   ///  Returns whether a range represents a single cell.
   ///  @method isSingleCell
   ///  @return {Boolean}
-  ///  
+  ///
   bool isSingleCell() {
     return this.fromRow == this.toRow && this.fromCell == this.toCell;
   }
@@ -304,17 +300,16 @@ class Range {
   ///  @param row {Integer}
   ///  @param cell {Integer}
   ///  @return {Boolean}
-  ///  
+  ///
   bool contains(int row, int cell) {
-    return row >= this.fromRow && row <= this.toRow && cell >= this.fromCell &&
-        cell <= this.toCell;
+    return row >= this.fromRow && row <= this.toRow && cell >= this.fromCell && cell <= this.toCell;
   }
 
   ///   *
   ///   Returns a readable representation of a range.
   ///   @method toString
   ///   @return {String}
-  ///   
+  ///
   String toString() {
     if (this.isSingleCell()) {
       return "( + $fromRow : $fromCell )";
@@ -328,7 +323,7 @@ class Range {
 ///  A base class that all special / non-data rows (like Group and GroupTotals) derive from.
 ///  @class NonDataItem
 ///  @constructor
-///  
+///
 class NonDataItem {
   bool _nonDataRow = true;
 
@@ -340,87 +335,85 @@ class NonDataItem {
 ///  @class Group
 ///  @extends Slick.NonDataItem
 ///  @constructor
-///  
+///
 class Group extends NonDataItem {
   // bool __group = true;
 
-  ///  
+  ///
   ///  Grouping level, starting with 0.
   ///  @property level
   ///  @type {Number}
-  ///  
+  ///
   int level = 0;
 
-  /***
-   * Number of rows in the group.
-   * @property count
-   * @type {Integer}
-   */
+  /// *
+  /// Number of rows in the group.
+  /// @property count
+  /// @type {Integer}
+  ///
   int count = 0;
 
-  /***
-   * Grouping value.
-   * @property value
-   * @type {Object}
-   */
+  /// *
+  /// Grouping value.
+  /// @property value
+  /// @type {Object}
+  ///
   Object value;
 
-  /***
-   * Formatted display value of the group.
-   * @property title
-   * @type {String}
-   */
+  /// *
+  /// Formatted display value of the group.
+  /// @property title
+  /// @type {String}
+  ///
   String title;
 
-  /***
-   * Whether a group is collapsed.
-   * @property collapsed
-   * @type {Boolean}
-   */
+  /// *
+  /// Whether a group is collapsed.
+  /// @property collapsed
+  /// @type {Boolean}
+  ///
   bool collapsed;
 
-  /***
-   * GroupTotals, if any.
-   * @property totals
-   * @type {GroupTotals}
-   */
+  /// *
+  /// GroupTotals, if any.
+  /// @property totals
+  /// @type {GroupTotals}
+  ///
   GroupTotals totals;
 
-  /**
-   * Rows that are part of the group.
-   * @property rows
-   * @type {Array}
-   */
+  ///
+  /// Rows that are part of the group.
+  /// @property rows
+  /// @type {Array}
+  ///
   List rows = [];
 
-  /**
-   * Sub-groups that are part of the group.
-   * @property groups
-   * @type {Array}
-   */
+  ///
+  /// Sub-groups that are part of the group.
+  /// @property groups
+  /// @type {Array}
+  ///
   List groups;
 
-  /**
-   * A unique key used to identify the group.  This key can be used in calls to DataView
-   * collapseGroup() or expandGroup().
-   * @property groupingKey
-   * @type {Object}
-   */
+  /// A unique key used to identify the group.  This key can be used in calls to DataView
+  /// collapseGroup() or expandGroup().
+  /// @property groupingKey
+  /// @type {Object}
+  ///
   Object groupingKey;
 
-/***
- * Compares two Group instances.
- * @method equals
- * @return {Boolean}
- * @param group {Group} Group instance to compare to.
-    operator==(Group group){
-    return this.value == group.value &&
-    this.count == group.count &&
-    this.collapsed == group.collapsed &&
-    this.title == group.title;
-    }
+////
+  /// *mpares two Group instances.
+  /// *ethod equals
+  /// *eturn {Boolean}
+  /// *aram group {Group} Group instance to compare to.
+  ///  perator==(Group group){
+  ///  eturn this.value == group.value &&
+  ///  his.count == group.count &&
+  ///  his.collapsed == group.collapsed &&
+  ///  his.title == group.title;
+  ///
 
- */
 }
 
 ///   *
@@ -431,7 +424,7 @@ class Group extends NonDataItem {
 ///   @class GroupTotals
 ///   @extends Slick.NonDataItem
 ///   @constructor
-///   
+///
 class GroupTotals extends NonDataItem {
 //  bool __groupTotals = true;
 
@@ -439,40 +432,38 @@ class GroupTotals extends NonDataItem {
   ///  Parent Group.
   ///  @param group
   ///  @type {Group}
-  ///  
+  ///
   Group group;
 }
 
-/***
- * A locking helper to track the active edit controller and ensure that only a single controller
- * can be active at a time.  This prevents a whole class of state and validation synchronization
- * issues.  An edit controller (such as SlickGrid) can query if an active edit is in progress
- * and attempt a commit or cancel before proceeding.
- * @class EditorLock
- * @constructor
- */
+/// *
+/// A locking helper to track the active edit controller and ensure that only a single controller
+/// can be active at a time.  This prevents a whole class of state and validation synchronization
+/// issues.  An edit controller (such as SlickGrid) can query if an active edit is in progress
+/// and attempt a commit or cancel before proceeding.
+/// @class EditorLock
+/// @constructor
+///
 class EditorLock {
   var activeEditController;
 
-  /***
-   * Returns true if a specified edit controller is active (has the edit lock).
-   * If the parameter is not specified, returns true if any edit controller is active.
-   * @method isActive
-   * @param editController {EditController}
-   * @return {Boolean}
-   */
+  ///*
+  ///Returns true if a specified edit controller is active (has the edit lock).
+  ///If the parameter is not specified, returns true if any edit controller is active.
+  ///@method isActive
+  ///@param editController {EditController}
+  ///@return {Boolean}
+  ///
   bool isActive([editController]) {
-    return (editController != null
-        ? activeEditController == editController
-        : activeEditController != null);
+    return (editController != null ? activeEditController == editController : activeEditController != null);
   }
 
-  /***
-   * Sets the specified edit controller as the active edit controller (acquire edit lock).
-   * If another edit controller is already active, and exception will be thrown.
-   * @method activate
-   * @param editController {EditController} edit controller acquiring the lock
-   */
+  /// *
+  /// Sets the specified edit controller as the active edit controller (acquire edit lock).
+  /// If another edit controller is already active, and exception will be thrown.
+  /// @method activate
+  /// @param editController {EditController} edit controller acquiring the lock
+  ///
   void activate(editController) {
     if (editController == activeEditController) {
       // already activated?
@@ -490,12 +481,12 @@ class EditorLock {
     activeEditController = editController;
   }
 
-  /***
-   * Unsets the specified edit controller as the active edit controller (release edit lock).
-   * If the specified edit controller is not the active one, an exception will be thrown.
-   * @method deactivate
-   * @param editController {EditController} edit controller releasing the lock
-   */
+  /// **
+  ///  Unsets the specified edit controller as the active edit controller (release edit lock).
+  ///  If the specified edit controller is not the active one, an exception will be thrown.
+  ///  @method deactivate
+  ///  @param editController {EditController} edit controller releasing the lock
+  /// /
   void deactivate(editController) {
     if (activeEditController != editController) {
       throw "SlickGrid.EditorLock.deactivate: specified editController is not the currently active one";
@@ -503,30 +494,26 @@ class EditorLock {
     activeEditController = null;
   }
 
-  /***
-   * Attempts to commit the current edit by calling "commitCurrentEdit" method on the active edit
-   * controller and returns whether the commit attempt was successful (commit may fail due to validation
-   * errors, etc.).  Edit controller's "commitCurrentEdit" must return true if the commit has succeeded
-   * and false otherwise.  If no edit controller is active, returns true.
-   * @method commitCurrentEdit
-   * @return {Boolean}
-   */
+  /// *
+  /// Attempts to commit the current edit by calling "commitCurrentEdit" method on the active edit
+  /// controller and returns whether the commit attempt was successful (commit may fail due to validation
+  /// errors, etc.).  Edit controller's "commitCurrentEdit" must return true if the commit has succeeded
+  /// and false otherwise.  If no edit controller is active, returns true.
+  /// @method commitCurrentEdit
+  /// @return {Boolean}
+  ///
   bool commitCurrentEdit() {
-    return (activeEditController != null
-        ? activeEditController['commitCurrentEdit']()
-        : true);
+    return (activeEditController != null ? activeEditController['commitCurrentEdit']() : true);
   }
 
-  /***
-   * Attempts to cancel the current edit by calling "cancelCurrentEdit" method on the active edit
-   * controller and returns whether the edit was successfully cancelled.  If no edit controller is
-   * active, returns true.
-   * @method cancelCurrentEdit
-   * @return {Boolean}
-   */
+  /// *
+  /// Attempts to cancel the current edit by calling "cancelCurrentEdit" method on the active edit
+  /// controller and returns whether the edit was successfully cancelled.  If no edit controller is
+  /// active, returns true.
+  /// @method cancelCurrentEdit
+  /// @return {Boolean}
+  ///
   bool cancelCurrentEdit() {
-    return (activeEditController != null
-        ? activeEditController['cancelCurrentEdit']()
-        : true);
+    return (activeEditController != null ? activeEditController['cancelCurrentEdit']() : true);
   }
 }

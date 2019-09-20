@@ -10,10 +10,7 @@ final int TOP_ROW = 2;
 // Map<String, Map<String, dynamic>> getMeta(int row) {
 Map<String, dynamic> getMeta(int row) {
   if (headerFormat["header"].containsKey('$row')) {
-    return {
-      MetaList.COLUMN: headerFormat["header"]['$row'],
-      MetaList.COLUMN_CSS: headerFormat["headerCss"]['$row'] ?? {}
-    };
+    return {MetaList.COLUMN: headerFormat["header"]['$row'], MetaList.COLUMN_CSS: headerFormat["headerCss"]['$row'] ?? {}};
   }
   return {};
 }
@@ -25,12 +22,11 @@ main() async {
   Logger.root.onRecord.listen((LogRecord rec) {
     print('${rec.level.name}: ${rec.time}: ${rec.message}');
   });
-  headerFormat = new Map<String, Map<String, dynamic>>.from(
-      json.decode(await HttpRequest.getString('cell_span_head.json')));
+  headerFormat = Map<String, Map<String, dynamic>>.from(json.decode(await HttpRequest.getString('cell_span_head.json')));
   g.init();
   querySelector('#reset').onClick.listen((e) {
     List _data = genData(50000);
-    var metaList = new MetaList(_data, getMeta);
+    var metaList = MetaList(_data, getMeta);
     g.data = metaList;
     g.invalidate();
     g.render();
@@ -42,20 +38,9 @@ main() async {
 
 SlickGrid buildGrid() {
   Element el = querySelector('#grid');
-  List<Column> columnList = new ColumnList.fromMap([
-    {
-      'width': 130,
-      'field': "idi",
-      'name': 'ID',
-      'sortable': true,
-      'editor': 'TextEditor'
-    },
-    {
-      'width': 120,
-      'field': "duration",
-      'sortable': true,
-      'editor': 'TextEditor'
-    },
+  List<Column> columnList = ColumnList.fromMap([
+    {'width': 130, 'field': "idi", 'name': 'ID', 'sortable': true, 'editor': 'TextEditor'},
+    {'width': 120, 'field': "duration", 'sortable': true, 'editor': 'TextEditor'},
     {'field': "pc", 'sortable': true},
     {'width': 100, 'field': "Long_Text"},
     {'width': 100, 'field': "a1", "formatter": CenterFormatter},
@@ -99,12 +84,12 @@ SlickGrid buildGrid() {
     {'field': "d9"},
     {'field': "d10"},
   ]);
-  //CheckboxSelectColumn checkboxCol=new CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
+  //CheckboxSelectColumn checkboxCol= CheckboxSelectColumn({   'cssClass': "slick-cell-checkboxsel" });
   //column.insert(0,checkboxCol.getColumnDefinition());
   List data = genData(500);
 
-  var metaList = new MetaList(data, getMeta);
-  var opt = new GridOptions()
+  var metaList = MetaList(data, getMeta);
+  var opt = GridOptions()
     ..explicitInitialization = false
     ..multiColumnSort = false
     ..multiSelect = false
@@ -114,10 +99,11 @@ SlickGrid buildGrid() {
     ..frozenColumn = 0
     ..frozenRow = TOP_ROW + 1
     ..showHeaderRow = true
-    ..showTopPanel = true..defaultColumnWidth=40;
+    ..showTopPanel = true
+    ..defaultColumnWidth = 40;
 
-  SlickGrid sg = new SlickGrid.fromOpt(el, metaList, columnList, opt);
-  var cellSelectModel = new CellSelectionModel();
+  SlickGrid sg = SlickGrid.fromOpt(el, metaList, columnList, opt);
+  var cellSelectModel = CellSelectionModel();
 
   /// update merged block
   cellSelectModel.onSelectedRangesChanged.subscribe((var e, args) {
@@ -141,7 +127,7 @@ SlickGrid buildGrid() {
         }
         headerFormat["headerCss"][fromRow][field1] = "merged";
         // print(json.encode(headerStructure));
-        JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+        JsonEncoder encoder = JsonEncoder.withIndent('  ');
         String ppty = encoder.convert(headerFormat);
 
         querySelector("code#head").text = ppty;
@@ -155,8 +141,7 @@ SlickGrid buildGrid() {
   return sg;
 }
 
-TFormatter get CenterFormatter =>
-    (int row, int cell, dynamic value, Column columnDef, dataContext) {
+TFormatter get CenterFormatter => (int row, int cell, dynamic value, Column columnDef, dataContext) {
       if (row < TOP_ROW) return '<span class="center">$value</span>';
       return "$value";
     };
@@ -175,12 +160,11 @@ List genData(int count) {
   List data = [];
   for (var i = 0; i < count; i++) {
     data.add({
-      'title': new math.Random().nextInt(100).toString(),
-      'duration': new math.Random().nextInt(100).toString(),
-      'pc': new math.Random().nextInt(10) * 100,
+      'title': math.Random().nextInt(100).toString(),
+      'duration': math.Random().nextInt(100).toString(),
+      'pc': math.Random().nextInt(10) * 100,
       'idi': i + 1,
-      'Long_Text':
-          (new math.Random().nextInt(10) + 10).toString() + veryLongString,
+      'Long_Text': (math.Random().nextInt(10) + 10).toString() + veryLongString,
       'a1': i + 10,
       'a2': i + 40,
       'a3': i + 30,
